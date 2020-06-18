@@ -3,3 +3,12 @@
 a[href^="mailto:"]::after {
   content: " (📧)";
 }
+
+.repo-card {
+  margin-top: 10px;
+}
+
+footer {
+  margin-top: 20%;
+  text-align: center;
+}

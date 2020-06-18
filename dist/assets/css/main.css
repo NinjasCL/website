@@ -1,4 +1,3 @@
-/* @import "../../../node_modules/bulma/css/bulma.min.css"; */
 /* $color-text: #dedce5; */
 /* Sakura.css v1.3.0
  * ================
@@ -150,4 +149,11 @@ label, legend, fieldset {
   font-weight: 600; }
 a[href^="mailto:"]::after {
   content: " (📧)";
+}
+.repo-card {
+  margin-top: 10px;
+}
+footer {
+  margin-top: 20%;
+  text-align: center;
 }

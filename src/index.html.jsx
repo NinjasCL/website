@@ -92,6 +92,13 @@ const Page = ({ data, env }) => (
                   </small>
                 </h4>
                 <p>{item.about}</p>
+
+                {item.repo.length > 0 ? (
+                  <div className="repo-card" data-repo={item.repo}></div>
+                ) : (
+                  ""
+                )}
+
                 {item.tech.length > 0 ? (
                   <>
                     <h5>Tech Stack</h5>
@@ -116,6 +123,7 @@ const Page = ({ data, env }) => (
           <a href="https://charge.js.org">Charge.js</a>
         </p>
       </footer>
+      <script type="text/javascript" src="/assets/js/repo-card.js" />
     </body>
   </html>
 );
