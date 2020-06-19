@@ -1,13 +1,21 @@
 // Modified version of https://github.com/Tarptaeya/repo-card
 (() => {
-  const getEmojis = () => fetch("https://api.github.com/emojis").then((resp) => resp.json());
-  const getColors = () =>
-    fetch("https://raw.githubusercontent.com/ozh/github-colors/master/colors.json").then((resp) =>
-      resp.json(),
-    );
+  const getEmojis = () => fetch("/assets/js/emojis.json").then((resp) => resp.json());
+  const getColors = () => fetch("/assets/js/colors.json").then((resp) => resp.json());
 
-  const getRepoData = (name) =>
-    fetch("https://api.github.com/repos/" + name).then((resp) => resp.json());
+  const getRepoData = (name) => {
+    const data = localStorage.getItem(name);
+    if (data) {
+      return Promise.resolve(JSON.parse(data));
+    }
+
+    return fetch("https://api.github.com/repos/" + name)
+      .then((resp) => resp.json())
+      .then((json) => {
+        localStorage.setItem(name, JSON.stringify(json));
+        return json;
+      });
+  };
 
   const html = (data, colors) => `
 <div style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji; border: 1px solid #e1e4e8; border-radius: 6px; background: white; padding: 16px; font-size: 14px; line-height: 1.5; color: #24292e;">

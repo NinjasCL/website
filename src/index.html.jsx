@@ -5,7 +5,7 @@ const Page = ({ data, env }) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <meta
         name="description"
-        content="Is an Experimental Software Developer Group from Chile 🇨🇱. Have various technological projects like videogames, software and other related activities."
+        content="Is an Experimental Software Developer Group from Chile 🇨🇱. Participates in various technological projects like videogames, software and other related activities."
       />
 
       <meta property="og:type" content="website" />
@@ -13,7 +13,7 @@ const Page = ({ data, env }) => (
       <meta property="og:title" content="💻 Ninjas.cl (忍者 開発者) 🇨🇱" />
       <meta
         property="og:description"
-        content="Is an Experimental Software Developer Group from Chile 🇨🇱. Have various technological projects like videogames, software and other related activities."
+        content="Is an Experimental Software Developer Group from Chile 🇨🇱. Participates in various technological projects like videogames, software and other related activities."
       />
       <meta property="og:image" content="https://avatars1.githubusercontent.com/u/15203190" />
 
@@ -22,7 +22,7 @@ const Page = ({ data, env }) => (
       <meta property="twitter:title" content="💻 Ninjas.cl (忍者 開発者) 🇨🇱" />
       <meta
         property="twitter:description"
-        content="Is an Experimental Software Developer Group from Chile 🇨🇱. Have various technological projects like videogames, software and other related activities."
+        content="Is an Experimental Software Developer Group from Chile 🇨🇱. Participates in various technological projects like videogames, software and other related activities."
       />
       <meta property="twitter:image" content="https://avatars1.githubusercontent.com/u/15203190" />
 

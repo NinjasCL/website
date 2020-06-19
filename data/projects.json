@@ -91,6 +91,24 @@
         "tech": []
       },
       {
+        "name": "How to install ProcessWire",
+        "url": "https://dev.to/clsource/installing-processwire",
+        "repo": "joyofpw/how-to-install-processwire",
+        "about": "A simple step by step ProcessWire installation guide.",
+        "start": "April 2017",
+        "end": "-",
+        "tech": []
+      },
+      {
+        "name": "ProcessWire WireRender Pattern",
+        "url": "https://github.com/joyofpw/wire-render-pattern",
+        "repo": "joyofpw/wire-render-pattern",
+        "about": "A guide on how to organize files in a ProcessWire Installation.",
+        "start": "December 2015",
+        "end": "-",
+        "tech": []
+      },
+      {
         "name": "Guía Webpay",
         "url": "https://github.com/NinjasCL-archive/guia-webpay",
         "repo": "NinjasCL-archive/guia-webpay",
