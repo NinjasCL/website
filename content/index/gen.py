@@ -43,7 +43,7 @@ def main():
   <p>
   {item["about"]}
   </p>
-  <div className="repo-card" data-repo="{item["repo"]}"></div>
+  <div class="repo-card" data-repo="{item["repo"]}"></div>
   <h5>Tech Stack</h5>
   <ul>
     {stack}
