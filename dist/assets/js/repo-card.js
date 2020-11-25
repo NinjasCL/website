@@ -4,20 +4,29 @@
   // Modified version of https://github.com/Tarptaeya/repo-card
   (function () {
     var getEmojis = function getEmojis() {
-      return fetch("https://api.github.com/emojis").then(function (resp) {
+      return fetch("/assets/js/emojis.json").then(function (resp) {
         return resp.json();
       });
     };
 
     var getColors = function getColors() {
-      return fetch("https://raw.githubusercontent.com/ozh/github-colors/master/colors.json").then(function (resp) {
+      return fetch("/assets/js/colors.json").then(function (resp) {
         return resp.json();
       });
     };
 
     var getRepoData = function getRepoData(name) {
+      var data = localStorage.getItem(name);
+
+      if (data) {
+        return Promise.resolve(JSON.parse(data));
+      }
+
       return fetch("https://api.github.com/repos/" + name).then(function (resp) {
         return resp.json();
+      }).then(function (json) {
+        localStorage.setItem(name, JSON.stringify(json));
+        return json;
       });
     };
 
