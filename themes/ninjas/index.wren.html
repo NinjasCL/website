@@ -1,0 +1,95 @@
+return "<!DOCTYPE html>
+  <html lang=\"en\">
+    <head>
+      <meta charset=\"utf-8\">
+      <meta name=\"viewport\" content=\"initial-scale=1.0, width=device-width\">
+      <meta
+        name=\"description\"
+        content=\"%(page.description)\"
+    >
+
+      <meta property=\"og:type\" content=\"website\">
+      <meta property=\"og:url\" content=\"%(page.url)\">
+      <meta property=\"og:title\" content=\"%(page.title)\">
+      <meta property=\"og:description\" content=\"%(page.description)\">
+
+      <meta property=\"og:image\" content=\"https://avatars1.githubusercontent.com/u/15203190\">
+
+      <meta property=\"twitter:card\" content=\"summary_large_image\">
+      <meta property=\"twitter:url\" content=\"%(page.url)\">
+      <meta property=\"twitter:title\" content=\"%(page.title)\">
+      <meta
+        property=\"twitter:description\"
+        content=\"%(page.description)\"
+    >
+      <meta property=\"twitter:image\" content=\"https://avatars1.githubusercontent.com/u/15203190\">
+
+      <title>%(page.title)</title>
+
+      <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/assets/img/apple-touch-icon.png\">
+      <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/assets/img/favicon-32x32.png\">
+      <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/assets/img/favicon-16x16.png\">
+      <link rel=\"manifest\" href=\"/assets/img/site.webmanifest\">
+
+      <link href=\"/assets/css/normalize.css\" rel=\"stylesheet\" media=\"all\">
+      <link href=\"/assets/css/sakura-vader.css\" rel=\"stylesheet\" media=\"all\">
+      <link href=\"/assets/css/main.css\" rel=\"stylesheet\" media=\"all\">
+      <link type=\"text/plain\" rel=\"author\" href=\"http://ninjas.cl/humans.txt\">
+    </head>
+    <body>
+      <header>
+        <section id=\"hero\">
+          <h1>
+            💻 <a href=\"https://github.com/ninjascl\">忍者 開発者 - Ninjas.cl</a>
+          </h1>
+          <h2>Software from 🇨🇱 (Chile) with ❤️ (love)</h2>
+        </section>
+        <section id=\"about\">
+          <p>
+            <i>
+              <a href=\"https://github.com/ninjascl\">Ninjas.cl </a>
+            </i>
+            %(page.description)
+          </p>
+          <p>
+            <i>
+              <a href=\"%(page.url)\">Ninjas.cl </a>
+            </i>
+            was started in <strong>2015</strong> by
+            <a href=\"https://github.com/clsource\"> Camilo Castro</a>.
+          </p>
+        </section>
+        <section id=\"camilo\">
+          <h3>
+            <a href=\"https://github.com/clsource\">👨🏽‍💻 Camilo Castro</a>
+          </h3>
+          <p>
+            Committed and result-oriented <strong>Software Engineer</strong> with experience in
+            <i>Web, iOS, Blockchain, and Chatbots technologies</i>.
+          </p>
+          <p>
+            You can contact him at: &nbsp;
+            <a href=\"mailto:camilo@ninjas.cl\" rel=\"noopener noreferrer\">
+              camilo@ninjas.cl
+            </a>
+          </p>
+        </section>
+      </header>
+      <main>
+      %(page.content)
+    </main>
+    <footer>
+      <p>
+        Made with ❤️ by <a href=\"%(page.url)\">Ninjas.cl</a>.
+        <a href=\"https://oxal.org/projects/sakura/\">Using Sakura CSS</a> And
+        <a href=\"https://github.com/NinjasCL/chercan\">Chercan</a>
+      </p>
+    </footer>
+    <script type=\"text/javascript\" src=\"/assets/js/repo-card.js\">
+    <!--
+      Build with Chercan Static Site Generator
+      https://github.com/NinjasCL/chercan
+    -->
+    </body>
+    </html>
+"

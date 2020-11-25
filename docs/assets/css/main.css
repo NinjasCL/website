@@ -1,5 +1,3 @@
-@import "../../../node_modules/sakura.css/css/sakura-dark.css";
-
 a[href^="mailto:"]::after {
   content: " (📧)";
 }
