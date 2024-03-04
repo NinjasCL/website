@@ -3,3 +3,4 @@ Thumbs.db
 .vscode
 .idea
 _build/
+update.sh
