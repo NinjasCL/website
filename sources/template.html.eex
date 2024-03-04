@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>💻 Ninjas.cl 🇨🇱</title>
+    <title><%= website.title %></title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
@@ -27,29 +27,29 @@
     <link rel="stylesheet" href="css/ninjas.css" />
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ninjas.cl">
-    <meta property="og:title" content="💻 Ninjas.cl 🇨🇱">
-    <meta property="og:description" content="Ninja Solutions. Is an Experimental Software Developer Group from Chile 🇨🇱. Participates in various technological projects like videogames, software and other related activities.">
+    <meta property="og:url" content="<%= website.url %>">
+    <meta property="og:title" content="<%= website.title %>">
+    <meta property="og:description" content="<%= website.description %>">
 
-    <meta property="og:image" content="https://ninjas.cl/img/logo_og.png">
+    <meta property="og:image" content="<%= website.url %><%= website.logo_og %>">
 
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://ninjas.cl">
-    <meta property="twitter:title" content="💻 Ninjas.cl 🇨🇱">
-    <meta property="twitter:description" content="Ninja Solutions. Is an Experimental Software Developer Group from Chile 🇨🇱. Participates in various technological projects like videogames, software and other related activities.">
-    <meta property="twitter:image" content="https://ninjas.cl/img/logo_og.png">
+    <meta property="twitter:url" content="<%= website.url %>">
+    <meta property="twitter:title" content="<%= website.title %>">
+    <meta property="twitter:description" content="<%= website.description %>">
+    <meta property="twitter:image" content="<%= website.url %><%= website.logo_og %>">
   </head>
   <body>
     <header>
       <div class="container">
         <div class="row">
           <div class="column column-33">
-            <img src="/img/Ninjas.png" alt="Ninjas.cl's Logo" title="Ninjas.cl">
+            <img src="<%= website.logo %>" alt="Ninjas.cl's Logo" title="Ninjas.cl">
           </div>
           <div class="column">
             <div class="row">
               <div class="column">
-                <h1>忍者 開発者 💻 Ninjas.cl 🇨🇱</h1>
+                <h1>忍者 開発者 <%= website.title %></h1>
                 <h2>Software from 🇨🇱 (Chile) with ❤️ (love)</h2>
               </div>
             </div>

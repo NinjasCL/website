@@ -11,13 +11,11 @@ https://ninjas.cl[image:https://img.shields.io/badge/Ninjas-CL-green.svg?style=f
 toc::[]
 
 ## 👩‍💻 Tech Stack
-- https://github.com/NinjasCL/chercan
-- https://wren.io
-- https://python.org
-- https://github.com/oxalorg/sakura
+- https://elixir-lang.org
+- https://milligram.io/
 
 ## 📘 LICENSE
-MIT
+MPLv2
 
 ## 🤩 Credits
 

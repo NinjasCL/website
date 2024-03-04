@@ -1,0 +1,35 @@
+/* Ninjas.cl Styles */
+
+html, body {
+  background-color: #7540bd;
+  background: linear-gradient(180deg, rgba(23,29,48,1) 0%, rgba(69,38,112,1) 70%, rgba(117,64,189,1) 100%) fixed;
+  color: #FAEBC3;
+}
+
+a {
+  color: #D278AA;
+}
+
+a:hover {
+  color: #F3A09C;
+}
+
+header {
+  margin-top:2%;
+}
+
+span#email {
+  font-weight: bold;
+}
+
+span#email b {
+	display: none;
+}
+
+#avatar {
+  border-radius: 50%;
+}
+
+.section {
+  margin-top: 2%
+}
