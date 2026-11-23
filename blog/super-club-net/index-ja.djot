@@ -1,0 +1,39 @@
+---
+title: Super Club Net
+slug: super-club-net
+date: 2024-06-25 16:36:16 +00:00
+description: ウェブ開発技術への小さくて親しみやすい入門
+featured_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg
+tags: javascript, chile, html, css, libro
+---
+
+![Super Club Net](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg)
+
+Club Nintendo誌とそのHTMLミニ講座に敬意を表して。
+
+```ninjas
+la-revista-club-nintendo | La Revista Club Nintendo | Mis recuerdos con la revista y como comencé en la informática | /blog/la-revista-club-nintendo/cover.png
+```
+
+私はその誌で扱われた概念を更新・拡張して、この小さな本を書き上げました。
+
+無料の本で、以下のウェブサイトで読むことができます。
+
+- <https://ninjas.cl/books/superclubnet/>
+- ミラー: <https://ninjas.codeberg.page/superclubnet/@main/docs/>
+
+## 内容
+
+- 基本的なHTMLとCSS
+- 基本的なJavaScript
+- DOMの操作
+- フォームとバリデーション
+- ヒントと推奨事項
+
+Nintendo 64のゲームを題材にした例とともに、親しみやすい文体で書かれています。マリオカート64をテーマにした練習プロジェクトも含まれています。
+
+![マリオカート64シミュレーター](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/p1cyc53e2lfzmhjiucq8.png)
+
+HTMLの世界に足を踏み入れたばかりの人、そして概念を復習したい人向けに書かれています。
+
+HTML、CSS、JSを学ぶ好奇心と忍耐を持つすべての人のために、[Ninjas.cl](https://ninjas.cl)が愛を込めて作りました :)

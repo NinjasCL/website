@@ -1,0 +1,30 @@
+---
+title: Cafecito: イイ感じの人たちのリスト
+slug: cafecito-lista-de-personas-buena-onda
+date: 2024-05-02 14:18:42 +00:00
+description: カフェシート(ちょっとしたコーヒー)を一緒に飲める、イイ感じの人たちのリスト
+featured_image: /blog/cafecito-lista-de-personas-buena-onda/cover.jpg
+tags: javascript, markdown, devs, chile
+---
+
+![小さなコーヒーのカップ](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:A_small_cup_of_coffee.JPG)
+
+これは、「カフェシート」、つまり美味しいコーヒーを飲みながらしばらくおしゃべりする時間を持てる人のリストを作るための小さなプロジェクトでした。
+
+使用技術:
+
+- Github Actions
+- Javascript
+- Markdown
+
+```github
+devschile/cafecito | Un bot que lleva la lista de personas buena onda en devschile
+```
+
+また、[devschile](https://devschile.cl)のSlackの絵文字をバックアップするスクリプトも作られました。
+
+```github
+devschile/emoticons | Emoticons para Mattermost
+```

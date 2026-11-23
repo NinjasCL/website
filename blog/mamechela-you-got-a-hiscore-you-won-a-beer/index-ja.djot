@@ -1,0 +1,64 @@
+---
+title: Mamechela: ハイスコアを出したらビールが当たる
+slug: mamechela-you-got-a-hiscore-you-won-a-beer
+date: 2013-02-22 12:53:04 +00:00
+description: MameChelaは、MKCHAMPのハイスコアハックをベースにしたmame向けのシンプルなハックです。ハイスコアを出したら、ビールが当たります。
+featured_image: /blog/mamechela-you-got-a-hiscore-you-won-a-beer/cover.jpg
+tags: mame, c, python, arduino, beer
+---
+
+![Carl RawによるUnsplashの写真](cover.jpg)
+
+MameChelaは、MKCHAMPのハイスコアハックをベースにしたmame向けのシンプルなハックです。
+
+Arduinoと通信するPythonスクリプトで構成されています。このスクリプトは、現在のゲームのハイスコアディレクトリ内のファイルが等しいかどうかを確認し、等しくなければハイスコアを達成したということです!
+
+0. Mameのソースをダウンロードする
+
+[Mamedev](http://mamedev.org/)
+
+1. mameの依存関係をインストールする (ubuntu)
+
+```bash
+$ sudo aptitude install build-essential libgtk2.0-dev libgnome2-dev libsdl1.2-dev
+```
+
+2. パッチを適用する
+
+```bash
+$ patch -p0 -E -binary < 0148u1.diff
+$ patch -p0 -E -binary < hi_148.diff
+```
+
+3. mame/src/emu/ の hiscore.c と hiscore.h を、mamechelaの hiscore.c と hiscore.h で上書きする
+
+```bash
+$ cp mamechela/hiscore* ../src/emu/
+```
+
+4. ビルドする(時間がかかります)
+
+```bash
+$ make
+```
+
+5. mameを設定する
+6. ロムをいくつか置く
+
+7. Arduinoを接続する(詳細は後日)
+
+8. `mamechela.py` が正しく設定されているか確認する(Arduino設定)
+
+9. mamechela.shのコマンドを確認する
+
+10. 終了するにはCtrl+CまたはArduinoのShutdownコマンドを使う
+
+#### 使い方
+
+```bash
+./mamechela.sh <game>
+```
+
+```github
+NinjasCL-archive/mamechela | Un sistema de premios por hiscore en MAME
+```

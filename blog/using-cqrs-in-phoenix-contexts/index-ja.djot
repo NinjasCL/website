@@ -1,0 +1,226 @@
+---
+title: PhoenixのContextsでCQRSを使う
+slug: using-cqrs-in-phoenix-contexts
+date: 2023-01-12 18:08:10 +00:00
+description: 最近、Phoenixのcontext関数の命名に関する記事を読みました。命名規則を使うのも良いと思いますが、もう一歩進んで、そのようなモジュールの中にCQRSを適用できるかもしれません。
+featured_image: /blog/using-cqrs-in-phoenix-contexts/cover.jpg
+tags: elixir, ecto, phoenix, ddd, cqrs
+---
+
+![UnsplashのDanielle-Claude Bélangerによる写真](cover.jpg)
+
+最近、[Naming Phoenix context functions](https://www.stephenlewis.me/blog/naming-phoenix-context-functions) という記事を読みました。命名規則を使うのも良いと思いますが、もう一歩進んで、そのようなモジュールの中に_CQRS_ を適用できるかもしれません。
+
+> [Command Query Responsability Segregation](https://martinfowler.com/bliki/CQRS.html) とは、情報を更新するモデルと、情報を読み取るために使うモデルを別々にできるという考えです...
+> --- Martin Fowler
+
+_Pump it Up_ のようなダンスマシンのゲームプレイ結果を保存する
+[小さなシステム](https://github.com/ElixirCL/rankmode)を作りました。
+
+```github
+ElixirCL/rankmode | Estadísticas de Rankmode para Pump It Up
+```
+
+例として、これが[cards.ex](https://raw.githubusercontent.com/ElixirCL/rankmode/main/lib/rankmode/cards/cards.ex) ファイルです。
+
+```elixir
+defmodule Rankmode.Cards.Queries do
+  import Ecto.Query, warn: false
+
+  alias Rankmode.Repo
+  alias Rankmode.Cards.Card
+
+  def all() do
+    Repo.all(Card)
+    |> Repo.preload([:user, :game, :mix])
+  end
+
+  def for(user: user_id) do
+    from(c in Card,
+      where: c.user_id == ^user_id,
+      order_by: [desc: c.activated_at],
+      preload: [:user, :game, :mix, :profile])
+    |> Repo.all()
+  end
+
+  def get!(uid: uid) do
+    from(c in Card, where: c.uid == ^uid,
+      preload: [:user, :game, :mix, :profile]
+    )
+    |> Repo.one!()
+  end
+
+  def get(uid: uid) do
+    from(c in Card, where: c.uid == ^uid,
+      preload: [:user, :game, :mix, :profile]
+    )
+    |> Repo.one()
+  end
+
+  def get(id: card_id, user: user_id) do
+    from(c in Card,
+      where: c.id == ^card_id and c.user_id == ^user_id,
+      preload: [:user, :game, :mix, :profile]
+    )
+    |> Repo.one()
+  end
+
+  def get(:notactivated, uid: uid) do
+    from(c in Card,
+      where: c.uid == ^uid and
+        is_nil(c.activated_at) and
+        is_nil(c.user_id),
+      preload: [:user, :game, :mix]
+    )
+    |> Repo.one()
+  end
+end
+
+defmodule Rankmode.Cards.Changesets do
+  alias Rankmode.Cards.Card
+
+  def new(attrs) do
+    %Card{}
+    |> Card.changeset(attrs)
+  end
+
+  def empty() do
+    new(%{})
+  end
+
+  def activate(id, attrs) do
+    %Card{id: id}
+    |> Card.changeset_activate(attrs)
+  end
+
+  def update(id, attrs) do
+    %Card{id: id}
+    |> Card.changeset(attrs)
+  end
+end
+
+defmodule Rankmode.Cards.Commands do
+
+  import Ecto.Query, warn: false
+
+  alias Rankmode.Repo
+  alias Rankmode.Cards.Changesets
+
+  def create(attrs) do
+    Changesets.new(attrs)
+    |> Repo.insert()
+  end
+
+  def activate(id, attrs) do
+    Changesets.activate(id, attrs)
+    |> Repo.update()
+  end
+
+  def update(id, attrs) do
+    Changesets.update(id, attrs)
+    |> Repo.update()
+  end
+end
+
+defmodule Rankmode.Cards do
+end
+```
+
+そして対応するSchemaファイル[card.ex](https://raw.githubusercontent.com/ElixirCL/rankmode/main/lib/rankmode/cards/card.ex)
+
+```elixir
+defmodule Rankmode.Cards.Card do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "cards" do
+    field :uid, :string
+    field :checksum, :string
+    field :activated_at, :naive_datetime
+    belongs_to :mix, Rankmode.Mixes.Mix
+    belongs_to :game, Rankmode.Games.Game
+    belongs_to :user, Rankmode.Accounts.User
+    has_one :profile, Rankmode.Profiles.Profile
+    timestamps()
+  end
+
+  @optional [:activated_at, :user_id, :mix_id, :game_id]
+  @required [:uid, :checksum]
+
+  def changeset(model, attrs) do
+    model
+    |> cast(transform(attrs), @optional ++ @required)
+    |> validate_required(@required)
+    |> validate_length(:uid, min: 3, max: 255)
+    |> unique_constraint(:uid, name: :cards_uid_checksum_index)
+    |> unique_constraint(:checksum, name: :cards_uid_checksum_index)
+  end
+
+  def changeset_activate(model, attrs) do
+    changeset(model, activate(attrs))
+  end
+
+  defp checksum(attrs) do
+    Map.merge(attrs, %{checksum: Base.encode16(:crypto.hash(:sha256, Map.get(attrs, :uid, "")))})
+  end
+
+  defp activate(attrs) do
+    Map.merge(attrs, %{activated_at: NaiveDateTime.utc_now()})
+  end
+
+  defp transform(attrs) do
+    checksum(attrs)
+  end
+end
+```
+
+私のアプローチは、責務を4つのモジュールに分離することです。
+
+## ベースモジュール
+
+ヘルパー関数や、他のモジュールに当てはまらないその他の関数を格納できるベースモジュール。
+
+```elixir
+defmodule Rankmode.Cards do
+end
+```
+
+## Queriesモジュール
+
+主に `SELECT` 型の関数のためのモジュール
+
+```elixir
+defmodule Rankmode.Cards.Queries do
+end
+```
+
+## Commandsモジュール
+
+主に `INSERT`、`UPDATE`、`DELETE` 型の関数のためのモジュール。
+
+```elixir
+defmodule Rankmode.Cards.Commands do
+end
+```
+
+## Changesetsモジュール
+
+QueriesとCommandsの両方で使われるchangesetsを格納するためのモジュール。
+
+```elixir
+defmodule Rankmode.Cards.Changesets do
+end
+```
+
+## ファイル構成
+
+私はこれらを1つのファイルに保存するのを好みます。しかし、時間とともに散らかってくる場合は、このような構成も使えます。
+
+```text
+cards/
+├── card.ex
+├── cards.ex
+├── changesets.ex
+├── commands.ex
+└── queries.ex
+```

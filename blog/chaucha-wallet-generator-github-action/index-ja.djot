@@ -1,0 +1,67 @@
+---
+title: Chaucha ウォレットジェネレーター Github Action
+slug: chaucha-wallet-generator-github-action
+date: 2020-09-18 01:29:40 +00:00
+description: Chaucha暗号通貨のウォレットを生成するシンプルなGithub Actionです。ビットコインに似た他の暗号通貨の例としても役立ちます。
+featured_image: /blog/chaucha-wallet-generator-github-action/cover.jpg
+tags: github, blockchain, chile, chaucha, crypto, english, python
+---
+
+![Hamed TahaによるUnsplashの写真](cover.jpg)
+
+これは、Github actions内で使用するためのシンプルな <https://chaucha.cl> ウォレットジェネレーターです。
+
+## ワークフローの例
+
+```yaml
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Self test
+        id: selftest
+
+        # Put your action repo here
+        uses: proyecto-chaucha/chaucha-gha-wallet-generator@master
+        with:
+          value: "test"
+
+      - name: Check outputs
+        run: |
+          test "${{ steps.selftest.outputs.privkey }}" == "8G63zuGKfQ7ho4X1ytHr75HmrZxJq3NFQ51YSPdyDh4hsHEr2Bg"
+          test "${{ steps.selftest.outputs.pubkey }}" == "ch4uy1bAfLLf6RMcmkrHBa8oxtuMTgwXyS"
+```
+
+### 入力
+
+``` =html
+<table>
+  <thead>
+    <tr><th>入力</th><th>説明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>value</code> <em>(任意)</em></td><td>新しいウォレットアドレスを作成するための文字列値。空の値を指定するとランダムなアドレスが生成されます。</td></tr>
+  </tbody>
+</table>
+```
+
+### 出力
+
+``` =html
+<table>
+  <thead>
+    <tr><th>出力</th><th>説明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>privkey</code></td><td>Chauchaウォレットの秘密鍵アドレス</td></tr>
+    <tr><td><code>pubkey</code></td><td>Chauchaウォレットの公開鍵アドレス</td></tr>
+  </tbody>
+</table>
+```
+
+```github
+proyecto-chaucha/chaucha-gha-wallet-generator | GitHub Action para generar wallets de Chaucha
+```

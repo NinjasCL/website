@@ -1,0 +1,50 @@
+---
+title: ElixirでUTF-8文字列をサニタイズする
+slug: sanitizar-caracteres-utf-8-en-elixir
+date: 2024-09-17 20:42:26 +00:00
+description: Elixirで文字を標準化する方法
+featured_image: /blog/sanitizar-caracteres-utf-8-en-elixir/cover.jpg
+tags: elixir, sanitizar, unicode
+---
+
+![カラフルなUnicode文字マップ](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Unicode_character_map_(color).jpg)
+
+例えば、次のような文章 `¿Hola cómo estás?` を `Hola como esta` に変換します。
+
+```elixir
+nombre =
+"¿Hola cómo estás?"
+|> String.trim()
+
+# 文字を正規のUnicode表現に標準化します
+|> :unicode.characters_to_nfd_binary()
+
+# スペース以外のUnicode文字を除去します
+|> String.replace(~r/\p{Mn}/u, "")
+```
+
+`:unicode.characters_to_nfd_binary/1` の代わりに `String.normalize/1` 関数を使うこともできます。
+
+```elixir
+String.normalize(:nfd)
+```
+
+これで、名前として有効でない文字を除去できます。文字でないものを取得し、一意なリストに保存します。
+
+```elixir
+noletras = nombre
+|> String.replace(~r/0-9a-zA-Z/, "")
+|> String.graphemes()
+|> Enum.uniq()
+```
+
+最後に、不要な文字を置き換えます。
+
+```elixir
+nombre = String.replace(nombre, noletras, "")
+```
+
+- <https://www.erlang.org/doc/apps/stdlib/unicode.html#characters_to_nfd_binary/1>
+- <https://unicode.org/reports/tr15/#Norm_Forms>

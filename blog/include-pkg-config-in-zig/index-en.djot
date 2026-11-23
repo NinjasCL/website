@@ -1,0 +1,146 @@
+---
+title: Include pkg-config in Zig
+slug: include-pkg-config-in-zig
+date: 2024-04-16 14:52:18 +00:00
+description: We can create a shadow library for all our deps, simplifying compilation configuration in Zig.
+featured_image: /blog/include-pkg-config-in-zig/cover.svg
+tags: zig, programming, english
+---
+
+![Ziguana](cover.svg)
+
+Currently I'm trying to learn a bit of [Zig](https://ziglang.org).
+So I want to test some fun things.
+
+Reading the following tutorial: <https://www.luu.io/posts/zig-cross-compile-link-system-libary>
+
+Give us a little info about `pkg-config`.
+
+`pkg-config` is the utility that build systems like _Zig_ can use to find the include paths, library paths, etc. of their dependencies. When you install a package, `pkg-config` stores a `.pc` file in `/usr/lib/pkgconfig`. However, in a multi-architecture environment, `.pc` files are in `/usr/lib/<architecture>/pkgconfig`. We have to set the `PKG_CONFIG_PATH` environment variable to this path.
+
+## Creating our "Shadow" Libraries
+
+I want to build a project that has many dependencies,
+but adding every _C_ `cflags` and `libs` takes a lot of time.
+
+This technique can help us simplify our dependencies with a single `.pc` file.
+
+### Creating the `.pc` file
+
+Our `Makefile` will contain a simple build command that:
+
+1. Creates the `pc/libagar.pc` file with all the `libs` and `cflags`.
+2. Pass the `PKG_CONFIG_PATH` environment variable to `zig build`.
+
+For more info about `pkg-config` files, please refer to [pkg-config-guide](https://people.freedesktop.org/~dbn/pkg-config-guide.html).
+
+```makefile
+PKG_CONFIG_PATH=pc/
+PKG_LIBAGAR=${PKG_CONFIG_PATH}libagar.pc
+AGAR_VERSION=`agar-config --version`
+AGAR_CFLAGS=`agar-config --cflags`
+AGAR_LIBS=`agar-config --libs`
+
+build b:
+	@make config
+	PKG_CONFIG_PATH=${PKG_CONFIG_PATH} zig build
+
+config c:
+	@mkdir -p ${PKG_CONFIG_PATH}
+	@echo "Name: libagar" > ${PKG_LIBAGAR}
+	@echo "Description: LibAgar is a cross-platform GUI system. It provides a base framework and a standard toolkit of widgets from which high-performance, portable graphical applications can be built." >> ${PKG_LIBAGAR}
+	@echo "Version: ${AGAR_VERSION}\n" >> ${PKG_LIBAGAR}
+	@echo "Requires:" >> ${PKG_LIBAGAR}
+	@echo "Libs: ${AGAR_LIBS}" >> ${PKG_LIBAGAR}
+	@echo "Cflags: ${AGAR_CFLAGS}" >> ${PKG_LIBAGAR}
+	@echo ${PKG_LIBAGAR}
+```
+
+The `libagar.pc` file would look similar to this.
+
+```pkgconfig
+Name: libagar
+Description: LibAgar is a cross-platform GUI system. It provides a base framework and a standard toolkit of widgets from which high-performance, portable graphical applications can be built.
+Version: 1.7.1
+
+Requires:
+Libs: -L/usr/local/lib -lag_gui -lag_core   -L/usr/local/lib -lSDL2 -L/usr/local/opt/freetype/lib -lfreetype -L/usr/local/Cellar/fontconfig/2.15.0/lib -L/usr/local/opt/freetype/lib -lfontconfig -lfreetype -framework OpenGL -L/usr/local/Cellar/libx11/1.8.8/lib -lX11  -lobjc -Wl,-framework,Cocoa -Wl,-framework,OpenGL -Wl,-framework,IOKit -lm -L/usr/local/lib -ljpeg -L/usr/local/Cellar/libpng/1.6.43/lib -lpng16 -lz -lpthread       
+Cflags: -I/usr/local/include/agar  -D_USE_OPENGL_FRAMEWORK  -I/usr/local/include/SDL2 -D_THREAD_SAFE -I/usr/local/opt/freetype/include/freetype2 -I/usr/local/opt/libpng/include/libpng16 -I/usr/local/Cellar/fontconfig/2.15.0/include -I/usr/local/opt/freetype/include/freetype2 -I/usr/local/opt/libpng/include/libpng16 -D_USE_OPENGL_FRAMEWORK -I/usr/local/Cellar/libx11/1.8.8/include -I/usr/local/Cellar/libxcb/1.16.1/include -I/usr/local/Cellar/libxau/1.0.11/include -I/usr/local/Cellar/libxdmcp/1.1.5/include -I/usr/local/Cellar/xorgproto/2024.1/include   -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -force_cpusubtype_ALL -fpascal-strings  -I/usr/local/Cellar/libpng/1.6.43/include/libpng16        
+```
+
+### Configure `build.zig` file
+
+*zig 0.10*
+
+```zig
+exe.linkLibC();
+exe.linkSystemLibrary("libagar");
+```
+
+*zig 0.11*
+
+```zig
+exe.linkLibC();
+exe.linkSystemLibrary2("libagar", .{ .use_pkg_config = .force });
+```
+
+### Use the library
+
+*main.zig*
+
+```zig
+const std = @import("std");
+
+const c = @cImport({
+    @cInclude("stdio.h");
+});
+
+const agar = @cImport({
+    @cInclude("agar/core.h");
+    @cInclude("agar/gui.h");
+});
+
+pub fn main() !void {
+    if (agar.AG_InitCore(c.NULL, 0) == -1) {
+        c.fprintf(c.stderr, "Agar Core Init failed: %s\n", agar.AG_GetError());
+        return 1;
+    }
+
+    if (agar.AG_InitGraphics(0) == -1) {
+        c.fprintf(c.stderr, "Agar Graphics Init failed: %s\n", agar.AG_GetError());
+        return 1;
+    }
+
+    const win = agar.AG_WindowNew(0);
+    agar.AG_LabelNew(win, 0, "Hello, world!");
+    agar.AG_WindowShow(win);
+    agar.AG_EventLoop();
+
+    return 0;
+}
+```
+
+Now you have to note that _LibAgar_ used this way will not work.
+Since for this you have to create proper bindings.
+
+I simply used it as an example to demonstrate the use of `pkg-config`.
+
+I found this out by asking in the _Zig_ Discord.
+
+- <https://github.com/JulNadeauCA/libagar/issues/79>
+- <https://discord.com/channels/605571803288698900/1036403458305163384/1229840153279725618>
+
+```markdown
+From: tomck5836
+
+Normally this kind of error occurs when you're trying to import a c header which contains complex stuff like macros, or static/inline functions which zig cannot properly translate to zig
+
+Does libagar intentionally provide zig support? If not, they can't do anything to help + you're best off deleting the issue. This is not a problem with libagar (unless they explicitly say they support zig)
+
+your options are:
+
+    use something else
+    write your own bindings
+
+The @cImport stuff is just a shortcut that zig has to automatically try and import c headers. You can just write your own bindings with export fn (...), getting all the function signatures to match up.
+```

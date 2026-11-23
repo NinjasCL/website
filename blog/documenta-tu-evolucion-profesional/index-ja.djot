@@ -1,0 +1,82 @@
+---
+title: あなたの職業的な進化を文書化する
+slug: documenta-tu-evolucion-profesional
+date: 2024-04-02 14:46:14 +00:00
+description: 個人のウェブサイトは、IT業界での道のりと進化を文書化するための素晴らしい味方です。
+featured_image: /blog/documenta-tu-evolucion-profesional/cover.jpg
+tags: cv, spanish, chile, beginners
+---
+
+![Ilya PavlovによるUnsplashの写真](cover.jpg)
+
+個人のウェブサイトは、IT業界での道のりと進化を文書化するための素晴らしい味方です。
+
+## Githubは不十分
+
+_Github_、_Gitlab_、_Codeberg_ などのプラットフォームにコードをアップロードするだけで十分だと考える人も多いでしょう。しかし、残念ながら以下の問題があります。
+
+- プライベートプロジェクトの文書化には役立ちません。
+- 情報が整理されておらず、重要な部分を強調するのが困難です。
+- 第三者に依存し、コンテンツの保存と配布に自律性がありません。
+
+主な問題は、コードの所有者ではないプロジェクトに参加する場合です。通常は民間企業向けです。あなたのウェブサイトでは、少なくともそれらのプロジェクトに参加したことを文書化できます(契約が許可する場合)。
+
+また、散在するプロジェクトがあまりに多い場合、履歴書に載せられる一元化された場所を持つ方が良いでしょう。
+
+## 今日始めましょう
+
+理想は、学生や学習中であれば、今すぐプロジェクト、アイデア、イベント、そしてキャリアで経験したことを文書化する個人のサイトを持ち始めることです。すでに数年経験がある場合は、すべてを文書化し始めるのは少し大変で、長年にわたって蓄積した資料を整理するにはより多くの時間がかかります。
+
+## どの技術を使う?
+
+最も重要なのは、移行能力を持つことです。何かの出来事でホスティングプロバイダーが閉鎖された場合、簡単に別のプロバイダーを見つけてコンテンツを移行できること。さらに、歴史的保存のために[archive.org](https://web.archive.org)に保存できること。
+
+お勧めは、信頼できる古いHTMLとCSSの技術を使った静的ウェブサイトです。
+
+### 静的サイトジェネレーターを使う
+
+理想は、自分が最も好きな技術で作られたものを使うことです。あらゆる好みに合わせた多様な選択肢があります。
+
+ここに小さなセレクションを
+
+```github
+geolessel/vox | Un generador de sitios estáticos escrito en Elixir
+```
+
+```github
+gohugoio/hugo | El framework más rápido del mundo para construir sitios web
+```
+
+```github
+11ty/eleventy | Un generador de sitios estáticos más simple
+```
+
+### 独自のコンテンツジェネレーターを作る
+
+言語や技術を練習する良い方法であり、自分のニーズに合わせた小さなプロジェクトです。ただし、このオプションは、利用可能なジェネレーターがすでに解決している細部に多くの時間を費やしたい人向けです。
+
+## ドメインとホスティングを購入する
+
+理想は独自のドメインとホスティングを持つことです。まずGithub Pagesホスティングから始められます。
+
+### ドメインプロバイダー
+
+- <https://nic.cl> : チリのドメイン
+- <https://dyndns.com> : IP用ドメイン
+- <https://www.dynadot.com> : 国際ドメイン
+- <https://porkbun.com/> : 別のドメインプロバイダー
+
+### ホスティングプロバイダー
+
+ニーズに応じて、Raspberry PIで何かを持つか、ホスティングを取得できます。以下は順不同のさまざまなオプションのリストです。
+
+- <https://cpanelhost.cl/> : 安価なチリのホスティング
+- <https://www.silverhost.cl/> : 中規模のチリのホスティング
+- <https://pages.cloudflare.com/> : 静的ページホスティング
+- <https://pages.github.com/> : 静的ページホスティング
+- <https://codeberg.page/> : 静的ページホスティング
+- <https://neocities.org/> : 静的ページホスティング
+- 自前サーバー (Raspberry PI)
+- VPSサーバー (DigitalOcean、Vultrなど)
+- アプリケーションサーバー (Fly.io、Vercel)
+- クラウドサーバー (AWS、Azure、GCP)

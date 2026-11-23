@@ -1,0 +1,68 @@
+---
+title: Chaucha Wallet Generator Github Action
+slug: chaucha-wallet-generator-github-action
+date: 2020-09-18 01:29:40 +00:00
+description: Una simple Github Action para generar billeteras de la criptomoneda Chaucha. Sirve como ejemplo para otras criptomonedas similares a bitcoin.
+featured_image: /blog/chaucha-wallet-generator-github-action/cover.jpg
+tags: github, blockchain, chile, chaucha, crypto, english, python
+---
+
+![Foto de Hamed Taha en Unsplash](cover.jpg)
+
+Este es un simple generador de billeteras <https://chaucha.cl> para su
+uso dentro de Github actions.
+
+## Workflow de ejemplo
+
+```yaml
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Self test
+        id: selftest
+
+        # Put your action repo here
+        uses: proyecto-chaucha/chaucha-gha-wallet-generator@master
+        with:
+          value: "test"
+
+      - name: Check outputs
+        run: |
+          test "${{ steps.selftest.outputs.privkey }}" == "8G63zuGKfQ7ho4X1ytHr75HmrZxJq3NFQ51YSPdyDh4hsHEr2Bg"
+          test "${{ steps.selftest.outputs.pubkey }}" == "ch4uy1bAfLLf6RMcmkrHBa8oxtuMTgwXyS"
+```
+
+### Entradas
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Entrada</th><th>Descripción</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>value</code> <em>(opcional)</em></td><td>Valor de texto para crear una nueva dirección de billetera. Un valor vacío generará una dirección aleatoria.</td></tr>
+  </tbody>
+</table>
+```
+
+### Salidas
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Salida</th><th>Descripción</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>privkey</code></td><td>Dirección de la llave privada de la billetera Chaucha</td></tr>
+    <tr><td><code>pubkey</code></td><td>Dirección de la llave pública de la billetera Chaucha</td></tr>
+  </tbody>
+</table>
+```
+
+```github
+proyecto-chaucha/chaucha-gha-wallet-generator | GitHub Action para generar wallets de Chaucha
+```

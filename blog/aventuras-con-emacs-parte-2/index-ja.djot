@@ -1,0 +1,145 @@
+---
+title: Emacsとの冒険：パート2
+slug: aventuras-con-emacs-parte-2
+date: 2024-04-09 13:23:00 +00:00
+description: Emacsとの冒険の第2弾。今回はいくつかの小さな追加設定を紹介します。
+featured_image: /blog/aventuras-con-emacs-parte-2/cover.jpg
+tags: emacs, editor, programar, código
+---
+
+![UnsplashのMuseums Victoriaによる写真](cover.jpg)
+
+これは以下の続きです
+
+```ninjas
+aventuras-con-emacs | Aventuras con Emacs | La verdad es que deseo encontrar un editor de texto que pueda utilizar en cualquier sistema operativo. Idealmente que no ocupe muchos recursos, ya que a veces me gusta utilizar computadoras bien viejitas. | /blog/aventuras-con-emacs/cover.jpg
+```
+
+## 用語
+
+役に立つかもしれない用語をいくつか：
+
+- `SPC`: スペースキー。
+- `ESC`: エスケープキー。
+- `C`: コントロールキー。
+- `M`: メタキー（Alt、Option）。
+- `s`: スーパー（Windows）
+
+文字が大文字の場合は、_Shift_ キーの使用を意味します。
+
+さまざまなキーの組み合わせは、キーのシーケンス、
+コード、または音楽のアルペジオとして見ることができます。
+
+### アルペジオ
+
+アルペジオに似ているのは、順番に押す必要のある
+キーの組み合わせです。
+
+`スペース` でキーのシーケンスを区切っている場合に見分けられます。
+
+例： `SPC f P` は次を意味します：
+
+1. `スペース` を押して離します。
+2. `f` を押して離します。
+3. `P`（大文字）を押して離します。
+
+### コード
+
+コード（和音）に似ています。前のキーを離さずに
+同時に押す必要があるキーの集合です。
+
+`-` でキーのシーケンスを区切っている場合に見分けられます。
+
+例： `C-x` は次を意味します：
+
+1. `コントロール` を押して押し続けます。
+2. `x` を押してから、すべてのキー（`コントロール`、`x`）を同時に離します。
+
+## 特別な設定
+
+以下の設定は `~/.config/doom/config.el` にある
+`config.el` ファイルで行う必要があります。
+
+_Emacs_ からこの設定にアクセスするには、単純に
+次のキーの組み合わせを押します
+
+```text
+SPC f-P
+```
+
+### オプションの設定
+
+`config.el` ファイルを編集して、以下の `lisp` の命令を追加します。
+
+```clojure
+;; User Info
+(setq user-full-name "Camilo Castro"
+      user-mail-address "camilo@ninjas.cl")
+
+;; Mac Config
+(setq mac-option-modifier 'alt
+      mac-pass-control-to-system nil)
+
+;; Ctrl+K removes whole line
+(setq kill-whole-line t)
+
+;; Enable auto save and backup files
+(setq auto-save-default t
+      make-backup-files t)
+
+;; Disable confirm on exit
+(setq confirm-kill-emacs nil)
+
+;; Set Fonts
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16))
+
+;; Set Window Size
+(setq initial-frame-alist '((top . 1) (left . 1) (width . 143) (height . 55)))
+```
+
+
+### ロゴを変える
+
+スタートアップ画面を、より洗練されたものに変えましょう。
+
+以下は、_Doom Emacs_ をインストールした直後のデフォルトの状態です。
+
+![スタートアップ画面](inicio.png)
+
+そして、より美しいもの（Zzamboni作）を追加します。
+
+![Doom](doom.png)
+
+## 画像をコピーする
+
+画像を対応するディレクトリにコピーします
+
+```bash
+mkdir -p ~/.config/doom/splash
+cp doom-emacs-bw-light.svg ~/.config/doom/splash
+```
+
+`config.el` を編集して、以下の `lisp` の命令を追加します。
+
+```clojure
+(let ((images '("doom-emacs-bw-light.svg")))
+  (setq fancy-splash-image
+        (concat doom-user-dir "splash/"
+                (nth (random (length images)) images))))
+```
+
+
+最後に、素敵な結果が得られます。
+
+![Emacs](emacs.png)
+
+
+## 参考
+
+- <https://zzamboni.org/post/my-doom-emacs-configuration-with-commentary/>
+- <https://discourse.doomemacs.org/t/how-to-change-your-splash-screen/57>
+- <https://github.com/jeetelongname/doom-banners>
+
+## Special Thanks
+
+ヒントと修正をくださったTomás SolarとCuatro Libertadesの皆さんに感謝します。

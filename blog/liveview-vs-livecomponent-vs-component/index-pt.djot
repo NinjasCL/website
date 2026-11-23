@@ -1,0 +1,105 @@
+---
+title: LiveView vs LiveComponent vs Component
+slug: liveview-vs-livecomponent-vs-component
+date: 2023-07-26 17:54:58 +00:00
+description: Uma comparação simples entre cada elemento que o Phoenix nos entrega.
+featured_image: /blog/liveview-vs-livecomponent-vs-component/cover.jpg
+tags: elixir, liveview, phoenix, webdev
+---
+
+![Foto de Battlecreek Coffee Roasters no Unsplash](cover.jpg)
+
+A documentação oficial diz:
+
+- use [_Phoenix.Component_](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html) para compartimentar/reutilizar markup
+- use [_Phoenix.LiveComponent_](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html) para compartimentar estado, markup e eventos
+- use [_Phoenix.LiveView_](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html) aninhado para compartimentar estado, markup, eventos e isolamento de erros
+
+## Um pouco de contexto
+
+- `handle_params`: Uma função disparada no LiveView pai com os parâmetros da URL.
+
+- `mount`: Uma função disparada no LiveView pai e nos LiveComponents para definir os valores iniciais.
+
+- `update`: Uma função disparada no LiveView pai e nos LiveComponents para atualizar os assigns em uma instância do componente.
+
+- `preload`: Uma função disparada no LiveView pai e nos LiveComponents para atualizar os assigns em múltiplas instâncias do componente.
+
+- `handle_event`: Uma função disparada pelo lado HTML/JS.
+
+- `handle_info`: Uma função disparada usando `send(self(), args)` dentro de um `live_component`. Tratada pelo liveview pai.
+
+- `pipeline`: Uma função chamada ao definir o live_view ou o live_component.
+
+- `@myself`: Um target para especificar em LiveViews ou LiveComponents. `phx-target={@myself}`
+
+**lib/my_web/my_web.ex**
+
+```elixir
+def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {MyWeb.Layouts, :app}
+
+      unquote(html_helpers())
+    end
+end
+```
+
+Usado como
+
+```elixir
+defmodule MyWeb.Live.Home do
+  use MyWeb, :live_view
+```
+
+É assim que eu entendo as principais diferenças
+
+## LiveView
+
+- Cria um **socket**
+- Handlers: `handle_event`, `handle_info`, `handle_params`, `mount`, `update`, `preload`.
+- Pode usar `@myself` para lidar com eventos (requer id)
+- Renderiza html
+
+[live_render/3](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Controller.html#live_render/3)
+
+## LiveComponent
+
+- Usa o **socket** definido no _LiveView_ pai
+- Handlers: `handle_event`, `mount`, `update`, `preload`.
+- Pode usar `@myself` para lidar com eventos (requer id)
+- Renderiza html
+
+```elixir
+<.live_component module={MyModule} id="unique_id" {assigns} />
+```
+
+## Component
+
+- Apenas renderiza html
+
+```elixir
+<MyComponent.render {assigns} />
+```
+
+## Comparação
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Item</th><th>LiveView</th><th>LiveComponent</th><th>Component</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>renderiza html</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>pode usar <code>@myself</code> (requer id)</td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>mount</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>update</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>preload</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>handle_event</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>handle_info</code></td><td>✅</td><td>❌</td><td>❌</td></tr>
+    <tr><td><code>handle_params</code></td><td>✅</td><td>❌</td><td>❌</td></tr>
+    <tr><td>cria um socket</td><td>✅</td><td>❌</td><td>❌</td></tr>
+  </tbody>
+</table>
+```

@@ -1,0 +1,65 @@
+---
+title: 💵 Biyete 🏦 - Parsear e-mails bancários e enviá-los ao Google Sheets
+slug: biyete-parse-bank-emails-and-send-it-to-google-sheets
+date: 2021-07-09 12:57:58 +00:00
+description: Um projeto que mostra como integrar o Gmail com o Google Sheets. Ele analisa e-mails bancários e envia a informação para uma Planilha Google ou um endpoint REST, para que você possa acompanhar suas finanças.
+featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work.png
+tags: google, gmail, sheets, javascript, hooks, scripts, banks, money, email
+---
+
+```github
+NinjasCL/biyete | Parsea correos bancarios y los envía a Google Sheets
+```
+
+Um simples Google Apps Script para analisar mensagens do Gmail
+relacionadas a Notificações Bancárias, Contas de Pagamento, Depósitos
+e outras áreas semelhantes. Depois salva esses dados numa Planilha
+Google que você pode usar para acompanhar suas finanças.
+
+![Imagem por freepik](cover.png)
+
+Este projeto foi inspirado no
+[Bennedetto](https://github.com/arecker/bennedetto) e na falta de
+aplicativos e tecnologias adequadas nos sistemas bancários chilenos.
+Também para automatizar o acompanhamento financeiro e ajudar as
+pessoas a organizar melhor suas finanças.
+
+Seguindo o conselho de Bart Wronski, buscamos soluções simples e
+tentamos alcançar os objetivos com o menor peso técnico possível.
+Normalmente uma solução seria um aplicativo enorme com muitos
+endpoints,
+[ETLs](https://en.wikipedia.org/wiki/Extract,_transform,_load) e
+assim por diante.
+
+Tentamos minimizar usando as ferramentas disponíveis:
+
+- Os bancos normalmente não têm endpoints abertos para buscar dados.
+  Mas enviam e-mails toda vez que você compra algo ou recebe um
+  depósito. Esses e-mails podem ser analisados com regex simples e
+  enviados para outro lugar. Outras entidades ("Netflix", "Spotify",
+  etc) também enviam e-mails de cobrança que podem ser analisados.
+
+- O Gmail tem Google Apps Scripts que permitem ler, programar e
+  controlar e-mails e interagir com diferentes serviços.
+
+- O Google Spreadsheets é um lugar maravilhoso para armazenar dados e
+  criar painéis personalizados. Também tem Google Apps Scripts.
+
+- As finanças precisam ser seguras e transparentes. Usando Gmail e
+  Spreadsheets, temos um ambiente fácil de usar, fácil de configurar,
+  de baixo custo e seguro para executar este script, dando a você
+  controle total sobre seus dados pessoais (sem truques ocultos).
+
+## Como funciona?
+
+![Funcionamento](work.png)
+
+Este script buscará todos os e-mails não lidos dentro de uma etiqueta
+específica. Procurará pelas palavras-chave especiais e processará seus
+dados. Então, para cada item encontrado, disparará ações. A ação
+padrão é armazenar os resultados numa Planilha específica. Embora
+você possa configurar novas ações (como enviar os dados para uma API
+REST ou similar). Por fim, o e-mail será marcado como lido.
+
+Normalmente processará 30 threads de mensagens por execução (o tempo
+máximo do Google Apps Scripts é de 6 minutos).

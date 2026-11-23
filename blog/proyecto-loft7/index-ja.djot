@@ -1,0 +1,44 @@
+---
+title: Loft7プロジェクト
+slug: proyecto-loft7
+date: 2018-09-16 23:34:14 +00:00
+description: ProcessWireを使って作られた建築サイト
+featured_image: /blog/proyecto-loft7/cover.png
+tags: processwire, php, chile, site, project
+---
+
+![Loft7](cover.png)
+
+- <https://loft7.cl/>
+
+## チーム
+
+### Camilo Castro
+
+Processwireおよびサーバー構成。
+
+### Daniel Montero
+
+デザイン、HTML、CSS
+
+## 謝辞
+
+- Processwireを作成した[Ryan Cramer](http://www.ryancramer.com/)
+
+## サイト
+
+### リリース日
+
+- (ISO 8601) 2018-09-16
+
+### 標準
+
+- HTML5
+- CSS3
+- JQuery
+- PHP 7.2
+
+## ソフトウェア
+
+- [Processwire](https://processwire.com)
+- [AIOM+](http://modules.processwire.com/modules/all-in-one-minify/)

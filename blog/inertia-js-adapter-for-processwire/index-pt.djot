@@ -1,0 +1,108 @@
+---
+title: Adaptador de Inertia.js para ProcessWire
+slug: inertia-js-adapter-for-processwire
+date: 2021-07-09 21:56:58 +00:00
+description: Inertia permite criar aplicativos de página única totalmente renderizados no lado do cliente, sem grande parte da complexidade que acompanha as SPAs modernas. Para o projeto ProcessWire, criei este simples adaptador de Inertia. E também um projeto de exemplo ProcessWire + Svelte + Laravel Mix + Inertia.
+featured_image: /blog/inertia-js-adapter-for-processwire/cover.avif
+tags: javascript, php, processwire, inertia
+---
+
+## Inertia.js para ProcessWire
+
+![Files](files.avif)
+
+Para o projeto [ProcessWire](https://processwire.com), criei este simples adaptador de [Inertia](https://inertiajs.com/).
+E também um projeto de exemplo [ProcessWire + Svelte + Laravel Mix + Inertia](https://github.com/joyofpw/inertia-svelte-mix-pw).
+
+```github
+joyofpw/inertia | Un adaptador de Inertia.js para ProcessWire
+```
+
+Inertia permite criar aplicativos de página única totalmente renderizados no lado do cliente, sem grande parte da complexidade que acompanha as SPAs modernas. Ele faz isso aproveitando os frameworks existentes do lado do servidor.
+
+Inertia não é um framework, nem um substituto dos seus frameworks existentes do lado do servidor ou do cliente. Em vez disso, foi projetado para trabalhar com eles. Pense no Inertia como a cola que conecta os dois. O Inertia vem com três adaptadores oficiais do lado do cliente (React, Vue e Svelte).
+
+Este é um adaptador para <https://processwire.com/>. O Inertia substitui as views de PHP completamente retornando componentes JavaScript a partir das ações dos controladores. Esses componentes podem ser construídos com o framework de frontend de sua escolha.
+
+## Características
+
+- [x] Renderizar React/Vue/Svelte a partir dos controladores
+- [x] Flash data passado para as props
+- [x] Versionamento de assets: <https://inertiajs.com/asset-versioning>
+- [ ] Avaliação tardia: <https://inertiajs.com/responses#lazy-evaluation>
+- [x] Token csrf colocado automaticamente nas props: <https://inertiajs.com/csrf-protection>
+- [x] Sobrescrever códigos de redirecionamento: <https://inertiajs.com/redirects#303-response-code>
+- [ ] Recargas parciais: <https://inertiajs.com/partial-reloads>
+- [x] Interface de dados compartilhados: <https://inertiajs.com/shared-data>
+
+## Instalação
+
+Você só precisa criar um arquivo chamado `templates/app.view.php`. Este arquivo será renderizado ao chamar `$inertia->render()`.
+Esta view receberá um parâmetro chamado `$inertia` que você pode usar para renderizar o div do app.
+
+- `$inertia->page`: As propriedades que serão renderizadas.
+- `$inertia->json`: A página do Inertia como uma string json.
+- `$inertia->tag`: Uma tag div de html com a string json.
+
+Use `$inertia->tag` para renderizar o elemento raiz do _Inertia_. Se quiser um elemento mais personalizado,
+você pode usar a variável `$inertia->json`.
+
+```php
+<div id='app' data-page='{$inertia->json}'></div>
+```
+
+Exemplo `templates/app.view.php`
+
+```html
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+  <title>Hello World</title>
+  <!-- Your css and js files -->
+  <link href='/css/app.css' rel='stylesheet'>
+  <script src='/js/app.js' defer></script>
+</head>
+<body>
+  <?php echo $inertia->tag ?>
+</body>
+</html>
+```
+
+## Renderização
+
+Este adaptador segue o protocolo de <https://legacy.inertiajs.com/the-protocol>.
+
+A primeira requisição a um aplicativo Inertia é apenas uma requisição normal de página completa do navegador, sem cabeçalhos ou dados especiais do Inertia. Para essas requisições, o servidor retorna um documento HTML completo.
+
+Uma vez que um aplicativo Inertia foi iniciado, todas as requisições subsequentes ao site são feitas via XHR com um cabeçalho especial _X-Inertia_ definido como `true`. Este cabeçalho indica que a requisição está sendo feita pelo Inertia, e não é uma visita padrão de página completa.
+
+Quando o servidor detecta o cabeçalho _X-Inertia_, em vez de responder com um documento HTML completo, ele retorna uma resposta JSON com um objeto página codificado.
+
+
+Usar _Inertia_ com _ProcessWire_ é fácil. Basta chamar a função `render` passando o nome do seu Componente e suas Propriedades.
+
+```php
+$inertia = $modules->get('Inertia');
+echo $inertia->render('MyComponent', ["my" => "props"]);
+```
+
+## Projeto de Exemplo
+
+Um projeto de exemplo está disponível em
+
+```github
+joyofpw/inertia-svelte-mix-pw | Ejemplo con ProcessWire, Svelte, Laravel Mix e Inertia
+```
+
+## Outros Recursos
+
+- <https://inertiajs.com/>
+- <https://reinink.ca/articles/introducing-inertia-js>
+- <https://reinink.ca/articles/server-side-apps-with-client-side-rendering>
+- <https://sebastiandedeyne.com/inertia-js-and-livewire-a-high-level-comparison/>
+- <https://medium.com/icf-church-developers/processwire-vue-js-a-lovestory-d4d5bca365>
+- <https://processwire.com/talk/topic/19112-module-page-query-boss/>
+- <https://github.com/microcipcip/processvue>
+- <https://github.com/Sebiworld/AppApi>

@@ -1,0 +1,45 @@
+---
+title: ElixirによるMSN Messengerチャットボット
+slug: msn-messenger-chatbot-with-elixir
+date: 2023-09-25 12:30:13 +00:00
+description: MSN Messenger(別名Windows Live Messenger)8.5をChatGPTに接続して、懐かしさを味わいましょう。
+featured_image: /blog/msn-messenger-chatbot-with-elixir/cover.png
+tags: msn, elixir, escargot, chat, chatbot, chatgpt
+---
+
+![MSN](cover.png)
+
+MSN Messenger(別名Windows Live Messenger)8.5をChatGPTに接続して、懐かしさを味わいましょう。
+
+このチャットボットは、2007年のチリのネットカフェの管理者として振る舞うように設定されています。
+
+## インストール
+
+- _MSNChatbot.plsc_ をMessenger Plusのスクリプトにインストールします。
+- 環境変数 `OPENAI_API_KEY` を設定します。
+- `mix deps.get` で依存関係をインストールします。
+- `iex -S mix run --no-halt` を実行します。
+- <https://escargot.chat/> でアカウントを作成し、パッチを当てたMSN Messengerクライアントを使います。
+- `lib/prelude.ex` を自分の設定で構成します。
+
+## どうやって?
+
+このボットは、イベントを発生させるために
+[Messenger Plus 4.83](https://escargot.chat/download/msn/extras/)
+のスクリプトを使います。パラメータを指定して `localhost:3000` を呼び出し、サーバーが _OpenAI_ を呼び出して応答を得ます。
+
+これは限定的なアプローチです。より良いアプローチは、<https://github.com/RayTF/MSNPSharp> のようなライブラリを使って完全なクライアントを作ることですが、これは単なる楽しい実験だったので、その仕事は他の人に任せます。
+
+## なぜ?
+
+古い技術が再び動いているのを見るのは楽しいですし、ChatGPTのようなパワーアップもありますから。
+
+## クレジット
+
+Messenger PLUS! をブリッジとして、MSN Messenger 8.5をChatGPTに接続するチャットボット。
+2023年にCamilo Castroが作成。
+Elixir Chile <https://elixircl.github.io>
+
+```github
+ElixirCL/msn-chatbot | Un chatbot estilo MSN Messenger escrito en Elixir
+```

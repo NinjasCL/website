@@ -1,0 +1,348 @@
+---
+title: Advent of Code — Solución del Día 01
+slug: advent-of-code-in-onyx-day-01
+date: 2024-12-04 15:14:22 +00:00
+description: Una solución del Día 01 de Advent of Code 2024 en Onyx.
+featured_image: /blog/advent-of-code-in-onyx-day-01/cover.jpg
+tags: advent of code, 2024, str, conv, iterator, slice, onyx, elixir
+---
+
+![Ónice](cover.jpg)
+
+Imagen: [Onyx Mainzerbecken](https://commons.wikimedia.org/wiki/File:Onyx_Mainzerbecken.jpg)
+
+- Ver también: [https://adventofcode.com/2024/](https://adventofcode.com/2024/)
+
+## --- Día 1: Histeria de los historiadores ---
+
+El Historiador Jefe siempre está presente en el gran lanzamiento del trineo
+navideño, ¡pero nadie lo ha visto en meses! Lo último que se supo de él es
+que estaba visitando lugares con significado histórico para el Polo Norte;
+un grupo de Historiadores Senior te ha pedido que los acompañes mientras
+revisan los lugares donde creen que es más probable encontrarlo.
+
+Cada vez que se comprueba una ubicación, la marcan en su lista con una
+estrella. Calculan que el Historiador Jefe debe estar en uno de los primeros
+cincuenta lugares que revisarán, así que, para salvar la Navidad, necesitas
+ayudarlos a conseguir cincuenta estrellas en su lista antes de que Santa
+despegue el 25 de diciembre.
+
+Consigue estrellas resolviendo acertijos. Cada día del calendario de
+adviento dispondrá de dos acertijos; el segundo se desbloquea cuando
+completas el primero. Cada acertijo otorga una estrella. ¡Buena suerte!
+
+Apenas saliendo, el grupo de Historiadores Senior Élficos ya tiene un
+problema: su lista de ubicaciones por comprobar está vacía. Al final,
+alguien decide que el mejor lugar para empezar a buscar sería la oficina
+del Historiador Jefe.
+
+Al entrar en la oficina, todos confirman que el Historiador Jefe no está
+en ninguna parte. En su lugar, los Elfos descubren una colección de notas y
+listas de ubicaciones con significado histórico. ¡Parece ser la
+planificación que el Historiador Jefe estaba haciendo antes de irse!
+¿Quizás estas notas sirvan para determinar qué ubicaciones buscar?
+
+En toda la oficina del Jefe, las ubicaciones con significado histórico no
+están anotadas por nombre, sino por un número único llamado ID de
+ubicación. Para no dejar nada sin revisar, los Historiadores se dividen en
+dos grupos, cada uno registrando la oficina e intentando construir su
+propia lista completa de IDs de ubicación.
+
+Solo hay un problema: al sostener las dos listas una al lado de la otra
+(la entrada de tu acertijo), rápidamente se hace evidente que las listas
+no se parecen mucho. ¿Quizás puedas ayudar a los Historiadores a
+conciliar sus listas?
+
+Por ejemplo:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+A lo mejor las listas solo difieren por una pequeña cantidad. Para
+averiguarlo, empareja los números y mide qué tan lejos están unos de
+otros. Empareja el número más pequeño de la lista izquierda con el más
+pequeño de la lista derecha, luego el segundo más pequeño de la izquierda
+con el segundo más pequeño de la derecha, y así sucesivamente.
+
+Dentro de cada par, calcula qué tan lejos están los dos números; tendrás
+que sumar todas esas distancias. Por ejemplo, si emparejas un 3 de la
+lista izquierda con un 7 de la derecha, la distancia es 4; si emparejas un
+9 con un 3, la distancia es 6.
+
+En la lista de ejemplo anterior, los pares y las distancias serían los
+siguientes:
+
+- El número más pequeño de la lista izquierda es 1, y el más pequeño de la
+  lista derecha es 3. La distancia entre ellos es 2.
+- El segundo número más pequeño de la lista izquierda es 2, y el segundo
+  más pequeño de la derecha es otro 3. La distancia entre ellos es 1.
+- El tercer número más pequeño de ambas listas es 3, así que la distancia
+  entre ellos es 0.
+- Los siguientes números en emparejarse son 3 y 4, a una distancia de 1.
+- Los quintos números más pequeños de cada lista son 3 y 5, a una
+  distancia de 2.
+- Finalmente, el número más grande de la lista izquierda es 4, mientras
+  que el más grande de la derecha es 9; están a una distancia de 5.
+
+Para encontrar la distancia total entre la lista izquierda y la derecha,
+suma las distancias entre todos los pares que encontraste. En el ejemplo
+anterior, esto es 2 + 1 + 0 + 1 + 2 + 5, ¡una distancia total de 11!
+
+Tus listas izquierda y derecha reales contienen muchos IDs de ubicación.
+¿Cuál es la distancia total entre tus listas?
+
+## --- Parte Dos ---
+
+Tu análisis solo confirmó lo que todos temían: las dos listas de IDs de
+ubicación son, en efecto, muy diferentes.
+
+¿O no?
+
+Los Historiadores no se ponen de acuerdo sobre qué grupo cometió los
+errores ni cómo interpretar la mayoría de la letra del Jefe, pero en la
+conmoción notas un detalle interesante: ¡muchos IDs de ubicación aparecen
+en ambas listas! Quizás los otros números no sean IDs de ubicación en
+absoluto, sino caligrafía mal interpretada.
+
+Esta vez tendrás que averiguar exactamente cuántas veces aparece cada
+número de la lista izquierda en la lista derecha. Calcula un puntaje de
+similitud total sumando cada número de la lista izquierda después de
+multiplicarlo por la cantidad de veces que ese número aparece en la lista
+derecha.
+
+Aquí están las mismas listas de ejemplo otra vez:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+Para estas listas de ejemplo, el proceso para encontrar el puntaje de
+similitud es el siguiente:
+
+- El primer número de la lista izquierda es 3. Aparece tres veces en la
+  lista derecha, así que el puntaje de similitud aumenta en 3 * 3 = 9.
+- El segundo número de la lista izquierda es 4. Aparece una vez en la
+  lista derecha, así que el puntaje de similitud aumenta en 4 * 1 = 4.
+- El tercer número de la lista izquierda es 2. No aparece en la lista
+  derecha, así que el puntaje de similitud no aumenta (2 * 0 = 0).
+- El cuarto número, 1, tampoco aparece en la lista derecha.
+- El quinto número, 3, aparece tres veces en la lista derecha; el puntaje
+  de similitud aumenta en 9.
+- El último número, 3, aparece tres veces en la lista derecha; el puntaje
+  de similitud vuelve a aumentar en 9.
+
+Entonces, para estas listas de ejemplo, el puntaje de similitud al final
+del proceso es 31 (9 + 4 + 0 + 0 + 9 + 9).
+
+Considera una vez más tus listas izquierda y derecha. ¿Cuál es su puntaje
+de similitud?
+
+## Solución
+
+### Onyx
+
+- autor: Brendan Hansen
+- Solución original: <https://github.com/brendanfh/onyx-aoc-2024/blob/master/solutions/day01.onyx>
+
+En esta solución podemos ver un ejemplo de uso de los siguientes
+elementos:
+
+- El operador `~~`
+- [conv.parse/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/conv/parse.onyx#L125)
+- [Iterator.zip/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L421)
+- [Iterator.map/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L205)
+- [Iterator.sum/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L890)
+- [os.get_contents/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/os/file.onyx#L111)
+- [str.bisect/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/string/string.onyx#L648)
+- [str.strip_whitespace/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/string/string.onyx#L315)
+- [Slice.sort/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/slice.onyx#L256)
+- [Slice.count_where/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/slice.onyx#L639)
+
+```go {summary="Mostrar solución"}
+use core {*}
+
+// MARK: Input
+
+/// The data structure will be two lists of integers (32 bit).
+Input :: struct {
+    first: [..] i32;
+    second: [..] i32;
+}
+
+// MARK: - Input Procedures
+
+/// This procedure will read the input file and return a string, trimming whitespace
+input_read_content :: () -> str {
+    return os.get_contents("input.txt")
+        |> str.strip_whitespace()
+}
+
+/// This will take the content text and transform it to a data structure that can be used in the solution.
+input_to_pairs :: (content : str) -> Input {
+
+    input := Input.{}
+
+    for row in str.split_iter(content, "\n") {
+        // Split the row in two columns using the space as separator
+        first_string, second_string := str.bisect(row, "   ")
+
+        // Convert the strings to integers, so we can do math later
+        first_number := conv.parse(i32, first_string)!
+        second_number := conv.parse(i32, second_string)!
+
+        // Store the numbers in each list
+        input.first->push(first_number)
+        input.second->push(second_number)
+    }
+
+    return input
+}
+
+/// Sort the input lists in ASC order
+input_sort :: (input: Input) -> Input {
+    Slice.sort(input.first, (a, b) => a - b)
+    Slice.sort(input.second, (a, b) => a - b)
+    return input
+}
+
+/// Creates an Iterator so we can use enumerable procedures
+input_to_iterator :: (input: Input) -> Iterator(Pair(i32, i32)) {
+    return Iterator.zip(
+        Iterator.from(input.first)
+        Iterator.from(input.second)
+    )
+}
+
+/// Read the contents and prepare it for the solutions
+get_input :: () -> Input {
+    return input_read_content()
+    |> input_to_pairs()
+}
+
+/// Count the similarity score comparing first column with a number in second column
+input_count_total_similarity :: (input: Input) -> u64 {
+    total: u64 = 0
+    for first_number in input.first {
+        // We use the ~~ operator to automatically cast the result to u64
+        total += ~~(first_number * Slice.count_where(input.second, [second_number](second_number == first_number)))
+    }
+
+    return total
+}
+
+// MARK: Solutions
+part1 :: () {
+    get_input()
+    |> input_sort()
+    |> input_to_iterator()
+    |> Iterator.map(element => math.abs(element.first - element.second))
+    |> Iterator.sum()
+    |> printf("The part 1 solution is: {}\n", _)
+}
+
+part2 :: () {
+    get_input()
+    |> input_count_total_similarity()
+    |> printf("The part 2 solution is: {}\n", _)
+}
+
+// MARK: main
+main :: () {
+    part1()
+    part2()
+}
+```
+
+## Elixir
+
+- autor: TORIFUKUKaiou
+- Solución original: <https://qiita.com/torifukukaiou/items/2b02ac5054b0bfe5817f>
+
+```elixir {summary="Mostrar solución"}
+defmodule AdventOfCode2024Day1Part1 do
+  def calculate_total_distance(left_list, right_list) do
+    sorted_left = Enum.sort(left_list)
+    sorted_right = Enum.sort(right_list)
+
+    distances =
+      Enum.zip(sorted_left, sorted_right)
+      |> Enum.map(fn {left, right} -> abs(left - right) end)
+
+    Enum.sum(distances)
+  end
+
+  def parse_input(input) do
+    input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line, ~r/\s+/, trim: true)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+end
+
+# テストデータ
+input = """
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+"""
+
+{left_list, right_list} = AdventOfCode2024Day1Part1.parse_input(input)
+
+# 距離の計算
+total_distance = AdventOfCode2024Day1Part1.calculate_total_distance(left_list, right_list)
+IO.puts("Total distance: #{total_distance}")
+
+defmodule AdventOfCode2024Day1Part2 do
+  def calculate_similarity_score(left_list, right_list) do
+    right_counts = Enum.frequencies(right_list)
+
+    Enum.reduce(left_list, 0, fn num, acc ->
+      count = Map.get(right_counts, num, 0)
+      acc + num * count
+    end)
+  end
+
+  def parse_input(input) do
+    input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line, ~r/\s+/, trim: true)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+end
+
+# テストデータ
+input = """
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+"""
+
+{left_list, right_list} = AdventOfCode2024Day1Part2.parse_input(input)
+
+# 類似度スコアの計算
+similarity_score = AdventOfCode2024Day1Part2.calculate_similarity_score(left_list, right_list)
+IO.puts("Similarity score: #{similarity_score}")
+```

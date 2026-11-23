@@ -1,0 +1,298 @@
+---
+title: Using Go inside Wren CLI
+slug: using-go-inside-wren-cli
+date: 2021-04-28 01:10:23 +00:00
+description: Wren CLI is the official project for a small command line application that embeds Wren. Serves as an example implementation. In this simple exercise we will export a go function and use it inside the CLI as a new class.
+featured_image: /blog/using-go-inside-wren-cli/cover.jpg
+tags: wren, go, cli, english, tutorial
+---
+
+![Photo by Amee Fairbank-Brown on Unsplash](cover.jpg)
+
+[Original in Wren Wiki](https://github.com/wren-lang/wren/wiki/%5BCookbook%5D-Use-Golang-functions-inside-Wren-CLI)
+
+[Wren CLI](https://github.com/wren-lang/wren-cli) is the official project for a small command line application that embeds _Wren_. Serves as an example implementation.
+
+If you want to use the exact version of this tutorial. [See this commit](https://github.com/wren-lang/wren-cli/commit/8229047c3b9d33509cd8849316a8758229683782).
+
+In this simple exercise we will export a go function and use it inside the _CLI_ as a new class.
+
+The function will be a simple _Http_ server that returns a message if we go to [localhost:8080](http://localhost:8080)
+
+![](https://user-images.githubusercontent.com/292738/116343900-5c08d780-a7b3-11eb-85d8-ec9f88597934.png)
+
+## Golang
+
+If you need to install go you can [download it from here](https://golang.org/dl/). (_go version go1.16.3 darwin/amd64_)
+
+Our go code is really simple.
+Based on [Golang http server](https://golangr.com/golang-http-server/)
+
+```go
+package main
+
+import "C"
+
+import (
+	"io"
+	"log"
+	"net/http"
+)
+
+//export Http
+func Http() {
+	// Set routing rules
+	http.HandleFunc("/", Tmp)
+
+	//Use the default DefaultServeMux.
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+			log.Fatal(err)
+	}
+}
+
+func Tmp(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Calling Go functions from Wren in static libs")
+}
+
+func main() {}
+```
+
+The main requirements for our go code are:
+
+- `import "C"` : Imports the `cgo` runtime
+- `//export Http` : Tells the compiler to export a function named `Http`
+- `func main() {}`: Is required to export the lib.
+
+If you need more examples [you can look here](https://github.com/vladimirvivien/go-cshared-examples).
+
+Now lets create a new directory and files inside the _cli_ project:
+
+![](https://user-images.githubusercontent.com/292738/116344740-cb32fb80-a7b4-11eb-9b63-fff5d9f4bf3e.png)
+
+Create a new directory named `go` inside `src` and inside create two files `http.go` and `Makefile`.
+
+Fill `http.go` with the code above. Then `Makefile` with:
+
+```makefile
+.PHONY: build
+b build:
+	go build -buildmode=c-archive -o libhttp.a http.go
+```
+
+Now if we go to the `src/go` directory and run `make build` we will have two new files `libhttp.a` and `libhttp.h`.
+
+![](https://user-images.githubusercontent.com/292738/116345764-cbcc9180-a7b6-11eb-853c-5ea2fe715a58.png)
+
+Explendid!
+
+Now we have to configure our `C` code files and add a new _Wren_ class.
+
+Go to `src/module` and create `server.h`, `server.c`, `server.wren` and `server.wren.inc`
+
+![](https://user-images.githubusercontent.com/292738/116346053-6e851000-a7b7-11eb-8407-78b86f269bad.png)
+
+*server.h*
+
+```c
+#ifndef server_h
+#define server_h
+
+#include "wren.h"
+
+void httpServer(WrenVM* vm);
+
+#endif
+```
+
+*server.c*
+
+```c
+#include "wren.h"
+
+// We import our generated h file from go
+#include "libhttp.h"
+
+// And create a simple wrapper to Bind the exported function to the Wren VM
+void httpServer(WrenVM* vm) {
+  Http();
+}
+```
+
+*server.wren*
+
+```js
+
+class Http {
+// foreign is used to tell Wren this will be implemented in C
+    foreign static serve()
+}
+```
+
+*server.wren.inc*
+
+```c
+// This file can be auto generated too! using
+// python3 util/wren_to_c_string.py src/module/server.wren.inc src/module/server.wren
+// the convention is <filename>ModuleSource
+
+static const char* serverModuleSource =
+"class Http {\n"
+"  foreign static serve()\n"
+"}\n"
+"\n";
+```
+
+Ok let's modify our `src/cli/modules.c` file to include our new class.
+
+```c
+// near line 4
+#include "modules.h"
+
+#include "io.wren.inc"
+#include "os.wren.inc"
+#include "repl.wren.inc"
+#include "scheduler.wren.inc"
+#include "timer.wren.inc"
+
+// We add our generated server.wren.inc file
+#include "server.wren.inc"
+```
+
+```c
+// near line 51
+extern void stdoutFlush(WrenVM* vm);
+extern void schedulerCaptureMethods(WrenVM* vm);
+extern void timerStartTimer(WrenVM* vm);
+
+// Add our new function as a extern (this will tell the compiler that this function
+// is implemented elsewhere (in our server.c file)
+extern void httpServer(WrenVM* vm);
+```
+
+```c
+  // near line 180
+  MODULE(timer)
+    CLASS(Timer)
+      STATIC_METHOD("startTimer_(_,_)", timerStartTimer)
+    END_CLASS
+  END_MODULE
+
+  // We add our module mapping
+  // import "server" for Http
+  // Http.serve()
+  MODULE(server)
+    CLASS(Http)
+      STATIC_METHOD("serve()", httpServer)
+    END_CLASS
+  END_MODULE
+```
+
+Finally we have to include the new paths in the _Makefile_ so the libs and objects are included in the compilation.
+
+Go to `projects/make.mac/wren_cli.make`
+
+![](https://user-images.githubusercontent.com/292738/116347424-3206e380-a7ba-11eb-8694-01beae4b4f23.png)
+
+```makefile
+# Near line 30 prepend -I../../src/go
+INCLUDES += -I../../src/go -I../../src/cli
+```
+
+```makefile
+# Near line 34
+LIBS += -L../../src/go -lhttp -framework CoreFoundation -framework Security
+# Note that we use -lhttp to refer to libhttp.a
+# also we include the required frameworks from MacOS that Go http module needs to work
+```
+
+```makefile
+# Near line 160
+OBJECTS += $(OBJDIR)/wren_value.o
+OBJECTS += $(OBJDIR)/wren_vm.o
+
+OBJECTS += $(OBJDIR)/server.o
+# We include the generated object
+```
+
+```makefile
+# Near line 382
+$(OBJDIR)/timer1.o: ../../src/module/timer.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+
+$(OBJDIR)/server.o: ../../src/module/server.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+
+# We include the server.c source file for the object.
+```
+
+Now we are almost ready. Just go to the `make.mac` directory and execute `make` command.
+
+![](https://user-images.githubusercontent.com/292738/116348291-d63d5a00-a7bb-11eb-968d-334f37c04c3f.png)
+
+If all went well you will have a shiny `wren_cli` binary inside `bin/`.
+And if you execute the _REPL_ you can use the new module and go to [localhost:8080](http://localhost:8080) for testing it
+
+```sh
+bin/wren_cli
+\\/"-
+ \_/   wren v0.4.0
+> import "server" for Http
+> Http.serve()
+```
+
+```js
+import "server" for Http
+Http.serve()
+```
+
+### Considerations
+
+- The generated static library contains lots of functions, even if you just exported one. So it will add weight to the _wren_cli_. In this case up to 5Mb more.
+- You can automate generating `wren.inc` files with `python3 util/wren_to_c_string.py src/module/server.wren.inc src/module/server.wren`
+- You can automate generating `projects/make.mac/wren_cli.make` files by using [Premake](https://premake.github.io/).
+- The same procedure can be followed by other languages like [Rust](https://www.rust-lang.org/) and bring all its power to _Wren_.
+
+### Using Premake
+
+The minimum version required is:
+
+- `premake5 (Premake Build Script Generator) 5.0.0-alpha14`
+
+Configure `projects/premake/premake5.lua`
+
+```lua
+-- near line 58
+includedirs {
+    "../../src/cli",
+    "../../src/module",
+    "../../src/go",
+  }
+```
+
+```lua
+-- near line 118
+  filter "system:macosx"
+    systemversion "10.12"
+    links { "http", "/Library/Frameworks/CoreFoundation.framework", "/Library/Frameworks/Security.framework" }
+    linkoptions {"-L../../src/go"}
+```
+
+And then execute
+`python3 utils/generate_projects.py`
+
+### Rust
+
+_Rust_ would have similar steps. The only difference would be generating the static library. [For that you can follow this tutorial](https://docs.rust-embedded.org/book/interoperability/rust-with-c.html) or this [other one](https://dev.to/luzero/building-crates-so-they-look-like-c-abi-libraries-1ibn) and the [cbindgen tool](https://github.com/eqrion/cbindgen) A sample http server [can be found here](https://gist.github.com/mjohnsullivan/e5182707caf0a9dbdf2d)
+
+### Conclusion
+
+_Wren_ is marvelous and it's _CLI_ is easy to hack and extend. If you need _Wren_ to have industry level extensions you can rely on _Go_ or _Rust_ extensive libraries and create something wonderful.
+
+[If you need a complete project you can go here](https://github.com/NinjasCL-archive/wren-cli/tree/golang)
+
+```github
+NinjasCL-archive/wren-cli/tree/golang | Un proyecto completo de wren-cli con el servidor HTTP hecho en Go
+```

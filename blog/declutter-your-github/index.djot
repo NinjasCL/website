@@ -1,0 +1,46 @@
+---
+title: Limpia tu Github
+slug: declutter-your-github
+date: 2017-10-22 20:42:57 +00:00
+description: Porque muchas organizaciones buscan desarrolladores y Github es una de las principales fuentes de información. Es muy importante ocultar los proyectos antiguos y mostrar solo lo más relevante. Así presentarás solo lo mejor de tu trabajo.
+featured_image: /blog/declutter-your-github/cover.jpg
+tags: git, github, clutter, english
+---
+
+![Foto de Sarah Brown en Unsplash](cover.jpg)
+
+Porque muchas organizaciones buscan desarrolladores y Github es una
+de las principales fuentes de información. Es muy importante ocultar
+los proyectos antiguos y mostrar solo lo más relevante. Así
+presentarás solo lo mejor de tu trabajo.
+
+## ¿Cómo?
+
+1. Crea una nueva organización para los proyectos que ya no quieres
+   mantener. Mueve todos tus repositorios antiguos a esta nueva
+   organización. Con este método todos los enlaces antiguos son
+   redirigidos a la nueva ubicación y toda la información antigua se
+   conserva entre pull requests, issues, etc.
+
+2. Agrega algo como [UNMAINTAINED] a la descripción del proyecto.
+   Opcionalmente agrega la insignia <http://unmaintained.tech/> en el
+   README.
+
+## Otros consejos
+
+1. Crea una organización para guardar tus experimentos. Muchas veces
+   uno solo quiere probar cosas nuevas y experimentar. Si el proyecto
+   merece estar en tu github personal, puedes moverlo más tarde.
+
+2. Usa estos patrones para nombrar organizaciones: {name}-archive
+   para los repositorios antiguos sin mantenimiento y
+   {name}-experiments para lo que está en construcción o no está
+   listo para estar en tu perfil (reemplaza {name} con el nombre de
+   la organización).
+
+## ¿Gitlab?
+
+Gitlab puede usarse y es más flexible con las funciones de _Group_ y
+_Subgroup_.
+[docs.gitlab.com/ee/user/group](https://docs.gitlab.com/ee/user/group/index.html).
+Pero Github es el que más usan los reclutadores.

@@ -1,0 +1,18 @@
+---
+title: ElixirでのチリRUT
+slug: rut-chileno-en-elixir
+date: 2022-03-30 18:21:51 +00:00
+description: Elixirで実装されたシンプルなチリRUTバリデーター
+featured_image: /blog/rut-chileno-en-elixir/cover.png
+tags: chile, rut, run, validador, elixir, biblioteca
+---
+
+![チリRUT](cover.png)
+
+プログラミング言語に _RUT_ バリデーターがあることは、チリ市場にとって非常に重要です。
+
+それはチリのソフト開発で最も一般的な操作の一つであり、_Elixir_ にもそれを必要とするプロジェクトで使える堅牢なライブラリがあるべきです。
+
+```github
+ElixirCL/rut | Validador y generador de RUT chileno en Elixir
+```

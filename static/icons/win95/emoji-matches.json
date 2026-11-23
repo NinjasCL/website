@@ -1,0 +1,121 @@
+{
+  "description": "Emoji-to-icon matches for ninjas.cl. Each entry records which static icon replaces an emoji in the site chrome, where it is used, and why. Chile, ninja, heart, and flying-saucer emojis are kept as emojis per the site owner.",
+  "matches": [
+    {
+      "emoji": "🏠",
+      "label": "Inicio",
+      "icon": "Desktop_32x32_4.png",
+      "used_in": "navbar Inicio link",
+      "description": "The Windows desktop icon — the home screen — replaces the house emoji for the home page link."
+    },
+    {
+      "emoji": "📖",
+      "label": "Blog",
+      "icon": "Notepad_32x32_4.png",
+      "used_in": "navbar Blog link; Entradas del blog section title",
+      "description": "The classic Notepad icon stands for written entries."
+    },
+    {
+      "emoji": "🌸",
+      "label": "Nosotros / Sobre nosotros",
+      "icon": "D3FlowerBox100_32x32_4.png",
+      "used_in": "navbar Nosotros link; Sobre nosotros section title",
+      "description": "The Direct3D flower box icon — the pack's flower — keeps the blossom."
+    },
+    {
+      "emoji": "🔮",
+      "label": "Proyectos",
+      "icon": "Bulb_32x32_4.png",
+      "used_in": "navbar Proyectos link; Proyectos section title",
+      "description": "A light bulb for ideas and projects — the crystal ball's nearest neighbour in the pack."
+    },
+    {
+      "emoji": "📚",
+      "label": "Libros",
+      "icon": "HelpBook_32x32_4.png",
+      "used_in": "navbar Libros link; Libros section title",
+      "description": "The pack's open book, for the books section."
+    },
+    {
+      "emoji": "🎮",
+      "label": "Juegos",
+      "icon": "Winmine1_32x32_4.png",
+      "used_in": "navbar Juegos link; Juegos section title",
+      "description": "The Minesweeper icon — the iconic Windows 95 game."
+    },
+    {
+      "emoji": "🧙",
+      "label": "Elixir Chile",
+      "icon": "Regwiz117_32x32_4.png",
+      "used_in": "Elixir Chile showcase card title",
+      "description": "The Registration Wizard icon for the wizard emoji."
+    },
+    {
+      "emoji": "🚀",
+      "label": "Joy of ProcessWire",
+      "icon": "Fastboot101_32x32_4.png",
+      "used_in": "Joy of ProcessWire showcase card title",
+      "description": "The FastBoot icon — speed and launch — for the rocket."
+    },
+    {
+      "emoji": "🪙",
+      "label": "Proyecto Chaucha",
+      "icon": "Quartz100_32x32_4.png",
+      "used_in": "Proyecto Chaucha showcase card title",
+      "description": "A quartz crystal stands in for the coin."
+    },
+    {
+      "emoji": "⭐",
+      "label": "Entrada destacada",
+      "icon": "Star_32x32_4.png",
+      "used_in": "featured post heading",
+      "description": "The star for the featured entry."
+    },
+    {
+      "emoji": "⚠️",
+      "label": "Advertencias de entrada",
+      "icon": "Warning_32x32_4.png",
+      "used_in": "post machine-translation and staleness warnings",
+      "description": "The Windows warning icon leads the post page's caution notices."
+    },
+    {
+      "emoji": "⬅️",
+      "label": "Anterior",
+      "icon": "Msow10_32x32_4.png",
+      "used_in": "post navigation previous button",
+      "description": "The Windows hand, rotated a quarter turn counter-clockwise, points back to the newer post."
+    },
+    {
+      "emoji": "➡️",
+      "label": "Siguiente",
+      "icon": "Msow10_32x32_4.png",
+      "used_in": "post navigation next button",
+      "description": "The Windows hand, rotated a quarter turn clockwise, points on to the older post."
+    },
+    {
+      "emoji": "🏷️",
+      "label": "Tags de entrada",
+      "icon": "Bookmark_32x32_4.png",
+      "used_in": "post tags row",
+      "description": "The Windows bookmark icon leads the post's tag labels."
+    }
+  ],
+  "kept": [
+    {
+      "emoji": "🇨🇱",
+      "reason": "The Chile flag stays as an emoji, per the site owner."
+    },
+    {
+      "emoji": "❤️",
+      "reason": "The heart stays as an emoji, per the site owner."
+    },
+    {
+      "emoji": "🥷",
+      "reason": "The ninja (including its skin-toned form 🥷🏽) stays as an emoji, per the site owner."
+    },
+    {
+      "emoji": "🛸",
+      "reason": "The flying saucer stays as an emoji in the Jasonelle showcase title, like the ninja in the Ninjas.cl card, per the site owner."
+    }
+  ]
+}

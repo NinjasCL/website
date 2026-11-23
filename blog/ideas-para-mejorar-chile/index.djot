@@ -1,0 +1,303 @@
+---
+title: Ideas para mejorar Chile
+slug: ideas-para-mejorar-chile
+date: 2016-04-12 13:22:18 +00:00
+description: Algunas ideas para mejorar el país de Chile. Algunas locas, otras no tanto. Desde crear apps libres, universidad estatal, netflix para arriendos y trams por chile.
+featured_image: /blog/ideas-para-mejorar-chile/cover.webp
+tags: chile, spanish, ideas, trams, bancos, pagos, arriendos, munincipalidad
+---
+
+![Tranvías de Melbourne 2016. Tram de la Calle Collins foto por Camilo Castro.](cover.webp)
+
+## Idea 1: Clonar Apps Móviles con Software Libre
+
+Crear aplicaciones clones de las grandes como _Uber_, _GlassDoor_, _Pedidos YA_.
+Pero enfocados en la comunidad chilena y que sean 100% libres.
+
+### Ejemplo: Clon de Uber
+
+Imagínese lo siguiente: tiene una aplicación de código abierto que hace exactamente lo que hace Uber, pero para el transporte público.
+Lo pueden utilizar todos los taxis de Chile. De esta forma se solucionarán
+los principales problemas de la forma actual de coger un taxi. Sabrás la ruta,
+el precio, la persona que conduce, te enviará un mensaje cuando el taxi
+esté listo y sea posible realizar el pago con tu tarjeta de crédito.
+
+### ¿Por qué una aplicación libre y de código libre?
+
+Al crear esta aplicación con código abierto y licencia libre (recomiendo GPL3), el mundo sería un lugar mejor. Otros países pueden utilizar la tecnología y mejorarla. Imagínese si todos los países que tienen problemas con Uber asignaran algunos fondos para desarrollar un clon de Uber de código abierto. Cualquiera que quiera mejorar su transporte público local podría implementar fácilmente una solución, no sólo para los taxis sino para todo tipo de transporte. Ejemplo: Una zona rural que solo tiene un autobús todo el día. Ahora las personas que usan ese autobús podrían beneficiarse sabiendo cuándo llegará el autobús o si tuvo algún problema.
+
+### ¿Por qué Chile debería hacerlo?
+
+Chile tiene muchos grandes desarrolladores y Santiago
+está creciendo exponencialmente en el área tecnológica.
+También el gobierno tiene iniciativas como <http://kitdigital.gob.cl> y
+<https://github.com/e-gob> que intentan llevar estándares a las aplicaciones
+y sitios web públicos.
+
+Se debe crear una organización global sin fines de lucro de código abierto
+como Mozilla <https://www.mozilla.org/es-ES/> donde el enfoque sea
+crear mejores formas de conectar a las personas con el transporte
+público mediante la creación de aplicaciones libres y de código abierto
+que rivalicen. en calidad con Uber y amigos.
+
+Chile debería dar el primer paso para crear un clon de Uber y otras apps
+de código abierto. Otros países podrían financiar esta solicitud donando
+dinero a la organización mundial sin fines de lucro.
+
+Un mejor transporte público es posible si todos los países se
+unen y crean una alternativa de código abierto.
+
+## Idea 2: Crear Bancos Munincipales / Provinciales
+
+Es de dominio público que Chile es un país ultra centralizado.
+Donde la mayoría de las noticias de la televisión son de Santiago.
+Los recursos de las regiones se van directo hacia la capital,
+quedando muy poco en estas para poder hacer mejoras en la ciudades y
+la vida de las personas.
+
+Ésta es una pequeña idea para intentar cambiar y mejorar la situación actual.
+
+El sistema bancario chileno está bajo las manos de unos pocos.
+Normalmente ubicados en Santiago. La idea de tener un banco municipal
+radica en que las personas que vivan en cada comuna podrán comprar en
+locales adheridos al sistema, ahorrar, pedir préstamos,
+pagar las cuentas y patentes, pagar transporte, entre otras cosas.
+Usando nada más que el sistema bancario local.
+
+Imaginen que cada ciudadano de Chimbarongo tuviese una tarjeta tipo
+Redcompra municipal donde puede comprar en todos los locales de la ciudad
+sin necesidad de dinero. Tiene dinero en su cuenta personal municipal.
+Como es obvio si va a otra ciudad podría comprar con esta tarjeta si la
+ciudad implementa su propio sistema bancario compatible.
+También podría transferir sus fondos a otros sistemas bancarios municipales o
+tradicionales.
+
+Tener un sistema bancario municipal permitirá a las distintas
+comunas tener fondos adicionales para la mejora de la ciudad y se
+puede crear un mejor control sobre el destino de dichos fondos.
+
+Ejemplo: Tengo una cuenta de ahorro municipal donde elijo las
+inversiones por las cuales quiero que mi dinero vaya destinado,
+desde pavimentar calles, mejorar plazas, colegios, hospitales, etc.
+En vez de que se hagan inversiones a empresas desconocidas en el
+extranjero, las inversiones son locales y destinadas a mejorar la
+vida de las personas de la ciudad en la que habito.
+
+Además cada comercio puede funcionar con este sistema bancario sin tener que recurrir a
+terceros para poder aceptar tarjetas de débito y pagos en línea.
+
+### ¿Cómo lograrlo?
+
+Tener un sistema como el presentado en la idea es posible.
+Pero se requiere de la creación de una serie de software bancario de
+licencia libre (AGPL3) y gratuito. Orientado para que cada municipalidad
+lo pueda implementar siguiendo un patrón común. De bajo coste,
+sin depender de instituciones externas.
+
+Una posibilidad es utilizar una criptomoneda con su sistema de blockchain
+para poder validar las transacciones y tener trazabilidad de las operaciones.
+Pero esta criptomoneda debería no ser una externa existente, si no una creada exclusivamente
+para este fin, ya que su valor monetario fiat no debería oscilar por factores externos.
+
+Lo ideal sería contar con una o varias empresas, o una fundación que asesoren a
+cada municipalidad para la implementación de este sistema.
+Realizando capacitaciones y ofreciendo un soporte de calidad mundial.
+
+Es también necesario que cada municipalidad le de importancia a la tecnología.
+Además de ser flexible para la implementación de nuevas ideas.
+
+Implementar un sistema bancario municipal es posible,
+pero además de la dificultad tecnológica que implica,
+también se debe considerar la dificultad burocrática.
+Actualmente Chile esta sobre cargado de sistemas y personas que
+entorpecen la innovación y la mejora continua.
+
+Esperemos que en un futuro cercano ideas como ésta puedan ser implementadas.
+
+## Idea 3: Crear una universidad Estatal de Informática y Tecnología
+
+Similar a la [Universidad Estatal Belarusa de Informática y Radioelectrónica](https://es.wikipedia.org/wiki/Universidad_Estatal_Belarusa_de_Inform%C3%A1tica_y_Radioelectr%C3%B3nica).
+
+El Estado Chileno debe crear una entidad orientada a formar profesionales capacitados en crear y mantener sistemas tecnológicos usados dentro y fuera del país.
+
+La universidad debe ser gratuita. Los profesionales pagarán su formación mediante el compromiso de trabajar para el estado durante un periodo razonable de tiempo.
+
+Esta universidad debe ser la encargada de asesorar al estado en el área de la informática y nuevas tecnologías. Todos los estudios realizados deben estar liberados para que cualquier persona los pueda usar, ya que han sido financiados con dinero estatal.
+
+Las tecnologías usadas por el estado y enseñadas en la universidad deben ser Open Source y de libre acceso. Por ningún motivo deben depender de empresas extranjeras que otorguen licencias para su uso (ej: Oracle, Microsoft, IBM).
+
+El estado debe eliminar pagar regalías a empresas extranjeras y nacionales por tecnologías privadas. Ese dinero debe ser destinado a financiar áreas de soporte, creación y mantenimiento de tecnologías Open Source y Libres. Esto significa que todos los sistemas estatales deben ser liberados en su código fuente, para que todo chileno pueda ofrecer ayuda y mejorarlos si lo desea. Si una alternativa libre no existe, es imperativo que la universidad desarrolle una solución que no dependa de privados.
+
+La universidad tendrá un Datacenter orientado a ofrecer un servicio similar a Amazon Web Services. Donde los sistemas estatales no dependan de servidores extranjeros y privados para su funcionamiento, aumentando la seguridad de la información de Chile y desacoplando su dependencia a otros países.
+
+La universidad estandarizará las tecnologías usadas en los sistemas estatales, dando soporte y capacitando en el uso de las mismas. Además será la encargada de crear y mantener software estatal (sii, registro civil, hospitales, educativos, políticos, etc).
+
+Al tener una universidad estatal de informática y tecnología gratuita, que se encargue tanto de la formación de profesionales como de la creación y mantenimiento de sistemas estatales el país tendrá personas capaces de enfrentar los desafíos del siglo XXI. Además Chile pondrá fin a su dependencia con las materias primas como fuente principal de ingresos.
+
+## Idea 4: Expandir el uso de Tranvías
+
+En Melbourne, Australia existe un medio de Transporte llamado Tram. Es similar a los trolleys de Valparaíso, pero tienen algunas diferencias notables.
+
+En primer lugar usan ruedas adaptadas a vías ferroviarias. Esto me parece una excelente idea por que permiten mostrar a los autos y peatones cuales son los caminos por los cuales transitan los tram, permitiendo que estén más atentos al transitar por las calles. Otro beneficio de estas ruedas es que no tienen aire, no se pinchan, lo que entrega un menor costo de mantenimiento y reduce el desperdicio de partes rotas.
+
+Otra diferencia con los trolleys de valpo, es que los trams tienen paraderos definidos. Solamente se detienen para subir y bajar pasajeros en estos paraderos. Sin excepción (tal vez en emergencias).
+
+![Los Trams presentes en Melbourne desde 1915](trams.webp)
+
+Tienen también un área de viaje gratuita. Si tu te subes y bajas dentro de esta área, el viaje es totalmente sin costo. Si te subes o bajas fuera de ésta área, entonces debes usar tu tarjeta Myki que es similar a la Bip. El área gratuita comprende gran parte del centro de Melbourne, facilitando la movilización de las personas.
+
+Las micros y taxis-colectivos siguen existiendo, pero su número es muy reducido, ya que los trams abarcan gran parte de la zona y tienen un costo razonable. Además de que existe una App para saber más sobre los trams y el viaje. <http://yarratrams.com.au/tramtracker>
+
+![Trams y Autos en el mismo camino](trams2.webp)
+
+Los trams utilizan los mismos caminos que los autos. A diferencia de un tren que tiene vías ferroviarias más grandes y exclusivas, los trams utilizan vías a nivel del pavimento. Esto permite a cualquier vehículo transitar por el mismo espacio que un tram. También los trams, respetan los mismos semáforos de los autos. Ambos medios de transporte pueden coexistir sin problemas.
+
+![Tram sobre un puente](trams3.webp)
+
+Si Chile implementara un sistema similar a los Trams en todas las ciudades, no solo en Santiago, estaría reduciendo enormemente la contaminación (Los trams al igual que los trolleys funcionan con electricidad). Además de que repararía en gran parte el gran problema que tiene la capital del metro lleno, contaminación del aire y tacos en hora punta. Lo ideal sería que se fabricaran en Chile, para reducir costos y suplir necesidades locales.
+
+## Idea 5: Pago Semanal
+
+Esperar 30 días por un poco de dinero estanca a Chile.
+
+Esto es algo que me parece una real necesidad y es fácil de implementar. Simplemente dejar de pagar a las personas de forma mensual y que comiencen a recibir el pago de forma semanal.
+
+El pago semanal es lo acostumbrado en países como Estados Unidos, Australia y otros del primer mundo. Al tener una fuente semanal de ingresos el dinero fluye más rápidamente, puedes pagar las cuentas, realizar las compras y otras actividades sin esperar tanto tiempo por tener recursos monetarios.
+
+### ¿Cómo lograrlo?
+
+Pues la estructura legal de Chile permite este tipo de remuneración. Lo ideal sería que en tu contrato estuviese estipulado el pago y las imposiciones como es la costumbre, pero que también definiera la periodicidad de los depósitos en formato semanal.
+
+Podrías hacer el experimento pidiendo un adelanto semanal (por 4 semanas) del sueldo en un mes y ver si te acomoda más este formato de remuneración.
+
+Si la mayoría de los empleos en Chile lo implementaran habría una rapidez mayor en el flujo del dinero y aceleraría el crecimiento del país.
+
+## Idea 6: Turnos Online (2020)
+
+El otro día tuve que asistir a retirar los remedios para mi abuelo en la farmacia del hospital público. Lamentablemente como están las cosas con la pandemia que aqueja al mundo, tuve que esperar unas 3 horas para ser atendido (y eso que llegué súper temprano, ya que pudo ser aún más tiempo).
+
+Hoy día existen muchas formas y aplicaciones para pedir turnos, pero muchos lugares públicos aún funcionan con sistemas que no disponen de una información online y obligatoriamente debes estar presente para poder saber cuándo te toca y no perder tu turno. Probablemente por que esos sistemas online requieren millonarias inversiones y un cambio de infraestructura gigante.
+
+Como una medida paliativa armé este simple software que saca una fotografía de la pantalla del computador (screenshot) y la muestra en una página web, la cual se refresca cada 15 segundos.
+
+- [https://github.com/NinjasCL/screensharer](https://github.com/NinjasCL/screensharer)
+
+Para funcionar solo deben instalar este software en el computador encargado de mostrar la información en la televisión del lugar. Luego de configurado pueden compartir la url especial y se mostrará la misma información de la pantalla de la televisión en un sitio web.
+
+![Esperando Turno en Consultorio 2020](turnos.webp)
+
+De esta forma las personas podrán acceder a la información desde su computador o smartphone y no estar obligados a esperar en un lugar y arriesgarse a enfermarse.
+
+Es mi granito de arena para ayudar a reducir los contagios de esta enfermedad.
+
+Ojalá alguien del departamento de informática de los lugares de atención de público pueda saber de esta solución y la implemente. Si conoces alguien de esa área por favor comparte esta idea con ellos :).
+
+## Idea 7: Servicio de Arriendo Munincipal
+
+Alquilar una casa o apartamento es un proceso complicado.
+Hay que tener muchos papeles y dinero.
+Creo que un servicio como _Netflix_ al que se paga un precio fijo será una solución.
+
+Quizás digas que _AirBnB_ soluciona esto, ¡pero no!.
+Ese servicio proporciona acceso a habitaciones y navegación en sofá,
+pero no es lo que propongo.
+
+En Chile alquilar una casa o departamento es verdaderamente una experiencia
+infernal. Los propietarios y las agencias inmobiliarias ponen muchas
+barreras para un alquiler digno. Especialmente en ciudades concurridas
+como Santiago. Te preguntan por tener al menos 1 año de trabajo fijo con
+contrato a tiempo completo, como 3 veces el precio del alquiler por adelantado y
+algunas veces discriminan por nacionalidad o simplemente como eres.
+
+En los sitios web se utilizan fotografías obsoletas, feas o sin fotografías,
+no hay información en tiempo real sobre el estado del alquiler.
+Básicamente una experiencia realmente molesta.
+
+### ¿Qué proponemos?
+
+Una persona o una familia pagará un precio fijo que le
+permitirá diferentes opciones de alquiler de casa.
+Como plan, puedes suscribirte, por ejemplo, Básico, Premium, Gold.
+Este plan viene con todos los gastos de la casa incluidos
+como agua, luz, gas, internet (con límites de consumo según el plan suscrito).
+La familia sólo habla con el Servicio de Alquiler de Casas y el Servicio de
+Alquiler de Casas habla con los propietarios.
+
+Los propietarios firman un contrato con el Servicio de Alquiler de Viviendas y
+no con la familia. Si la familia quiere una casa, simplemente
+eligen las casas disponibles dentro del plan y se mudan.
+Las familias y los propietarios pueden calificarse entre sí.
+Esto es para alquileres a largo plazo, como mínimo un año.
+
+Este servicio puede ser munincipal. Cada municipalidad puede tener
+una serie de casas que puede arrendar como servicio y por tiempo limitado de estadía.
+
+No son casas permanentes para las familias o individuos, simplemente
+es una forma de que las muninicipalidades generen ingresos y permitan
+a las personas viajar por Chile, fomentando el trabajo remoto.
+
+### Los beneficios
+
+Una familia o individuo sólo tendrá que preocuparse de pagar el servicio.
+No será necesario tener un contrato por cada arrendador u
+otra empresa como el agua o la luz. Simplemente pagarán un servicio
+mensual y vivirán. Además, con este método los propietarios pueden
+alquilar sus casas y apartamentos a familias de forma sencilla y sin
+complicaciones. Dado que el contrato es con el Servicio de Alquiler de Casas,
+a los propietarios se les pagará todos los meses incluso si la casa no tiene
+una familia en ella (si el Servicio de Alquiler de Casas quiere exclusividad).
+Si la familia quiere mudarse. podrían simplemente elegir una nueva casa y
+seguir adelante. Sigue pagando el mismo valor que la vivienda anterior
+dentro del plan. La antigua casa estará disponible para una nueva familia.
+
+### Características
+
+El Servicio de Alquiler de Casa deberá tener las siguientes características:
+
+Precios de planes similares a Spotify, Netflix o Digital Ocean.
+Todo el trámite se realiza una sola vez con el Servicio de Alquiler de Casas.
+
+Entonces el Servicio de Alquiler de Casas se encargará de los propietarios y
+le ahorrará todas las molestias. Mostrando la lista seleccionada de casas en
+alquiler disponibles para diferentes necesidades familiares.
+
+Información de calidad, actualizada, transparente y detallada de cada vivienda
+y requisitos del arrendador.
+
+Las familias tendrán acceso a viviendas de calidad.
+Los propietarios tendrán acceso a mejores opciones de alquiler.
+
+Servicios de mudanzas como Japón. ¿Tú y tu familia quieren mudarse?
+Ningún problema.
+
+## Idea 8: Protección Anti Grafitis
+
+Actualmente hay muchos edificios que tienen grafitis.
+No estamos hablando de pinturas como tal, si no esos
+rayados incoherentes y poco estéticos que algunos
+personajes ponen para "marcar territorio" y expresar
+su descontento con la sociedad, el país o algo más.
+
+Creo que cada municipalidad, dentro del permiso
+de funcionamiento de los locales comerciales y el
+pago de contribuciones a cada vecino, debería exigir
+que las casas estén libres de estos rayados.
+
+Que la responsabilidad del aseo y ornato esté
+dentro de cada locatario y vecino.
+
+Si cada ubicación tiene la obligación de mantener
+el aseo visual de su espacio, creo que estaría
+mucho más limpio.
+
+Quizás cuando pase el camión del aseo, estos
+tengan también la labor de informar grafitis y suciedad
+en las calles para que la municipalidad
+tenga la información necesaria para obligar a las
+personas a limpiar sus espacios o de lo contrario
+se enfrentarían a multas y en el último de los casos
+que la misma municipalidad limpie, pero
+que la persona dueña del espacio tenga la obligación
+de pagar ese servicio.
+
+Una ciudad limpia, también dese estar limpia visualmente.

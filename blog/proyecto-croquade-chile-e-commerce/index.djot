@@ -1,0 +1,34 @@
+---
+title: Proyecto Croquade Chile E-commerce
+slug: proyecto-croquade-chile-e-commerce
+date: 2016-09-01 19:42:04 +00:00
+description: Croquade Chile Proyectos: Creación de sitio web con carro de compras e integración de sistema de pago.
+featured_image: /blog/proyecto-croquade-chile-e-commerce/cover.jpg
+tags: prestashop, php, chile, croquade
+---
+
+![Croquade](cover.jpg)
+
+Para la consultora [Nekki.cl](http://nekki.cl): creación de sitio web
+con carro de compras e integración de sistema de pago para Croquade
+Chile.
+
+## Tecnologías
+
+- Prestashop
+- PHP
+- MySQL
+- Webpay KCC 6
+
+En este proyecto se desarrolló un plugin para Prestashop 1.6.x (1.5.x
+puede servir también) que se integra con el método de pago online
+Webpay KCC 6.x de Transbank.
+
+Para saber como configurar Webpay en el Servidor revisar la Guía
+Webpay.
+
+Soporte para Webpay KCC modo TR_NORMAL.
+
+```github
+NinjasCL-archive/prestashop-webpay | Módulo de Webpay KCC para Prestashop
+```

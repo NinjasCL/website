@@ -1,0 +1,87 @@
+---
+title: A Alegria do ProcessWire
+slug: the-joy-of-processwire
+date: 2018-11-30 14:55:21 +00:00
+description: Nós gostamos de trabalhar e fazer projetos divertidos com o incrível CMS/CMF ProcessWire, este é um lugar onde guardamos nossos experimentos e ideias malucas.
+featured_image: /blog/the-joy-of-processwire/cover.png
+tags: php, processwire, joy, explorations
+---
+
+![Foguete chinês](cover.png)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chinese_rocket.png)
+
+Nós gostamos de trabalhar e fazer projetos divertidos com o incrível CMS/CMF [ProcessWire](https://processwire.com).
+Este é um lugar onde guardamos nossos experimentos e ideias malucas.
+Talvez alguns deles possam ser úteis para você, e isso seria incrível.
+
+[💻 Ir para o Github](https://github.com/joyofpw)
+
+## Ideias
+
+### ☄️ [Wire Render Pattern](https://github.com/joyofpw/wire-render-pattern)
+
+Em vez de usar sistemas de templates externos.
+Talvez usar a função nativa `wireRenderFile()`
+seja suficiente para projetos simples e complexos.
+
+### 🈴 [Better Translatable Strings](https://github.com/joyofpw/better-translatable-strings)
+
+Descubra como usar a função `wirePopulateStringTags()` pode melhorar tremendamente as strings de tradução.
+E ajuda com o processo de tradução.
+
+### 🚎 [SolidWire Pseudo Language](https://github.com/joyofpw/solidwire)
+
+Quando você precisa prototipar diferentes ideias.
+Usar a linguagem *SolidWire* pode te ajudar a clarear sua visão.
+Represente diferentes relações entre *templates, fields e pages*
+de forma padronizada. Comunique-se melhor e mais rápido seguindo convenções sãs.
+
+### 🏁 [How to Install ProcessWire](https://github.com/joyofpw/how-to-install-processwire)
+
+Um guia simples para recém-chegados ao maravilhoso mundo do `ProcessWire`.
+
+## Experimentos
+
+### 🌚 [ProcessWire in Yaws](https://github.com/joyofpw/pwyaws)
+
+Todo o poder de um servidor _Erlang_ para rodar _ProcessWire_.
+
+### 🔖 [Additional Image Fields](https://github.com/joyofpw/imagefield-additional-fields)
+
+Um módulo que ajuda a incluir campos adicionais nas imagens. Útil quando você precisa da url,
+do path ou do código markdown na hora.
+
+### 📦 [Docker files for ProcessWire](https://github.com/joyofpw/docker)
+
+Arquivos que ajudam a fazer projetos *ProcessWire* usando contêineres *Docker*.
+
+### ⏩ [Inertia Adapter for ProcessWire](https://github.com/joyofpw/inertia)
+
+Agora você pode usar o maravilhoso <https://inertiajs.com/> com as boas e velhas templates do ProcessWire.
+
+## Exemplos
+
+### 🐦 [🇨🇱 Chilean Birds](https://github.com/joyofpw/chileanbirds-api)
+
+Uma pequena _API_ para demonstrar o uso de _SolidWire_ e uma pequena API Rest com _ProcessWire_.
+Usando _React.js_ como frontend.
+
+### 🤖 [Voxgram](https://github.com/joyofpw/voxgram)
+
+Um _bot de Telegram em Python_ que salva áudios em um backend _ProcessWire_.
+
+### ⏩ [Svelte + ProcessWire + Laravel Mix + Inertia](https://github.com/joyofpw/inertia-svelte-mix-pw)
+
+Um exemplo que implementa _ProcessWire_, _Laravel Mix_, _Inertia_ e _Svelte_.
+
+### 🏤 [JasonBase](https://github.com/joyofpw/jasonbase)
+
+_Jasonbase_ permite que você armazene e compartilhe jsons facilmente. Exemplo usando _WireRenderPattern_ e _Dockerfile_.
+
+
+- <https://joyofpw.github.io/>
+
+```github
+joyofpw/joyofpw.github.io | El sitio de joyofpw: experimentos e ideas divertidas con ProcessWire
+```

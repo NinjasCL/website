@@ -1,0 +1,21 @@
+---
+title: Boutique de Cervezasプロジェクト
+slug: proyecto-boutique-de-cervezas
+date: 2013-12-14 19:24:42 +00:00
+description: Nekki.clコンサルティング向けに作成されたプロジェクト。PHPとMySQLを使って「Boutique de Cervezas」ストアのショッピングカートを実装しました。
+featured_image: /blog/proyecto-boutique-de-cervezas/cover.png
+tags: php, webpay, opencart, cervezas, chile
+---
+
+![ストアのスクリーンショット](cover.png)
+
+[Nekki.cl](http://nekki.cl)コンサルティング向けに作成されたプロジェクトです。PHPとMySQLを使って「Boutique de Cervezas」ストアのショッピングカートを実装しました。
+
+## 技術
+
+- Webpay KCC 6との統合
+- OpenCart Ecommerce
+- PHP
+- MySQL
+
+- <http://www.boutiquedecervezas.cl/shop/>

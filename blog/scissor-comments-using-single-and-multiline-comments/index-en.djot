@@ -1,0 +1,78 @@
+---
+title: Scissor Comments: Using Single and Multiline Comments
+slug: scissor-comments-using-single-and-multiline-comments
+date: 2019-12-31 13:40:31 +00:00
+description: This is just a quick trick I have used. Specially in long SQL scripts. The idea is mixing single and multiline comments for easier handling.This technique can be used in any programming language that supports single and multiline comments.
+featured_image: /blog/scissor-comments-using-single-and-multiline-comments/cover.jpg
+tags: sql, comments, scissor, coding, english
+---
+
+![Foto de Glen Carrie en Unsplash](cover.jpg)
+
+This is just a quick trick I have used. Specially in long `SQL` scripts.
+
+The idea is mixing single and multiline comments for easier handling.
+
+## SQL Basics
+
+- `--` Single line comment.
+- `/*` Multiline comment opening.
+- `*/` Multiline comment closing.
+
+## Mixing
+
+Take this simple SQL operation.
+
+```sql
+SELECT * FROM users;
+```
+
+Now let's use both single and multiline comments.
+
+```sql
+--/*
+SELECT * FROM users;
+--*/
+```
+
+The operation will be the same, but if we delete the single line comment `--` before the multiline opening `/*`, then the operation will be commented out. The `--*/` will be interpreted as the end of the multiline comment if multiline is enabled or just a regular comment otherwise, so we do not need to touch it.
+
+This have the following advantage, just need to delete or add the single line `--` once, and a whole block of code will be (un)commented out.
+
+### Multiline Enabled
+
+```sql
+/*
+SELECT * FROM users;
+--*/
+```
+
+## Other Programming Languages
+
+This technique can be used in any programming language that supports single and multiline comments.
+
+This is specially useful for programming languages that have the
+`//` and `/*` style comments (_C_ style comments).
+
+Because we can use a single `/` to "Cut" the comment out like a *Scissor*.
+Hence the name "*Scissor Comments*".
+
+```php
+<?php
+//*
+echo "Hello";
+//*/
+
+my_not_commented_out_function();
+```
+We just have to delete a single `/` from the comment to enable it.
+Now `echo "Hello";` is commented out.
+
+```php
+<?php
+/*
+echo "Hello";
+//*/
+
+my_not_commented_out_function();
+```

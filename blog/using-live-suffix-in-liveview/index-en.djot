@@ -1,0 +1,47 @@
+---
+title: Using Live Suffix in LiveView
+slug: using-live-suffix-in-liveview
+date: 2023-01-13 15:23:24 +00:00
+description: When using LiveView and you don't include Live inside your module name an error can appear. By using Live as a Phoenix Context we can improve our code organization and avoid having to type Live at the end of the module name.
+featured_image: /blog/using-live-suffix-in-liveview/cover.jpg
+tags: elixir, phoenix, liveview, tip, webdev, english
+---
+
+![Photo by Roman Kraft on Unsplash](cover.jpg)
+
+When using `LiveView` and you don't include `Live` inside your module
+name an error like this can appear:
+
+Example: `defmodule RankmodeWeb.Profiles.Index do` will throw the
+Live Suffix Error.
+
+![Live Suffix Error](error.png)
+
+For example in my
+[Rankmode Live Profiles module](https://raw.githubusercontent.com/ElixirCL/rankmode/main/lib/rankmode_web/live/profiles/index.ex)
+
+If we change the module to `RankmodeWeb.ProfilesLive.Index` it will
+run. But there is a secret option that will be valid too:
+`RankmodeWeb.Live.Profiles.Index`
+
+By using `Live` as a Phoenix Context we can improve our code
+organization and avoid having to type `Live` at the end of the
+module name.
+
+We can see how the `router.ex` is improved.
+
+```elixir
+scope "/", RankmodeWeb do
+    pipe_through [:browser, :require_authenticated_user]
+    live "/profiles", Live.Profiles.Index, :index
+    live "/profiles/new", Live.Profiles.New, :new
+    live "/profiles/edit/:profile", Live.Profiles.Edit, :edit
+    live "/profiles/:profile/gameplays", Live.Gameplays.Index, :index
+    live "/profiles/:profile/gameplays/new", Live.Gameplays.New, :new
+    live "/profiles/:profile/gameplays/edit/:gameplay", Live.Gameplays.Edit, :edit
+end
+```
+
+And our files structure can be improved as well.
+
+![file organization](files.png)

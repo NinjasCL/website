@@ -1,0 +1,78 @@
+---
+title: Lenguajes Pluto y Roc
+slug: lenguajes-pluto-y-roc
+date: 2024-05-14 17:35:47 +00:00
+description: Un vistazo a los lenguajes de programación Pluto y Roc
+featured_image: /blog/lenguajes-pluto-y-roc/cover.jpg
+tags: pluto, roc, lenguajes, código
+---
+
+![Plutón y Caronte](cover.jpg)
+
+Imagen: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pluto_and_Charon_(4092391173).jpg)
+
+Buscando lenguajes de programación encontré dos que son interesantes,
+principalmente por que permiten utilizar el operador pipe `|>` como **Elixir**.
+
+## Pluto
+
+_Pluto_ es un lenguaje de programación basado en _Lua_. Es un fork de la VM de Lua
+con algunas cosas adicionales que son muy buenas.
+
+```lua
+local { http, json } = require "pluto:*"
+
+http.request("https://httpbin.org/get")
+|> json.decode
+|> dumpvar
+|> print
+```
+
+<https://pluto-lang.org>
+
+## Roc
+
+Roc es un lenguaje funcional e inmutable.
+
+<https://www.roc-lang.org/>
+
+```elixir
+app [main] { pf: platform "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br" }
+
+import pf.Stdout
+import pf.Task
+
+main =
+    List.range { start: At 1, end: At 100 }
+    |> List.map fizzBuzz
+    |> Str.joinWith ","
+    |> Stdout.line
+```
+
+## Wren
+
+También se hizo un experimento en _Wren_ para usar _Pipes_ aunque
+como es un lenguaje de más lento ritmo aún no se tiene algo oficial.
+
+<https://github.com/wren-lang/wren/issues/1144>
+
+Se puede destacar un comentario de [**@mhermier**](https://github.com/wren-lang/wren/issues/1144#issuecomment-1489819677):
+
+La Programación Orientada a Objetos (POO) no se trata de crear
+una taxonomía gigante con una compleja jerarquía de objetos.
+
+El uso desmedido de la sintaxis del punto (`objeto.metodo()`) es una
+consecuencia de esa mala interpretación.
+
+La POO se trata de tener objetos que parpean como un pato, pero
+no necesariamente son un pato (quack like a duck, but is not a duck).
+
+Hay una gran confusión acerca de que en la POO
+solo existen métodos y no funciones. Hasta _Smalltalk_ (Padre de la POO) hay funciones
+(escondidas bajo una sintaxis especial).
+
+[...]
+
+Los Pipes son una gran herramienta para trabajar con funciones y
+deberían ser consideradas tanto para funciones como para objetos
+que actúan como funciones (siguiendo los principios de la POO).

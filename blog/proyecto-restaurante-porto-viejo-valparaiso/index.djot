@@ -1,0 +1,37 @@
+---
+title: Proyecto Restaurante Porto Viejo Valparaíso
+slug: proyecto-restaurante-porto-viejo-valparaiso
+date: 2011-07-01 19:54:53 +00:00
+description: Se realizó ingeniería inversa a un sistema de ventas realizado en Visual Basic 6 y PostgreSQL, para poder determinar su modelo de datos y crear extensiones en PHP.
+featured_image: /blog/proyecto-restaurante-porto-viejo-valparaiso/foto.jpg
+tags: restaurante, valparaíso, chile, porto, viejo, php, wordpress, codeigniter, vb6
+---
+
+![PortoViejo](foto.jpg)
+
+Trabajé junto a un equipo de programadores, en el mantenimiento de
+una aplicación de gestión de ventas legacy. Diseñando y codificando
+módulos en el framework CodeIgniter.
+
+También se elaboró la página web utilizando Wordpress.
+
+![Screenshot](screenshot.png)
+
+Mantenimiento del sistema, reparación de equipos, configuración de
+redes.
+
+Se realizó ingeniería inversa a un sistema de ventas realizado en
+Visual Basic 6 y PostgreSQL, para poder determinar su modelo de datos
+y crear extensiones en PHP.
+
+![Wine](wine.png)
+
+## Tecnologías
+
+- Wordpress
+- CodeIgniter
+- PHP
+- MySQL
+- Visual Basic 6
+- PostgreSQL
+- Ubuntu

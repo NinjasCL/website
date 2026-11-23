@@ -1,0 +1,107 @@
+---
+title: Documente sua Evolução Profissional
+slug: documenta-tu-evolucion-profesional
+date: 2024-04-02 14:46:14 +00:00
+description: Um site pessoal é um grande aliado para documentar nosso caminho e evolução na indústria I.T.
+featured_image: /blog/documenta-tu-evolucion-profesional/cover.jpg
+tags: cv, spanish, chile, beginners
+---
+
+![Foto de Ilya Pavlov no Unsplash](cover.jpg)
+
+Um site pessoal é um grande aliado para documentar nosso caminho e
+evolução na indústria I.T.
+
+## Github É Insuficiente
+
+Muitos podem pensar que somente subindo nosso código para
+plataformas como _Github_, _Gitlab_, _Codeberg_ e similares é
+suficiente. Mas infelizmente eles têm os seguintes problemas:
+
+- Não servem para documentar projetos privados.
+- A informação não está ordenada e é difícil destacar as partes
+  importantes.
+- Você depende de terceiros e não tem autonomia ao armazenar e
+  distribuir seu conteúdo.
+
+O principal problema é quando você participa em projetos onde não é
+dono do código. Normalmente para empresas privadas. No seu site você
+pode pelo menos documentar que participou nesses projetos (se seu
+contrato permitir).
+
+Além disso, muitas vezes são tantos projetos dispersos que é melhor
+ter um lugar centralizado que você pode colocar no seu currículo.
+
+## Comece Hoje
+
+O ideal é que, se você é estudante ou está aprendendo, comece desde
+já a ter um site pessoal que documente os projetos, ideias, eventos
+e outras experiências que você viveu na sua carreira profissional.
+Se você já tem alguns anos, custará um pouco mais começar a
+documentar tudo e levará mais tempo para ordenar o material que você
+acumulou com o passar dos anos.
+
+## Que tecnologia usar?
+
+O mais importante é ter a capacidade de migração. Se algum evento
+fizer seu provedor de hospedagem fechar, você possa encontrar outro
+facilmente e migrar seu conteúdo. Além de poder ser armazenado no
+[archive.org](https://web.archive.org) para preservação histórica.
+
+A recomendação é utilizar sites estáticos com as velhas confiáveis
+tecnologias de HTML e CSS.
+
+### Use um gerador de sites estáticos
+
+O ideal é usar um elaborado com a tecnologia que mais goste; há
+diversas opções para todos os gostos.
+
+Aqui uma pequena seleção
+
+```github
+geolessel/vox | Un generador de sitios estáticos escrito en Elixir
+```
+
+```github
+gohugoio/hugo | El framework más rápido del mundo para construir sitios web
+```
+
+```github
+11ty/eleventy | Un generador de sitios estáticos más simple
+```
+
+### Crie seu próprio gerador de conteúdos
+
+É uma boa forma de praticar uma linguagem ou tecnologia, um
+pequeno projeto que se adapte às suas necessidades. Embora esta
+opção seja somente para quem deseje dedicar muito tempo em detalhes
+que já estão resolvidos pelos geradores disponíveis.
+
+## Compre seu Domínio e Hospedagem
+
+O ideal é ter um domínio e hospedagem próprios. Você pode começar
+com a hospedagem do Github Pages para começar.
+
+### Provedores de Domínio
+
+- <https://nic.cl> : Domínios do Chile
+- <https://dyndns.com> : Domínios para IPs
+- <https://www.dynadot.com> : Domínios Internacionais
+- <https://porkbun.com/> : Outro provedor de domínios.
+
+### Provedores de Hospedagem
+
+Dependendo das suas necessidades, você pode ter algo próprio numa
+Raspberry PI, ou adquirir uma hospedagem. A seguinte é uma lista não
+ordenada de diferentes opções.
+
+- <https://cpanelhost.cl/> : Hospedagem Chilena Barata
+- <https://www.silverhost.cl/> : Hospedagem Chilena Média
+- <https://pages.cloudflare.com/> : Hospedagem de Páginas Estáticas
+- <https://pages.github.com/> : Hospedagem de Páginas Estáticas
+- <https://codeberg.page/> : Hospedagem de Páginas Estáticas
+- <https://neocities.org/> : Hospedagem de Páginas Estáticas
+- Servidor Próprio (Raspberry PI)
+- Servidores VPS (DigitalOcean, Vultr, etc)
+- Servidores de Aplicações (Fly.io, Vercel)
+- Servidores de Nuvem (AWS, Azure, GCP)

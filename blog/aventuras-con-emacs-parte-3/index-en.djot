@@ -1,0 +1,153 @@
+---
+title: Adventures with Emacs: Part 3
+slug: aventuras-con-emacs-parte-3
+date: 2024-04-11 14:28:06 +00:00
+description: Installing Asciidoc and other brews with Emacs.
+featured_image: /blog/aventuras-con-emacs-parte-3/cover.jpg
+tags: emacs, linux, libre, apuntes
+---
+
+![Photo by Ted Balmer on Unsplash](cover.jpg)
+
+Continuation of:
+
+```ninjas
+aventuras-con-emacs-parte-2 | Aventuras con Emacs: Parte 2 | Segunda parte de las Aventuras con Emacs. Ahora con unas pequeñas configuraciones adicionales. | /blog/aventuras-con-emacs-parte-2/cover.jpg
+```
+
+## Installing Asciidoc
+
+Some books I have written have been with _Asciidoc_, mainly
+for its ease of creating PDFs and websites with a table of contents.
+
+- <https://ninjas.cl/books/elixir-fullstack/>
+
+- <https://ninjas.cl/books/wren-libro/>
+
+So it is important to have a proper _Asciidoc_ mode.
+
+Since _Doom Emacs_ does not come with this mode preloaded, we are going to install it.
+
+For this we go to the `adoc-mode` project.
+
+```github
+bbatsov/adoc-mode | Un major mode de Emacs para editar Asciidoc
+```
+
+For this we install with the following set of commands
+
+```text
+  M-x package-install RET adoc-mode RET
+```
+
+A curious fact is that this mode went a long time without a maintainer, but in 2023
+it was revived. A great success and I am grateful to the _Emacs_ community.
+
+- <https://metaredux.com/posts/2023/03/12/adoc-mode-reborn.html>
+
+## Multiple Cursors
+
+Well, this is a feature that was popularized by [Sublime Text](https://forum.sublimetext.com/t/history-of-simultaneous-multi-caret-editing/43253/6).
+
+It consists of being able to select a word and, with a key combination
+like `M-d`, other similar ones get selected, allowing the words
+to be edited at the same time.
+
+There are some implementations available.
+
+```github
+magnars/multiple-cursors.el | Editar en muchos lugares a la vez con Emacs
+```
+
+```github
+hlissner/evil-multiedit | Edición múltiple para el modo evil de Emacs
+```
+
+```github
+gabesoft/evil-mc | Múltiples cursores para evil en Emacs
+```
+
+_Doom Emacs_ comes with `evil-multiedit` and `evil-mc` integrated.
+You just have to enable them in the configuration.
+
+For this we go to the _Doom Emacs_ config.
+
+```text
+  SPC f p RET
+  init.el
+```
+
+Near line 63 we uncomment _multiple-cursors_.
+
+```clojure
+multiple-cursors  ; editing in many places at once
+```
+
+We save and now we synchronize.
+
+```bash
+doom sync
+```
+
+Finally we open _Emacs_ again and we will have multiple cursors enabled.
+
+```youtube
+zXdT5jY_ui0
+```
+
+```youtube
+jNa3axo40qM
+```
+
+```youtube
+Y4cJxdhlxvw
+```
+
+There are some people who say this feature is not necessary
+because _Emacs_ already ships tools like macros and text replacement.
+
+```youtube
+3O-bDYqhFos
+```
+
+Personally I believe having multiple cursors helps the transition
+from other editors like _Sublime Text_, _VSCode_, or _WebStorm_.
+
+To select the text you can use
+
+```text
+C-v
+```
+
+And then apply
+
+```text
+M-d
+```
+
+to select the words to edit.
+
+## Meditations
+
+So far I feel quite excited about learning _Emacs_.
+Each time I understand its flow better.
+
+Although it is a bit hard at first to adapt to the new ways of doing things.
+
+It is exciting to feel you learn something new every day, and with an editor
+that is more than 40 years old, it seems like a super bet to me.
+
+However it is frustrating in some aspects; I feel extremely
+slow compared to other editors and I run into roadblocks
+along the way quite often.
+
+But I suppose they are just initial cramps
+from not having known _Emacs_ before.
+
+Will I have to unlearn everything I learned in other editors?
+
+- Commands
+- Opening files
+- Creating projects
+
+It is likewise something that takes time to learn.

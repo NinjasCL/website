@@ -1,0 +1,23 @@
+---
+title: Proyecto Boutique de Cervezas
+slug: proyecto-boutique-de-cervezas
+date: 2013-12-14 19:24:42 +00:00
+description: Un proyecto elaborado para la consultora Nekki.cl. Consistía en la implementación de un carro de compra utilizando PHP y MySQL para la tienda "Boutique de Cervezas".
+featured_image: /blog/proyecto-boutique-de-cervezas/cover.png
+tags: php, webpay, opencart, cervezas, chile
+---
+
+![Captura de la tienda](cover.png)
+
+Un proyecto elaborado para la consultora [Nekki.cl](http://nekki.cl).
+Consistía en la implementación de un carro de compra utilizando PHP y
+MySQL para la tienda "Boutique de Cervezas".
+
+## Tecnologías
+
+- Integración con Webpay KCC 6
+- OpenCart Ecommerce
+- PHP
+- MySQL
+
+- <http://www.boutiquedecervezas.cl/shop/>

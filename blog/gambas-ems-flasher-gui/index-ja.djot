@@ -1,0 +1,24 @@
+---
+title: Gambas EMS Flasher GUI
+slug: gambas-ems-flasher-gui
+date: 2011-06-02 12:43:17 +00:00
+description: EMSフラッシャーは、ゲームボーイ用64 Mbit EMS USBフラッシュカートリッジのためのシンプルなコマンドラインフラッシャーです。このソフトウェアは、そのプログラムのGUIであり、Gambas Basicで書かれています。
+featured_image: /blog/gambas-ems-flasher-gui/cover.webp
+tags: gambas, basic, gui, gameboy, linux
+---
+
+![EMSカートリッジ](cover.webp)
+
+ems flasher <http://lacklustre.net/redmine/projects/ems-flash> のためのGUIアプリケーションです。
+
+EMSフラッシャーは、ゲームボーイ用64 Mbit EMS USBフラッシュカートリッジのためのシンプルなコマンドラインフラッシャーです。
+
+Mike Ryanによって書かれました。
+
+このソフトウェアはそのプログラムのGUIです。[Gambas Basic](https://gambas.sourceforge.net/en/main.html)で書かれています。
+
+[Kitsch BentでEMSカートリッジを購入](https://store.kitsch-bent.com/collections/cartridges-programmers/products/usb-64m-smart-card)できます。
+
+```github
+NinjasCL-archive/ems-flasher-gui | Interfaz gráfica en Gambas para el grabador EMS de Game Boy
+```

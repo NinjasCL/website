@@ -1,0 +1,94 @@
+---
+title: Projetos para a IMGOnline
+slug: proyectos-para-imgonline
+date: 2021-12-23 16:28:51 +00:00
+description: Trabalhei como consultor e contratado para a empresa IMGOnline, em diversos projetos desde a criação de aplicativos móveis até backends com Laravel PHP.
+featured_image: /blog/proyectos-para-imgonline/cover.png
+tags: imgonline, consultora, php, laravel, javascript, ios
+---
+
+![IMOnline](imgonline.png)
+
+Fui contratado da [IMGOnline](https://imgonline.cl) desde o ano de 2016 até o ano de 2021.
+Designado para diversos projetos, desde aplicativos móveis, pesquisas e elaboração
+de projetos Backend e Frontend (principalmente com Laravel).
+
+O principal cliente da consultoria era a _Chilquinta_, uma empresa de energia elétrica.
+
+Entre os projetos, os seguintes são alguns dos mais destacados.
+
+### Chilquinta: Desenvolvedor de Suporte TI (Julho 2021 – Dezembro 2021)
+
+Criei scripts de automação em JavaScript para gerar consultas SQL a partir de arquivos Excel. Reduzindo o tempo necessário para completar o processo em 90%.
+
+Implementei um painel simples usando Laravel, Inertia e Svelte para executar tarefas de administração como bloquear/desbloquear registros em um banco de dados SQLServer.
+
+Erros foram corrigidos em um backend Laravel existente.
+
+Criei um protótipo para um aplicativo de mapas que mostrava geoposições KMZ utilizando a tecnologia <https://cesium.com/>.
+
+### Sixbell: Atualização do Google Analytics (Julho de 2021)
+
+Atualizar um sistema feito com React 16, adicionando sistema de rastreamento através do Google Analytics.
+
+Tecnologias utilizadas:
+
+- React.js 16
+
+### Chilquinta: Script Weatherlink para SQLite-Excel (Junho de 2021)
+
+Um programa JavaScript simples que se conecta a um servidor (<https://weatherlink.github.io/weatherlink-live-local-api/>) e salva o JSON em um arquivo de banco de dados local. Também permite exportar os valores salvos para um formato combinado compatível com Excel usando datas como filtros.
+
+### Chilquinta: Manutenção de App Móvel (Maio 2021)
+
+Um aplicativo Cordova previamente existente feito com jQuery e Laravel. Minhas funções eram corrigir bugs existentes e revisar comentários na AppStore e na Playstore.
+
+Tecnologias utilizadas:
+
+- jQuery
+- Córdoba
+- Laravel 5.8
+
+### Chilquinta: Sistema Denuncio (Janeiro 2021 - Março 2021)
+
+Um pequeno sistema que permite aos técnicos denunciar conexões ilegais ou manipuladas à rede elétrica. As restrições foram: usar Laravel 5.8 e SQLServer com Stored Procedures para manipulação de dados. O prazo do projeto foi de 8 semanas. O sistema precisava mostrar tabelas de dados, enviar notificações por e-mail, baixar relatórios e administrar dados de relatórios. Um designer forneceu os mockups HTML básicos.
+
+Projetei tabelas de SQLServer e stored procedures.
+
+Implementei um Dashboard usando Laravel 5.8, Svelte, Bootstrap 4.1 e InertiaJS. O HTML foi baseado em um template fornecido pela Chilquinta.
+
+Criei aplicativos móveis usando Cordova e configurei notificações do Firebase.
+
+### Sixbell: Atualização do frontend do sistema legado de Agendamento (Dezembro 2020 - Janeiro 2021)
+
+Um projeto de duas semanas para atualizar um código de interface antigo em um sistema legado. Este sistema era usado para agendar reuniões com médicos. Os requisitos do cliente eram usar jQuery e CodeIgniter 3. Fiquei encarregado de adaptar as páginas html básicas fornecidas pelo designer para que fossem compatíveis com o backend CodeIgniter.
+
+Trabalhei em uma base de código legada criada com CodeIgniter 3.
+Designs atualizados seguindo uma especificação fornecida com jQuery e Bootstrap 3.
+
+### Aplicativo móvel híbrido interno criado (por volta de 2017)
+
+A Chilquinta tinha um antigo sistema web feito em ASP.net e SQLServer. Solicitaram um aplicativo móvel para Android que recuperasse informações do banco de dados, mostrasse alguns relatórios e permitisse preencher formulários especiais. Uma API REST foi criada usando Laravel 5.x e usou Onsen para o aplicativo.
+
+- Tecnologias utilizadas: PHP, Laravel 5.x, Onsen Framework, SQL Server, Javascript.
+
+### Webpay KCC atualizado para Webpay SOAP (por volta de 2017)
+
+Alguns sites internos exigiam atualizar o código para utilizar o método de pagamento Webpay SOAP. Eles estavam usando o Webpay KCC (versão anterior).
+
+- Tecnologias utilizadas: PHP, Webpay SOAP.
+
+### Padronização de Tecnologias (por volta de 2017)
+
+A ampla gama de contratados da Chilquinta usava diferentes tecnologias para o desenvolvimento web. Foi solicitada uma pequena pesquisa para selecionar qual framework deveria ser usado como solução padrão para novos projetos. Laravel 5.x ou posterior foi recomendado.
+
+- Tecnologias utilizadas: Laravel.
+
+### Aplicativo de iPhone legado atualizado (por volta de 2016)
+
+A Chilquinta solicitou atualizar um aplicativo de iPhone Objective-C legado (criado por outra empresa).
+Adicionar novas funções, corrigir bugs e incluir integração com um framework Swift para
+visão computacional (baseado em Tensorflow). As modificações também exigiram atualizar
+o backend que foi feito com Laravel 4.x, adicionando novos endpoints.
+
+- Tecnologias utilizadas: Objective-C, Laravel.

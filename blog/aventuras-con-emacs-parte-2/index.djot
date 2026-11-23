@@ -1,0 +1,146 @@
+---
+title: Aventuras con Emacs: Parte 2
+slug: aventuras-con-emacs-parte-2
+date: 2024-04-09 13:23:00 +00:00
+description: Segunda parte de las Aventuras con Emacs. Ahora con unas pequeñas configuraciones adicionales.
+featured_image: /blog/aventuras-con-emacs-parte-2/cover.jpg
+tags: emacs, editor, programar, código
+---
+
+![Foto de Museums Victoria en Unsplash](cover.jpg)
+
+Esta es la continuación de
+
+```ninjas
+aventuras-con-emacs | Aventuras con Emacs | La verdad es que deseo encontrar un editor de texto que pueda utilizar en cualquier sistema operativo. Idealmente que no ocupe muchos recursos, ya que a veces me gusta utilizar computadoras bien viejitas. | /blog/aventuras-con-emacs/cover.jpg
+```
+
+## Nomenclaturas
+
+Algunas nomenclaturas que pueden ser de ayuda:
+
+- `SPC`: Tecla Espacio.
+- `ESC`: Tecla Escape.
+- `C`: Tecla Control.
+- `M`: Tecla Meta (Alt, Option).
+- `s`: Súper (Windows)
+
+Si una letra está en mayúsculas, implica el uso de la tecla _Shift_.
+
+Las distintas combinaciones de teclas se pueden ver como
+una secuencia de teclas o un acorde o arpegio musical.
+
+### Arpegios
+
+Similar a un arpegio son las combinaciones de teclas que
+se deben presionar en un orden secuencial.
+
+Se pueden identificar cuando se usa un `espacio` para separar la secuencia de teclas.
+
+Ejemplo: `SPC f P` quiere decir:
+
+1. Presiona `Espacio` y suelta.
+2. Presiona `f` y suelta.
+3. Presiona `P` (mayúscula) y suelta.
+
+### Acordes
+
+Similar a un acorde. Son un conjunto de teclas
+que se deben presionar al mismo tiempo (sin dejar de presionar la anterior).
+
+Se pueden identificar cuando se una un `-` para separar la secuencia de teclas.
+
+Ejemplo: `C-x` quiere decir:
+
+1. Presiona `Control` y deja presionando.
+2. Presiona `x` y luego suelta todas las teclas (`Control`, `x`) al mismo tiempo.
+
+## Configuraciones Especiales
+
+Las siguientes configuraciones se deben realizar en el archivo
+`config.el` que está disponible en `~/.config/doom/config.el`.
+
+Para acceder a esta configuración desde _Emacs_ simplemente se debe
+precionar la combinación de teclas
+
+```text
+SPC f-P
+```
+
+### Configurar Opciones
+
+Editar el archivo `config.el` y añadir las siguientes instrucciones de `lisp`.
+
+```clojure
+;; User Info
+(setq user-full-name "Camilo Castro"
+      user-mail-address "camilo@ninjas.cl")
+
+;; Mac Config
+(setq mac-option-modifier 'alt
+      mac-pass-control-to-system nil)
+
+;; Ctrl+K removes whole line
+(setq kill-whole-line t)
+
+;; Enable auto save and backup files
+(setq auto-save-default t
+      make-backup-files t)
+
+;; Disable confirm on exit
+(setq confirm-kill-emacs nil)
+
+;; Set Fonts
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16))
+
+;; Set Window Size
+(setq initial-frame-alist '((top . 1) (left . 1) (width . 143) (height . 55)))
+```
+
+
+### Cambiar Logo
+
+Vamos a cambiar la pantalla de inicio por una más producida.
+
+La siguiente es lo que obtenemos de fábrica al instalar _Doom Emacs_.
+
+![Pantalla Inicial](inicio.png)
+
+Y vamos añadir una que sea más bonita (Hecha por Zzamboni)
+
+![Doom](doom.png)
+
+## Copiar la Imagen
+
+Vamos a copiar la imagen al directorio correspondiente
+
+```bash
+mkdir -p ~/.config/doom/splash
+cp doom-emacs-bw-light.svg ~/.config/doom/splash
+```
+
+Editamos `config.el` y agregamos las siguientes instrucciones de `lisp`.
+
+```clojure
+(let ((images '("doom-emacs-bw-light.svg")))
+  (setq fancy-splash-image
+        (concat doom-user-dir "splash/"
+                (nth (random (length images)) images))))
+```
+
+
+Finalmente tendremos un bonito resultado.
+
+![Emacs](emacs.png)
+
+
+## Referencias
+
+- <https://zzamboni.org/post/my-doom-emacs-configuration-with-commentary/>
+- <https://discourse.doomemacs.org/t/how-to-change-your-splash-screen/57>
+- <https://github.com/jeetelongname/doom-banners>
+
+## Special Thanks
+
+Agradecimientos a Tomás Solar y a los amigos de Cuatro Libertades
+por los tips y correcciones.

@@ -1,0 +1,152 @@
+---
+title: Emacsとの冒険：パート3
+slug: aventuras-con-emacs-parte-3
+date: 2024-04-11 14:28:06 +00:00
+description: EmacsでのAsciidocのインストールとその他の秘薬。
+featured_image: /blog/aventuras-con-emacs-parte-3/cover.jpg
+tags: emacs, linux, libre, apuntes
+---
+
+![UnsplashのTed Balmerによる写真](cover.jpg)
+
+続き：
+
+```ninjas
+aventuras-con-emacs-parte-2 | Aventuras con Emacs: Parte 2 | Segunda parte de las Aventuras con Emacs. Ahora con unas pequeñas configuraciones adicionales. | /blog/aventuras-con-emacs-parte-2/cover.jpg
+```
+
+## Asciidocのインストール
+
+私が書いた本のいくつかは_Asciidoc_ で書かれています。主に、
+目次付きのPDFやウェブサイトを簡単に作成できるためです。
+
+- <https://ninjas.cl/books/elixir-fullstack/>
+
+- <https://ninjas.cl/books/wren-libro/>
+
+そのため、適切な_Asciidoc_ モードを持つことが重要です。
+
+_Doom Emacs_ にはこのモードがプリロードされていないので、インストールします。
+
+そのために `adoc-mode` プロジェクトを使います。
+
+```github
+bbatsov/adoc-mode | Un major mode de Emacs para editar Asciidoc
+```
+
+次のコマンド群でインストールします
+
+```text
+  M-x package-install RET adoc-mode RET
+```
+
+興味深いことに、このモードは長い間メンテナーがいませんでしたが、2023年に
+復活しました。大きな成果であり、_Emacs_ コミュニティに感謝しています。
+
+- <https://metaredux.com/posts/2023/03/12/adoc-mode-reborn.html>
+
+## マルチカーソル
+
+これは[Sublime Text](https://forum.sublimetext.com/t/history-of-simultaneous-multi-caret-editing/43253/6)によって広く知られるようになった機能です。
+
+単語を選択し、`M-d` のようなキーの組み合わせで
+類似した単語を順次選択して、複数の単語を
+同時に編集できるようにするものです。
+
+いくつかの実装が利用可能です。
+
+```github
+magnars/multiple-cursors.el | Editar en muchos lugares a la vez con Emacs
+```
+
+```github
+hlissner/evil-multiedit | Edición múltiple para el modo evil de Emacs
+```
+
+```github
+gabesoft/evil-mc | Múltiples cursores para evil en Emacs
+```
+
+_Doom Emacs_ には `evil-multiedit` と `evil-mc` が統合されています。
+設定で有効化するだけです。
+
+そのために_Doom Emacs_ のconfigファイルに行きます。
+
+```text
+  SPC f p RET
+  init.el
+```
+
+63行目付近で_multiple-cursors_ のコメントを外します。
+
+```clojure
+multiple-cursors  ; editing in many places at once
+```
+
+保存したら、同期します。
+
+```bash
+doom sync
+```
+
+最後に_Emacs_ をもう一度開くと、マルチカーソルが有効になります。
+
+```youtube
+zXdT5jY_ui0
+```
+
+```youtube
+jNa3axo40qM
+```
+
+```youtube
+Y4cJxdhlxvw
+```
+
+この機能は不要だと言う人もいます。
+_Emacs_ にはマクロやテキスト置換のようなツールが既にあるからです。
+
+```youtube
+3O-bDYqhFos
+```
+
+個人的には、マルチカーソルがあることで、_Sublime Text_、_VSCode_、
+_WebStorm_ のような他のエディタからの移行が楽になると考えています。
+
+テキストを選択するには次が使えます
+
+```text
+C-v
+```
+
+その後、
+
+```text
+M-d
+```
+
+を適用して、編集する単語を選択します。
+
+## 瞑想
+
+ここまで、_Emacs_ を学べてかなりワクワクしています。
+フローがだんだん理解できるようになってきました。
+
+最初は新しいやり方に適応するのが少し大変ですが。
+
+毎日何か新しいことを学んでいると感じるのはワクワクしますし、
+40年以上の歴史を持つエディタなら、超おすすめだと思います。
+
+しかし、一部ではフラストレーションも感じます。他のエディタと比べて
+自分が非常に遅く感じますし、頻繁に行き詰まりに遭遇します。
+
+でも、それは_Emacs_ を以前から知らなかった
+最初の筋肉痛のようなものだと思います。
+
+他のエディタで学んだことを全部アンラーニングしなければならないのでしょうか？
+
+- コマンド
+- ファイルを開く
+- プロジェクトを作る
+
+これも同様に、学ぶのに時間がかかるものです。

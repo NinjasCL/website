@@ -1,0 +1,82 @@
+---
+title: Super Web Framework Wren Baron
+slug: super-web-framework-wren-baron
+date: 2024-05-18 21:01:43 +00:00
+description: A small exercise to run programming languages in cgi-bin. This small framework lets you run Wren in environments with PHP and cgi-bin.
+featured_image: /blog/super-web-framework-wren-baron/cover.webp
+tags: wren, php, red, baron, cgi
+---
+
+![The Red Baron](cover.webp)
+
+As an exercise for running `cgi-bin` scripts I built this small
+web framework called `Wren Baron`, alluding to the [Red Baron](https://es.wikipedia.org/wiki/Red_Baron) anime.
+
+As I demonstrated in the post about Golang, the `cgi-bin` directory lets you
+run binaries compiled with other programming languages.
+
+```ninjas
+crear-un-cgi-en-golang | Crear un CGI en Golang | Un script de CGI en Golang | /blog/crear-un-cgi-en-golang/cover.png
+```
+
+However, what happens if the language has no cgi library?.
+
+That is the case with _Wren_; being a niche language it has no
+`cgi` libraries to compile a standalone executable.
+
+So we have to use a bridge with `PHP`.
+
+This bridge simply converts the environment variables to _JSON_
+and passes them as parameters when running the script.
+
+Also, using `2>&1` lets us capture the error messages
+when running the script.
+
+```php
+<?php
+
+session_start();
+
+$env = escapeshellarg(json_encode([
+    "get" => $_GET,
+    "post" => $_POST,
+    "server" => $_SERVER,
+    "session" => session_id(),
+    "pwd" => getcwd()
+    ]));
+
+$wren = "../wrenc index.wren $env 2>&1";
+
+passthru($wren);
+?>
+```
+
+In the wren script we take the parameter
+and process the _JSON_; this way
+anything printed to `stdout` is shown
+
+```js
+import "runtime" for Runtime
+import "os" for Process
+import "json" for JSON
+
+var args = Process.allArguments
+var env = JSON.parse(args[2])
+var name = env["get"]["name"]
+
+System.print("<h1>Hello From Wren %(Runtime.WREN_VERSION)</h1>")
+System.print("<h2>This is rendered from <strong>Wren</strong></h2>")
+System.print("<p>Hello <strong>%(name)</strong></p>")
+```
+
+The result is a plain HTML page
+
+![Screenshot](https://raw.githubusercontent.com/NinjasCL/wren-baron/main/screenshot.png)
+
+```github
+NinjasCL/wren-baron | Un pequeño web framework para ejecutar Wren en cgi-bin con PHP
+```
+
+```youtube
+CwTmQjaDfCQ
+```

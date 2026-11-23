@@ -1,0 +1,231 @@
+---
+title: Rolplay un juego de cartas hecho en VB6
+slug: rolplay-un-juego-de-cartas-hecho-en-vb6
+date: 2024-02-21 17:39:00 +00:00
+description: Arqueología Tech: Rolplay un juego de cartas hecho en Visual Basic 6. Descubramos el maravilloso mundo de Rolplay
+featured_image: /blog/rolplay-un-juego-de-cartas-hecho-en-vb6/manual2.png
+tags: games, archeology, visual basic 6, chile, spanish
+---
+
+La época del 2002 - 2005 hubo una explosión de los juegos de cartas. En Chile estaba de moda Yu-Gi-Oh, Pokemón TCG, Magic, las de las WWF, Tierras Mágicas y por supuesto Mitos y Leyendas.
+
+¿Pero que pasaba si eras un cabro de octavo básico sin mucho dinero pero con un computador con 128 megas de RAM e internet usando _123 Click de Entel_? Podías acceder al maravilloso mundo de _Rolplay_, un juego de cartas gratuito y online creado en España por David González Bisbal (Sevia) utilizando al magnífico Visual Basic 6.
+
+## Pequeña Reseña Histórica
+
+David (Sevia) creó _Rolplay_ por el año 2002 usando Visual Basic 6 y se volvió muy popular teniendo incluso clanes y torneos. Lamentablemente fue dado de baja principalmente por que mucho de los diseños de sus cartas estaban sacados de los manuales de Dungeons and Dragons. Luego David creó una segunda versión entre los años 2012 a 2015, esta vez utilizando la tecnología de Adobe Air (Starling Engine <https://gamua.com/starling/>), incluso teniendo versiones para Android e iOS. Sin embargo los juegos de cartas online ya tenían mucha competencia con juegos como Hearthstone, por lo que lamentablemente el juego no fue continuado debido a problemas económicos y de popularidad.
+
+En la actualidad no se sabe mucho del paradero de David, probablemente sea un consultor informático muy exitoso, ya que realizó un juego online por su cuenta en una época sin Github, Youtube, Facebook, Stack Overflow o ChatGPT.
+
+## Versión del 2013
+
+Para obtener los datos primero se intentó con la versión más reciente, sin embargo y a pesar de lograr encontrar los instaladores en Web Archive, no se pudo recuperar las cartas ya que estas se descargaban al momento de iniciar el juego desde un servidor que ya no está disponible.
+
+Se intentó de-compilar el juego con <https://github.com/jindrapetrik/jpexs-decompiler> y la verdad funcionó bien y se pudo acceder a mucho del código fuente, sin embargo sin los datos de las cartas, mucho más no se podía rescatar.
+
+
+![Roleplay 2013](rp2013.png)
+
+
+
+## Versión del 2002
+
+Ésta versión fue un poco más difícil de encontrar ya que ningún enlace de Web Archive tenía el instalador. Pero buscando en viejas páginas como Softonic se pudo hallar. Milagrosamente se pudo descargar el instalador y a pesar de ya no funcionar el juego por que los servidores ya no existían, dentro de los archivos se encontraban las imágenes de las cartas.
+
+
+![Rolplay 2002](rp2002.jpg)
+
+
+
+## Extracción de Datos
+
+Gracias al [Web Archive](http://web.archive.org/web/20020806184536/http://www.rolplay.net:80/eljuego/index.asp) se contaba con la información de las cartas disponibles (solamente su nombre, nivel y rareza).
+
+Para esto se construyó un scrapper simple que se ejecutaba en la consola del navegador.
+
+```js
+// Example out CSV
+// http://web.archive.org/web/20021231221705/http://www.rolplay.net/eljuego/cartas_lista.asp?coleccion=Todas&nivel=11
+/*
+Trasgo Mayor;80;2;11
+Gran Blitz;10;2;11
+Sombra;60;2;11
+Mole;65;2;11
+Demonio;75;2;11
+Sardo;30;2;11
+Hongo;99;2;11
+Malar;90;2;11
+*/
+
+(() => {
+    const level = 10;
+    let out = "";
+
+    const cards = Array.from(document.getElementsByTagName('td')).map(item => {
+      const components = item.innerText.trim().split('\n');
+
+      // Check if this is not a page layout
+      if (components.length != 4) {
+             return null;
+      }
+
+      const card = {
+        name: components[0].trim(),
+        rarity: parseInt(components[2].replaceAll("Rareza:", "").trim()),
+        quantity: parseInt(components[3].replaceAll("Nº por baraja:", "").trim()),
+        level: level
+      };
+
+      return card;
+    }).filter(item => item != null).map(item => {
+      out += `${item.name};${item.rarity};${item.quantity};${item.level}\n`;
+      return item;
+    });
+
+      console.log('Total Cards:', cards.length);
+      console.log(out);
+})();
+```
+
+Esto generó un archivo _CSV_ el cual se abrió con _LibreOffice Calc_ para comenzar a llenar los datos que solamente están disponibles en las cartas; como su coste, ataque, defensa y efectos.
+
+Una vez generado este archivo especial con todos los datos (una labor de relojero ya que fue totalmente manual) se procedió a exportar un nuevo _CSV_ y luego convertirlo a _JSON_, esta vez utilizando _Python_. Cabe mencionar que el _CSV_ contenía campos con _JSON_ para ser procesados por _Python_.
+
+```python
+#!/bin/env python
+
+import json
+import csv
+
+def sanitize(value):
+# replace odd " that spreadsheet adds
+    return value.replace("\u201c", '"').replace("\u201d", '"').strip()
+
+def to_json(value):
+    return json.loads(value)
+
+def sanitize_to_json(value):
+    return to_json(sanitize(value))
+
+cards = open("./RolplayCards.csv", encoding="utf8")
+cards = csv.DictReader(cards, delimiter=";", quotechar="'")
+
+items = []
+
+for card in cards:
+    id =  sanitize_to_json(card["id"])
+    items.append({
+        "id": id,
+        "images": {
+            "normal": f"{id}.jpg",
+            "horizontal": f"{id}_h.jpg",
+            "small": f"{id}_s.jpg"
+        },
+        "name": {
+            "spanish": sanitize(card["name_es"]),
+            "english": sanitize(card["name_en"])
+        },
+
+        "level": sanitize_to_json(card["level"]),
+        "max_per_deck": sanitize_to_json(card["max_per_deck"]),
+        "rarity": {
+            "percent": sanitize_to_json(card["rarity_percent"]),
+            "value": sanitize(card["rarity"])
+        },
+        "casting_cost": sanitize_to_json(card["casting_cost"]),
+        "attack": sanitize_to_json(card["attack"]),
+        "defense": sanitize_to_json(card["defense"]),
+        "badges": {
+            "left": sanitize(card["badge_left"]),
+            "right": sanitize(card["badge_right"])
+        },
+        "class": sanitize(card["class"]),
+        "kind": sanitize_to_json(card["kind"]),
+        "type": sanitize(card["type"]),
+        "subtype": sanitize(card["subtype"]),
+        "abilities": {
+            "main": sanitize_to_json(card["ability"]),
+            "special": sanitize_to_json(card["special"]),
+            "on_before_cast": sanitize_to_json(card["on_before_cast"]),
+            "on_activate": sanitize_to_json(card["on_activate"]),
+            "on_before_attack": sanitize_to_json(card["on_before_attack"])
+        },
+        "settings": sanitize_to_json(card["settings"])
+    })
+
+
+with open("./cards.json", "w") as file:
+    file.write(json.dumps(items))
+```
+
+Ahora solo quedaba generar un manual para documentar las reglas y efectos, todo esto se logró gracias a leer el _README_ original, revisando los screenshots disponibles y llenando los espacios vacíos con un poco de lógica prestada de otros juegos de cartas. Ya que muchas reglas no estaban documentadas en el manual original por que era el mismo juego quien las procesaba.
+
+## Creando el Manual
+
+Para tener una estética apropiada se utilizó éste html base
+[RPG Template](https://github.com/cskau/rpg-template) y un toque de [Bulma.css](https://bulma.io/).
+
+Quería además que fuese en Español e Inglés, no me compliqué la vida y simplemente puse todos los datos y los oculté con clases de CSS y activé usando Javascript.
+
+
+![Botones](manual.png)
+
+```js
+const hideItems = (items) => {
+    items.forEach(el => {
+       el.classList.add("hidden");
+    });
+};
+
+const showItems = (items) => {
+    items.forEach(el => {
+        el.classList.remove("hidden");
+    });
+};
+
+const setEnglish = () => {
+    const english = Array.from(document.getElementsByClassName("english"));
+    showItems(english);
+
+    const spanish = Array.from(document.getElementsByClassName("spanish"));
+    hideItems(spanish);
+
+    document.getElementById("button-lang-english").classList.add("is-primary");
+    document.getElementById("button-lang-spanish").classList.remove("is-primary");
+
+    window.language = "english";
+};
+
+const setSpanish = () => {
+    const english = Array.from(document.getElementsByClassName("english"));
+    hideItems(english);
+
+    const spanish = Array.from(document.getElementsByClassName("spanish"));
+    showItems(spanish);
+
+    document.getElementById("button-lang-english").classList.remove("is-primary");
+    document.getElementById("button-lang-spanish").classList.add("is-primary");
+
+    window.language = "spanish";
+};
+```
+
+Finalmente se usó un script en _Python_ para tomar la plantilla de HTML base y hacer una injección de todas los datos de las cartas y traducción de las habilidades de cada una.
+
+
+![Template](python.png)
+
+
+Y el resultado final
+
+
+![Manual](manual2.png)
+
+Puedes ver todos los datos en este repositorio. ¿Qué te pareció?.
+
+- [Manual de Rolplay](https://ninjascl.github.io/rolplus/)
+- [Repositorio en Github](https://github.com/NinjasCL/rolplus)
+
+```github
+ninjascl/rolplus | Datos y manual del juego de cartas Rolplay
+```

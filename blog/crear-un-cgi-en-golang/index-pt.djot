@@ -1,0 +1,77 @@
+---
+title: Criando um CGI em Golang
+slug: crear-un-cgi-en-golang
+date: 2024-05-09 20:45:06 +00:00
+description: Um script de CGI em Golang
+featured_image: /blog/crear-un-cgi-en-golang/cover.png
+tags: golang, code, programación
+---
+
+![Logo do CGI, Common Gateway Interface](cover.png)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CGI_common_gateway_interface.svg)
+
+Se você tem uma hospedagem barata, talvez ela não execute linguagens de programação
+diferentes de _PHP_. Utilizar _CGI_ nos permite usar outras ferramentas.
+
+Neste caso compilamos um script em _Golang_ para executar no diretório
+_cgi-bin_.
+
+- <https://blog.schroederspace.com/tumbleweed-technology/cgi-a-blast-from-the-past-with-go>
+- <https://gist.github.com/larryli/8299764>
+- <https://www.digitalocean.com/community/tutorials/how-to-build-go-executables-for-multiple-platforms-on-ubuntu-16-04>
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"net/http/cgi"
+)
+
+func main() {
+	if err := cgi.Serve(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		header := w.Header()
+		header.Set("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprintln(w, "Method:", r.Method)
+		fmt.Fprintln(w, "URL:", r.URL.String())
+		query := r.URL.Query()
+		for k := range query {
+			fmt.Fprintln(w, "Query", k+":", query.Get(k))
+		}
+		r.ParseForm()
+		form := r.Form
+		for k := range form {
+			fmt.Fprintln(w, "Form", k+":", form.Get(k))
+		}
+		post := r.PostForm
+		for k := range post {
+			fmt.Fprintln(w, "PostForm", k+":", post.Get(k))
+		}
+		fmt.Fprintln(w, "RemoteAddr:", r.RemoteAddr)
+		if referer := r.Referer(); len(referer) > 0 {
+			fmt.Fprintln(w, "Referer:", referer)
+		}
+		if ua := r.UserAgent(); len(ua) > 0 {
+			fmt.Fprintln(w, "UserAgent:", ua)
+		}
+		for _, cookie := range r.Cookies() {
+			fmt.Fprintln(w, "Cookie", cookie.Name+":", cookie.Value, cookie.Path, cookie.Domain, cookie.RawExpires)
+		}
+	})); err != nil {
+		fmt.Println(err)
+	}
+}
+```
+
+Compila-se usando
+
+```bash
+GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o index.cgi cgi.go
+```
+
+Depois é só enviar o arquivo para o diretório `cgi-bin` da hospedagem e dar permissões `0755`.
+
+Note que passamos a arquitetura e o sistema operacional antes de compilar;
+assim garantimos que esteja compilado para o ambiente da hospedagem.

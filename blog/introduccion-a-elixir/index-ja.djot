@@ -1,0 +1,545 @@
+---
+title: Elixir入門
+slug: introduccion-a-elixir
+date: 2024-05-22 16:39:26 +00:00
+description: なぜElixirは素晴らしい言語なのか？何がそれをそんなに良いものにしているのか？
+featured_image: /blog/introduccion-a-elixir/cover.jpg
+tags: elixir, chile, introducción, castellano
+---
+
+![エリキシールとリキュール](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:%C3%89lixir_et_liqueur.JPG)
+
+プログラミング言語を素晴らしいものにするのは何かと考えたことはありますか？Elixirが素晴らしい理由の一つはその一貫性です。José Valimは、RubyやErlangなど他のプログラミング言語から、30年以上にわたって発展してきたアイデアを取り入れ、それらをずっと一貫性のあるものにしました。異なる人々によって異なる目的のために考え出された30年のアイデアが、使うのも理解するのもずっと速い一連のライブラリへと凝縮されたのです。
+
+```youtube
+lxYFOM3UJzo
+```
+
+Elixirは`BEAM`仮想マシン上で実行されます。この_VM_は本当に古いもので、1986年にEricssonがErlang言語のために作成したものです（Javaより古い）。これらの技術は、信頼性が高く効率的な方法で毎秒無数のリクエストを処理する電気通信環境のアプリケーションの主役でした。
+
+数十年後、このVMはJosé Valimに見出され、彼は2011年半ばに`BEAM`のすべての力を、現代的で開発体験に焦点を当てた言語で活用するためにElixir言語を作成しました。この言語はErlang仮想マシンの普及にも貢献しました。
+
+- <https://ninjas.cl/books/elixir-fullstack/>
+- <https://dev.to/cherryramatis/beam-vm-the-good-the-bad-and-the-ugly-9d6>
+
+### Elixirの小さな一瞥
+
+```elixir
+booleano = true || false
+numero = 123_456
+string = "Un binario" <> "Concatenada" <> "Interpolación #{numero}"
+char = ?A
+atomo = :un_atomo
+funcion = fn _ -> "Hola" end
+mapa = %{valor: "hola"}
+tupla = {:ok, 1234}
+lista = [1, "dos", :tres]
+keyword_list = [valor: "hola"]
+IO.inspect("Imprimir en Terminal")
+# Comentario
+_ # variable placeholder
+_var # variable omitida
+```
+
+```elixir
+defmodule MiModulo do
+
+  @atributo "Un atributo del módulo"
+
+  # Retorno el resultado de la última expresion
+  def mi_funcion_publica(parametro \\ true) do
+    "Función Pública con #{parametro}"
+  end
+
+  # Pattern matching selecciona cual ejecutar según la firma de la función
+  def mi_funcion_publica() do
+    "Función Pública Sin parámetros"
+  end
+
+  defp mi_funcion_privada() do
+    "Función Privada"
+  end
+end
+
+MiModulo.mi_funcion_publica()
+```
+
+### 一貫性とは何を意味するのか？
+
+「consistencia（一貫性）」という言葉は、_RAE_（スペイン王立言語アカデミー）によると次のように定義できます：
+
+1. f. 持続、安定、堅牢さ。
+2. f. 塊の粒子や集合の要素の間の結びつき、首尾一貫性。
+
+さらに「coherencia（首尾一貫性）」を定義します：
+
+1. f. 物事同士のつながり、関係または結合。
+
+また「cohesión（凝集性）」も：
+
+1. f. 物理. 物体の分子を結びつけておく引力。
+
+- <https://dle.rae.es/coherencia>
+- <https://dle.rae.es/consistencia>
+- <https://dle.rae.es/cohesión>
+
+ソフトウェア開発において、システムを作り上げるために使うコンポーネントは、理想的には一貫性があり、首尾一貫し、凝集しているべきです。つまり、調和があり、システムの要件の保守と実装を容易にする堅実な基盤であるべきです。
+
+### 非一貫性の例
+
+他の技術では非一貫性を見つけることができます。
+
+#### APIの非一貫性
+
+*PHP*は公式関数ライブラリの非一貫性の好例です。
+例えば、`str_replace`と`strpos`関数の違いに注目してください。どちらも`strings`を扱うための関数です。
+
+1. 名前に一貫性がありません。前者は`str_`を区切るのにアンダースコアを使い、後者は使っていません。
+2. パラメータ名に一貫性がありません。`$search`と`$haystack`は同等です。
+
+```php
+ str_replace(
+    mixed $search,
+    mixed $replace,
+    mixed $subject,
+    int &$count = ?
+): mixed
+```
+
+```php
+strpos(string $haystack, string $needle, int $offset = 0): int|false
+```
+
+さらに`strpos`関数は整数となる値を返すことができますが、偽（`0`）とみなされる可能性もあります。
+そのため、実際の戻り値を確認するには`===`演算子を使うべきです。
+
+*Elixir*では、`{:ok, pos}`と`{:error, motivo}`というタプルの戻り値を使い、
+パターンマッチングを利用することで、検証を簡素化できます。
+
+- <https://hexdocs.pm/elixir/1.16.3/Kernel.html#===/2>
+- <https://blog.codinghorror.com/php-sucks-but-it-doesnt-matter/>
+- <https://hexdocs.pm/elixir/String.html>
+- <https://www.php.net/manual/en/ref.strings.php>
+- <https://www.php.net/manual/en/function.strpos.php>
+- <https://www.php.net/manual/en/function.str-replace.php>
+
+#### データの非一貫性
+
+他のプログラミング言語では、非一貫性の源はデータ構造の可変性です。_Elixir_は関数型言語であるため、データに一貫性を保証する不変の構造を扱います。
+
+*Python*で書かれた次の例は、可変なデータ構造を持つプログラミング言語の非一貫性の問題を示しています。
+
+```python
+mapa = {
+  'lista': [1,2,3],
+  'numero': 10
+}
+
+lista = mapa['lista']
+numero = mapa['numero']
+
+lista += [4]
+numero += 10
+
+print(lista)
+# [1, 2, 3, 4]
+
+print(numero)
+# 20
+
+print(mapa)
+# {'lista': [1, 2, 3, 4], 'numero': 10}
+```
+
+`lista`と`numero`変数を変更しましたが、`mapa`変数が影響を受けました。これは`lista`が参照によってアクセスされ、`numero`が値によってアクセスされたためです。
+
+_Elixir_ではそのようなことは起きません。不変性のおかげです。`mapa`変数の値を変えてしまう心配なく、`lista`と`numero`変数を扱うことができます。
+
+```elixir
+mapa = %{
+  lista: [1, 2, 3],
+  numero: 10
+}
+
+lista = mapa.lista
+numero = mapa.numero
+
+lista = lista ++ [4]
+numero = numero + 10
+
+IO.inspect(lista)
+# [1, 2, 3, 4]
+
+IO.inspect(numero)
+# 20
+
+IO.inspect(mapa)
+# %{lista: [1, 2, 3], numero: 10}
+```
+
+- <https://en.wikipedia.org/wiki/Functional_programming>
+
+## OOP言語との違い
+
+### OOPにおける結合
+
+オブジェクトは3つのコンポーネントの結合です：振る舞い、状態、そして可変性（時間による変化）。オブジェクトが作られるたびに、それら3つのコンポーネントを結合した実体が得られます。この結合はしばしば問題を引き起こします。コンポーネントの一つだけを使うにはどうすればよいのでしょうか？。
+
+最大の問題源の一つはオブジェクト間の継承です。例えば、状態と振る舞いが結合されたオブジェクトがあり、後に振る舞いを追加したい場合、継承に頼らなければなりません。定義上、オブジェクトは状態をカプセル化するために存在し、状態を変更するにはオブジェクトと対話する必要があります。継承を使うと、状態を直接改変できる機構が得られ、オブジェクトを無効化してしまいます。このためいくつかのプログラミング言語には、`protected`や`final`などの演算子が含まれており、本来アクセスすべきでないものの可視性を制御しています。
+
+基本的に、ある問題があり、その解決策が他の問題を生み出しています。多重継承のようなものは含めてすらいません。すべてはオブジェクト指向に固有の結合のせいです。
+
+オブジェクト指向プログラミング（OOP）は、複雑なオブジェクト階層を持つ巨大な分類学を作ることではありません。ドット構文（`objeto.metodo()`）の乱用は、その誤った解釈の結果です。_OOP_とは、アヒルのように鳴くが必ずしもアヒルではないオブジェクトを持つことです（quack like a duck, but is not a duck）。OOPにはメソッドだけが存在して関数はないという大きな混乱があります。Smalltalk（OOPの父）にすら関数があります（特別な構文の下に隠れていますが）。
+
+有名な書籍[Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)では「継承よりも構成を好む」と述べています。
+
+Haskell、Lisp、Elixirのような関数型言語は、継承に頼らずに複雑な問題を解決してきました。一方、オブジェクト指向言語はインターフェースのおかげで構成を利用できます。インターフェースはポリモーフィズムの機構であり、事前に定められた契約を通じて複数の形で扱うことを可能にしてくれます。
+
+### Elixirのコンポーネント
+
+Elixirには振る舞い（モジュール）、状態（データ）、可変性のビジョン（プロセス）がありますが、それらは結合していません。そのおかげで、OOPの結合が引き起こす問題を招くことなく、必要なコンポーネントだけを使ってソフトウェアを作れます。Elixirは、一つしか持たないOOPとは異なり、システムを作るための3つの次元を提供します。そのため、コンポーネントごとに異なるポリモーフィズムを持てます（Behaviours、Protocols、Messages）。
+
+書籍[Concepts, Techniques, and Models of Computer Programming](https://en.wikipedia.org/wiki/Concepts,_Techniques,_and_Models_of_Computer_Programming)では、最小表現の原則に言及しています。「コンポーネントをプログラミングするとき、自然なプログラムを実現するための正しい計算モデルは、可能な限り最も表現力の低いものである」。これは「問題を解決するために可能な限り最もシンプルな抽象を使う」と単純化できます。
+
+```youtube
+agkXUp0hCW8
+```
+
+### 結合の例
+
+`string`の文字数を数える方法を比較する簡単な例を見てみましょう。
+
+次は*Ruby*の例です。
+
+```ruby
+"Hola".length
+# 4
+```
+
+*Elixir*では同じ操作は次のようになります：
+
+```elixir
+String.length("Hola")
+# 4
+```
+
+*Ruby*では`string`の"Hola"は、データ構造に加えて
+一連の関連する振る舞いを持つオブジェクトです。
+高度に結合しています。
+
+一方*Elixir*では、`string`の"Hola"は単なるデータであり、
+振る舞いを持ちません。操作を行うには
+`String`モジュールの関数を使う必要があります。データと
+振る舞いの間には分離があります。
+
+*なぜこの分離が重要なのですか？*
+
+例を見てみましょう。変数に"Hola"を代入すると、
+時間とともに変数の内容を変更できてしまい、
+`string`型に関連付けられたメソッドをもう使えなくなります。
+
+```ruby
+variable = "Hola"
+variable.length
+# 4
+
+variable = 1
+variable.length
+# (irb):4:in `<main>': undefined method `length' for an instance of Integer (NoMethodError)
+```
+
+これは問題になり得ます。特に継承の階層があり、
+言語の可変性と組み合わさると、リスクを適切に管理しない限り、
+カオスと優雅とは言えない解決策のレシピです。
+
+*Elixir*では、データ、振る舞い、状態の変化が完全に分離しているため、
+問題を避けられ、継承階層と可変性に起因する問題のない
+ソフトウェア製品を確保できます。
+
+## パターンマッチング
+
+関数型言語特有のこの技術は、パターンを探し、その時々で何をすべきか決めるために使われます。= 演算子を他の言語の典型的な等号としてではなく、x = a + 1という数学関数で見かけるようなものとして考えるべきです。つまり、xとa + 1が同じ値を持つと言っているのです。
+
+```elixir
+# a = 1
+# b = "elixir"
+# c = "ninjas"
+{a, b, c} = {1, "elixir", "ninjas"}
+```
+
+- <https://joyofelixir.com/6-pattern-matching>
+
+## パイプ演算子
+
+_Unix_に着想を得たオペレーティングシステムは、その初期から*Pipelines*を使ってきました。
+この例では、ディレクトリの内容を一覧表示し、_"archivo.txt"_を含む行だけをフィルタリングし、その出力を_resultado.txt_というファイルにリダイレクトします。
+
+```bash
+ls -l | grep "archivo.txt" > resultado.txt
+```
+
+<https://www.swhosting.com/es/comunidad/manual/uso-de-pipes-en-sistemas-unix>
+
+*Elixir*の場合、`pipe`演算子（パイプ）`|>`は、関数の連鎖を一連のアクションとして表現できる美しいツールです。
+
+_Elixir_を使ったことがなくても、次のコードのロジックは理解できるでしょう。
+
+```elixir
+parametros_formulario
+|> validar_formulario()
+|> insertar_usuario()
+|> crear_reporte()
+|> mostrar_resultado()
+```
+
+一連の`pipe`演算子を使うことは`pipeline`として知られています。何が起きているのかを読んで理解するのは簡単です。しかしその単純さゆえに、いくつかの制限もあります。関数が連鎖しているため、前の結果に依存します。どれかの関数が失敗すると、流れ全体が壊れます。各関数でエラーケースを処理しない限り、これに対してできることは多くありません。
+
+<https://blog.appsignal.com/2022/07/19/writing-predictable-elixir-code-with-reducers.html>
+
+## Elixirではすべてがリデューサー（Reducer）である
+
+まず`acumulador`（アキュムレータ）と`reductor`（リデューサー）の概念を説明することから始めます。
+
+### アキュムレータ
+
+アキュムレータとは、プログラムの実行中に自分自身を参照し、他の変数に含まれる値を使った操作の結果を保存する変数です。
+
+```elixir
+acumulador = acumulador + variable
+```
+
+- <https://www.uacj.mx/CGTI/CDTE/JPM/Documents/IIT/fund_programacion/U4-1.html>
+- <https://es.wikipedia.org/wiki/Acumulador_(inform%C3%A1tica)>
+
+### リデューサー
+
+リデューサーとは、大きなタスクを少しずつ処理する方法です。中間の操作を容易にするためにアキュムレータを使い、単一の最終結果を返します。
+
+リデューサーの一般的な構造は次のとおりです。
+
+```elixir
+reductor(elementos_enumerables, valor_inicial_acumulador, funcion_reductora)
+```
+
+- `elementos_enumerables`: 列挙可能な要素のリスト。例：`[1, 2, 3]`。
+- `valor_inicial_acumulador`: リデューサー関数の最初の実行でアキュムレータが持つ値。例：`0`。
+- `funcion_reductora`: 2つのパラメータを受け取る関数です。リストの要素とアキュムレータの現在値です。例：`fn elemento, acc -> acc + elemento end`
+
+リデューサーは要素ごとにリデューサー関数を実行し、すべての要素が処理されたときにアキュムレータの最終値を返します。
+
+<https://redrapids.medium.com/learning-elixir-its-all-reduce-204d05f52ee7>
+
+### 例
+
+リデューサーがどのように機能するかの具体的な例を見ましょう。まず2つの値を足す関数を定義します。キャプチャ演算子（`&`）を使った簡略化された構文を使います。
+これにより、関数をより短い形で表現できます。
+
+2つのパラメータを持つ関数の次の表現は
+
+```elixir
+sumar = fn elemento, acc -> elemento + acc end
+```
+
+キャプチャ演算子`&`を使って簡略化できます。
+
+```elixir
+sumar = &(&1 + &2)
+```
+
+要素のリスト`[1, 3, 4]`を足し合わせると、合計である`8`を得られます。
+
+```elixir
+# sumar = fn elemento, acc -> elemento + acc end
+sumar = &(&1 + &2)
+```
+
+```
+&:erlang.+/2
+```
+
+`Enum`モジュールと`reduce`関数を使うと、結果が得られます
+
+```elixir
+# reduce(enumerable, acumulador, funcion_reductora)
+Enum.reduce([1, 3, 4], 0, sumar)
+```
+
+```
+8
+```
+
+これは`sumar`（足し算）関数を入れ子にして呼び出すのと等価です。
+
+```elixir
+sumar.(4, sumar.(3, sumar.(0, 1)))
+```
+
+```
+8
+```
+
+また、足し算関数の`pipeline`として、初期値を`0`として表現することもできます。
+
+```elixir
+0
+|> sumar.(1)
+|> sumar.(3)
+|> sumar.(4)
+```
+
+```
+8
+```
+
+このpipelineは、前の関数の結果を使って`suma`関数を呼び出すこととして表現できます。この場合、次のように表現できます：
+
+```elixir
+# 1
+sumar.(0, 1)
+# 4
+sumar.(1, 3)
+# 8
+sumar.(4, 4)
+```
+
+```
+8
+```
+
+### CRC：作成、削減、変換
+
+Elixirはモジュールとデータ型を使うため、_CRC_（コンストラクター、リデューサー、コンバーター）と呼ばれる方法でコードを整理できます。つまり、_アキュムレータ_を（*作成*）する関数、この_アキュムレータ_で操作を行う（*リデューサー*）関数、そして最後に_アキュムレータ_を最終フォーマットに変換する（*コンバーター*）関数があるということです。これは_Haskell_や_Lisp_など、さまざまなプログラミング言語に長い間存在してきたものです。言語でできる最も重要なことは、合成を使ってアイデアを結びつけることです。
+
+アイデアは、第一パラメータとしてアキュムレータを受け取り、最終的な`conversor`（コンバーター）に到達するまで一連の`reduce`操作を行う`pipeline`を作ることです。
+
+```elixir
+  entrada
+  |> constructor() # crea el acumulador inicial
+  |> reductor()
+  |> reductor()
+  |> reductor()
+  |> conversor()
+  # salida de la función listo para ser utilizado por otro pipeline
+  # o ser mostrado al usuario final
+```
+
+このため、_Elixir_のすべてはアキュムレータとリデューサーの集合だと考えることができます。_Elixir_のコア関数の多くは、アキュムレータと`Enum.reduce`だけを使って実装できます。
+
+### なぜ重要なのか？
+
+この整理方法のおかげで、コードを一貫性があり
+統一された形で見ることができます。複数の関数で共通のデータ構造を
+持つことで、操作を行い、より高い読みやすさで表現できます。
+私たちのシステムは将来、理解と保守がより簡単になるでしょう。
+
+一貫性はシステムの重要な品質要素であり、_CRC_を使うことはそれを達成するための優れたツールです。
+
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTutorial%5D-CRC-y-DFTBLWB>
+
+```youtube
+69wZzHYa0aM
+```
+
+```elixir
+# Creamos un nuevo mapa con nuestro acumulador
+constructor = &%{acc: &1}
+
+# Retornamos el valor del acumulador actualizado
+suma = &%{acc: &1.acc + &2}
+
+# Mostramos solamente el valor que deseamos
+conversor = & &1.acc
+
+0
+|> constructor.()
+|> suma.(1)
+|> suma.(3)
+|> suma.(4)
+|> conversor.()
+```
+
+```
+8
+```
+
+### CRCの例
+
+宝の地図を使って少し例示してみましょう。この地図では、北、南、東、西の一連の方向を示します。`{x, y}`というタプルを返す作成関数があり、それがアキュムレータのデータ構造になります。次に、タプルを変更して適切な値を持つ新しいタプルを返す一連のリデューサーがあります。最後に、最終メッセージを持つ`String`を返すコンバーターがあります。
+
+```elixir
+defmodule Tesoro do
+  # Creador
+  def nuevo(x, y), do: {x, y}
+  def nuevo, do: nuevo(0, 0)
+
+  # Reductores
+  def norte({x, y}), do: {x, y - 1}
+  def sur({x, y}), do: {x, y + 1}
+
+  def este({x, y}), do: {x - 1, y}
+  def oeste({x, y}), do: {x + 1, y}
+
+  # Conversor
+  def mostrar({x, y}), do: "El tesoro se encuentra en las coordenadas #{x},#{y}"
+end
+```
+
+```
+{:module, Tesoro, <<70, 79, 82, 49, 0, 0, 11, ...>>, {:mostrar, 1}}
+```
+
+```elixir
+import Tesoro
+
+nuevo()
+|> norte()
+|> este()
+|> este()
+|> oeste()
+|> oeste()
+|> sur()
+|> sur()
+|> sur()
+|> este()
+|> este()
+|> este()
+|> mostrar()
+```
+
+```
+"El tesoro se encuentra en las coordenadas -3,2"
+```
+
+ご覧のとおり、共通のデータ構造を第一パラメータとして受け入れる関数の`pipeline`を使って宝の地図を生成できました。この構造に対して操作を行い、最終的に特定のフォーマットの出力を作成します。
+
+素晴らしいことを成し遂げました。異なる関数という複雑なアイデアを取り上げ、それらを同じチェーンの鎖のようにつなぎ合わせました。このようにして、操作がどのように値を送るカスケードを形成しているかがわかります。リデューサーを使って合成を作成しました。
+
+_CRC_（作成、削減、変換）のアイデアは、_Elixir_のエコシステム全体にわたって見つけることができます。例えば、_OTP_と_GenServer_の状態や、データを取り込んでHTML、SVG、JSONなどに変換する_Phoenix_などです。
+
+操作をチェーンとして見ることで、優れた一貫性と設計判断のおかげで、_Elixir_エコシステムのすべてのソフトウェアの構築、読み取り、テストが簡単になります。
+
+## なぜ代替手段よりElixirを使うのか？
+
+いくつかの理由：
+
+- 現代的で美しく一貫した関数型言語。他の技術よりも分離され一貫したレベルを実現できます。
+- 堅牢でスケーラブルで並行なシステムのための30年以上のツールを持つ`BEAM`上で実行されます。他のソリューションよりも高い信頼性と障害への回復力を実現しています。
+- IoT、ロボティクス、AI、Web、モバイルなどのための素晴らしいツールのエコシステム。
+- 新しくて斬新な求人を提供する専門家にとって魅力的な市場。他の技術ほど競争が激しくありません。米国、ドイツ、日本などで勢いのある労働市場。
+- 多くのトレーニングと認定資格が利用可能（Grox.io、Erlang Solutions）。
+- Facebook、Whatsapp、Discord、Pepsico、Walmartなど、高レベルの企業に利用されています。
+
+### 産業の未来はどうなるか？
+
+コンピュータ産業は変化に満ちています。80年代の_Commondore_や_Atari_などの最初のパーソナルコンピュータの技術に言及できます。90年代には_HTML_、_JS_、_CSS_とともにインターネットの始まりを目にしました。2000年代には_Facebook_のようなソーシャルネットワークや_Youtube_のようなプラットフォームの隆盛を見ました。2010年代にはアプリケーションと「スマート」な携帯電話が大衆化しました。2020年代には何が来るのでしょうか？。最も可能性が高いのは_IA_（AI）と並行システムの大衆化です。_Elixir_や_Erlang_が理想的で、_Python_や_Ruby_などの他の選択肢を超えるケースです。`BEAM`の言語を学ぶ専門家は、産業の今後数十年に備えることになるでしょう。並行性とシステムの堅牢性が日々必要とされるようになるからです。
+
+「採用が難しい」とされるプログラミング言語は、常に問題になります。残念ながら、これは本当に解決できる問題ではありません。誰も未来を知らないからです。例えば今日人気のあるプログラミング言語を選んでも、後に人々が好まなくなれば、人材を見つけるのは容易ではなくなります（VB6、Action Script Flash）。_2.x_から_3.x_への移行が非常に困難で、事実上別の言語への変更だった*Python*のような場合はどうでしょうか？。単一の言語や技術と結婚せず、戦略的に新しいツールを採用する組織は、市場と産業の変動により良い備えができるでしょう。
+
+- <https://adoptingerlang.org/docs/team_building/how_to_polyglot/>
+- <https://github.com/ElixirCL/ElixirCL/wiki/Por-qué-elegir-Elixir-y-Phoenix>
+
+```youtube
+9lkO-kgxoiY
+```

@@ -1,0 +1,116 @@
+---
+title: Desafío Elixir 1: Filtrar Nombres
+slug: desafio-elixir-1-filtrar-nombres
+date: 2024-06-11 18:51:30 +00:00
+description: Un pequeño ejercicio para aprender listas y filtrar datos con Elixir
+featured_image: /blog/desafio-elixir-1-filtrar-nombres/cover.jpg
+tags: elixir, javascript, haskell, código
+---
+
+![Intarsias en un telar de 1895](cover.jpg)
+
+Imagen: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:1895_E._M._Matthias_aus_Rethen,_Intarsien_am_Webstuhl.jpg)
+
+El siguiente es un pequeño ejercicio encontrado en el curso de _Haskell_
+disponible en la [Universidad de Helsinki](https://haskell.mooc.fi/part1).
+
+## Desafío
+
+Dado una lista de nombres y apellidos:
+
+- Nombres: `["Eva", "Mike"]`
+- Apellidos: `["Smith", "Wood", "Odd"]`
+
+Retornar una lista cuyos elementos sean solo de personas con largo par.
+
+**Ejemplo de Retorno**
+
+- `["EvaSmith", "EvaOdd", "MikeWood"]`
+
+## Solución en Haskell
+
+Haskell permite pattern matching y `list comprehensions`.
+
+```haskell
+[whole | first <- ["Eva", "Mike"],
+         last <- ["Smith", "Wood", "Odd"],
+         let whole = first ++ last,
+         even (length whole)]
+```
+
+## Solución en Elixir
+
+Si bien la solución en _Elixir_ no es tan corta como en _Haskell_
+es igual de elegante.
+
+```elixir
+require Integer
+
+for first <- ~w[Eva Mike],
+  last <- ~w[Smith Wood Odd],
+  name <- [first <> last],
+  name
+  |> String.length()
+  |> Integer.is_even(), do: name
+```
+
+Para esto utilizamos las características de `for comprehensions`.
+
+- <https://elixirschool.com/en/lessons/basics/comprehensions>
+
+## Solución en Javascript
+
+_David_ de _Javascript Chile_ nos escribe una solución en versión
+imperativa y declarativa utilizando _Javascript_.
+
+**Imperativa**
+
+```javascript
+const nombres = ["Eva", "Mike"];
+const apellidos = ["Smith", "Wood", "Odd"];
+
+const output = [];
+
+for(let i = 0; i < nombres.length; i++){
+    for(let j = 0; j < apellidos.length; j++){
+        const fullName = `${nombres[i]}${apellidos[j]}`;
+        if(fullName.length % 2 == 0){
+            output.push(fullName);
+        }
+    }
+}
+```
+
+**Declarativa**
+
+```javascript
+const nombres = ["Eva", "Mike"];
+const apellidos = ["Smith", "Wood", "Odd"];
+
+const output = nombres.flatMap(n =>
+        apellidos.map(a => `${n}${a}`)
+    )
+    .filter(fullName => fullName.length % 2 == 0);
+```
+
+**Elixir**
+
+La versión declarativa de _Javascript_ la podríamos emular en _Elixir_ de la siguiente
+forma:
+
+```elixir
+~w[Eva Mike]
+|> Enum.flat_map(fn first ->
+  ~w[Smith Wood Odd]
+  |> Enum.map(fn last ->
+    first <> last
+  end)
+end)
+|> Enum.filter(&
+    &1
+    |> String.length()
+    |> Integer.is_even()
+)
+```
+
+aunque no es tan elegante como usar `for comprehensions`.

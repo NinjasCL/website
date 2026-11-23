@@ -1,0 +1,24 @@
+---
+title: Radio Cámara de Diputados iOS
+slug: radio-camara-de-diputados-ios
+date: 2012-03-29 15:39:31 +00:00
+description: チリ下院のラジオとニュースを集めたアプリ。
+featured_image: /blog/radio-camara-de-diputados-ios/logo.webp
+tags: ios, objective-c, radio, chile, noticias
+---
+
+![Radio Cámaraのロゴ](logo.webp)
+
+多分野のチーム(デザイナーと情報技術担当)の中で、プログラマーおよび技術サポートとして、下院のラジオとニュースのセクションを備えた「Cámara de Diputados」アプリの制作に携わりました。このアプリはAppstoreから無料でダウンロードできます。
+
+![スクリーンショット1](ss1.webp)
+![スクリーンショット2](ss2.webp)
+![スクリーンショット3](ss3.webp)
+
+- <https://www.radiocamara.cl/>
+- <https://apps.apple.com/es/app/radio-c%C3%A1mara-de-diputados/id504291274?platform=iphone>
+
+## 技術
+
+- Objective-C
+- iOS 5 SDK

@@ -1,0 +1,64 @@
+---
+title: 💵 Biyete 🏦 - Parse Bank Emails and send it to Google Sheets
+slug: biyete-parse-bank-emails-and-send-it-to-google-sheets
+date: 2021-07-09 12:57:58 +00:00
+description: This is a project that shows how to integrate Gmail with Google Sheets. It parses bank emails and send the information to a Google Sheet or a REST endpoint so you can track your finances.
+featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work.png
+tags: google, gmail, sheets, javascript, hooks, scripts, banks, money, email
+---
+
+```github
+NinjasCL/biyete | Parsea correos bancarios y los envía a Google Sheets
+```
+
+A simple Google Apps Script to parse Gmail messages related to Bank
+Notifications, Payment Bills, Deposits and other related areas. Then
+save those data to a Google Spreadsheet that you could use to track
+your finances.
+
+![Image by freepik](cover.png)
+
+This project was inspired by
+[Bennedetto](https://github.com/arecker/bennedetto) and the lack of
+proper apps and technologies in Chilean banking systems. Also to
+automate financial tracking, and helping people organize their
+finances better.
+
+Following Bart Wronski's advice we look for simpler solutions and try
+to achieve the goals with the least technical weight. Normally a
+solution would be a huge app with lots of endpoints,
+[ETLs](https://en.wikipedia.org/wiki/Extract,_transform,_load) and so
+on.
+
+We tried to minimize using the available tools:
+
+- Banks normally do not have open endpoints to fetch data. But they
+  send emails every time you purchase something or when you receive a
+  deposit. These emails could be parsed with simple regex and sent
+  to another place. Also other entities ("Netflix", "Spotify", etc)
+  send a billing email that could also be parsed.
+
+- Gmail has Google Apps Scripts that let you read, program and
+  control emails and interact with different services.
+
+- Google Spreadsheets is a wonderful place to store data and create
+  custom dashboards. Also has Google Apps Scripts.
+
+- Finances need to be secure and transparent. So using Gmail and
+  Spreadsheets we can have an easy to use, easy to configure, low
+  cost and secure environment to execute this script and let you have
+  total control over your personal data (No hidden nasties).
+
+## How does it work?
+
+![Work](work.png)
+
+This script will fetch all the unread emails within a specific
+label. Will search for the special keywords and process their data.
+Then for every item found it will trigger actions. The default
+action is to store the results inside a specific SpreadSheet.
+Although you could configure new actions (Like sending the data to a
+REST API or similar). Finally the email will be marked as read.
+
+Normally will process 30 threads of messages per execution. (Google
+Apps Scripts max time is 6 minutes).

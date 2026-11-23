@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and help
+    url: mailto:hello@retrostrap.dev
+    about: Usage, themes, "how did 1999 actually do this?" Write to us, we like talking about this stuff.

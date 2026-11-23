@@ -1,0 +1,78 @@
+---
+title: Comentários Tesoura: usando comentários de linha única e multilinha
+slug: scissor-comments-using-single-and-multiline-comments
+date: 2019-12-31 13:40:31 +00:00
+description: Um truque rápido que eu usei, especialmente em scripts SQL longos. A ideia é misturar comentários de linha única e multilinha para um manuseio mais fácil.
+featured_image: /blog/scissor-comments-using-single-and-multiline-comments/cover.jpg
+tags: sql, comments, scissor, coding, english
+---
+
+![Foto de Glen Carrie no Unsplash](cover.jpg)
+
+Este é apenas um truque rápido que eu usei, especialmente em scripts `SQL` longos.
+
+A ideia é misturar comentários de linha única e multilinha para um manuseio mais fácil.
+
+## O básico de SQL
+
+- `--` Comentário de linha única.
+- `/*` Abertura de comentário multilinha.
+- `*/` Fechamento de comentário multilinha.
+
+## Misturando
+
+Tome esta operação SQL simples.
+
+```sql
+SELECT * FROM users;
+```
+
+Agora vamos usar tanto comentários de linha única quanto multilinha.
+
+```sql
+--/*
+SELECT * FROM users;
+--*/
+```
+
+A operação será a mesma, mas se apagarmos o comentário de linha única `--` antes da abertura multilinha `/*`, então a operação ficará comentada. O `--*/` será interpretado como o fim do comentário multilinha se o multilinha estiver ativado, ou apenas como um comentário normal caso contrário, então não precisamos mexer nele.
+
+Isso tem a seguinte vantagem: basta apagar ou adicionar o `--` de linha única uma vez, e um bloco inteiro de código ficará (des)comentado.
+
+### Multilinha ativado
+
+```sql
+/*
+SELECT * FROM users;
+--*/
+```
+
+## Outras linguagens de programação
+
+Esta técnica pode ser usada em qualquer linguagem de programação que suporte comentários de linha única e multilinha.
+
+É especialmente útil em linguagens que têm comentários no estilo `//` e `/*`
+(comentários estilo _C_).
+
+Porque podemos usar um único `/` para "cortar" o comentário como uma *Tesoura*.
+Daí o nome "*Comentários Tesoura*".
+
+```php
+<?php
+//*
+echo "Hello";
+//*/
+
+my_not_commented_out_function();
+```
+Só temos que apagar um único `/` do comentário para ativá-lo.
+Agora `echo "Hello";` está comentado.
+
+```php
+<?php
+/*
+echo "Hello";
+//*/
+
+my_not_commented_out_function();
+```

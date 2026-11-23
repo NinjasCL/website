@@ -1,0 +1,108 @@
+---
+title: Document Your Professional Evolution
+slug: documenta-tu-evolucion-profesional
+date: 2024-04-02 14:46:14 +00:00
+description: A personal website is a great ally for documenting our path and evolution in the IT industry.
+featured_image: /blog/documenta-tu-evolucion-profesional/cover.jpg
+tags: cv, spanish, chile, beginners
+---
+
+![Photo by Ilya Pavlov on Unsplash](cover.jpg)
+
+A personal website is a great ally for documenting our path and
+evolution in the IT industry.
+
+## Github Is Insufficient
+
+Many may think that just uploading our code to platforms like
+_Github_, _Gitlab_, _Codeberg_ and similar is enough. But
+unfortunately they have the following problems:
+
+- They don't work for documenting private projects.
+- The information isn't organized and it's hard to highlight the
+  important parts.
+- You depend on a third party and have no autonomy over storing and
+  distributing your content.
+
+The main problem is when you participate in projects where you
+don't own the code — normally for private companies. On your
+website you can at least document that you participated in those
+projects (if your contract allows it).
+
+Also, often there are so many scattered projects that it's better to
+have a centralized place you can put on your resume.
+
+## Start Today
+
+Ideally, if you're a student or learning, start right now to have a
+personal site that documents the projects, ideas, events and other
+experiences you've lived in your professional career. If you already
+have some years behind you, it will be a bit harder to start
+documenting everything and it will take more time to organize the
+material you've accumulated over the years.
+
+## What technology to use?
+
+The most important thing is having migration capability. If some
+event causes your hosting provider to shut down, you can easily
+find another and migrate your content. Plus being able to be
+stored on [archive.org](https://web.archive.org) for historical
+preservation.
+
+The recommendation is to use static websites with the trusty old
+HTML and CSS technologies.
+
+### Use a static site generator
+
+Ideally use one built with the technology you like most; there are
+diverse options for all tastes.
+
+Here's a small selection
+
+```github
+geolessel/vox | Un generador de sitios estáticos escrito en Elixir
+```
+
+```github
+gohugoio/hugo | El framework más rápido del mundo para construir sitios web
+```
+
+```github
+11ty/eleventy | Un generador de sitios estáticos más simple
+```
+
+### Build your own content generator
+
+It's a good way to practice a language or technology — a small
+project that adapts to your needs. Though this option is only for
+those who want to spend a lot of time on details that available
+generators have already solved.
+
+## Buy Your Domain and Hosting
+
+Ideally you should have your own domain and hosting. You can start
+with Github Pages hosting to get going.
+
+### Domain Providers
+
+- <https://nic.cl> : Chilean domains
+- <https://dyndns.com> : Domains for IPs
+- <https://www.dynadot.com> : International domains
+- <https://porkbun.com/> : Another domain provider.
+
+### Hosting Providers
+
+Depending on your needs you can have something on a Raspberry PI,
+or get hosting. The following is an unordered list of different
+options.
+
+- <https://cpanelhost.cl/> : Cheap Chilean Hosting
+- <https://www.silverhost.cl/> : Medium Chilean Hosting
+- <https://pages.cloudflare.com/> : Static Page Hosting
+- <https://pages.github.com/> : Static Page Hosting
+- <https://codeberg.page/> : Static Page Hosting
+- <https://neocities.org/> : Static Page Hosting
+- Own Server (Raspberry PI)
+- VPS Servers (DigitalOcean, Vultr, etc)
+- Application Servers (Fly.io, Vercel)
+- Cloud Servers (AWS, Azure, GCP)

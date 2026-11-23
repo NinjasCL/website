@@ -1,0 +1,21 @@
+---
+title: Chilean RUT in Elixir
+slug: rut-chileno-en-elixir
+date: 2022-03-30 18:21:51 +00:00
+description: A simple Chilean RUT validator implemented in Elixir
+featured_image: /blog/rut-chileno-en-elixir/cover.png
+tags: chile, rut, run, validador, elixir, biblioteca
+---
+
+![Chilean RUT](cover.png)
+
+Having a _RUT_ validator in a programming language is of utmost
+importance for the Chilean market.
+
+It is one of the most common operations in Chilean software, and
+_Elixir_ deserves a robust library that can be used in the projects
+that need it.
+
+```github
+ElixirCL/rut | Validador y generador de RUT chileno en Elixir
+```

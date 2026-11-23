@@ -1,0 +1,50 @@
+---
+title: Moodbit. 感情を評価するSlackチャットボット
+slug: moodbit-chatbot-para-evaluar-las-emociones
+date: 2019-09-21 14:26:26 +00:00
+description: Moodbit。感情を評価するSlackチャットボット。AWS LambdaとAWS Quicksightで作成。
+featured_image: /blog/moodbit-chatbot-para-evaluar-las-emociones/cover.png
+tags: slack, javascript, aws, lambda, chatbot
+---
+
+![Moodbit](moodbit.png)
+
+私は2018年から2019年にかけての数か月間、_Moodbit_ 社(ニューヨーク、米国)の*リモート*請負業者でした。私の仕事は、機械学習アルゴリズムを使ってチャット上の人々の「感情」と「気分」を評価する _Slack_ 用チャットボットを開発することでした。さらに、結果を表示するために _AWS Quicksight_ と統合する _ダッシュボード_ の作成も行いました。
+
+## 使用技術
+
+- AWS Lambda (JavascriptとPython)
+- AWS Sagemaker (Python)
+- AWS RDS (データベース)
+- AWS API Gateway (エンドポイント)
+- AWS Cognito (ユーザーアカウント)
+- AWS Quicksight (情報パネルとレポート)
+- Slack SDK (Slackとの接続)
+- Google Cloud Natural Language (テキスト感情分析)
+- React.js (フロントエンド)
+- Firebase (ホスティング)
+
+## タスク
+
+- _Slack_ との統合のために _AWS Lambda_ 関数をプログラムする。
+- _AWS RDS_ でのデータベース設計。
+- _AWS Quicksight_ でダッシュボードを作成する。
+- _AWS Cognito_ と _AWS Quicksight_ を統合する _React.js_ フロントエンドを作成する。
+- _AWS Lambda_ と統合して結果を提供するために _AWS SageMaker_ を設定する。
+- _Google CNL_ のAPIと統合する。
+- ウェブサイトをホストするために _Firebase_ を設定する。
+
+## Challenge
+
+さらに、チームに加わる候補者を評価するためのコード _Challenge_ を作成しました。
+
+- [Moodbit Challenge](challenge.pdf)
+
+``` =html
+<video src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  data-canonical-src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  controls="controls"
+  muted="muted"
+  style="max-height:640px; min-height: 80dvh; width:100%;">
+</video>
+```

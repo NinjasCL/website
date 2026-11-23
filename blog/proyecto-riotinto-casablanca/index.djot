@@ -1,0 +1,30 @@
+---
+title: Proyecto RioTinto Casablanca
+slug: proyecto-riotinto-casablanca
+date: 2015-04-01 23:45:51 +00:00
+description: RioTinto Casablanca es un Restaurante que solicitó la elaboración de su sitio web.
+featured_image: /blog/proyecto-riotinto-casablanca/cover.png
+tags: processwire, php, web, sitio
+---
+
+![Captura del sitio](cover.png)
+
+## Team
+
+### Camilo Castro
+
+Processwire and Server Configuration.
+
+## Thanks
+
+- [Ryan Cramer](http://www.ryancramer.com/) for creating Processwire
+
+## Standards
+
+- HTML5
+- CSS3
+- PHP 5.6
+
+## Software
+
+- [Processwire](https://processwire.com)

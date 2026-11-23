@@ -1,0 +1,44 @@
+---
+title: Un sistema de logging
+slug: a-logging-system
+date: 2021-06-26 13:42:16 +00:00
+description: Un pequeño sistema de logging basado en el paquete Swift Log de Apple
+featured_image: /blog/a-logging-system/uml.png
+tags: architecture, logging, swift, uml
+---
+
+Este es un pequeño sistema de logging basado en
+[Swift Log](https://apple.github.io/swift-log/docs/current/Logging/index.html),
+un paquete de API de logging para _Swift_.
+
+## UML
+
+![UML del sistema de logging](uml.png)
+
+## Componentes principales
+
+### [LoggingSystem](https://apple.github.io/swift-log/docs/current/Logging/Enums/LoggingSystem.html)
+
+La fachada principal. Solo puede iniciarse una vez con una instancia
+de Logger.
+
+### [Logger](https://apple.github.io/swift-log/docs/current/Logging/Structs/Logger.html)
+
+Llama a la instancia de _LogHandler_ con el nivel de log correcto y
+los demás parámetros entregados por quien lo invoca.
+
+### [LogHandler](https://apple.github.io/swift-log/docs/current/Logging/Protocols/LogHandler.html)
+
+Un protocolo que los manejadores de log deben implementar. Contiene
+principalmente una función de log para pasar los parámetros.
+
+### [MultiplexLogHandler](https://apple.github.io/swift-log/docs/current/Logging/Structs/MultiplexLogHandler.html)
+
+Una implementación del protocolo LogHandler. Puede pasar el mensaje de
+log a otros manejadores de log. Útil si deseas registrar mensajes en
+sistemas locales y remotos usando manejadores distintos.
+
+### [StreamLogHandler](https://apple.github.io/swift-log/docs/current/Logging/Structs/StreamLogHandler.html)
+
+Una implementación del protocolo LogHandler que envía los mensajes a
+la salida estándar o al error estándar.

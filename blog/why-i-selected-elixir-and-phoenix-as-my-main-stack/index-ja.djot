@@ -1,0 +1,170 @@
+---
+title: ElixirとPhoenixをメインスタックに選んだ理由
+slug: why-i-selected-elixir-and-phoenix-as-my-main-stack
+date: 2023-01-21 14:41:37 +00:00
+description: これは、現在のテックスタックを使うことに決めた経緯を記録した個人的な旅のドキュメントにすぎません。なぜElixirを選んだのか？楽しく、関数型で、堅牢だからです。そして、その言語が好きだっただけで夢のような仕事に就けました。
+featured_image: /blog/why-i-selected-elixir-and-phoenix-as-my-main-stack/cover.jpg
+tags: elixir, english, webdev, programming, beginners
+---
+
+![UnsplashのMarkus Spiskeによる写真](cover.jpg)
+
+これは、現在のテックスタックを使うことに決めた経緯を記録した個人的な旅のドキュメントにすぎません。
+
+長年の間、私はさまざまなフレームワークを試してきました。そのほとんどはPHPで、[Code Igniter](https://codeigniter.com/)（2010年）、[ProcessWire](https://processwire.com/)（2014年）、[Laravel](https://laravel.com/)（2015年）などです。
+
+それらは多様な複雑度を持つさまざまなプロジェクトを完成させる助けになりました。素晴らしいツールたちです。しかし悲しいことに、私が就けた仕事のほとんどは古いバージョンのPHPを使用していて、コードベースも開発体験も控えめに言ってもスパルタンでした。一例として、あるプロジェクト（2020年）ではリモートのWindowsマシンに接続し、Notepad++でコードを編集し、FTPでアップロードする必要がありました。奇妙なワークフローはさておき、もっとモダンなプロジェクトに就きたかった。そこで新しいテックスタックを探す旅に出ました。
+
+まずツールを更新したかったのですが、もしかすると置き換えるのではなく小さなパッチで済むかもしれません。そこでクライアント向けにLaravel、[Inertia.js](https://inertiajs.com/)、[Svelte](https://svelte.dev/)を使うプロジェクトを、そしてその後Laravel、Inertia、[React](https://reactjs.org/)を使う別のプロジェクトを作りました。_React_ より_Svelte_ の方が気に入ったので、将来フロントエンドのプロジェクトが現れたら、メインツールは_Svelte_ にしようと思いました。
+
+どちらのプロジェクトも素晴らしく改善された開発体験となり、記録的な速さで完成しました。バックエンドとフロントエンドを備えた単一のモノリスは素晴らしい働きをしました。フルスタックシステムを作るためにREST APIやGraphQLエンドポイントを作る必要がなかったからです。今ではSPAのすべての力を、データベースへの直接アクセスのようなバックエンドの良い部分すべてと共に持てます。
+
+_Inertia.js_ をメインツールとして使うことを検討し、その仕組みをよりよく理解するためにProcessWire向けのアダプターをいくつか作りました。
+
+```ninjas
+inertia-js-adapter-for-processwire | Adaptador de Inertia.js para ProcessWire | Inertia te permite crear aplicaciones de página única completamente renderizadas del lado del cliente, sin gran parte de la complejidad que conllevan las SPA modernas. Para el proyecto ProcessWire creé este simple adaptador de Inertia. Y también un proyecto de ejemplo ProcessWire + Svelte + Laravel Mix + Inertia. | /blog/inertia-js-adapter-for-processwire/cover.avif
+```
+
+## Vapor（Swift）
+
+PHP以外で最初に選んだのは[Swift](https://developer.apple.com/swift/)と[Vapor](https://vapor.codes/)を使うことでした。iOSとObjective-Cでいくつかプロジェクトを作ったことがあるので、_Swift_ も学んで、同じ言語でネイティブiOSアプリとバックエンドの両方を作れるかもしれません。
+
+しかし_Inertia.js_ アダプターがないことを発見したので、このプロジェクトを見つけました
+
+```github
+lloople/vapor-inertia-adapter | Un adaptador de Inertia.js para Vapor
+```
+
+そして例を作成しました
+
+```github
+ninjascl/vapor-inertia-svelte-example | Un ejemplo de Vapor con Inertia.js y Svelte
+```
+
+### 長所
+
+- _Xcode_ でバックエンドアプリケーションをプログラミングするのはとても快適でした。_Swift_ 言語用のあらゆる機能を備えたIDEがあるのは素晴らしかったです。
+
+- _Objective-C_ の経験があったことは、Appleのエコシステムとワークフローを理解するのに役立ちました。
+
+### 短所
+
+- _JS_、_CSS_、_HTML_ のような十分にサポートされていないファイルを編集するには、_VSCode_ のような他のエディターに頼ることがしばしばありました。
+
+- _XCode_ を使いたいなら最新のOSが必要です。サポートされていない古いMacしか持っていなければ、_Docker_ を使い、_Vapor_ フレームワークの_Linux_ 版を使うことになります。_Xcode_ の代わりにコンテナを使うため、パフォーマンスも開発体験も貧弱です。
+
+## Masonite（Python）
+
+[Masonite](https://docs.masoniteproject.com/)は、2018年に見つけた_Laravel_ によく似た素晴らしい[Python](https://www.python.org/)フレームワークです。コミュニティがDiscordに移る前、古いSlackチャンネルでJoseph本人とやり取りしたことさえあります。
+
+```embed
+https://dev.to/masonite/the-history-of-the-masonite-framework-2n2b | The History of the Masonite Framework | La historia de cómo surgió el framework Masonite
+```
+
+そして_Masonite_ 向けのInertiaアダプターもいくつかありました
+
+```github
+girardinsamuel/masonite-inertia | Un adaptador de Inertia.js para Masonite
+```
+
+### 長所
+
+- よく整理されている点と、メンテナーがとても親切な点が気に入りました。
+
+- [PyCharm](https://www.jetbrains.com/pycharm/) のような、_Python_ が持つ素晴らしいツールをすべて活用できます。
+
+### 短所
+
+- _Python_ の依存関係の管理方法が気に入りませんでした。[Poetry](https://python-poetry.org/) や[Pipenv](https://pipenv.pypa.io/en/latest/) のように選択肢が多すぎて、他の言語と比べると標準化されていないと感じました。
+
+- 私が見つけられた_Python_ の求人の多くは、[_Django_](https://www.djangoproject.com/) ベースのプロジェクトか、あまり好きではない機械学習関連のものでした。つまり_Masonite_ を使うのは新規プロジェクト限定になるでしょう。
+
+## Springboot（Java）
+
+大学で[Java](https://www.java.com/)を少し学んだので、もしかしたらプロフェッショナルに使えるかも？と。選択肢はたくさんありました。[DropWizard](https://www.dropwizard.io/en/latest/)、[Spark](https://sparkjava.com/)、[Play Framework](https://www.playframework.com/)。しかしインターネット上で最もドキュメントが充実していたのは[Springboot](https://spring.io/projects/spring-boot)でした。加えてスペイン語のコースもあり、_Springboot_ を多少知っている友人もいたので、試してみることにしました。
+
+シンプルなDiscordボットのような実験をいくつか作りました
+
+```github
+NinjasCL/wrenbot | Un bot de Discord
+```
+
+しかしInertiaのアダプターは見つけられず、あるのは_POC_ だけでしたし、そのためにアダプターを作ることにあまり時間を投資したくありませんでした。
+
+```github
+jrodalo/inertia | Una prueba de concepto de un adaptador de Inertia.js para Java
+```
+
+### 長所
+
+- 非常に堅牢なフレームワークで、ドキュメント、コース、例が豊富です。
+
+- 非常に成熟したライブラリと依存関係。
+
+### 短所
+
+- 見つかった求人のほとんどは銀行やその他の「昔ながらの」組織のものでした。オフィス出勤（C19以前）や、果てはドレスコードまで要求されます。私はリモートで働きたいのです。
+
+## JavaScript
+
+フロントエンドではすでに[_Javascript_](https://www.javascript.com/)を使っているので、バックエンドでも使わない手はないでしょう？[Adonis.js](https://adonisjs.com/)を試しました。Laravelに似ていましたが、私にはしっくりきませんでした。また、あるクライアントがブリッジを必要とした際、[Fastify](https://www.fastify.io/)を使いました。
+
+```github
+NinjasCL/airnotifier-moodle-bridge | Un puente entre AirNotifier y Moodle hecho con Fastify
+```
+
+## 長所
+
+- _Javascript_ はすでに知っていて、小さなAPIやスクリプトをいくつか作っていました。
+
+## 短所
+
+- 世の中にはとても多くのフレームワークがあります。1つ学んでも、次に見つかる仕事が同じものを使う保証はありません。例えば[_Express_](https://expressjs.com/)を学んで、次の仕事が[_Koa_](https://koajs.com/)や[_Nest_](https://nestjs.com/)を使うかもしれません。
+
+- _Javascript_ には何かがおかしいとすでに感じていました。コードベースを書き直したり依存関係を更新したりする必要がある破壊的な変更が常にあるからです。プロジェクトの初期化や依存関係のインストール時に_npm_ が大量の警告を出すのも好きではありませんでした。
+
+## ElixirとPhoenix
+
+さて、以前[Exercism](https://exercism.org/tracks/elixir)で[Elixir](https://elixir-lang.org/)をいじってみて、その言語がとても気に入りました。[Phoenixフレームワーク](https://www.phoenixframework.org/)を見つけましたが、あまりよく理解できませんでした。
+
+関数型言語は、その規約とワークフローを理解するのに時間がかかりました。まるでまったく新しい世界のようでした。
+
+それでも、Elixir開発者としてフルタイムになる前にしばらく待ちました。PHPでの小さなフリーランス仕事と他の小さなプロジェクトを受けながら。しかし_CV_ にこう書くことにしました：
+
+> 「Elixirベースのプロジェクトに参加したいです」
+
+_LiveView_ の考え方が本当好きでした。SPAのような体験を実現するために別のフロントエンドフレームワークが不要だということです。そもそもInertia.jsは必要ありませんでした。
+
+_LiveView_ が作られる前からアダプターは利用可能ですが。
+
+```github
+devato/inertia_phoenix | Un adaptador de Inertia.js para Phoenix
+```
+
+2022年2月、フルタイムのElixir開発者として最初のオファーを受け取りました。Elixirで仕事がしたいと言っただけで、以前の経験は不要でした！.
+
+そこで_LiveView_ と[Surface UI](https://surface-ui.org/)についてより深く学びました。
+
+[Grox.io](https://grox.io/)の素晴らしい先生[Bruce Tate](https://twitter.com/redrapids)のコースまで受講しました。素晴らしい経験でした。強くお勧めします。
+
+### 長所
+
+- Elixirは楽しい言語です。*fun*ctionalで、作業も*楽しい*です。
+
+- 良い仕事を見つけて選ばれるのはより簡単です。求人は多いが競争相手も多いJavascriptのような他の市場と比べると。
+
+- [Erlang](https://www.erlang-solutions.com/)（1986）のエコシステムはJava（1995）より古いです。つまり、並行性のような現実世界の問題に対する堅牢な解決策がたくさん詰まっています。
+
+### 短所
+
+- 私の国ではElixirを使う企業は少なく（早く変わってほしいのですが）、しかし英語ができれば国際的なリモート職に簡単にアクセスできます。
+
+## 結論
+
+なぜElixirを選んだのか？楽しく、関数型で、堅牢だからです。そして言語が好きだっただけで夢のような仕事に就けました。面接してもらうだけのために「博士論文」を書かなければならない他の技術とは対照的に。Elixirの求職体験はスムーズでした。
+
+その最初のElixirの仕事は2022年10月に終わり、しばらくの小休憩の後、すぐにまた夢のような仕事に就きました。
+
+Elixirはテクノロジーの面でも求人市場の面でも強力な存在です。
+
+私にとってそれは2020年代の技術であり、それ以上です！.

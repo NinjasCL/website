@@ -1,0 +1,58 @@
+---
+title: Moodbit. Chatbot de Slack para Evaluar las emociones
+slug: moodbit-chatbot-para-evaluar-las-emociones
+date: 2019-09-21 14:26:26 +00:00
+description: Moodbit. Chatbot de Slack para Evaluar las emociones. Creado con AWS Lambda y AWS Quicksight.
+featured_image: /blog/moodbit-chatbot-para-evaluar-las-emociones/cover.png
+tags: slack, javascript, aws, lambda, chatbot
+---
+
+![Moodbit](moodbit.png)
+
+Fui un contratista *remoto* para la empresa _Moodbit_ (Nueva York,
+USA) entre algunos meses del 2018 y 2019. Mi labor consistió en
+desarrollar un chatbot para _Slack_ que utilizaba algoritmos de
+machine learning para evaluar los "sentimientos" y "emociones" de
+las personas en el chat. Además de elaborar un _Dashboard_ que se
+integrara a _AWS Quicksight_ para mostrar los resultados.
+
+## Tecnologías Usadas
+
+- AWS Lambda (Javascript y Python).
+- AWS Sagemaker (Python).
+- AWS RDS (Base de Datos).
+- AWS API Gateway (Endpoints).
+- AWS Cognito (Cuentas Usuarios).
+- AWS Quicksight (Paneles de Información y Reportes).
+- Slack SDK (Conexión con Slack).
+- Google Cloud Natural Language (Análisis de Sentimientos de Texto).
+- React.js (Frontend).
+- Firebase (Hosting).
+
+## Tareas
+
+- Programar funciones de _AWS Lambda_ para integración con _Slack_.
+- Diseño de la base de datos en _AWS RDS_.
+- Crear dashboard en _AWS Quicksight_.
+- Crear frontend con _React.js_ para integrar _AWS Cognito_ y _AWS
+  Quicksight_.
+- Configurar _AWS SageMaker_ para integrarse con _AWS Lambda_ y
+  entregar resultados.
+- Integrar con la API de _Google CNL_.
+- Configurar _Firebase_ para hospedar el sitio web.
+
+## Challenge
+
+Adicionalmente elaboré un _Challenge_ de código para evaluar
+candidatos para sumarse al equipo.
+
+- [Moodbit Challenge](challenge.pdf)
+
+``` =html
+<video src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  data-canonical-src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  controls="controls"
+  muted="muted"
+  style="max-height:640px; min-height: 80dvh; width:100%;">
+</video>
+```

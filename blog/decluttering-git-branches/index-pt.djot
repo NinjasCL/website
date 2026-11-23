@@ -1,0 +1,63 @@
+---
+title: Organizando Ramos do Git
+slug: decluttering-git-branches
+date: 2018-09-25 20:34:27 +00:00
+description: Esta é uma forma rápida de arquivar um ramo do git. Talvez você não use mais o código e o ramo esteja desorganizando o repositório, mas por backup ou razões históricas você precisa mantê-lo em algum lugar.
+featured_image: /blog/decluttering-git-branches/cover.jpg
+tags: git, clutter, commands, english
+---
+
+![Foto de Beng Ragon no Unsplash](cover.jpg)
+
+Esta é uma forma rápida de arquivar um ramo do git. Talvez você não
+use mais o código e o ramo esteja desorganizando o repositório, mas
+por backup ou razões históricas você precisa mantê-lo em algum
+lugar.
+
+A primeira coisa é fazer checkout para o ramo.
+
+```bash
+$ git checkout my-branch
+```
+
+Depois crie uma nova tag. Eu uso o formato `archive/branch-{name}`.
+
+```bash
+$ git tag archive/branch-my-branch
+```
+
+Agora podemos enviar as tags para o Github ou o Gitlab.
+
+```bash
+$ git push origin --tags
+```
+
+E apagar o ramo dos repositórios local e origin.
+
+Certifique-se de estar em outro ramo, como o master.
+
+```bash
+$ git checkout master
+```
+
+Então
+
+```bash
+$ git branch -d my-branch
+$ git push origin :my-branch
+```
+
+Se precisar apagar a tag (e todo o backup do ramo) do local
+
+```bash
+$ git tag -d archive/branch-my-branch
+```
+
+Ou do origin
+
+```bash
+$ git push --delete origin archive/branch-my-branch
+```
+
+Isto apagará todos os dados do ramo marcado. Por favor, tenha
+cuidado.

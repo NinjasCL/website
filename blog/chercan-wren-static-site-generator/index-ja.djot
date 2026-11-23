@@ -1,0 +1,83 @@
+---
+title: Chercán、Wrenの静的サイトジェネレーター
+slug: chercan-wren-static-site-generator
+date: 2020-11-24 01:16:21 +00:00
+description: Chercánは、WrenとAsciidocを使ってHTMLページを作成できるシンプルな静的サイトジェネレーターです。
+featured_image: /blog/chercan-wren-static-site-generator/cover.jpg
+tags: wren, chercán, ssg, generators
+---
+
+![チリの鳥](cover.jpg)
+
+[Wren](https://wren.io) は、小さくて高速な、クラスベースの並行スクリプト言語です。
+
+Luaサイズのパッケージに収まったSmalltalkに、Erlangの風味と親しみやすいモダンな構文を加えたものと考えてください。
+
+```js
+System.print("Hello, world!")
+
+class Wren {
+  flyTo(city) {
+    System.print("Flying to %(city)")
+  }
+}
+
+var adjectives = Fiber.new {
+  ["small", "clean", "fast"].each {|word| Fiber.yield(word) }
+}
+
+while (!adjectives.isDone) System.print(adjectives.call())
+```
+
+## Chercán
+
+Wrenプログラミング言語を使ったシンプルな静的サイトジェネレーターです。
+
+[Chercán](https://github.com/NinjasCL/chercan) (<https://github.com/NinjasCL/chercan>) は、_Wren_ と _Asciidoc_
+を使ってHTMLページを作成できるシンプルな静的サイトジェネレーターです。ぜひチェックしてみてください。
+
+```text
+.
+├── LICENSE
+├── Makefile
+├── README.adoc
+├── chercan
+│   ├── build.wren
+│   └── config.wren
+├── content
+│   ├── hello
+│   │   ├── hello.adoc
+│   │   └── hello.html
+│   ├── hello.wren
+│   └── index.wren
+├── docs
+│   ├── hello.html
+│   ├── index.html
+│   ├── normalize.css
+│   └── sakura-vader.css
+├── static
+│   ├── normalize.css
+│   └── sakura-vader.css
+├── themes
+│   └── default
+│       ├── default.wren.html
+│       ├── home.wren.html
+│       └── partials
+│           ├── footer.wren.html
+│           └── header.wren.html
+└── wren
+└── run
+```
+
+```js
+class Page {
+  static title {"Hello Chercan"}
+  static content {Asciidoc.read()}
+}
+
+return Page
+```
+
+```github
+NinjasCL/chercan | Un generador de sitios estáticos usando Wren y Asciidoc
+```

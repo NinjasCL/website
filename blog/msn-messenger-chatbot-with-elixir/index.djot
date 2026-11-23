@@ -1,0 +1,54 @@
+---
+title: Chatbot de MSN Messenger con Elixir
+slug: msn-messenger-chatbot-with-elixir
+date: 2023-09-25 12:30:13 +00:00
+description: Conecta MSN Messenger (también conocido como Windows Live Messenger) 8.5 a ChatGPT para tu propia dosis de nostalgia.
+featured_image: /blog/msn-messenger-chatbot-with-elixir/cover.png
+tags: msn, elixir, escargot, chat, chatbot, chatgpt
+---
+
+![MSN](cover.png)
+
+Conecta MSN Messenger (también conocido como Windows Live Messenger)
+8.5 a ChatGPT para tu propia dosis de nostalgia.
+
+Este chatbot está configurado para actuar como un administrador de
+cibercafé del año 2007 en Chile.
+
+## Instalación
+
+- Instala _MSNChatbot.plsc_ en los scripts de Messenger Plus.
+- Define la variable de entorno `OPENAI_API_KEY`.
+- Instala las dependencias con `mix deps.get`.
+- Ejecuta `iex -S mix run --no-halt`
+- Crea una cuenta en <https://escargot.chat/> y usa un cliente MSN
+  Messenger parcheado.
+- Configura `lib/prelude.ex` con tus propios ajustes.
+
+## ¿Cómo?
+
+Este bot usa los scripts de
+[Messenger Plus 4.83](https://escargot.chat/download/msn/extras/)
+para disparar eventos. Llama a `localhost:3000` con los parámetros y
+el servidor llama a _OpenAI_ para la respuesta.
+
+Es un enfoque limitado; un enfoque mejor sería crear un cliente
+completo usando bibliotecas como <https://github.com/RayTF/MSNPSharp>,
+pero como esto era solo un experimento divertido, dejaré ese trabajo
+a otros.
+
+## ¿Por qué?
+
+Porque es divertido ver tecnología antigua funcionando de nuevo, y
+con algunos power-ups como ChatGPT.
+
+## Créditos
+
+Un chatbot que se conecta con ChatGPT usando Messenger PLUS! como
+puente para MSN Messenger 8.5.
+Creado en 2023 por Camilo Castro.
+Elixir Chile <https://elixircl.github.io>
+
+```github
+ElixirCL/msn-chatbot | Un chatbot estilo MSN Messenger escrito en Elixir
+```

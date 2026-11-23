@@ -1,0 +1,218 @@
+---
+title: O Elixir de Odin
+slug: odin-s-elixir
+date: 2024-11-10 14:54:49 +00:00
+description: Odin e Elixir são uma combinação feita no Valhalla
+featured_image: /blog/odin-s-elixir/cover.jpg
+tags: odin, elixir, ffi
+---
+
+![Odin e Saga, uma pintura da mitologia nórdica](cover.jpg)
+
+Imagem: [Odin und Saga no Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Odin_und_Saga.jpg)
+
+## O que é Odin?
+
+Odin é uma linguagem de nível de sistema que é uma alternativa direta a _Rust_, _Zig_ ou _C_. Criar uma alternativa à linguagem _C_ é uma tarefa quase impossível, devido aos mais de 40 anos de história de _C_. Mas pelo menos uma nova linguagem de programação pode ser uma alternativa ao _C_ em sistemas e arquiteturas modernas, como diz o site "Odin é a alternativa ao C pela alegria de programar". A implementação oficial de Odin atualmente suporta: amd64, arm64/aarch64 (Raspberry Pi) e wasm32/wasm64p32. A linguagem toma emprestado bastante de: _Pascal_, _C_, _Go_, _Oberon-2_, _Newsqueak_, _GLSL_.
+
+## Quais são os princípios que guiam o design de Odin?
+
+Odin é uma linguagem de programação de propósito geral com tipagem distinta, construída para alta performance, sistemas modernos e programação orientada a dados.
+
+- Simplicidade e legibilidade.
+- Minimalista: deve haver apenas uma forma de escrever algo.
+- Buscando a ortogonalidade.
+- Programas tratam de transformar dados em outras formas de dados.
+- Código trata de expressar algoritmos—não o sistema de tipos.
+- Há conhecimento e sabedoria embutidos em linguagens de programação mais antigas.
+- A especificação completa da linguagem deveria poder ser memorizada por um simples mortal.
+
+*Olá Mundo em Odin*
+
+```go
+package main
+
+import "core:fmt"
+
+main :: proc() {
+	fmt.println("Hellope!")
+}
+```
+
+*Fibonacci*
+
+```go
+fibonacci :: proc(n: int) -> int {
+	switch {
+        case n < 1:
+            return 0
+        case n == 1:
+            return 1
+	}
+	return fibonacci(n-1) + fibonacci(n-2)
+}
+
+fmt.println(fibonacci(3)) // 2
+```
+
+## O Elixir de Odin?
+
+_Odin_ e _Elixir_ são uma combinação feita no _Valhalla_. Com _Elixir_ podemos criar sistemas robustos e confiáveis e com Odin podemos criar extensões de baixo nível potentes e seguras com FFI, ou aplicações de terminal e bibliotecas autocontidas que podem ser compartilhadas com outras linguagens de programação, em vez de usar alternativas como _C_, _Rust_, _Zig_ ou _Go_.
+
+Este é um vídeo de como integrar _Odin_ e _Elixir_:
+
+```youtube
+Gyt0kzLhtgs
+```
+
+Elixir (2011) e Odin (2016), apesar de serem linguagens muito modernas, são bastante pequenas. Você pode ler o guia da linguagem em algumas horas e ter um bom domínio dos conceitos básicos. Isso leva a um domínio muito mais rápido.
+
+## Caça ao Tesouro
+
+Vamos fazer um exercício simples com _CRC_ (`Constructors`, `Reducers` e `Converters`), um princípio de organização de código criado por _Bruce Tate_.
+
+```youtube
+69wZzHYa0aM
+```
+
+- `Constructors`: São procedimentos (ou funções) que criam e configuram estruturas de dados que serão passadas aos `Reducers` e `Converters`. Essa estrutura de dados é conhecida como o `accumulator` ou `token`.
+
+- `Reducers`: Esses procedimentos pegam o `accumulator` e o "reduzem", aplicando um pipeline de diferentes operações e procedimentos até que alcance um estado pronto para o `Converter`.
+
+- `Converter`: Pega o accumulator e o "converte" para um formato final, que está pronto para ser exibido ao usuário ou passado para outro pipeline de _CRC_. Um exemplo seria um procedimento que pega uma estrutura de dados `json` e a converte para `string`, essa string será passada ao pipeline para salvar os conteúdos num arquivo em disco.
+
+Graças a essa forma de organização, podemos ver o nosso código de uma maneira coerente e unificada. Ao ter uma estrutura de dados comum com vários procedimentos (ou funções), podemos realizar operações e nos expressar com maior legibilidade. Nossos sistemas serão mais fáceis de entender e manter no futuro. A consistência é um fator de qualidade importante nos nossos sistemas e usar _CRC_ é uma ótima ferramenta para alcançar isso. A ideia realmente valiosa nesse princípio é que é extremamente útil se você puder separar claramente os procedimentos que mudam o estado dos que não mudam. Isso se deve a que você pode usar os procedimentos criadores em muitas situações com muito mais confiança, introduzindo-os em qualquer parte, mudando a sua ordem. É preciso ter mais cuidado com os reducers e converters.
+
+### Versão em Elixir
+
+```elixir
+defmodule Treasure do
+  # Creator
+  def new(x, y), do: {x, y}
+  def new, do: new(0, 0)
+
+  # Reducers
+  def north({x, y}), do: {x, y - 1}
+  def south({x, y}), do: {x, y + 1}
+
+  def east({x, y}), do: {x - 1, y}
+  def west({x, y}), do: {x + 1, y}
+
+  # Converter
+  def show({x, y}), do: "The treasure is located at (#{x},#{y})"
+end
+
+
+Treasure.new()
+|> north()
+|> north()
+|> north()
+|> north()
+|> west()
+|> west()
+|> west()
+|> south()
+|> east()
+|> east()
+|> east()
+|> show() # The treasure is located at (0,-3)
+```
+
+### Versão em Odin 1
+
+```go
+package CRC
+
+import "core:fmt"
+
+Treasure :: struct {
+    x: int,
+    y: int
+}
+
+// Constructors
+new :: proc(x: int, y: int) -> Treasure {
+    treasure : Treasure
+    treasure.x = x
+    treasure.y = y
+    return treasure
+}
+
+empty :: proc() -> Treasure {
+    return new(0, 0)
+}
+
+// Reducers
+north :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x, treasure.y - 1)
+}
+
+south :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x, treasure.y + 1)
+}
+
+east :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x - 1, treasure.y)
+}
+
+west :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x + 1, treasure.y)
+}
+
+// Converter
+show :: proc (treasure : Treasure) -> (string, int, int) {
+    return "The treasure is located at (%d, %d)", treasure.x, treasure.y
+}
+
+// Pipeline
+main :: proc() {
+    treasure := empty() // (0, 0)
+    treasure = north(treasure) // (0, -1)
+    treasure = north(treasure) // (0, -2)
+    treasure = north(treasure) // (0, -3)
+    treasure = north(treasure) // (0, -4)
+    treasure = west(treasure)  // (1, -4)
+    treasure = west(treasure)  // (2, -4)
+    treasure = west(treasure)  // (3, -4)
+    treasure = south(treasure) // (3, -3)
+    treasure = east(treasure)  // (2, -3)
+    treasure = east(treasure)  // (1, -3)
+    treasure = east(treasure)  // (0, -3)
+    out, x, y := show(treasure)
+    fmt.printfln(out, x, y) // The treasure is at (0, -3)
+}
+```
+
+### Versão em Odin 2
+
+Odin fornece outra forma interessante de abordar esse desafio. É usando técnicas de [_programação com arrays_](https://odin-lang.org/docs/overview/#array-programming) onde as operações básicas (+, -, *, etc.) sobre dois arrays de tamanho fixo do mesmo comprimento são feitas elemento a elemento. Uma das maravilhas de _Odin_.
+
+```go
+Treasure :: [2]int
+
+NORTH :: Treasure{ 0, -1}
+SOUTH :: Treasure{ 0, +1}
+EAST  :: Treasure{-1,  0}
+WEST  :: Treasure{+1,  0}
+
+treasure := \
+    NORTH + // (0, -1)
+    NORTH + // (0, -2)
+    NORTH + // (0, -3)
+    NORTH + // (0, -4)
+    WEST +  // (1, -4)
+    WEST +  // (2, -4)
+    WEST +  // (3, -4)
+    SOUTH + // (3, -3)
+    EAST +  // (2, -3)
+    EAST +  // (1, -3)
+    EAST    // (0, -3)
+```
+
+Isso tem a grande vantagem de que, se algo como um _string_ for usado em vez de números para gerar o mapa do tesouro, não vai compilar. A validação fica então no nível do compilador em vez de em tempo de execução.
+
+## Reflexões Finais
+
+_Odin_ e _Elixir_ fornecem ferramentas potentes para criar sistemas robustos, de baixo nível, bindings e código com boa performance. Qualquer desenvolvedor de _Elixir_ se beneficiaria aprendendo _Odin_ e qualquer desenvolvedor de _Odin_ se beneficiaria aprendendo _Elixir_.
+
+_Odin_ e _Elixir_ são verdadeiramente uma combinação feita no Valhalla.

@@ -1,0 +1,26 @@
+---
+title: Wren Playground
+slug: wren-playground
+date: 2021-05-04 01:00:19 +00:00
+description: A small alternative to https://runjs.app/ but for the Wren language called Wren Playground.
+featured_image: /blog/wren-playground/cover.jpg
+tags: wren, playground, english, js, electron
+---
+
+![Photo by Amee Fairbank-Brown on Unsplash](cover.jpg)
+
+```github
+ninjascl/wren-playground | Un playground para ejecutar Wren en el navegador
+```
+
+## Tools
+
+It was created using the following components:
+
+- React 16
+- [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate)
+- [Wren CLI](https://wren.io/)
+- [CodeJar](https://github.com/antonmedv/codejar)
+- [Prism](https://prismjs.com/)
+
+Have fun!

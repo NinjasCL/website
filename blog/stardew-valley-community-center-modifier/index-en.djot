@@ -1,0 +1,61 @@
+---
+title: Stardew Valley Community Center Modifier
+slug: stardew-valley-community-center-modifier
+date: 2016-12-10 12:35:19 +00:00
+description: It's a simple script created in Laravel 5. Does not use databases. Run Using Mamp/Wamp/Xampp, Laravel's Valet or PHP's build in server.
+featured_image: /blog/stardew-valley-community-center-modifier/cover.png
+tags: games, mod, stardew valley, php, laravel
+---
+
+![Stardew Valley](cover.png)
+
+A simple tool that enables you modify the community center items and
+names. It's web based with PHP.
+
+Is compatible with Stardew Valley 1.4 and also is a self contained
+app now you can generate the XNB file needed to replace the one in
+the game for your custom one.
+
+If you need you can replace the YML files inside www/resources/yaml
+with your custom ones to begin with an already modified community
+center.
+
+Just execute `ccmod.cmd` and you will be all set (Windows only tool,
+but the xnb files can work in any OS).
+
+> Note: Because the script generates a heavy webpage (50mb) it will
+> took a little while to load successfully.
+
+- <https://github.com/NinjasCL-archive/stardewvalley-ccmod>
+
+## Technologies
+
+- Laravel 5
+- PHP
+- Yaml
+- jQuery
+- Bulma.css
+- Windows CMD
+
+## Example Bundle
+
+The game requires you to use animal products in the Community Center
+for completing the arc. I wanted a vegan alternative so I made a
+little mod just for that.
+
+![Bundle](bundle.webp)
+
+### Installation
+
+Copy `Bundles.xnb` replacing the file in `Data/Bundles.xnb` inside
+the StarDew Valley files.
+
+### Important
+
+- Backup your files.
+- Use at your own risk.
+- This is beta, may crash the game. Currently tested on SDV v1.1.
+
+```github
+NinjasCL-archive/stardewvalley-veganmod | Un mod que modifica el Centro Comunitario de Stardew Valley
+```

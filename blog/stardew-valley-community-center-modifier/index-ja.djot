@@ -1,0 +1,51 @@
+---
+title: Stardew Valley コミュニティセンター変更ツール
+slug: stardew-valley-community-center-modifier
+date: 2016-12-10 12:35:19 +00:00
+description: Laravel 5で作られたシンプルなスクリプトです。データベースは使用しません。Mamp/Wamp/Xampp、LaravelのValet、またはPHPの内蔵サーバーで実行できます。
+featured_image: /blog/stardew-valley-community-center-modifier/cover.png
+tags: games, mod, stardew valley, php, laravel
+---
+
+![Stardew Valley](cover.png)
+
+コミュニティセンターのアイテムと名前を変更できるシンプルなツールです。PHPを使ったウェブベースです。
+
+Stardew Valley 1.4と互換性があり、自己完結型アプリでもあります。ゲーム内のファイルをカスタム版に置き換えるために必要なXNBファイルを生成できるようになりました。
+
+必要に応じて、www/resources/yaml内のYMLファイルをカスタムのものに置き換えて、すでに変更されたコミュニティセンターから始めることもできます。
+
+`ccmod.cmd` を実行するだけで準備完了です(Windows専用ツールですが、xnbファイルはどのOSでも機能します)。
+
+> 注意: このスクリプトは重いウェブページ(50mb)を生成するため、正常に読み込まれるまで少し時間がかかります。
+
+- <https://github.com/NinjasCL-archive/stardewvalley-ccmod>
+
+## 技術
+
+- Laravel 5
+- PHP
+- Yaml
+- jQuery
+- Bulma.css
+- Windows CMD
+
+## バンドルの例
+
+ゲームでは、ストーリーを完了するためにコミュニティセンターで動物性製品を使用する必要があります。私はビーガンの代替が欲しかったので、そのためだけの小さなmodを作りました。
+
+![バンドル](bundle.webp)
+
+### インストール
+
+StarDew Valleyのファイル内の `Data/Bundles.xnb` を、`Bundles.xnb` をコピーして置き換えます。
+
+### 重要
+
+- ファイルをバックアップしてください。
+- 自己責任で使用してください。
+- これはベータ版で、ゲームがクラッシュする可能性があります。現在SDV v1.1でテスト済みです。
+
+```github
+NinjasCL-archive/stardewvalley-veganmod | Un mod que modifica el Centro Comunitario de Stardew Valley
+```

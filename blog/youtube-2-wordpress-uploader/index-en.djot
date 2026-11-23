@@ -1,0 +1,78 @@
+---
+title: Youtube 2 Wordpress Uploader
+slug: youtube-2-wordpress-uploader
+date: 2020-05-27 15:40:15 +00:00
+description: This simple script can create a new post in your Wordpress using the data found in a Youtube url. Be sure to configure your Wordpress with Basic Auth Plugin (And .htaccess config) first before using the Rest API.
+featured_image: /blog/youtube-2-wordpress-uploader/cover.jpg
+tags: youtube, wordpress, javascript, php, rest, api, script
+---
+
+![Photo by Christian Wiediger on Unsplash](cover.jpg)
+
+This simple script can create a new post in your _Wordpress_ using
+the data found in a _Youtube_ url.
+
+This is a simple script that will download a _Youtube_ video
+thumbnail and upload it to a _Wordpress_ website including the
+_Youtube Url_. (Using _Wordpress JSON API_).
+
+```github
+NinjasCL/youtube2wordpress | Sube videos de YouTube a WordPress automáticamente
+```
+
+## Technologies used
+
+_JavaScript_ Libraries Used:
+
+- [Scrape Youtube](https://www.npmjs.com/package/scrape-youtube)
+- [Wget Improved](https://www.npmjs.com/package/wget-improved)
+- [Wordpress API](https://www.npmjs.com/package/wpapi)
+
+Be sure to configure your _Wordpress_ with
+[Basic Auth Plugin](https://github.com/WP-API/Basic-Auth/issues/35#issuecomment-470532805)
+(And _.htaccess_ config) first before using the Rest API.
+
+## Windows
+
+This repo contains a bundled executable with everything you need
+(nodejs) to execute the scripts with just a double click. See
+[Releases](https://github.com/NinjasCL/youtube2wordpress/releases).
+
+![Screenshot of the script](screenshot.png)
+
+## Usage
+
+You can use any search term (separated by spaces). The first
+result will be the video uploaded. The best result is achieved
+by using the full url of the video (althought sometimes this can
+bring the wrong video).
+
+Use `+` signs to separate words with spaces.
+
+The same as _Youtube Search_ bar, try your query there first. The
+first result will be used.
+
+```sh
+node index.js "youtube-url1 youtube-url2 youtube-url-n"
+```
+
+## Considerations
+
+The script will search the _Youtube_ url and use the first match.
+Sometimes _Youtube_ does not return the correct video even when
+using the full url. Be sure to test your search queries in
+_Youtube_ to create a query that returns your video as the first
+result.
+
+## Configure
+
+The file `config.json` contains the configuration needed to
+connect with a _Wordpress Rest JSON API_. Ensure that your
+_Wordpress_ is properly configured (Check
+<https://github.com/WP-API/Basic-Auth/issues/35#issuecomment-470532805>).
+
+## License
+
+MIT
+
+Made with ❤️ by [Ninjas.cl](https://ninjas.cl).

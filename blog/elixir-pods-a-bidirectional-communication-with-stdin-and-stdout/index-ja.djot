@@ -1,0 +1,60 @@
+---
+title: Elixir Pods: stdinとstdoutによる双方向通信
+slug: elixir-pods-a-bidirectional-communication-with-stdin-and-stdout
+date: 2024-05-02 13:35:49 +00:00
+description: 🌉 Elixir Podsは、stdinとstdoutを使って外部プログラムとの通信を可能にします
+featured_image: /blog/elixir-pods-a-bidirectional-communication-with-stdin-and-stdout/cover.jpg
+tags: elixir, pods, cli, stdin, stdout
+---
+
+![ゴールデンゲートブリッジの下](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Below_Golden_Gate_Bridge.jpeg)
+
+_Elixir Pods_ は、_Elixir_ と任意のプログラミング言語で実装されたサービス(`pod`)との通信方法です。このサービスは、標準的で実戦で鍛えられたツール(`stdin`、`stdout`、`bencode`、`json`)を使ったシンプルなプロトコル(`pod protocol`)に従う必要があります。
+
+これの主なインスピレーションは[Babashka Pods](https://github.com/babashka/pods)です。
+
+基本的には、無限ループ(`while true`)を持つコマンドラインツールで、`stdin` のコマンドをリッスンし、結果を `stdout` に出力します。
+
+完全にカスタマイズ可能なので、独自のツールと設定でプロセスマネージャーとエンコーダー/デコーダーを実装できます。
+
+## Podの実装
+
+Podは任意のテクノロジーと、そのAPIを公開するためのシンプルな _Elixir_ ラッパーで実装できます。
+
+- `artifacts`: 外部コードの実行ファイルが保存されるディレクトリ。
+- `pod.ex`: podのメインの公開API。
+- `manifest.ex`: podの詳細情報を得るためのいくつかのヘルパー関数。
+
+デバッグが必要な場合は、stdinやstdoutなどの標準ツールを使えます。Unixシステムでは(1はstdout、2はstderr)でアクセスできます。
+
+```bash
+  cat /proc/<pid>/fd/1
+```
+
+_Elixir Pod_ はいくつかのシンプルなルールに従う必要があります。
+
+- 無限関数(`while true`)。
+- `stdin` から読み取る(ストリーミングモードで)。
+- `stdout`(成功とエラー)と `stderr`(例外)に書き込む。
+- [Elixir Pods](https://github.com/ElixirCL/pods)形式に従う。
+- 少なくとも `describe` と `invoke` オペレーターを実装する。
+- [bencode](https://en.wikipedia.org/wiki/Bencode)でメッセージをエンコードする。
+- ペイロードを _JSON_ でエンコードする。
+
+## インストール
+
+[Hexで利用可能](https://hex.pm/docs/publish)な場合、`mix.exs` の依存関係リストに `pods` を追加することでインストールできます。
+
+```elixir
+def deps do
+  [
+    {:pods, "~> 1.0.0"}
+  ]
+end
+```
+
+```github
+ElixirCL/pods | Comunicación bidireccional con stdin y stdout para pods de Elixir
+```

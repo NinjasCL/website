@@ -1,0 +1,79 @@
+---
+title: PlutoとRocという言語
+slug: lenguajes-pluto-y-roc
+date: 2024-05-14 17:35:47 +00:00
+description: プログラミング言語PlutoとRocの概要
+featured_image: /blog/lenguajes-pluto-y-roc/cover.jpg
+tags: pluto, roc, lenguajes, código
+---
+
+![冥王星とカロン](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pluto_and_Charon_(4092391173).jpg)
+
+プログラミング言語を探していて、**Elixir**のようにパイプ演算子 `|>`
+を使えるという点で興味深い言語を二つ見つけました。
+
+## Pluto
+
+_Pluto_ は_Lua_をベースとしたプログラミング言語です。LuaのVMをフォークしたもので、
+とても優れた追加機能がいくつかあります。
+
+```lua
+local { http, json } = require "pluto:*"
+
+http.request("https://httpbin.org/get")
+|> json.decode
+|> dumpvar
+|> print
+```
+
+<https://pluto-lang.org>
+
+## Roc
+
+Rocは関数型でイミュータブルな言語です。
+
+<https://www.roc-lang.org/>
+
+```elixir
+app [main] { pf: platform "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br" }
+
+import pf.Stdout
+import pf.Task
+
+main =
+    List.range { start: At 1, end: At 100 }
+    |> List.map fizzBuzz
+    |> Str.joinWith ","
+    |> Stdout.line
+```
+
+## Wren
+
+また、_Wren_ でもパイプを使う実験が行われましたが、
+ペースの遅い言語であるため、まだ公式なものはありません。
+
+<https://github.com/wren-lang/wren/issues/1144>
+
+[**@mhermier**](https://github.com/wren-lang/wren/issues/1144#issuecomment-1489819677)
+のコメントが注目に値します:
+
+オブジェクト指向プログラミング（OOP）とは、
+巨大な分類学と複雑なオブジェクト階層を作ることではありません。
+
+ドット構文（`objeto.metodo()`）の過度な使用は、
+その誤った解釈の結果です。
+
+OOPとは、アヒルのように鳴くが、必ずしもアヒルではないオブジェクトを持つことです
+（quack like a duck, but is not a duck）。
+
+OOPにはメソッドしか存在せず関数はない、という大きな混乱があります。
+_Smalltalk_（OOPの父）でさえ関数が存在します
+（特別な構文の下に隠れていますが）。
+
+[...]
+
+パイプは関数を扱うための優れたツールであり、
+関数と同様に、関数として振る舞うオブジェクト（OOPの原則に従って）にも
+考慮されるべきです。

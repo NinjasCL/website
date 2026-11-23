@@ -1,0 +1,27 @@
+---
+title: Instalar Elixir en una Raspberry PI
+slug: instalar-elixir-en-una-raspberry-pi
+date: 2022-10-05 15:16:49 +00:00
+description: Una pequeña guía para instalar Elixir en una Raspberry PI
+featured_image: /blog/instalar-elixir-en-una-raspberry-pi/cover.png
+tags: debian, linux, raspberry
+---
+
+![Captura del ambiente](cover.png)
+
+Un simple proyecto para documentar la configuración del ambiente para
+desarrollo con Elixir en una Raspberry Pi 4.
+
+También servirá en su mayoria para cualquier Debian 11.
+
+La idea es tener un entorno minimalista pero bonito, que tenga todas
+las herramientas necesarias para desarrollar proyectos con Elixir.
+
+## Componentes de hardware
+
+- Rasperry PI 4 Model B 8GB Ram comprada en <https://altronics.cl/>
+- Tarjeta SD Kingstone 32 GB (KN3-042).
+
+```github
+ElixirCL/machine | Elixir corriendo en máquinas pequeñas como la Raspberry Pi
+```

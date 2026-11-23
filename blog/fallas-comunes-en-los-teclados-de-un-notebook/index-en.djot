@@ -1,0 +1,45 @@
+---
+title: Common Failures in Notebook Keyboards
+slug: fallas-comunes-en-los-teclados-de-un-notebook
+date: 2024-05-28 13:52:45 +00:00
+description: A common failure in today's notebook keyboards.
+featured_image: /blog/fallas-comunes-en-los-teclados-de-un-notebook/cover.jpg
+tags: notebook, reparación, teclados
+---
+
+![An HP notebook keyboard](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:HP_laptop_keyboard.jpg)
+
+The other day a computer came in for repair — an _HP 14 Laptop_. I
+think keyboard failures are common in modern notebooks.
+
+But it is not just any failure: usually the keyboard works fine
+except that some keys stop responding. Keys in one row.
+
+For example, this keyboard worked for every key except the `zxcv`
+row.
+
+Booting from a USB stick with a Linux system did not help — the
+keyboard still failed, so it was not a driver or configuration
+issue.
+
+The trouble I keep finding is that some notebook models,
+especially the cheap ones, place the battery right over the
+keyboard's connection cable.
+
+This particular notebook had a lot of dust under the battery and
+over the keyboard cable, which caused interference when sending
+signals.
+
+The recommendation is simply to clean the cable with isopropyl
+alcohol and give the notebook and its components a general
+cleaning.
+
+Following an official manufacturer's manual, it is easy to know
+which screwdrivers to use and which screws to remove to open the
+notebook.
+
+Before thinking about buying a new machine, a general cleaning is
+always worth doing — maybe it is just dirt keeping our electronics
+from working properly.

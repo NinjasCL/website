@@ -1,0 +1,61 @@
+---
+title: Decluttering Git Branches
+slug: decluttering-git-branches
+date: 2018-09-25 20:34:27 +00:00
+description: This is a quick way to archive a git branch. Maybe you do not use the code anymore and the branch is cluttering the repo but for backup or historical reasons you need to keep it somewhere.
+featured_image: /blog/decluttering-git-branches/cover.jpg
+tags: git, clutter, commands, english
+---
+
+![Photo by Beng Ragon on Unsplash](cover.jpg)
+
+This is a quick way to archive a git branch. Maybe you do not use
+the code anymore and the branch is cluttering the repo but for backup
+or historical reasons you need to keep it somewhere.
+
+The first thing is to checkout to the branch.
+
+```bash
+$ git checkout my-branch
+```
+
+Then create a new tag. I use the format `archive/branch-{name}`.
+
+```bash
+$ git tag archive/branch-my-branch
+```
+
+Now we can upload the tags to Github or Gitlab.
+
+```bash
+$ git push origin --tags
+```
+
+And delete the branch from local and origin repos.
+
+Be sure to be in another branch like master.
+
+```bash
+$ git checkout master
+```
+
+Then
+
+```bash
+$ git branch -d my-branch
+$ git push origin :my-branch
+```
+
+If you need to delete the tag (an all the branch backup) from local
+
+```bash
+$ git tag -d archive/branch-my-branch
+```
+
+Or from origin
+
+```bash
+$ git push --delete origin archive/branch-my-branch
+```
+
+This will erase all tagged branch data though. Please be careful.

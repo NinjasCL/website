@@ -1,0 +1,170 @@
+---
+title: Why I selected Elixir and Phoenix as my main stack
+slug: why-i-selected-elixir-and-phoenix-as-my-main-stack
+date: 2023-01-21 14:41:37 +00:00
+description: This is just a personal journey documentation on how I decided to use my current tech stack. Why I selected Elixir?. Because I found it fun, functional and robust. And I landed a dream like job just because I liked the language.
+featured_image: /blog/why-i-selected-elixir-and-phoenix-as-my-main-stack/cover.jpg
+tags: elixir, english, webdev, programming, beginners
+---
+
+![Photo by Markus Spiske on Unsplash](cover.jpg)
+
+This is just a personal journey documentation on how I decided to use my current tech stack.
+
+Over the years I have tried different frameworks, mostly in PHP, like [Code Igniter](https://codeigniter.com/) (2010), [ProcessWire](https://processwire.com/) (2014) and [Laravel](https://laravel.com/) (2015).
+
+They helped me complete different projects with diverse complexity. They are wonderful tools. But sadly most of the jobs I managed to land were using legacy versions of PHP and the codebase and developer experience was spartan to say the least. As an example in one project (2020) I had to connect to a remote Windows machine, edit the code in Notepad++ and then upload it using FTP. Odd workflows aside, I wanted to land more modern projects. So I embarked in a quest to find a new tech stack.
+
+First I wanted to update my tools, maybe I just needed a small patch instead of changing them. So I made a project for a client using Laravel, [Inertia.js](https://inertiajs.com/), [Svelte](https://svelte.dev/), and then other project using Laravel, Inertia and [React](https://reactjs.org/). I liked _Svelte_ over _React_, so if future frontend projects appear, my main tool would be _Svelte_.
+
+Both projects resulted in a superb improved developer experience and were finished in record time. A single monolith with backend and frontend did wonders because I did not need to create REST apis or GraphQL endpoints to make a fullstack system. Now I can have all the power of an SPA with all the good parts of a Backend, like direct access to a database.
+
+I explored using _Inertia.js_ as my main tool and made some adapters for ProcessWire, to understand better how it worked.
+
+```ninjas
+inertia-js-adapter-for-processwire | Adaptador de Inertia.js para ProcessWire | Inertia te permite crear aplicaciones de página única completamente renderizadas del lado del cliente, sin gran parte de la complejidad que conllevan las SPA modernas. Para el proyecto ProcessWire creé este simple adaptador de Inertia. Y también un proyecto de ejemplo ProcessWire + Svelte + Laravel Mix + Inertia. | /blog/inertia-js-adapter-for-processwire/cover.avif
+```
+
+## Vapor (Swift)
+
+My first option other than PHP was using [Swift](https://developer.apple.com/swift/) and [Vapor](https://vapor.codes/). I have made some projects with iOS and Objective-C, maybe I could also learn _Swift_ and create both native iOS apps and backends with the same language.
+
+But I discovered that it lacked the _Inertia.js_ adapter, so I found this project
+
+```github
+lloople/vapor-inertia-adapter | Un adaptador de Inertia.js para Vapor
+```
+
+and created an example
+
+```github
+ninjascl/vapor-inertia-svelte-example | Un ejemplo de Vapor con Inertia.js y Svelte
+```
+
+### Pros
+
+- Using _Xcode_ to program a backend application was super nice, It was awesome to have an IDE with all the bells and whistles for the _Swift_ language.
+
+- Coming from _Objective-C_ was helpful to understand the Apple ecosystem and workflows.
+
+### Cons
+
+- I often have to resort to other editors such as _VSCode_ to edit non well supported files such as _JS_, _CSS_ or _HTML_ files.
+
+- If you want to use _XCode_ you need to use an updated operating system, if you have an older not supported Mac computer you will need to use _Docker_ and use the _Linux_ version of the _Vapor_ framework, with poorer perfomance and developer experience due to using containers instead of _Xcode_.
+
+## Masonite (Python)
+
+[Masonite](https://docs.masoniteproject.com/) is a wonderful [Python](https://www.python.org/) framework, much similar to _Laravel_ I found in 2018. I even chatted with Joseph about it in the old Slack channels, before the community moved to Discord.
+
+```embed
+https://dev.to/masonite/the-history-of-the-masonite-framework-2n2b | The History of the Masonite Framework | La historia de cómo surgió el framework Masonite
+```
+
+And there were some _Masonite_ Inertia adapter too
+
+```github
+girardinsamuel/masonite-inertia | Un adaptador de Inertia.js para Masonite
+```
+
+### Pros
+
+- I liked the way is well organized and the maintainer is super friendly.
+
+- You can leverage all the wonderful tools that _Python_ has like [PyCharm](https://www.jetbrains.com/pycharm/).
+
+### Cons
+
+- I did not like the way _Python_ manage it dependencies, having so many options like [Poetry](https://python-poetry.org/) or [Pipenv](https://pipenv.pypa.io/en/latest/), it feels non standarized as other languages.
+
+- Many of the available jobs for _Python_ that I could find were either for [_Django_](https://www.djangoproject.com/) based projects or Machine Learning stuff I didn't like too much. So using _Masonite_ would only be for green field type projects.
+
+## Springboot (Java)
+
+In university I learned a bit of [Java](https://www.java.com/), so maybe I could use it professionally I guess?. There were many options to choose from. [DropWizard](https://www.dropwizard.io/en/latest/), [Spark](https://sparkjava.com/), [Play Framework](https://www.playframework.com/). But the more documented one in the internet I found was [Springboot](https://spring.io/projects/spring-boot), besides there were some courses in spanish and some friends that knew something about _Springboot_, so I give it a chance.
+
+I created some experiments like a simple Discord bot
+
+```github
+NinjasCL/wrenbot | Un bot de Discord
+```
+
+But I could not find an adapter to Inertia, just some _POC_, and I did not want to invest too much time in creating an adapter for it.
+
+```github
+jrodalo/inertia | Una prueba de concepto de un adaptador de Inertia.js para Java
+```
+
+### Pros
+
+- Highly robust framework, lots of documentation, courses and examples.
+
+- Super mature libraries and dependencies.
+
+### Cons
+
+- Most of the jobs I could find were for Banks and other "older" institutions. That have requirements such as going to the office (before C19) and even dress codes. I prefer to work remotely.
+
+## JavaScript
+
+I already use some [_Javascript_](https://www.javascript.com/) at the frontend, why not use it at the backend?. I tried [Adonis.js](https://adonisjs.com/) because it was similar to Laravel, but felt odd to me. Also a client once required some bridge and I used [Fastify](https://www.fastify.io/).
+
+```github
+NinjasCL/airnotifier-moodle-bridge | Un puente entre AirNotifier y Moodle hecho con Fastify
+```
+
+## Pros
+
+- I already knew _Javascript_ and made some small apis and scripts.
+
+## Cons
+
+- There are lot of different frameworks out there. If you learn one, there is no guarantee that the next job you find will use the same. For example if you learn [_Express_](https://expressjs.com/) and the next one used [_Koa_](https://koajs.com/) or [_Nest_](https://nestjs.com/).
+
+- Already felt like a there were something wrong in _Javascript_, because there is always some breaking change that needs to rewrite the codebase or update the dependencies. I did not like that _npm_ throws a lot warnings in the bootstrap of the project or installing deps.
+
+## Elixir and Phoenix
+
+Ok so I previously toyed around with [Elixir](https://elixir-lang.org/) in [Exercism](https://exercism.org/tracks/elixir) and liked a lot the language. I found [Phoenix framework](https://www.phoenixframework.org/) but I did not understand it quite well.
+
+A functional language took time for me to understand the conventions and workflows. It was like a whole new world.
+
+Nevertheless I just waited some time before going fulltime as an Elixir dev. Accepting small freelance jobs in PHP and other small projects. But I decided to write in my _CV_:
+
+> "Would love to participate in Elixir based projects"
+
+I really loved the idea of _LiveView_ and how it wasn't needed a separate frontend framework to achieve a SPA like experience. So Inertia.js wasn't needed in the first place.
+
+Although an adapter is available, before _LiveView_ was created.
+
+```github
+devato/inertia_phoenix | Un adaptador de Inertia.js para Phoenix
+```
+
+In February 2022 I received my first offer as a fulltime Elixir developer, just because I said I liked to work with Elixir, no previous experience with it required!.
+
+There I learned more deeply about _LiveView_ and [Surface UI](https://surface-ui.org/).
+
+Even took a course with [Grox.io](https://grox.io/)'s awesome teacher [Bruce Tate](https://twitter.com/redrapids), It was an awesome experience. Highly recommended.
+
+### Pros
+
+- Elixir is a fun language. *fun*ctional and *fun* to work with.
+
+- Is easier to find good jobs and be selected, comparing it to other markets such as Javascript were there are more job opportunities, but also more people to compete with.
+
+- The [Erlang](https://www.erlang-solutions.com/) (1986) ecosystem is older than Java (1995). So is filled with lots of robust solutions to real world problems, like concurrency.
+
+### Cons
+
+- In my country there are few companies that uses Elixir (I hope that changes soon), but if you know english you can easily access international remote positions.
+
+## Conclusions
+
+Why I selected Elixir?. Because I found it fun, functional and robust. And I landed a dream like job just because I liked the language, compared to other technologies that I have to create a "doctoral thesis" just to be interviewed. Elixir's job seeking experience was smooth.
+
+That first Elixir job finished in October 2022 and after some small vacations I landed another dream like job soon after.
+
+Elixir is a powerhouse both in the Technology side of things and the Job market side of things.
+
+For me is the technology of the 2020's decade and much more!.

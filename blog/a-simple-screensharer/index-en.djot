@@ -1,0 +1,58 @@
+---
+title: A simple screensharer
+slug: a-simple-screensharer
+date: 2020-05-31 01:36:23 +00:00
+description: This is a simple script to solve a simple problem for taking turns in public services.
+featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+tags: javascript, node, chile, express, english
+---
+
+![Cover](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+
+Is a common problem in chilean public institutions (and many other
+places) that you have to be on site to take your turn and wait there
+until your number is reached (and you can lost your turn if you
+don't arrive on time).
+
+Many of these institutions have a turn based computer software
+similar to this one.
+
+The problem is that you cannot access that information outside the
+designated location.
+
+This software is a simple solution to that specific problem. Takes
+an screenshot of the computer screen and share it on a website,
+refreshed every 15 seconds.
+
+You still need to be present to take your number, but at least you
+can see the current status and not be required to be on site if your
+number is far to be reached.
+
+## Installation
+
+```bash
+npm install
+```
+
+## Run
+
+```bash
+npm start
+```
+
+- Recommended to use [Forever](https://github.com/foreversd/forever).
+
+## Workflow
+
+- Install and Run the server (In the computer that shows the turn
+  numbers).
+- Configure the access to the computer so it can be reached outside
+  localhost. (Configure routers and have a public ip, default port
+  is 3000). Maybe using ssh tunneling with Ngrok or similar tools.
+- Share the website using a Qr Code.
+- Now people can go to the website and see the numbers with a
+  simple screenshot.
+
+```github
+NinjasCL/screensharer | Comparte tu pantalla de forma simple, hecho en Elixir
+```

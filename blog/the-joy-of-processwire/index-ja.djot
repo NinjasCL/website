@@ -1,0 +1,89 @@
+---
+title: ProcessWireの喜び
+slug: the-joy-of-processwire
+date: 2018-11-30 14:55:21 +00:00
+description: 私たちは素晴らしいCMS/CMFであるProcessWireで楽しく作業し、楽しいプロジェクトを作っています。ここは、私たちの実験や突飛なアイデアを保管する場所です。
+featured_image: /blog/the-joy-of-processwire/cover.png
+tags: php, processwire, joy, explorations
+---
+
+![中国のロケット](cover.png)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chinese_rocket.png)
+
+私たちは素晴らしいCMS/CMF [ProcessWire](https://processwire.com) で
+楽しく作業し、面白いプロジェクトを作っています。
+ここは、私たちの実験や突飛なアイデアを保管する場所です。
+もしかしたら、その中のいくつかがあなたの役に立つかもしれません。そうなら最高です。
+
+[💻 Githubへ行く](https://github.com/joyofpw)
+
+## アイデア
+
+### ☄️ [Wire Render Pattern](https://github.com/joyofpw/wire-render-pattern)
+
+外部テンプレートシステムを使う代わりに。
+ネイティブの `wireRenderFile()` 関数を使うだけで
+シンプルから複雑なプロジェクトまで十分かもしれません。
+
+### 🈴 [Better Translatable Strings](https://github.com/joyofpw/better-translatable-strings)
+
+`wirePopulateStringTags()` 関数を使うことで、翻訳文字列が大幅に改善されることを発見してください。
+また、翻訳プロセスにも役立ちます。
+
+### 🚎 [SolidWire Pseudo Language](https://github.com/joyofpw/solidwire)
+
+さまざまなアイデアをプロトタイピングする必要があるとき。
+*SolidWire* 言語を使うと、あなたのビジョンを明確にできます。
+*templates、fields、pages* 間のさまざまな関係を
+標準化された方法で表現します。健全な規約に従うことで、より良く速くコミュニケーションできます。
+
+### 🏁 [How to Install ProcessWire](https://github.com/joyofpw/how-to-install-processwire)
+
+素晴らしい `ProcessWire` の世界への新規参入者のためのシンプルなガイド。
+
+## 実験
+
+### 🌚 [ProcessWire in Yaws](https://github.com/joyofpw/pwyaws)
+
+_ProcessWire_ を実行するための _Erlang_ サーバーのすべての力。
+
+### 🔖 [Additional Image Fields](https://github.com/joyofpw/imagefield-additional-fields)
+
+画像に追加フィールドを含めるのに役立つモジュール。URL、
+パス、またはマークダウンコードがすぐに必要なときに便利です。
+
+### 📦 [Docker files for ProcessWire](https://github.com/joyofpw/docker)
+
+*Docker* コンテナを使って *ProcessWire* プロジェクトを作るのに役立つファイル。
+
+### ⏩ [Inertia Adapter for ProcessWire](https://github.com/joyofpw/inertia)
+
+昔ながらのProcessWireテンプレートで、素晴らしい <https://inertiajs.com/> が使えるようになります。
+
+## 例
+
+### 🐦 [🇨🇱 Chilean Birds](https://github.com/joyofpw/chileanbirds-api)
+
+_SolidWire_ の使用方法と、_ProcessWire_ による小さなRest APIを紹介する
+小さな_API_ です。
+フロントエンドには _React.js_ を使用しています。
+
+### 🤖 [Voxgram](https://github.com/joyofpw/voxgram)
+
+音声を_ProcessWire_ バックエンドに保存する_Python Telegramボット_ です。
+
+### ⏩ [Svelte + ProcessWire + Laravel Mix + Inertia](https://github.com/joyofpw/inertia-svelte-mix-pw)
+
+_ProcessWire_、_Laravel Mix_、_Inertia_、_Svelte_ を実装した例です。
+
+### 🏤 [JasonBase](https://github.com/joyofpw/jasonbase)
+
+_Jasonbase_ を使うと、jsonを簡単に保存・共有できます。_WireRenderPattern_ と _Dockerfile_ を使った例。
+
+
+- <https://joyofpw.github.io/>
+
+```github
+joyofpw/joyofpw.github.io | El sitio de joyofpw: experimentos e ideas divertidas con ProcessWire
+```

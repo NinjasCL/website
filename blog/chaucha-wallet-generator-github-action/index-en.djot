@@ -1,0 +1,68 @@
+---
+title: Chaucha Wallet Generator Github Action
+slug: chaucha-wallet-generator-github-action
+date: 2020-09-18 01:29:40 +00:00
+description: This is a simple Github Action to generate Chaucha cryptocurrency wallets. This serves as an example for other cryptocurrencies similar to bitcoin.
+featured_image: /blog/chaucha-wallet-generator-github-action/cover.jpg
+tags: github, blockchain, chile, chaucha, crypto, english, python
+---
+
+![Photo by Hamed Taha on Unsplash](cover.jpg)
+
+This is a simple <https://chaucha.cl> wallet generator
+for usage within Github actions.
+
+## Example workflow
+
+```yaml
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Self test
+        id: selftest
+
+        # Put your action repo here
+        uses: proyecto-chaucha/chaucha-gha-wallet-generator@master
+        with:
+          value: "test"
+
+      - name: Check outputs
+        run: |
+          test "${{ steps.selftest.outputs.privkey }}" == "8G63zuGKfQ7ho4X1ytHr75HmrZxJq3NFQ51YSPdyDh4hsHEr2Bg"
+          test "${{ steps.selftest.outputs.pubkey }}" == "ch4uy1bAfLLf6RMcmkrHBa8oxtuMTgwXyS"
+```
+
+### Inputs
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Input</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>value</code> <em>(optional)</em></td><td>String value to create a new wallet address. Empty value will generate a random address.</td></tr>
+  </tbody>
+</table>
+```
+
+### Outputs
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Output</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>privkey</code></td><td>Chaucha Wallet Private Key Address</td></tr>
+    <tr><td><code>pubkey</code></td><td>Chaucha Wallet Public Key Address</td></tr>
+  </tbody>
+</table>
+```
+
+```github
+proyecto-chaucha/chaucha-gha-wallet-generator | GitHub Action para generar wallets de Chaucha
+```

@@ -1,0 +1,132 @@
+---
+title: Eligiendo un computador para desarrollo
+slug: eligiendo-un-computador-para-desarrollo
+date: 2023-12-12 14:28:44 +00:00
+description: En el mercado hay muchas opciones, en este pequeño artículo mostraremos algunas para que puedas elegir según tu presupuesto. Vamos a mostrar cuatro opciones de la más barata a la de mayor precio y detallar sus características.
+featured_image: /blog/eligiendo-un-computador-para-desarrollo/cover.jpg
+tags: chile, spanish, recycle, tech, begginner
+---
+
+![Computador Viejo](cover.jpg)
+
+¿Qué computador necesitamos para poder desempeñarnos como desarrolladores?.
+
+En el mercado hay muchas opciones, en este pequeño artículo mostraremos algunas para que puedas elegir según tu presupuesto. Vamos a mostrar cuatro opciones de la más barata a la de mayor precio y detallar sus características.
+
+## Opción 1: Retro (4 GB de RAM o menos)
+
+Ésta es una opción que puede variar desde precios muy baratos, hasta precios muy elevados. Todo dependerá de qué tan vetusto sea el equipo que quieras conseguir y la disponibilidad en el mercado.
+
+Una opción barata pueden ser equipos de la década del 2000, como 2007 - 2010. Están a buen precio y pueden ejecutar muchos lenguajes de programación. Los puedes encontrar en ferias de las pulgas o incluso te los pueden regalar, ya que mucha gente no los usa porque (dependiendo del equipo) ya no funcionan bien con el mundo del internet actual.
+
+Por ejemplo si deseas ejecutar Python en Windows 7 puedes usarlo hasta la versión 3.7. Aún puedes ejecutar la última versión de Elixir y Erlang en un computador con Windows 7.
+
+Aunque la recomendación siempre es ir por una distribución de Linux como Debian o Fedora que aún soportan máquinas de hace más de 10 años con la última seguridad y paquetes de software.
+
+Si bien estos equipos pueden no funcionar bien con los requisitos web actuales, pueden ser usados como laboratorio de experimentos en una diversidad enorme de lenguajes. Son un gran aliado para aprender a programar, ya que lo que aprendas utilizando C, Pascal u otro lenguaje puede ser aprovechado y servirá como piedra angular.
+
+Acá una lista de lenguajes de programación que correrían bien en una máquina con 4GB de ram o menos, incluso algunos funcionarían con menos de 64 MB de ram.
+
+- <https://www.freebasic.net/> (Basic)
+- <https://www.lazarus-ide.org/> (Free Pascal)
+- <https://gambas.sourceforge.net/> (Gambas Basic)
+- <https://www.dosbox.com/> (Emulador de DOS)
+- <https://scratch.mit.edu/> (Scratch version 2)
+- <https://smallbasic-publicwebsite.azurewebsites.net/> (MS Small Basic)
+
+### FreeDOS
+
+Existe este sistema operativo gratuito <https://www.freedos.org/> que permite ejecutar programas de MSDOS. Lo que te dará acceso a los grandes clásicos de la programación como Turbo Pascal o Turbo C.
+
+- <https://archive.org/details/msdos_qbasic_megapack>
+- <https://archive.org/details/msdos_borland_turbo_c_2.01>
+- <https://archive.org/details/softwarelibrary_msdos_apps>
+
+```youtube
+6fThPftZuAQ
+```
+
+```youtube
+iNh9ypqFyk0
+```
+
+### Versiones Legacy de Lenguajes de Programación
+
+Muchos lenguajes de programación nos acompañan desde hace varias décadas, por lo que si deseas puedes utilizar la versión más compatible con el computador adquirido. Aunque utilizar versiones viejas puede tener algunos inconvenientes puesto que los lenguajes evolucionan con el tiempo y si aprendiste con una versión legacy y te unes a un proyecto más reciente, puede que necesites re-aprender muchas cosas.
+
+Algunos lenguajes que puedes usar, pero tendrías que tener ojo, ya que sus versiones modernas pueden tener muchos cambios:
+
+- Java
+- Ruby
+- Python
+- Javascript
+- PHP
+- C#
+
+Si usarás este computador para aprender lo mejor siempre es ir por los grandes como *C*, *Assembler*, *BASIC* y *Pascal*, quizás un HTML y CSS no estarían mal.
+
+### Caso de Éxito
+
+![Dell Latitude e430](cover.jpg)
+
+Este es un computador del 2007. Un Dell Latitude e430. Fue encontrado en una casa al hacer la limpieza y fue donado.
+
+- Procesador: Intel Centrino
+- Ram: 2 GB DDR2 533 Mhz
+- Disco: 128 GB CIF (Muerto).
+
+Para repararlo se le hizo una limpieza general y cambio de pasta disipadora.
+
+Además se compró un disco duro nuevo, pero como ya no se fabrican discos duros CIF se optó por un adaptador y un disco mSata.
+
+- [Adaptador CIF a mSata](https://es.aliexpress.com/item/32826615019.html?spm=a2g0o.order_list.order_list_main.23.1aec194duL8JLU&gatewayAdapt=glo2esp)
+- [Disco mSata de 256](https://es.aliexpress.com/item/33058237041.html?spm=a2g0o.order_list.order_list_main.29.1aec194duL8JLU&gatewayAdapt=glo2esp).
+
+Se procedió a instalar Debian 12 de 64 bits. Funciona perfecto las últimas versiones de golang, rust y elixir. Aunque por la limitada capacidad de cómputo, demoran un poquito en compilar.
+
+En total adquirir y reparar este computador costo unos 15 mil pesos chilenos (20 USD).
+
+Por lo que si tu presupuesto es sumamente acotado, esta puede ser una opción para ingresar al hermoso mundo del desarrollo de software y la informática. Además de ayudar al planeta al reducir los desechos electrónicos.
+
+## Opción 2: Old School (8 GB de Ram DDR3 o menos)
+
+Éstos computadores pueden ejecutar Windows 8 a Windows 10, algunas versiones de MacOS y Linux.
+
+Normalmente para estos equipos recomendaríamos un Notebook por sobre un computador de escritorio. Pero depende del presupuesto. Puedes conseguir Notebooks baratos con estas características que correrán bien los lenguajes de programación modernos.
+
+Los valores suben un poco comparados al retro, pero se tiene una mayor cantidad de cómputo.
+
+- Rango: 50K a 200K CLP (60 USD - 200 USD).
+- Macs del 2011 al 2017.
+
+Ejemplos:
+
+- [MacMini 2011](https://support.apple.com/kb/sp632?locale=es_ES)
+- [Samsung 355e](https://www.samsung.com/us/business/support/owners/product/series-3-notebook-np355e5c/)
+
+## Opción 3: Moderna (16 GB de Ram DDR4 o menos)
+
+Acá hay mayor diversidad del mercado y los precios pueden estar bien buenos. Recomendamos un computador de escritorio por sobre un Notebook.
+
+- Rango: 300K a 1000K CLP (300 USD - 2000 USD).
+
+- Macs del 2018 al 2020 (Procesador Intel).
+
+## Opción 4: Ultra (32 Gb de Ram DDR5 o más)
+
+Ésta es la última moda, solo para connoisseur. Si te quieres asegurar un monstruo por muchos años y puedes pagar el precio.
+
+Como recomendación puedes buscar estas specs:
+
+- CPU: Intel i7 14700K (14 generación)
+- Placa madre: Socket LGA1700 chipset Z790 ATX (Gigabyte es buena marca).
+- Ram: DDR5 2x16 entre 5600-6000Mhz (Corsair o Kingston es buena marca)
+- Disco duro: 1 Terabyte SSD. (Las M.2 NVMe todavía son demasiado nuevas, esperar un tiempo antes de comprarlas). (Samsung, WD  son buena marca).
+- Fuente de poder: 800 Watt Certificada
+- Tarjeta de video: AMD (Mejor compatibilidad con Linux)
+
+> Agradecimientos a PPabloTech por la recomendación de specs.
+
+También si vas por Mac.
+
+- Macs del 2021 para arriba (con procesador M1 o superior).

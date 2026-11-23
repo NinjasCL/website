@@ -1,0 +1,206 @@
+---
+title: Emacsとの冒険
+slug: aventuras-con-emacs
+date: 2024-04-08 17:40:46 +00:00
+description: 正直なところ、どんなオペレーティングシステムでも使えるテキストエディターを見つけたいと思っています。できればリソースをあまり消費しないものが理想です。とても古いコンピューターを使うこともあるので。
+featured_image: /blog/aventuras-con-emacs/cover.jpg
+tags: emacs, editores, código
+---
+
+![UnsplashのUgi K.による写真](cover.jpg)
+
+この記事では、_Emacs_ エディターとの私の冒険を詳しく説明します。
+
+## なぜ _Emacs_ なのか？
+
+まず。なぜ _Emacs_ なのでしょうか？正直なところ、どんなオペレーティングシステムでも使えるテキストエディターを見つけたいと思っています。できればリソースをあまり消費しないものが理想です。とても古いコンピューターを使うこともあるので。
+
+_VSCode_ は素晴らしいエディターですが、より貧弱なコンピューターではリソースを大量に消費することがあります。
+
+_WebStorm_ は素晴らしいIDEですが、リソースを要求するだけでなく、シンタックスハイライターに最新版の _Elixir_ が常に搭載されているわけではありません。（_WebStorm_ のせいではありません）。
+
+_VIM_ はしばらく使っていましたが、_i_、_$_、_0_、_dd_、_yy_、_p_、_u_、_x_、_:x_ のような基本的な使用コマンド以上のことを学べたことはありませんでした。
+
+そこで私の考えは、2つのエディターを持つことです。
+
+1. 素早い編集用に _Vim_（gitのコミット、ターミナルでの素早いファイル編集）。
+2. _VSCode_ や _WebStorm_ の代わりに _Emacs_。
+
+## インストール
+
+まず最初に、モダンなバージョンの _Emacs_ をインストールすることです。できれば _25_ 以降のものを。
+[GNU Emacs](https://www.gnu.org/software/emacs/) の公式ページから。
+
+インストールされたバージョン（現時点）は _29.3_ です。
+
+インストールした後は、エディターを設定する必要があります。まだそのような水域を航海したくないので、
+あらかじめ設定された環境を使うことにしました。
+
+いくつかありますが、特筆すべきものは2つです。
+
+- [SpacEmacs](https://www.spacemacs.org/)
+- [DoomEmacs](https://github.com/doomemacs/)
+
+_DoomEmacs_ を選んだのは、単に _Doom_ というゲームが好きだからです。
+
+_DoomEmacs_ をインストールするには、次のコマンドを実行します。
+
+```bash
+git clone --depth 1 --single-branch https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+```
+
+設定は `~/.config/emacs` に保存されることに注意してください。一部のチュートリアルやドキュメントでは、
+代替パスとして `~/.emacs.d` が紹介されています。どちらのディレクトリでも機能しますが、存在するのはどちらか一方だけにしてください。そうしない場合、_Emacs_ は `~/.emacs.d` から設定を取得します。
+_$HOME_ ディレクトリを汚さないので、`~/.config/emacs` を使うことをお勧めします。_DoomEmacs_ が
+読み込まれない場合は、両方のディレクトリが存在していないか確認してください。存在するのはどちらか一方だけであるべきです。
+`rm -rf ~/.emacs.d/` コマンドを実行すれば確実です。
+
+#### PATH
+
+_doom_ のバイナリを自由に実行できるように、環境変数 _$PATH_ を設定することをお勧めします。
+
+```bash
+PATH="$HOME/.config/emacs/bin":$PATH
+```
+
+#### おすすめ
+
+非常に便利なコマンドが `doom doctor` です。設定の問題や必須プログラムの不足を検出できます。
+
+また、_Markdown_ ファイルのコンパイル用に _Node.js_ をインストールすることをお勧めします（任意）。
+
+```bash
+npm install -g stylelint
+npm install -g marked
+npm install -g js-beautify
+```
+
+さらに _editorconfig_ パッケージも
+
+```bash
+brew install editorconfig
+```
+
+ripgrepとgrepのパッケージも
+
+```bash
+brew install ripgrep
+brew install grep
+```
+
+`.bashrc` に以下を追加します
+
+```bash
+if [ -d "$(brew --prefix)/opt/grep/libexec/gnubin" ]; then
+    PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+fi
+```
+
+- 参考： <https://asdf-vm.com/> _Node.js_ のインストール。
+- 参考： <https://brain.mikecordell.com/posts/20220709152320-doom_emacs/>
+
+#### MacOS
+
+_MacOS_ では、homebrewから次のように _Emacs_ をインストールすることをお勧めします：
+
+##### 依存関係をインストール
+
+```bash
+brew install git ripgrep
+brew install coreutils fd
+xcode-select --install
+```
+
+##### Emacsをコンパイル
+
+```bash
+brew tap railwaycat/emacsmacport
+brew install emacs-mac --with-modules --with-native-compilation --with-starter --with-unlimited-select --with-emacs-big-sur-icon
+ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
+```
+
+詳しくはガイド <https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#with-homebrew> を確認してください
+
+### フォント
+
+フォントのインストールは重要です。特に [Nerd Fonts](https://www.nerdfonts.com/) は、
+特別なアイコンを含んでいて、すべてをより美しくしてくれます。私のおすすめのフォントは [JetBrains Mono](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.0/JetBrainsMono.zip) です。
+
+_DoomEmacs_ は _NFM.ttf_ と呼ばれる特別なフォントを使います。次の手順でインストールできます：
+
+1. _Emacs_ を普通に開きます。
+2. `Alt + x`（M-x）キーを押します。
+3. `nerd-icons-install-fonts` コマンドを探して実行します。
+4. _Emacs_ を再起動します。
+
+
+### モードのインストール
+
+_Emacs_ はさまざまなモードで動作します。例えば、_Markdown_ と _JSON_ の両方を含むファイルがある場合、
+モードを切り替えることで、その種類のファイル専用に考えられたシンタックスハイライトと特別なコマンドを得られます。
+
+_markdown_ と _json_ をインストールしましょう。
+
+1. _スペース_ キーを押してから _f_ を押し、最後に _P_（大文字）キーを押します（SPC f-P）
+2. `init.el` ファイルを探して、編集用に開きます。
+3. 144行目付近で _markdown_ と _json_ の両方を有効化できます。
+4. _Emacs_ を閉じます。
+5. コンポーネントをダウンロードするために `doom sync` コマンドを実行します（ターミナルで）。
+6. _Emacs_ を開きます。
+
+![init.el](init.png)
+
+例えば、ファイルを開くとモードを切り替えて、それらを交互に使うことで
+適切なシンタックスハイライトを得られます。
+
+モードを切り替えるには、`M-x`（_Alt_ を押してから _x_ キー）を押して、
+`markdown` または `json` と入力するだけで、それぞれのモードが有効になります。
+
+*注意*：モードを切り替えるセクションから抜けたい場合は、`C-g`（Ctrl + g）を押せます。
+
+_Markdown_ モード：
+
+![Markdownモード](markdown.png)
+
+_JSON_ モード：
+
+![JSONモード](json.png)
+
+#### Evilモード
+
+悪の（evil）モード。_VIM_ のコマンドを _Emacs_ で使えるようにするもので、
+私のような _Vim_ ユーザーにはとても便利なものです。
+
+_DoomEmacs_ ではデフォルトで有効になっています。
+
+それでも、_Emacs_ のコマンドを学ぶことをお勧めします。ファイル内の移動に使われるコマンドは、
+他のプラットフォームでも同じように使われているからです（ErlangとElixirの _IEX_ よ、こんにちは）。
+
+_Emacs_ の変わった命名規則はなぜなのかと思うでしょう。
+実は、単にその歴史の長さゆえです。_Emacs_ は_CTRL C_ や _CTRL V_ のような標準より
+ずっと前から存在していました。そのため、独自のものを発明する必要があったのです。
+
+_Emacs_ の命名規則は、<https://en.wikipedia.org/wiki/IBM_Common_User_Access（CUA）に>
+対する代替標準と見なせるでしょう。
+
+
+#### 個人的な意見
+
+この方式はとても気に入っています。他のエディターは、複数の言語が混ざったファイルがあると（PHP、こんにちは）、
+シンタックスハイライトが少し難しくなる傾向があるからです。
+
+言語間を簡単に切り替えられて、さらに特別なサポートコマンドも使えるのは素晴らしいと思います。
+
+### 参考資料
+
+以下のドキュメントが役立つかもしれません。
+
+- <https://www.masteringemacs.org/>
+- <https://docs.doomemacs.org/latest/>
+- <https://jblevins.org/projects/markdown-mode/>
+- <https://github.com/json-emacs/json-mode>
+
+## 続く
+
+次のパートにご期待ください。私も _Emacs_ の学習を続けています。

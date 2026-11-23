@@ -1,0 +1,539 @@
+---
+title: Applying MVVM in Phoenix LiveView
+slug: aplicando-mvvm-en-phoenix-liveview
+date: 2024-01-24 13:54:08 +00:00
+description: In the following article we will create a small Hacker News client using Phoenix Framework and Surface UI (LiveView), applying the MVVM (Model - View - View Model) concepts for the architecture design.
+featured_image: /blog/aplicando-mvvm-en-phoenix-liveview/cover.png
+tags: elixir, chile, mvvm, liveview, spanish
+---
+
+![HackerNews](cover.png)
+
+In the following article we will create a small _Hacker News_ client using Phoenix Framework and Surface UI (LiveView), applying the concepts of _MVVM_ (Model - View - View Model) for the architecture design.
+
+The concepts are based on the articles by [Matteo Manferdini](https://matteomanferdini.com/mvvm-swiftui/) who focuses on the mobile technology _SwiftUI_, which is very similar to declarative technologies like _LiveView_.
+
+The _MVVM_ pattern incorporates good ideas and some difficulties due to its different interpretations. In this article we will see its advantages and how to navigate its challenges.
+
+## Requirements
+
+To be able to follow this article we recommend having _Elixir_ installed and a project configured with _SurfaceUI_.
+
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTips%5D-Instalar-Surface-UI>
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTips%5D-Ambiente-de-Desarrollo-Elixir-en-Windows>
+
+## Hacker News Client
+
+To have an example of _MVVM_ in _LiveView_, we are going to create a small application for _Hacker News_, a news portal for _devs_. We will use its _API_ to get ten stories from the best stories section.
+
+You can see the result here
+
+```github
+ElixirCL/surface-hackernews | Un pequeño cliente de Hacker News construido con Phoenix Framework y Surface UI
+```
+
+- <https://github.com/HackerNews/API>
+- <https://news.ycombinator.com/best>
+
+## MVVM and MVC Patterns?
+
+Current technology allows us to create complex applications with relative ease, which has led some people to use practices that hinder the maintainability and robustness of software solutions.
+
+To achieve software products that are robust and easy to maintain over time, more is needed than putting together pieces of code scattered without a cohesive order. While one can search on _Google_ to solve specific tasks, copying and pasting code so that it works in some way. When moving beyond the basics and into the professional territory, we will inevitably encounter difficulties.
+
+For this reason the industry has developed patterns such as _MVC_ and _MVVM_.
+
+### What is the MVC pattern?
+
+The _Model-View-Controller_ (_MVC_) pattern is one of the first you should learn. It is so fundamental that it has survived decades in the industry and its ideas have spread across many platforms. It is the father of many other derived patterns such as _MVVM_, among others.
+
+![MVC](mvc.png)
+
+This pattern is essential because it helps answer one of the most common questions:
+
+> Where should I put this piece of code?
+
+The _MVC_ pattern is an architecture pattern. It gives you a map of the application structure and, as its name says, it consists of three layers.
+
+- The `model` layer (_model_): It is the layer that handles the data and business logic, independent of its visual representation.
+
+- The `view` layer (_view_): It is the layer that shows the information to the user and allows interactions, independent of the data layer.
+
+- The `controller` layer (_controller_): It is the layer that acts as a bridge between model and view. It stores and manipulates the application state and provides data to the view, interpreting user actions according to the business rules.
+
+The following diagram from Apple shows a bit of the relationship between views and controllers.
+
+![Apple MVC](apple.avif)
+
+- <https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html>
+
+The main problem with _MVC_ and the reason why other derived patterns were born is the tendency of controllers to grow exponentially. Even to the point of being called _Massive View Controllers_, due to the number of responsibilities they had to fulfill.
+
+### What is the MVVM pattern?
+
+The _Model-View-ViewModel_ (_MVVM_) pattern is an architecture pattern that makes it easy to structure the application by dividing it into three roles.
+
+![MVVM](mvvm.png)
+
+- The `model` (_model_): represents the application's data and business logic.
+
+- The `view` (_view_): Shows the information to the user and allows interaction.
+
+- The `view-model` (_view-model_): Acts as a bridge between the view and model layers. It contains the view state and handles the interaction logic.
+
+### Differences between MVC and MVVM?
+
+When comparing the _MVC_ and _MVVM_ patterns the similarity is notable and they are almost identical.
+
+The main difference is that _MVC_ emphasizes `controllers`. Responsible for handling interactions for several views. In contrast, in _MVVM_ the `view-model` is a single component that controls the behavior and state of a single view. Commonly represented as a component.
+
+Another difference is the way of communication between the view and its controller. In _MVC_ the view and the controller have defined functions that are called imperatively to report an action or to request updating the information in the view. On the other hand, in _MVVM_ the view and the view-model are joined by a binding mechanism (`binding`) that automatically reports interactions performed in the view and changes occurring in the view-model. These binding mechanisms vary depending on the platform; in the case of _LiveView_ everything comes configured out of the box and it is simpler and more intuitive.
+
+### The importance of MVVM
+
+Using an architecture pattern like _MVVM_ with clearly defined roles helps us fulfill design principles such as separation of concerns. Which is a cornerstone for keeping code well organized, easily understandable, and whose unit tests are viable to implement.
+
+Using architecture patterns like _MVVM_ is extremely important. Even though _LiveView_ gives us innovative tools to build our applications, if we do not use architecture patterns the code will accumulate, increasing in complexity, finally creating massive monoliths that are difficult to maintain and test.
+
+The fact that _LiveView_ automatically handles view updates does not justify abandoning the good software development practices that have existed for decades across multiple platforms.
+
+- <https://en.wikipedia.org/wiki/Separation_of_concerns>
+- <https://en.wikipedia.org/wiki/Coupling_(computer_programming)>
+
+### Is MVVM MVC?
+
+The layers of _MVC_ interact and are interpreted depending on some factors such as:
+
+- The platform where it is implemented.
+- The professional's experience and their interpretation of the pattern.
+- The fashion of the day (Devs can still follow fashions).
+
+The _Model-View-ViewModel_ (_MVVM_) pattern is mainly a version of _MVC_ under a different name.
+
+Although there are slight differences, the concepts of _MVC_ and _MVVM_ can perfectly well be used in a unified way without problems. To simplify, we only refer to it as _MVVM_, since it is one of the valid ways to interpret this pattern.
+
+### Why is MVVM ideal for LiveView?
+
+Let's go over the different _LiveView_ tools and how we can extrapolate them to the concepts of _MVVM_.
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Phoenix LiveView</th><th>MVVM</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>LiveView</td><td>Controller</td><td>It is the main one in charge of managing general events and states or those related to the server and having a tree of views and view-models</td></tr>
+    <tr><td>LiveComponent</td><td>View-Model</td><td>It is in charge of managing events and states related to the view and coordinating the fetching of data from the internet/database</td></tr>
+    <tr><td>Component</td><td>View</td><td>It is the view and only has properties to display the data delivered by the view-model</td></tr>
+  </tbody>
+</table>
+```
+
+Phoenix does not force you to follow an explicit architectural pattern. However _LiveView_ is particularly appropriate for the _MVVM_ pattern. It offers components that are independent of the data that integrate very well into the `view` layer of the _MVVM_ pattern. In addition _LiveView_ provides mechanisms to bind views to data and automatically update user interfaces when the associated data has changes.
+
+The following diagram shows a possible architecture organization following _MVVM_ with _LiveView_.
+
+![LiveView MVVM](liveview.avif)
+
+### Beyond MVVM
+
+Architecture patterns like _MVC_ and _MVVM_ have their focus on applications where we mainly have user interactions (_UX_), but often applications have to communicate with external services and other elements that need other ways to manage our code architecture.
+
+For this we recommend using patterns like those defined in Domain Driven Design and Hexagonal architecture.
+
+```youtube
+JNWPsaO4PNM
+```
+
+```youtube
+fx3BmpzitUg
+```
+
+```youtube
+sdM1KkjtCe8
+```
+
+In addition to concepts created specifically for the _BEAM_ like *Worker Bees* and *CRC*.
+
+```youtube
+GiGs4QZK-J8
+```
+
+```youtube
+KTVQtATxivQ
+```
+
+But going deeper into the concepts of _DDD_ and friends will remain as a self-study task for the reader.
+
+## Hacker News API Project
+
+The project will consist of the following files
+
+```txt
+├── lib
+│   ├── hackernews
+│   │   ├── infra
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── api.ex
+│   │   │           └── mock.ex
+│   │   ├── models
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── model.ex
+│   │   │           ├── queries.ex
+│   │   │           └── types.ex
+│   ├── hackernews_web
+│   │   ├── live
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── components
+│   │   │           │   └── entry.ex
+│   │   │           ├── controller.ex
+│   │   │           └── viewmodel.ex
+│   │   ├── router.ex
+├── test
+│   ├── hackernews_web
+│   │   └── live
+│   │       └── hackernews
+│   │           └── beststories
+│   │               └── beststories_test.exs
+└── └
+```
+
+### infra
+
+The infrastructure is all those services external to our application. Here we will find the elements that interact with them. This would be considered a "_Boundary_" layer.
+
+#### api.ex and mock.ex
+
+Part of the infrastructure, it contains the calls to the _HackerNews_ _API_. It does not perform any kind of parameter validation or data transformation, since that is the responsibility of other elements. It simply focuses on calling the external server and returning the result.
+
+Note that the `base_url` is modified in the `test` environment to use a _Mock API_ that we use for validation in the tests.
+
+This is part of a _mock_ technique that allows us to simplify the tests without coupling our client.
+
+You can read about this technique here.
+
+<https://github.com/ElixirCL/ElixirCL/wiki/%5BArticulo%5D-Crear-Mocks-de-Endpoints-en-Phoenix>
+
+```elixir
+defmodule HackerNews.Infra.HackerNews.BestStories.API do
+  @base_url if Mix.env() == :test,
+              do: "http://localhost:4002/mocks/hackernews",
+              else: "https://hacker-news.firebaseio.com/v0/"
+
+  def all() do
+    Req.new(
+      base_url: @base_url,
+      url: "beststories.json"
+    )
+    |> Req.get()
+  end
+
+  def get(story: id) do
+    Req.new(
+      base_url: @base_url,
+      url: "item/#{id}.json"
+    )
+    |> Req.get()
+  end
+end
+```
+
+### models
+
+The files in this context are in charge of processing the calls and responses to the infrastructure components.
+
+#### types.ex
+
+The structures that will be used for calls and responses. Its only responsibility is to standardize the data, validate it and transform it into structures.
+
+In this context only the _Item_ structure was considered, which processes the _HackerNews_ response and will be used later in the view.
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories.Types.Item do
+  defstruct ~w(id comment_count score author title date url footnote)a
+
+  defp get_footnote(json) do
+    url =
+      Access.get(json, "url", "")
+      |> URI.parse()
+
+    time =
+      Access.get(json, "time", System.os_time())
+      |> DateTime.from_unix!()
+
+    %{host: url.host, time: time, by: Access.get(json, "by", "unknown")}
+  end
+
+  def decode(json) do
+    %__MODULE__{
+      id: get_in(json, ["id"]),
+      comment_count: get_in(json, ["descendants"]),
+      score: get_in(json, ["score"]),
+      author: get_in(json, ["by"]),
+      title: get_in(json, ["title"]),
+      date: get_in(json, ["time"]),
+      url: get_in(json, ["url"]),
+      footnote: get_footnote(json)
+    }
+  end
+end
+```
+
+#### queries.ex
+
+It is in charge of making the different calls to the API using the endpoints with _GET_. This file is part of _CQRS_ (Command, Query, Responsibility, Segregation). A pattern that recommends separating queries from operations. In the case of _HackerNews_ we only make queries, but if we wanted to perform operations we would have to have a `commands.ex` file for the _POST, PUT, PATCH and DELETE_ type API calls.
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories.Queries do
+  alias HackerNews.Infra.HackerNews.BestStories.API
+
+  require Logger
+
+  def get_top_story_ids(amount \\ 10) do
+    with {:ok, ids} <- API.all() do
+      ids.body
+      |> Enum.take(amount)
+    else
+      err ->
+        Logger.error(err)
+        []
+    end
+  end
+
+  def get_story(id) do
+    API.get(story: id)
+  end
+
+  def get_stories(ids) do
+    ids
+    |> Enum.map(&get_story(&1))
+  end
+end
+```
+
+#### model.ex
+
+It is in charge of coordinating _Queries_ and _Types_, a kind of _facade_. We transform the responses from _Queries_ into structures defined in _Types_.
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories do
+  alias __MODULE__.Types
+  alias __MODULE__.Queries
+
+  require Logger
+
+  def top(amount \\ 10) do
+    Queries.get_top_story_ids(amount)
+    |> Queries.get_stories()
+    |> Enum.map(fn
+      {:error, error} ->
+        Logger.error(error)
+        nil
+
+      {:ok, response} ->
+        Types.Item.decode(response.body)
+    end)
+    |> Enum.filter(&(&1 != nil))
+  end
+end
+```
+
+### live
+
+Directory that contains all the user interface (_UX_) files. Here we will use the _MVVM_ pattern to organize our files.
+
+#### controller.ex
+
+The one in charge of instantiating the _ViewModel_ and handling general or server events and managing properties such as parameters and session.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories do
+  use HackerNewsWeb, :surface_live_view
+
+  alias __MODULE__.ViewModel
+
+  def mount(_params, _session, socket) do
+    {:ok, socket}
+  end
+
+  def render(assigns) do
+    ~F"""
+    <ViewModel id="beststories" />
+    """
+  end
+end
+```
+
+#### viewmodel.ex
+
+It is in charge of handling the view events and calling our models to obtain information.
+
+Also note how a function is used to format the data before the view obtains and displays it.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories.ViewModel do
+  use Surface.LiveComponent
+
+  alias HackerNewsWeb.HackerNews.Live.BestStories.View.Components.Entry
+  alias HackerNews.Models.HackerNews.BestStories
+
+  data entries, :list, default: []
+
+  @impl true
+  def mount(socket) do
+    socket =
+      socket
+      |> assign(:entries, BestStories.top())
+
+    {:ok, socket}
+  end
+
+  # This function is a small helper to have relative time.
+  # To avoid using a library like Timex.
+  # Extracted from: https://stackoverflow.com/a/65915005
+  # And https://gist.github.com/h00s/b863579ec9c7b8c65311e6862298b7a0
+  defp from_now_ago_in_words(later, now \\ DateTime.utc_now()) do
+
+    seconds = DateTime.diff(now, later)
+    minutes = round(seconds/60)
+
+    case minutes do
+      minutes when minutes in 0..1 ->
+        case seconds do
+          seconds when seconds in 0..4 ->
+            "less than 5 seconds"
+          seconds when seconds in 5..9 ->
+            "less than 10 seconds"
+          seconds when seconds in 10..19 ->
+            "less than 20 seconds"
+          seconds when seconds in 20..39 ->
+            "half a minute"
+          seconds when seconds in 40..59 ->
+            "less than 1 minute"
+          _ ->
+            "1 minute"
+        end
+      minutes when minutes in 2..44 ->
+        "#{minutes} minutes"
+      minutes when minutes in 45..89 ->
+        "about 1 hour"
+      minutes when minutes in 90..1439 ->
+        "about #{round(minutes/60)} hours"
+      minutes when minutes in 1440..2519 ->
+        "1 day"
+      minutes when minutes in 2520..43199 ->
+        "#{round(minutes/1440)} days"
+      minutes when minutes in 43200..86399 ->
+        "about 1 month"
+      minutes when minutes in 86400..525599 ->
+        "#{round(minutes/43200)} months"
+      minutes when minutes in 525600..1051199 ->
+        "1 year"
+      _ ->
+        "#{round(minutes/525600)} years"
+    end
+  end
+
+  def render(assigns) do
+    ~F"""
+    <div id="beststories">
+      <h1 class="text-5xl font-extrabold dark:text-white mb-10">HackerNews Best Stories</h1>
+      {#for entry <- @entries}
+        <Entry
+          url={entry.url}
+          title={entry.title}
+          footnote={"#{entry.footnote.host} - #{from_now_ago_in_words(entry.footnote.time)} ago by #{entry.footnote.by}"}
+          score={entry.score}
+          comment_count={entry.comment_count}
+        />
+      {/for}
+    </div>
+    """
+  end
+end
+```
+
+#### components/entry.ex
+
+The view is mainly created using components. In this case a single component that displays the data of a news story.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories.View.Components.Entry do
+  use Surface.Component
+
+  prop url, :string
+  prop title, :string
+  prop footnote, :string
+  prop score, :integer
+  prop comment_count, :integer
+
+  def render(assigns) do
+    ~F"""
+    <div class="entry mt-4">
+      <h2 class="entry-title text-xl font-bold dark:text-white"><a class="entry-url" href={@url}>{@title}</a></h2>
+      <h3 class="entry-footnote mt-2 text-lg dark:text-white">{@footnote}</h3> <div class="entry-stats flex mt-2">
+        <span class="mr-2">🔼</span> <p class="entry-score font-bold">{@score}</p> <span class="mr-2 ml-4">💬</span> <p class="entry-comment-count font-bold">{@comment_count}</p>
+      </div>
+    </div>
+    """
+  end
+end
+```
+
+#### test/beststories_test.exs
+
+Thanks to the mock technique for the _API_ our tests only focus on evaluating whether the rendering is correct and contains the necessary information.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStoriesTest do
+  @moduledoc false
+  use HackerNewsWeb.ConnCase, async: true
+  use Surface.LiveViewTest
+  import Phoenix.LiveViewTest
+
+  alias HackerNews.Infra.Mocks.HackerNews.BestStories.API, as: Mock
+
+  @route "/"
+
+  describe "Best Stories" do
+    test "that displays the 10 best stories", %{conn: conn} do
+      {:ok, liveview, html} = live(conn, @route)
+
+      # first check if we have the container element
+      assert liveview
+             |> element("#beststories")
+             |> has_element?() == true
+
+      # then we use Floki to parse the html
+      {:ok, document} = Floki.parse_document(html)
+
+      entries =
+        Floki.find(document, ".entry")
+
+      assert Enum.count(entries) == 10
+
+      titles = Floki.find(document, ".entry-title")
+      |> Enum.map(fn {_htag, _hattrs, [{_atag, _aattrs, [title]}]} -> title end)
+
+      assert titles == Enum.map(Mock.data, fn {_k, v} -> v["title"] end)
+    end
+  end
+end
+```
+
+## Conclusion
+
+Using patterns like _MVVM_ allows us to simplify our code organization, improve the experience when creating tests and have some standardization in projects.
+
+However they are not the only patterns we can use, since _Phoenix_ projects go far beyond user interfaces; we have at our disposal a whole unified frontend and backend ecosystem.
+
+Our applications have to answer the following questions, according to the *CRC* pattern:
+
+- *Create*: How is the data created/obtained?.
+- *Reduce*: What transformations does it need and how should they be done?.
+- *Consume*: How do I show the result or consume that data?.
+
+Following these concepts we will be able to organize and improve our software solutions so that they are robust, efficient and easy to maintain over time.

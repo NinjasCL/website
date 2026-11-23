@@ -1,0 +1,54 @@
+name: test
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          otp-version: "28"
+          gleam-version: "1.18.1"
+          rebar3-version: "3"
+          # elixir-version: "1"
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+        with:
+          just-version: 1.58.0
+      - run: gleam deps download
+      - run: just build
+      - run: just test
+      - name: build example
+        run: |
+          cd examples/simple_blog
+          gleam run
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          otp-version: "28"
+          gleam-version: "1.18.1"
+          rebar3-version: "3"
+      - uses: dprint/check@7dc032d8874778fc024f6f9b4a7e6d896782c330 # v2.5
+        with:
+          dprint-version: 0.57.4

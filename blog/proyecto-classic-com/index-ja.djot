@@ -1,0 +1,24 @@
+---
+title: Classic.comプロジェクト
+slug: proyecto-classic-com
+date: 2022-10-01 00:50:35 +00:00
+description: Classic.comはマイアミ(米国)に本社を置くスタートアップです。Elixir、Tailwind、Surface UIを使って構築された、自動車オークションに特化した検索エンジン。
+featured_image: /blog/proyecto-classic-com/cover.png
+tags: elixir, classic.com, cars, autos
+---
+
+![Classic.com](classic.png)
+
+Classic.comはマイアミ(米国)に本社を置くスタートアップです。自動車オークションに特化した検索エンジンです。
+
+Elixir、Tailwind、Surface UIで構築された既存のコードベースに対して、バグの解決、コード整理の改善、新機能の提供を行うため、エクスペリエンスチーム(Elixirフロントエンド)とバックエンドチーム(GraphQL JavaScript)と一緒に作業しました。主な焦点はエクスペリエンスチームの中にありました。
+
+JavaScriptを使ってGraphQLバックエンドに新しいエンドポイントを実装しました。
+
+SurfaceUIとTailwindを使ってフロントエンドの新機能を実装しました。
+
+コードの整理と改善の提案を提出しました。
+
+ペアプログラミングセッションでチームメンバーのデバッグを支援しました。
+
+プロジェクトは2022年2月から10月にかけて実施されました。

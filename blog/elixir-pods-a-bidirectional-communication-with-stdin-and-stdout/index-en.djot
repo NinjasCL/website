@@ -1,0 +1,79 @@
+---
+title: Elixir Pods: A Bidirectional Communication with stdin and stdout
+slug: elixir-pods-a-bidirectional-communication-with-stdin-and-stdout
+date: 2024-05-02 13:35:49 +00:00
+description: 🌉 Elixir Pods enables communication with external programs using stdin and stdout
+featured_image: /blog/elixir-pods-a-bidirectional-communication-with-stdin-and-stdout/cover.jpg
+tags: elixir, pods, cli, stdin, stdout
+---
+
+![Below the Golden Gate Bridge](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Below_Golden_Gate_Bridge.jpeg)
+
+_Elixir Pods_ is a way of communication between _Elixir_ and a
+service implemented in any programming language (`pod`). This
+service must adhere to a simple protocol (`pod protocol`) that
+uses standard and battle tested tools (`stdin`, `stdout`,
+`bencode` and `json`) for it's implementation.
+
+The main inspiration for this is
+[Babashka Pods](https://github.com/babashka/pods).
+
+Basically is a command line tool that has an infinite bucle
+(`while true`) that listen to commands in `stdin` and outputs the
+results in `stdout`.
+
+Is fully customizable, so you can implement process manager and
+encoder/decoder with your own tools and configurations.
+
+## Implementing a Pod
+
+You can implement the pods with any technology and a simple
+_Elixir_ wrapper to expose their API.
+
+- `artifacts`: The directory where the external code executables
+  will be stored.
+- `pod.ex`: The main public api for the pod.
+- `manifest.ex`: Some helper functions to have more information
+  about the pod.
+
+If you want to debug you can use standard tools such as stdin and
+stdout. In Unix systems you can access by using (1 stdout,
+2 stderr).
+
+```bash
+  cat /proc/<pid>/fd/1
+```
+
+An _Elixir Pod_ must follow some simple rules:
+
+- An infinite function (`while true`).
+- Reads from `stdin` (in streaming mode).
+- Writes to `stdout` (success and errors) and `stderr`
+  (exceptions).
+- Follows [Elixir Pods](https://github.com/ElixirCL/pods)
+  format.
+- At least implements the `describe` and `invoke` operators.
+- Encodes messages with
+  [bencode](https://en.wikipedia.org/wiki/Bencode).
+- Encodes payload with _JSON_.
+
+## Installation
+
+If
+[available in Hex](https://hex.pm/docs/publish), the package can be
+installed by adding `pods` to your list of dependencies in
+`mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:pods, "~> 1.0.0"}
+  ]
+end
+```
+
+```github
+ElixirCL/pods | Comunicación bidireccional con stdin y stdout para pods de Elixir
+```

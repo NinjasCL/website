@@ -1,0 +1,385 @@
+---
+title: Ideas to improve Chile
+slug: ideas-para-mejorar-chile
+date: 2016-04-12 13:22:18 +00:00
+description: Some ideas to improve the country of Chile. Some crazy, others not so much. From creating free apps, a state university, a Netflix for rentals and trams across Chile.
+featured_image: /blog/ideas-para-mejorar-chile/cover.webp
+tags: chile, spanish, ideas, trams, bancos, pagos, arriendos, munincipalidad
+---
+
+![Melbourne trams 2016. Collins Street tram, photo by Camilo Castro.](cover.webp)
+
+## Idea 1: Clone Mobile Apps with Free Software
+
+Create clone applications of the big ones like _Uber_, _GlassDoor_,
+_Pedidos YA_, but focused on the Chilean community and 100% free.
+
+### Example: An Uber Clone
+
+Imagine the following: you have an open source application that does exactly
+what Uber does, but for public transportation.
+All the taxis in Chile could use it. This way the main problems of the
+current way of catching a taxi would be solved. You would know the route,
+the price, the person driving, you would get a message when the taxi is
+ready, and it would be possible to pay with your credit card.
+
+### Why a free and open source application?
+
+By creating this application with open source code and a free license (I
+recommend GPL3), the world would be a better place. Other countries can use
+the technology and improve it. Imagine if all the countries that have
+problems with Uber allocated some funds to develop an open source Uber clone.
+Anyone who wants to improve their local public transportation could easily
+implement a solution, not only for taxis but for every kind of transport.
+Example: a rural area that only has one bus all day. Now the people who use
+that bus could benefit from knowing when the bus will arrive or whether it
+had any problem.
+
+### Why should Chile do it?
+
+Chile has many great developers and Santiago is growing exponentially in the
+technological area.
+The government also has initiatives like <http://kitdigital.gob.cl> and
+<https://github.com/e-gob> that try to bring standards to public applications
+and websites.
+
+A global non-profit open source organization like Mozilla
+<https://www.mozilla.org/es-ES/> should be created, where the focus is on
+creating better ways to connect people with public transportation through
+the creation of free and open source applications that rival Uber and
+friends in quality.
+
+Chile should take the first step to create an Uber clone and other open
+source apps. Other countries could finance this application by donating
+money to the worldwide non-profit organization.
+
+Better public transportation is possible if all countries join together and
+create an open source alternative.
+
+## Idea 2: Create Municipal / Provincial Banks
+
+It is public knowledge that Chile is an ultra-centralized country.
+Where most of the television news is about Santiago.
+The resources of the regions go straight to the capital, leaving very little
+in them to be able to make improvements in the cities and the lives of the
+people.
+
+This is a small idea to try to change and improve the current situation.
+
+The Chilean banking system is in the hands of a few.
+Normally located in Santiago. The idea of having a municipal bank is that
+the people who live in each commune can buy in stores adhered to the system,
+save, ask for loans, pay the bills and taxes, pay for transportation, among
+other things. Using nothing more than the local banking system.
+
+Imagine that every citizen of Chimbarongo had a municipal Redcompra type
+card with which they can buy in all the stores of the city without needing
+cash. They have money in their personal municipal account.
+Obviously, if they go to another city they could buy with this card if that
+city implements its own compatible banking system.
+They could also transfer their funds to other municipal or traditional
+banking systems.
+
+Having a municipal banking system will allow the different communes to have
+additional funds for the improvement of the city, and better control over
+the destination of those funds can be created.
+
+Example: I have a municipal savings account where I choose the investments I
+want my money to go to, from paving streets, improving squares, schools,
+hospitals, etc.
+Instead of investments being made in unknown companies abroad, the
+investments are local and aimed at improving the lives of the people of the
+city I live in.
+
+Also, every business can operate with this banking system without having to
+resort to third parties to be able to accept debit cards and online
+payments.
+
+### How to achieve it?
+
+Having a system like the one presented in the idea is possible.
+But it requires the creation of a series of free license (AGPL3) and free
+banking software. Oriented so that each municipality can implement it
+following a common pattern. Low cost, without depending on external
+institutions.
+
+One possibility is to use a cryptocurrency with its blockchain system to be
+able to validate the transactions and have traceability of the operations.
+But this cryptocurrency should not be an existing external one, but one
+created exclusively for this purpose, since its fiat monetary value should
+not fluctuate due to external factors.
+
+The ideal would be to have one or several companies, or a foundation that
+advise each municipality on the implementation of this system.
+Providing training and offering world-class support.
+
+It is also necessary that each municipality gives importance to technology.
+Besides being flexible for the implementation of new ideas.
+
+Implementing a municipal banking system is possible,
+but in addition to the technological difficulty it implies, the bureaucratic
+difficulty must also be considered.
+Currently Chile is overloaded with systems and people that hinder
+innovation and continuous improvement.
+
+Let's hope that in the near future ideas like this one can be implemented.
+
+## Idea 3: Create a State University of Informatics and Technology
+
+Similar to the [Belarusian State University of Informatics and Radioelectronics](https://es.wikipedia.org/wiki/Universidad_Estatal_Belarusa_de_Inform%C3%A1tica_y_Radioelectr%C3%B3nica).
+
+The Chilean State must create an entity oriented to train professionals
+capable of creating and maintaining technological systems used inside and
+outside the country.
+
+The university must be free. Professionals will pay for their education
+through the commitment to work for the state during a reasonable period of
+time.
+
+This university must be in charge of advising the state in the area of
+informatics and new technologies. All the studies carried out must be
+released so that any person can use them, since they have been financed
+with state money.
+
+The technologies used by the state and taught at the university must be
+Open Source and freely accessible. Under no circumstances should they depend
+on foreign companies that grant licenses for their use (e.g.: Oracle,
+Microsoft, IBM).
+
+The state must eliminate paying royalties to foreign and national companies
+for private technologies. That money must be destined to finance support,
+creation and maintenance of Open Source and Free technologies. This means
+that all state systems must be released in their source code, so that every
+Chilean can offer help and improve them if they wish. If a free alternative
+does not exist, it is imperative that the university develops a solution
+that does not depend on private companies.
+
+The university will have a Datacenter oriented to offer a service similar to
+Amazon Web Services. Where state systems do not depend on foreign and
+private servers for their operation, increasing the security of Chile's
+information and decoupling its dependence on other countries.
+
+The university will standardize the technologies used in state systems,
+providing support and training in their use. It will also be in charge of
+creating and maintaining state software (sii, registro civil, hospitales,
+educativos, políticos, etc).
+
+By having a free state university of informatics and technology, in charge of
+both the training of professionals and the creation and maintenance of state
+systems, the country will have people capable of facing the challenges of
+the 21st century. Chile will also put an end to its dependence on raw
+materials as its main source of income.
+
+## Idea 4: Expand the Use of Trams
+
+In Melbourne, Australia there is a means of transport called the Tram. It
+is similar to the trolleys of Valparaíso, but they have some notable
+differences.
+
+First of all they use wheels adapted to railway tracks. This seems like an
+excellent idea to me because they allow showing cars and pedestrians which
+are the paths along which the trams travel, allowing them to be more alert
+when moving through the streets. Another benefit of these wheels is that
+they have no air, they do not puncture, which delivers a lower maintenance
+cost and reduces the waste of broken parts.
+
+Another difference with the trolleys of Valpo, is that the trams have
+defined stops. They only stop to pick up and drop off passengers at these
+stops. Without exception (maybe in emergencies).
+
+![The Trams present in Melbourne since 1915](trams.webp)
+
+They also have a free travel area. If you get on and off within this area,
+the trip is totally free of charge. If you get on or off outside this area,
+then you must use your Myki card which is similar to the Bip. The free area
+covers a large part of the center of Melbourne, facilitating the movement of
+people.
+
+The buses and shared taxis still exist, but their number is very small,
+since the trams cover a large part of the area and have a reasonable cost.
+Besides, there is an App to know more about the trams and the trip.
+<http://yarratrams.com.au/tramtracker>
+
+![Trams and Cars on the same road](trams2.webp)
+
+The trams use the same roads as the cars. Unlike a train, which has larger
+and exclusive railway tracks, the trams use tracks at pavement level. This
+allows any vehicle to transit through the same space as a tram. The trams
+also respect the same traffic lights as the cars. Both means of transport
+can coexist without problems.
+
+![Tram on a bridge](trams3.webp)
+
+If Chile implemented a system similar to the Trams in all cities, not only
+in Santiago, it would be enormously reducing pollution (the trams, just like
+the trolleys, run on electricity). It would also greatly repair the big
+problem the capital has with a crowded metro, air pollution and rush hour
+traffic jams. Ideally they would be manufactured in Chile, to reduce costs
+and supply local needs.
+
+## Idea 5: Weekly Pay
+
+Waiting 30 days for a little money stagnates Chile.
+
+This is something that seems like a real necessity to me and it is easy to
+implement. Simply stop paying people on a monthly basis and have them start
+receiving payment on a weekly basis.
+
+Weekly pay is the custom in countries like the United States, Australia and
+others of the first world. Having a weekly source of income, money flows
+faster, you can pay the bills, do the shopping and other activities without
+waiting so long to have monetary resources.
+
+### How to achieve it?
+
+Well, the legal structure of Chile allows this type of remuneration. The
+ideal would be that your contract stipulated the payment and the social
+security contributions as is the custom, but that it also defined the
+periodicity of the deposits in a weekly format.
+
+You could do the experiment by asking for a weekly advance (for 4 weeks) of
+the salary in a month and see if this remuneration format suits you better.
+
+If most jobs in Chile implemented it there would be greater speed in the
+flow of money and it would accelerate the growth of the country.
+
+## Idea 6: Online Queues (2020)
+
+The other day I had to go pick up the medicine for my grandfather at the
+pharmacy of the public hospital. Unfortunately, with the way things are with
+the pandemic afflicting the world, I had to wait about 3 hours to be served
+(and that is arriving super early, since it could have been even longer).
+
+Nowadays there are many ways and applications to request turns, but many
+public places still work with systems that do not have online information
+and you are forced to be present to know when it is your turn and not lose
+it. Probably because those online systems require million-dollar investments
+and a giant infrastructure change.
+
+As a palliative measure I put together this simple software that takes a
+screenshot of the computer screen and displays it on a web page, which
+refreshes every 15 seconds.
+
+- [https://github.com/NinjasCL/screensharer](https://github.com/NinjasCL/screensharer)
+
+For it to work they only need to install this software on the computer in
+charge of displaying the information on the television of the place. Once
+configured, they can share the special url and the same information from
+the television screen will be shown on a website.
+
+![Waiting for a turn at a clinic in 2020](turnos.webp)
+
+This way people will be able to access the information from their computer
+or smartphone and not be forced to wait in one place and risk getting sick.
+
+It is my grain of sand to help reduce the contagions of this disease.
+
+Hopefully someone from the IT department of the places that serve the public
+can know about this solution and implement it. If you know someone from that
+area please share this idea with them :).
+
+## Idea 7: Municipal Rental Service
+
+Renting a house or apartment is a complicated process.
+You need to have a lot of paperwork and money.
+I believe a service like _Netflix_ to which you pay a fixed price would be a
+solution.
+
+You may say that _AirBnB_ solves this, but no!.
+That service provides access to rooms and couch surfing,
+but it is not what I propose.
+
+In Chile renting a house or apartment is truly a hellish experience.
+Landlords and real estate agencies put up many barriers to a dignified
+rental. Especially in crowded cities like Santiago. They ask you to have at
+least 1 year of stable work with a full-time contract, like 3 times the
+price of the rent up front, and sometimes they discriminate by nationality
+or simply by how you are.
+
+On the websites obsolete, ugly photographs are used, or no photographs at
+all, there is no real time information about the state of the rental.
+Basically a really annoying experience.
+
+### What do we propose?
+
+A person or a family will pay a fixed price that will allow different house
+rental options.
+As a plan, you can subscribe, for example, Basic, Premium, Gold.
+This plan comes with all the expenses of the house included like water,
+electricity, gas, internet (with consumption limits according to the
+subscribed plan).
+The family only talks with the House Rental Service and the House Rental
+Service talks with the owners.
+
+The owners sign a contract with the House Rental Service and not with the
+family. If the family wants a house, they simply choose the houses available
+within the plan and move in.
+Families and owners can rate each other.
+This is for long-term rentals, minimum one year.
+
+This service can be municipal. Each municipality can have a series of houses
+that it can rent as a service and for a limited stay time.
+
+They are not permanent houses for families or individuals, it is simply a
+way for municipalities to generate income and allow people to travel through
+Chile, fostering remote work.
+
+### The benefits
+
+A family or individual will only have to worry about paying the service.
+It will not be necessary to have a contract for each landlord or another
+company like water or electricity. They will simply pay a monthly service
+and live. Also, with this method owners can rent their houses and
+apartments to families in a simple way and without complications. Since the
+contract is with the House Rental Service, the owners will be paid every
+month even if the house does not have a family in it (if the House Rental
+Service wants exclusivity).
+If the family wants to move, they could simply choose a new house and move
+forward. You keep paying the same value as the previous home within the
+plan. The old house will be available for a new family.
+
+### Characteristics
+
+The House Rental Service should have the following characteristics:
+
+Plan prices similar to Spotify, Netflix or Digital Ocean.
+The whole process is done only once with the House Rental Service.
+
+Then the House Rental Service will take care of the owners and save you all
+the hassle. Showing the selected list of houses for rent available for
+different family needs.
+
+Quality, updated, transparent and detailed information of each home and the
+landlord's requirements.
+
+Families will have access to quality homes.
+Owners will have access to better rental options.
+
+Moving services like Japan. You and your family want to move?
+No problem.
+
+## Idea 8: Anti-Graffiti Protection
+
+Currently there are many buildings that have graffiti.
+We are not talking about paintings as such, but those incoherent and not
+very aesthetic scratches that some characters put to "mark territory" and
+express their discontent with society, the country or something else.
+
+I believe that each municipality, within the operating permit of commercial
+premises and the payment of contributions by each neighbor, should require
+that houses be free of these scratches.
+
+That the responsibility for cleanliness and upkeep be within each tenant
+and neighbor.
+
+If each location has the obligation to maintain the visual cleanliness of
+its space, I believe it would be much cleaner.
+
+Maybe when the cleaning truck passes by, they also have the task of
+reporting graffiti and dirt in the streets so that the municipality has the
+necessary information to oblige people to clean their spaces or otherwise
+they would face fines and in the last of cases that the same municipality
+cleans, but that the person who owns the space has the obligation to pay for
+that service.
+
+A clean city must also be visually clean.

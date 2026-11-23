@@ -1,0 +1,58 @@
+---
+title: Moodbit. Chatbot do Slack para Avaliar as Emoções
+slug: moodbit-chatbot-para-evaluar-las-emociones
+date: 2019-09-21 14:26:26 +00:00
+description: Moodbit. Chatbot do Slack para Avaliar as Emoções. Criado com AWS Lambda e AWS Quicksight.
+featured_image: /blog/moodbit-chatbot-para-evaluar-las-emociones/cover.png
+tags: slack, javascript, aws, lambda, chatbot
+---
+
+![Moodbit](moodbit.png)
+
+Fui um contratante *remoto* para a empresa _Moodbit_ (Nova York,
+EUA) durante alguns meses de 2018 e 2019. Minha função consistiu em
+desenvolver um chatbot para _Slack_ que usava algoritmos de machine
+learning para avaliar os "sentimentos" e "emoções" das pessoas no
+chat. Além de elaborar um _Dashboard_ que se integrasse ao _AWS
+Quicksight_ para mostrar os resultados.
+
+## Tecnologias Usadas
+
+- AWS Lambda (Javascript e Python).
+- AWS Sagemaker (Python).
+- AWS RDS (Base de Dados).
+- AWS API Gateway (Endpoints).
+- AWS Cognito (Contas de Usuários).
+- AWS Quicksight (Painéis de Informação e Relatórios).
+- Slack SDK (Conexão com o Slack).
+- Google Cloud Natural Language (Análise de Sentimentos de Texto).
+- React.js (Frontend).
+- Firebase (Hospedagem).
+
+## Tarefas
+
+- Programar funções de _AWS Lambda_ para integração com _Slack_.
+- Desenho da base de dados em _AWS RDS_.
+- Criar dashboard em _AWS Quicksight_.
+- Criar frontend com _React.js_ para integrar _AWS Cognito_ e _AWS
+  Quicksight_.
+- Configurar _AWS SageMaker_ para se integrar com _AWS Lambda_ e
+  entregar resultados.
+- Integrar com a API do _Google CNL_.
+- Configurar _Firebase_ para hospedar o site.
+
+## Challenge
+
+Adicionalmente elaborei um _Challenge_ de código para avaliar
+candidatos para se somar à equipe.
+
+- [Moodbit Challenge](challenge.pdf)
+
+``` =html
+<video src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  data-canonical-src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  controls="controls"
+  muted="muted"
+  style="max-height:640px; min-height: 80dvh; width:100%;">
+</video>
+```

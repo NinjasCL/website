@@ -1,0 +1,77 @@
+---
+title: Create a CGI in Golang
+slug: crear-un-cgi-en-golang
+date: 2024-05-09 20:45:06 +00:00
+description: A CGI script in Golang
+featured_image: /blog/crear-un-cgi-en-golang/cover.png
+tags: golang, code, programación
+---
+
+![CGI, Common Gateway Interface logo](cover.png)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CGI_common_gateway_interface.svg)
+
+If you have a cheap hosting service, it may not run programming languages
+other than _PHP_. Using _CGI_ lets us use other tools.
+
+In this case we compile a script in _Golang_ to run in the
+_cgi-bin_ directory.
+
+- <https://blog.schroederspace.com/tumbleweed-technology/cgi-a-blast-from-the-past-with-go>
+- <https://gist.github.com/larryli/8299764>
+- <https://www.digitalocean.com/community/tutorials/how-to-build-go-executables-for-multiple-platforms-on-ubuntu-16-04>
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"net/http/cgi"
+)
+
+func main() {
+	if err := cgi.Serve(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		header := w.Header()
+		header.Set("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprintln(w, "Method:", r.Method)
+		fmt.Fprintln(w, "URL:", r.URL.String())
+		query := r.URL.Query()
+		for k := range query {
+			fmt.Fprintln(w, "Query", k+":", query.Get(k))
+		}
+		r.ParseForm()
+		form := r.Form
+		for k := range form {
+			fmt.Fprintln(w, "Form", k+":", form.Get(k))
+		}
+		post := r.PostForm
+		for k := range post {
+			fmt.Fprintln(w, "PostForm", k+":", post.Get(k))
+		}
+		fmt.Fprintln(w, "RemoteAddr:", r.RemoteAddr)
+		if referer := r.Referer(); len(referer) > 0 {
+			fmt.Fprintln(w, "Referer:", referer)
+		}
+		if ua := r.UserAgent(); len(ua) > 0 {
+			fmt.Fprintln(w, "UserAgent:", ua)
+		}
+		for _, cookie := range r.Cookies() {
+			fmt.Fprintln(w, "Cookie", cookie.Name+":", cookie.Value, cookie.Path, cookie.Domain, cookie.RawExpires)
+		}
+	})); err != nil {
+		fmt.Println(err)
+	}
+}
+```
+
+It is compiled using
+
+```bash
+GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o index.cgi cgi.go
+```
+
+Then upload the file to the hosting's `cgi-bin` directory and give it `0755` permissions.
+
+Note that we pass the architecture and the operating system before compiling;
+that way we make sure it is compiled for the hosting's environment.

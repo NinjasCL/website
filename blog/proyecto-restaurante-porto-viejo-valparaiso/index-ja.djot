@@ -1,0 +1,32 @@
+---
+title: ポルト・ビエホ・バルパライソレストランプロジェクト
+slug: proyecto-restaurante-porto-viejo-valparaiso
+date: 2011-07-01 19:54:53 +00:00
+description: Visual Basic 6とPostgreSQLで作られた販売システムにリバースエンジニアリングを行い、そのデータモデルを特定してPHP拡張を作成しました。
+featured_image: /blog/proyecto-restaurante-porto-viejo-valparaiso/foto.jpg
+tags: restaurante, valparaíso, chile, porto, viejo, php, wordpress, codeigniter, vb6
+---
+
+![PortoViejo](foto.jpg)
+
+プログラマーのチームと一緒に、レガシーな販売管理アプリケーションの保守に携わり、CodeIgniterフレームワークでモジュールの設計とコーディングを行いました。
+
+ウェブサイトもWordpressを使って作成されました。
+
+![スクリーンショット](screenshot.png)
+
+システムの保守、機器の修理、ネットワークの設定。
+
+Visual Basic 6とPostgreSQLで作られた販売システムにリバースエンジニアリングを行い、そのデータモデルを特定してPHP拡張を作成しました。
+
+![Wine](wine.png)
+
+## 技術
+
+- Wordpress
+- CodeIgniter
+- PHP
+- MySQL
+- Visual Basic 6
+- PostgreSQL
+- Ubuntu

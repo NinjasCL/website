@@ -1,0 +1,135 @@
+---
+title: ¿Me conviene un Bootcamp Tecnológico?
+slug: me-conviene-un-bootcamp
+date: 2024-03-28 12:30:23 +00:00
+description: Una pregunta habitual es ¿Me conviene un Bootcamp?. Debido a las diversas opciones, este pequeño artículo te podría ayudar a determinar si un Bootcamp es algo que quieras experimentar.
+featured_image: /blog/me-conviene-un-bootcamp/cover.jpg
+tags: elixir, bootcamp, javascript, chile, spanish
+---
+
+![Foto por ThisisEngineering RAEng en Unsplash](cover.jpg)
+
+Los Bootcamps son escuelas donde te enseñan un conjunto de
+herramientas con el objetivo de mejorar tus habilidades y hacer más
+expedito tu proceso laboral en la industria de las tecnologías de
+información (I.T). Una pregunta habitual es ¿Me conviene un
+Bootcamp?. Debido a las diversas opciones, este pequeño artículo te
+podría ayudar a determinar si un Bootcamp es algo que quieras
+experimentar.
+
+## ¿Cuál es tu perfil?
+
+Lo primero en determinar es cuál es el perfil que tienes.
+
+### 1. Beginner
+
+Sin experiencia ni conocimientos previos. Vienes de otra industria o
+nunca has realizado ningún proyecto de informática.
+
+Un Bootcamp te podría ayudar a definir tu camino y asesorarte en las
+tecnologías que puedes aprender. Además de presentarte un pequeño
+conjunto de proyectos que puedes hacer.
+
+Sin embargo evalúa primero estudiar un curso específico (gratuito o
+de pago) de alguna tecnología para que puedas tantear el terreno
+antes de una inversión de tiempo y dinero significativa.
+
+Personalmente recomendaría algún curso estatal de bajo coste como
+[Talento Digital](https://talentodigitalparachile.cl/).
+
+Recordar que los Bootcamps no son obligatorios para entrar en la
+industria o aprender las tecnologías.
+
+### 2. Intermediate
+
+Haz hecho algunos proyectos (sin usar tutoriales) pero tienes muy
+poca experiencia profesional en la industria.
+
+Solo ingresa a un Bootcamp si realmente sientes que te dará un apoyo
+y valor relevante.
+
+Si ya tienes algo de conocimientos, la recomendación es realizar
+proyectos en formato freelance o de apoyo a ONG para sacar filo y
+engrasar las herramientas.
+
+El tener pequeños proyectos para clientes te dará mayores incentivos
+para aprender las herramientas y volverte un experto.
+
+### 3. Expert
+
+Haz estudiado una carrera de la industria o tienes experiencia
+laboral relevante en ella (más de dos años).
+
+La verdad que un Bootcamp no te servirá mucho. Te conviene más
+cursos específicos de alguna tecnología o práctica. Realizar
+proyectos por tu cuenta, aumentar las habilidades blandas y mejorar
+tus redes de contacto serán más provechosos.
+
+## ¿Tienes el Dinero?
+
+Un Bootcamp es una inversión grande de dinero y tiempo. Por ningún
+motivo te endeudes (con un banco) para estudiar en uno. Ir a un
+Bootcamp no te da garantías de encontrar un trabajo ni tampoco
+comenzar recibiendo sumas millonarias de sueldo. No es una bala de
+plata que te da las llaves para entrar en la industria, simplemente
+son escuelas de capacitación.
+
+La verdad yo recomendaría al menos dos años de estudio. Un Bootcamp
+ronda entre 6 a 12 meses.
+
+Si cuentas con los recursos para costear una carrera técnica,
+recomendaría ir a una universidad o instituto certificado antes que
+un Bootcamp.
+
+## ¿Cuál es su prestigio?
+
+Muchas empresas en la actualidad tienen filtros sobre la calidad de
+los egresados de algunas instituciones. Procura que donde estudies
+tengan buena reputación en la industria y que sus egresados tengan
+buenas recomendaciones sobre la institución. El prestigio de donde
+estudiaste puede jugar a favor o en contra, sobre todo en los
+primeros años cuando no tienes mucha experiencia laboral que
+respalde tus capacidades.
+
+## ¿Tienen redes de apoyo?
+
+Un Bootcamp debería ser capaz de ayudarte en conseguir tu primer
+trabajo en la industria. Ya sea dándote empresas y prácticas o por
+último la capacidad de tener entrevistas. Si no te dan eso, no son
+diferentes a un curso presencial u online de alguna
+[OTEC](https://www.chileatiende.gob.cl/fichas/39693-organismos-tecnicos-de-capacitacion-otec).
+
+Además del conocimiento técnico un Bootcamp debería también darte
+asesoría en crear tu currículum y entrenar cómo hacer entrevistas
+laborales y redes de contacto.
+
+## Aprende los Fundamentos
+
+Muchos Bootcamps se enfocan en tecnologías populares como Javascript
+y Python. Pero recordar que las tecnologías son efímeras, la
+industria cambia tanto como la dirección del viento, por lo que es
+de mucha importancia que aprendas los fundamentos que te permitirán
+adaptarte a cualquier tecnología o industria.
+
+Yo personalmente recomiendo la tecnología [Elixir](https://elixir-lang.org),
+por su paradigma funcional, te permitirá salir de lo común y
+realizar proyectos en una amplia gama de contextos.
+
+Si bien esta tecnología no es tan conocida como Javascript y Python
+(aún), te puede servir mucho para aprender Algoritmos, Sistemas
+Web, Apps Móviles, Robótica, Machine Learning y muchos otros casos
+de uso.
+
+Sigue el [Track de Elixir en Exercism](https://exercism.org/tracks/elixir/)
+para practicar ejercicios que te ayudarán a mejorar tus habilidades.
+
+Podrías comenzar con tecnologías como Pascal, C y Assembler para
+aprender los fundamentos, altamente recomendado. Pero la verdad yo
+estimo que _Elixir_ es una tecnología relevante y moderna, con un
+alto futuro y posibilidades de crecimiento. Personalmente lo veo
+como una apuesta segura.
+
+Nada quita que una vez sepas los fundamentos puedas ir por otras
+tecnologías como Javascript, tener varias herramientas bajo el
+brazo nos dará mayor chances de destacar y tener seguridad personal
+de que podemos tener éxito en la maravillosa industria I.T.

@@ -1,0 +1,545 @@
+---
+title: Introduction to Elixir
+slug: introduccion-a-elixir
+date: 2024-05-22 16:39:26 +00:00
+description: Why is Elixir such a great language? What makes it so good?
+featured_image: /blog/introduccion-a-elixir/cover.jpg
+tags: elixir, chile, introducción, castellano
+---
+
+![Elixir and liqueur](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:%C3%89lixir_et_liqueur.JPG)
+
+Have you ever wondered what makes a programming language great? One of the reasons Elixir is great is its consistency. José Valim took ideas from other programming languages like Ruby and Erlang, ideas that have been developed for more than 30 years, and made them much more consistent. 30 years of ideas designed for different purposes by different people condensed into a series of libraries that are much faster to use and understand.
+
+```youtube
+lxYFOM3UJzo
+```
+
+Elixir runs on the `BEAM` virtual machine, a truly old _VM_, since it was created by Ericsson in 1986 for the Erlang language (Older than Java). These technologies were the main protagonists of applications in a telecommunications environment handling countless requests per second in a reliable and efficient manner.
+
+A few decades later, this VM was considered by José Valim, who created the Elixir language in mid-2011 to use all the power of `BEAM` in a modern language focused on the developer experience. This language was also responsible for popularizing the Erlang virtual machine.
+
+- <https://ninjas.cl/books/elixir-fullstack/>
+- <https://dev.to/cherryramatis/beam-vm-the-good-the-bad-and-the-ugly-9d6>
+
+### A Small Glimpse of Elixir
+
+```elixir
+booleano = true || false
+numero = 123_456
+string = "Un binario" <> "Concatenada" <> "Interpolación #{numero}"
+char = ?A
+atomo = :un_atomo
+funcion = fn _ -> "Hola" end
+mapa = %{valor: "hola"}
+tupla = {:ok, 1234}
+lista = [1, "dos", :tres]
+keyword_list = [valor: "hola"]
+IO.inspect("Imprimir en Terminal")
+# Comentario
+_ # variable placeholder
+_var # variable omitida
+```
+
+```elixir
+defmodule MiModulo do
+
+  @atributo "Un atributo del módulo"
+
+  # Retorno el resultado de la última expresion
+  def mi_funcion_publica(parametro \\ true) do
+    "Función Pública con #{parametro}"
+  end
+
+  # Pattern matching selecciona cual ejecutar según la firma de la función
+  def mi_funcion_publica() do
+    "Función Pública Sin parámetros"
+  end
+
+  defp mi_funcion_privada() do
+    "Función Privada"
+  end
+end
+
+MiModulo.mi_funcion_publica()
+```
+
+### What Does Consistency Mean?
+
+The word consistency can be defined according to the _RAE_ as:
+
+1. f. Duration, stability, solidity.
+2. f. Connection, coherence between the particles of a mass or the elements of a set.
+
+Additionally we will define coherence:
+
+1. f. Connection, relation or union of some things with others.
+
+As well as cohesion:
+
+1. f. Phys. Attraction force that keeps the molecules of a body together.
+
+- <https://dle.rae.es/coherencia>
+- <https://dle.rae.es/consistencia>
+- <https://dle.rae.es/cohesión>
+
+In software development the components we use to build the system should ideally be consistent, coherent and cohesive, that is, that they have a harmony and are a solid base to facilitate the maintenance and implementation of the system requirements.
+
+### Examples of Inconsistencies
+
+In other technologies we can find inconsistencies.
+
+#### API Inconsistencies
+
+*PHP* is a great example of inconsistencies in its official function library.
+For example let's notice the differences between the `str_replace` and `strpos` functions. Both functions for working with `strings`.
+
+1. The name is inconsistent, the first uses an underscore to separate `str_` and the other does not.
+2. The parameter names are inconsistent. `$search` and `$haystack` are equivalent.
+
+```php
+ str_replace(
+    mixed $search,
+    mixed $replace,
+    mixed $subject,
+    int &$count = ?
+): mixed
+```
+
+```php
+strpos(string $haystack, string $needle, int $offset = 0): int|false
+```
+
+Also the `strpos` function can return a value that is an integer, but it could be considered false (`0`).
+So you should use the `===` operator to verify the real return value.
+
+In *Elixir* one could use a tuple return `{:ok, pos}` and  `{:error, motivo}`
+and use pattern matching, simplifying validations.
+
+- <https://hexdocs.pm/elixir/1.16.3/Kernel.html#===/2>
+- <https://blog.codinghorror.com/php-sucks-but-it-doesnt-matter/>
+- <https://hexdocs.pm/elixir/String.html>
+- <https://www.php.net/manual/en/ref.strings.php>
+- <https://www.php.net/manual/en/function.strpos.php>
+- <https://www.php.net/manual/en/function.str-replace.php>
+
+#### Data Inconsistencies
+
+In other programming languages a source of inconsistencies is the mutability of their data structures. _Elixir_, being a functional language, works with immutable structures that allow consistency in the data.
+
+The following example written in *Python* shows us the inconsistency problems in programming languages with mutable data structures.
+
+```python
+mapa = {
+  'lista': [1,2,3],
+  'numero': 10
+}
+
+lista = mapa['lista']
+numero = mapa['numero']
+
+lista += [4]
+numero += 10
+
+print(lista)
+# [1, 2, 3, 4]
+
+print(numero)
+# 20
+
+print(mapa)
+# {'lista': [1, 2, 3, 4], 'numero': 10}
+```
+
+We have modified the `lista` and `numero` variables, but the `mapa` variable was affected. This is because `lista` was accessed by reference and `numero` accessed by value.
+
+In _Elixir_ that does not happen, thanks to its immutability. We can work with the `lista` and `numero` variables without fear of altering the value of the `mapa` variable.
+
+```elixir
+mapa = %{
+  lista: [1, 2, 3],
+  numero: 10
+}
+
+lista = mapa.lista
+numero = mapa.numero
+
+lista = lista ++ [4]
+numero = numero + 10
+
+IO.inspect(lista)
+# [1, 2, 3, 4]
+
+IO.inspect(numero)
+# 20
+
+IO.inspect(mapa)
+# %{lista: [1, 2, 3], numero: 10}
+```
+
+- <https://en.wikipedia.org/wiki/Functional_programming>
+
+## The Differences with OOP Languages
+
+### Coupling in OOP
+
+Objects are the coupling of three components: Behavior, State and Mutability (changes over time). Every time an object is created you get an entity that couples those three components. This coupling often causes problems, how can I use only one of the components?.
+
+One of the biggest sources of problems is inheritance between objects. If for example we have an object that has state and behaviors coupled, then I want to add more behaviors, I must resort to inheritance. Objects by definition exist to encapsulate a state; to modify the state I must interact with the object. When using inheritance you have a mechanism that allows tampering with the state directly, invalidating the object. This is why some programming languages include operators like `protected`, `final`, among others to control the visibility of what supposedly should not have access.
+
+Basically there is a problem whose solution creates other problems, not including things like multiple inheritance. All due to the inherent coupling of object orientation.
+
+Object Oriented Programming (OOP) is not about creating a giant taxonomy with a complex hierarchy of objects. The excessive use of dot syntax (`objeto.metodo()`) is a consequence of that misinterpretation. _OOP_ is about having objects that quack like a duck, but are not necessarily a duck (quack like a duck, but is not a duck). There is great confusion about the fact that in OOP only methods exist and not functions. Even Smalltalk (the father of OOP) has functions (hidden under a special syntax).
+
+In the well-known book [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns) they mention: "Prefer composition over inheritance".
+
+Functional languages like Haskell, Lisp and Elixir have been solving complex problems without resorting to inheritance. While object-oriented languages can use composition thanks to interfaces. Since interfaces are a mechanism of polymorphism, that is, they allow us to work with multiple forms through a pre-established contract.
+
+### Elixir's Components
+
+In Elixir there is behavior (Modules), state (Data) and a vision of mutability (Processes), but they are not coupled. Which allows us to build software using only the required component, without incurring the problems caused by OOP coupling. Elixir has three dimensions to build systems, unlike OOP which only has one. So it can have a different polymorphism in each component (Behaviours, Protocols, Messages).
+
+In the book [Concepts, Techniques, and Models of Computer Programming](https://en.wikipedia.org/wiki/Concepts,_Techniques,_and_Models_of_Computer_Programming) they mention the principle of least expressiveness. "When programming a component, the right computational model for achieving a natural program is the least expressive one possible". Which can be simplified as "use the simplest abstraction possible to solve the problem".
+
+```youtube
+agkXUp0hCW8
+```
+
+### Coupling Example
+
+Let's go with a simple example comparing the way of counting characters in a `string`.
+
+The following is an example in *Ruby*.
+
+```ruby
+"Hola".length
+# 4
+```
+
+In *Elixir* the same operation would be:
+
+```elixir
+String.length("Hola")
+# 4
+```
+
+In *Ruby* the `string` "Hola" is an object that besides having
+the data structure, has a series of associated behaviors.
+It is highly coupled.
+
+On the other hand in *Elixir* the `string` "Hola" is only a piece of data
+that has no behaviors. To be able to perform operations
+we must use the functions of the `String` module. There is
+a decoupling between data and behaviors.
+
+*Why is this decoupling important?*
+
+Let's see an example. If we assign a variable to "Hola",
+over time we can change the content of the variable
+and we will no longer be able to use the method associated with `string` types.
+
+```ruby
+variable = "Hola"
+variable.length
+# 4
+
+variable = 1
+variable.length
+# (irb):4:in `<main>': undefined method `length' for an instance of Integer (NoMethodError)
+```
+
+This can be a problem, especially if there is a hierarchy of inheritances
+and combined with the mutability of the language, it is a recipe for chaos and
+not very elegant solutions if the risks are not handled properly.
+
+In *Elixir*, being totally decoupled data, behavior and state changes,
+problems can be avoided and we ensure software products free of problems
+associated with inheritance hierarchies and mutability.
+
+## Pattern Matching
+
+This technique, typical of functional languages, is used to search for patterns and decide what to do at each moment. We should think of the = operator not as a typical equal sign from other languages, but as the one we find in a mathematical function of the type x = a + 1. That is, we are saying that x and a + 1 have the same value.
+
+```elixir
+# a = 1
+# b = "elixir"
+# c = "ninjas"
+{a, b, c} = {1, "elixir", "ninjas"}
+```
+
+- <https://joyofelixir.com/6-pattern-matching>
+
+## The Pipe Operator
+
+Operating systems inspired by _Unix_ have been using *Pipelines* since their beginnings.
+In this example, we list the directory contents, filter only the lines containing _"archivo.txt"_, and redirect the output to a file called _resultado.txt_.
+
+```bash
+ls -l | grep "archivo.txt" > resultado.txt
+```
+
+<https://www.swhosting.com/es/comunidad/manual/uso-de-pipes-en-sistemas-unix>
+
+In the case of *Elixir*, the `pipe` operator `|>` is a beautiful tool that allows us to express a chain of functions as a sequence of actions.
+
+Even if you have not used _Elixir_ you could understand the logic of the following code.
+
+```elixir
+parametros_formulario
+|> validar_formulario()
+|> insertar_usuario()
+|> crear_reporte()
+|> mostrar_resultado()
+```
+
+Using a series of `pipe` operators is known as a `pipeline`. It is simple to read and understand what happens. But because of its simplicity it also has some limitations. Because the functions are chained, they depend on the previous result. If one of the functions fails it would break the entire flow. Not much can be done about this unless the error cases are handled in each function.
+
+<https://blog.appsignal.com/2022/07/19/writing-predictable-elixir-code-with-reducers.html>
+
+## In Elixir Everything is a Reducer
+
+First we will start by explaining the concepts of `acumulador` (accumulator) and `reductor` (reducer).
+
+### Accumulator
+
+An accumulator is a variable that during the execution of a program will reference itself and store the result of performing operations with the values contained in other variables.
+
+```elixir
+acumulador = acumulador + variable
+```
+
+- <https://www.uacj.mx/CGTI/CDTE/JPM/Documents/IIT/fund_programacion/U4-1.html>
+- <https://es.wikipedia.org/wiki/Acumulador_(inform%C3%A1tica)>
+
+### Reducer
+
+A reducer is a way of processing a large task little by little. It uses an accumulator to facilitate intermediate operations and delivers a single final result.
+
+The common structure of a reducer is the following.
+
+```elixir
+reductor(elementos_enumerables, valor_inicial_acumulador, funcion_reductora)
+```
+
+- `elementos_enumerables`: A list of elements that can be enumerated. Example `[1, 2, 3]`.
+- `valor_inicial_acumulador`: The value our accumulator will have in the first execution of the reducer function. Example `0`.
+- `funcion_reductora`: It is the function that receives two parameters. The element in the list and the current value of the accumulator. Example `fn elemento, acc -> acc + elemento end`
+
+The reducer will execute the reducer function for each element and return the final value of the accumulator when each element has been processed.
+
+<https://redrapids.medium.com/learning-elixir-its-all-reduce-204d05f52ee7>
+
+### Example
+
+Let's see a concrete example of how a reducer works. First we will define a function to add two values. We will use the simplified syntax with the capture operator (`&`).
+Which allows us to express a function in a shorter way.
+
+The following way of expressing a function with two parameters
+
+```elixir
+sumar = fn elemento, acc -> elemento + acc end
+```
+
+Can be simplified using the capture operator `&`.
+
+```elixir
+sumar = &(&1 + &2)
+```
+
+We will add the list of elements `[1, 3, 4]` so that we can obtain the sum which is `8`.
+
+```elixir
+# sumar = fn elemento, acc -> elemento + acc end
+sumar = &(&1 + &2)
+```
+
+```
+&:erlang.+/2
+```
+
+If we use the `Enum` module and the `reduce` function we will get our result
+
+```elixir
+# reduce(enumerable, acumulador, funcion_reductora)
+Enum.reduce([1, 3, 4], 0, sumar)
+```
+
+```
+8
+```
+
+It is equivalent to calling the `sumar` (add) function in a nested way.
+
+```elixir
+sumar.(4, sumar.(3, sumar.(0, 1)))
+```
+
+```
+8
+```
+
+It can also be expressed as a `pipeline` of the add function, whose initial value is `0`.
+
+```elixir
+0
+|> sumar.(1)
+|> sumar.(3)
+|> sumar.(4)
+```
+
+```
+8
+```
+
+This pipeline could be expressed as calling the `suma` function using the result of the previous function. In this case it could be expressed as the following:
+
+```elixir
+# 1
+sumar.(0, 1)
+# 4
+sumar.(1, 3)
+# 8
+sumar.(4, 4)
+```
+
+```
+8
+```
+
+### CRC: Create, Reduce and Convert
+
+Elixir uses modules and data types, which allows a way of organizing our code in what is called _CRC_ (Constructors, Reducers and Converters). So we will have functions to (*create*) an _accumulator_, functions that will perform operations (*reducers*) with this _accumulator_ and finally functions that will transform the _accumulator_ into a final format (*converters*). This is something that has existed for a long time in different programming languages like _Haskell_ or _Lisp_. The most important thing you can do in a language is to join ideas using composition.
+
+The idea is to create a `pipeline` that receives an accumulator as its first parameter and performs a series of `reduce` operations until reaching the final `converter`.
+
+```elixir
+  entrada
+  |> constructor() # crea el acumulador inicial
+  |> reductor()
+  |> reductor()
+  |> reductor()
+  |> conversor()
+  # salida de la función listo para ser utilizado por otro pipeline
+  # o ser mostrado al usuario final
+```
+
+For this reason we can consider that everything in _Elixir_ is a set of accumulators and reducers. Many of the _Elixir_ core functions can be implemented using nothing more than an accumulator and `Enum.reduce`.
+
+### Why is it important?
+
+Thanks to this way of organizing we can see our code in a coherent
+and unified way. By having a common data structure with several functions
+we can perform operations and express ourselves with greater reading ease.
+Our systems will be easier to understand and maintain in the future.
+
+Consistency is an important quality factor in our systems and using _CRC_ is a great tool to achieve that.
+
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTutorial%5D-CRC-y-DFTBLWB>
+
+```youtube
+69wZzHYa0aM
+```
+
+```elixir
+# Creamos un nuevo mapa con nuestro acumulador
+constructor = &%{acc: &1}
+
+# Retornamos el valor del acumulador actualizado
+suma = &%{acc: &1.acc + &2}
+
+# Mostramos solamente el valor que deseamos
+conversor = & &1.acc
+
+0
+|> constructor.()
+|> suma.(1)
+|> suma.(3)
+|> suma.(4)
+|> conversor.()
+```
+
+```
+8
+```
+
+### CRC Example
+
+Let's illustrate a little using a treasure map. On this map we will give a series of directions north, south, east and west. You can see how we have a creation function that returns a tuple `{x, y}`, which will be our accumulator data structure. Then we have a series of reducers that modify the tuple and return a new tuple with the appropriate values. Finally we have our converter that returns a `String` with a final message.
+
+```elixir
+defmodule Tesoro do
+  # Creador
+  def nuevo(x, y), do: {x, y}
+  def nuevo, do: nuevo(0, 0)
+
+  # Reductores
+  def norte({x, y}), do: {x, y - 1}
+  def sur({x, y}), do: {x, y + 1}
+
+  def este({x, y}), do: {x - 1, y}
+  def oeste({x, y}), do: {x + 1, y}
+
+  # Conversor
+  def mostrar({x, y}), do: "El tesoro se encuentra en las coordenadas #{x},#{y}"
+end
+```
+
+```
+{:module, Tesoro, <<70, 79, 82, 49, 0, 0, 11, ...>>, {:mostrar, 1}}
+```
+
+```elixir
+import Tesoro
+
+nuevo()
+|> norte()
+|> este()
+|> este()
+|> oeste()
+|> oeste()
+|> sur()
+|> sur()
+|> sur()
+|> este()
+|> este()
+|> este()
+|> mostrar()
+```
+
+```
+"El tesoro se encuentra en las coordenadas -3,2"
+```
+
+As you can see we managed to generate our treasure map using a `pipeline` of functions that accept a common data structure as the first parameter (accumulator). The operations are performed on this structure to finally create an output with a specific format.
+
+We have achieved something great. We took a complex idea of different functions and unified them as if they were links of the same chain. This way you can see how the operations form a cascade sending values. We have created a composition using reducers.
+
+The ideas of _CRC_ (Create, Reduce and Convert) can be found throughout the entire _Elixir_ ecosystem, for example with _OTP_ and the state of a _GenServer_ or _Phoenix_ to take a piece of data and convert that data to HTML, SVG, JSON or similar.
+
+Seeing operations as a chain simplifies how to build, read and test all the software in the _Elixir_ ecosystem, thanks to an excellent consistency and design decisions.
+
+## Why Use Elixir over the Alternatives?
+
+Some reasons:
+
+- A modern and beautifully consistent functional language. Allowing a more decoupled and consistent level than with other technologies.
+- It runs on the `BEAM` with more than 30 years of tools for robust, scalable and concurrent systems. Achieving greater reliability and resilience to failures than with other solutions.
+- Great ecosystem of tools for IoT, Robotics, AI, Web, Mobile, among others.
+- An attractive market for professionals with novel and fresh job offers, without as much competition as in other technologies. A booming job market in the USA, Germany, Japan, among others.
+- Plenty of training programs and certifications available (Grox.io, Erlang Solutions).
+- Used by high-caliber companies like Facebook, Whatsapp, Discord, Pepsico, Walmart, among others.
+
+### What Does the Industry Have in Store for Us in the Future?
+
+The computer industry is full of changes. We can mention the technology of the 80's with the first personal computers like the _Commondore_ or _Atari_. Then in the 90's we saw the beginnings of the internet with _HTML_, _JS_ and _CSS_. In the 2000's we saw the rise of social networks like _Facebook_ and platforms like _Youtube_. In the 2010's applications and "smart" mobile phones became widespread. What is coming in the 2020's decade?. Most likely the massification of _AI_ and concurrent systems. Cases where _Elixir_ and _Erlang_ are ideal, surpassing other alternatives like _Python_ and _Ruby_. Professionals who learn `BEAM` languages will be prepared for the coming decades of the industry, because every day the concurrency and robustness of systems will be much more necessary.
+
+Programming languages that are "hard to hire for" will always be a problem. Unfortunately, this is not a problem you can really solve, because nobody knows the future. If for example you choose a popular programming language today, later people stop liking it and it will not be easy to find personnel (VB6, Action Script Flash). What about cases like *Python*, where the migration from _2.x_ to _3.x_ was so tortuous that it was practically a change to a different language?. Organizations that do not marry a single language or technology and strategically adopt new tools will be better prepared for market and industry variations.
+
+- <https://adoptingerlang.org/docs/team_building/how_to_polyglot/>
+- <https://github.com/ElixirCL/ElixirCL/wiki/Por-qué-elegir-Elixir-y-Phoenix>
+
+```youtube
+9lkO-kgxoiY
+```

@@ -1,0 +1,30 @@
+---
+title: Githubを整理する
+slug: declutter-your-github
+date: 2017-10-22 20:42:57 +00:00
+description: 多くの組織が開発者を探しており、Githubは主要な情報源の一つです。古いプロジェクトを隠して、より関連性の高いものだけを示すことがとても重要です。そうすれば、あなたの最良の仕事だけを提示することになります。
+featured_image: /blog/declutter-your-github/cover.jpg
+tags: git, github, clutter, english
+---
+
+![Sarah BrownによるUnsplashの写真](cover.jpg)
+
+多くの組織が開発者を探しており、Githubは主要な情報源の一つです。古いプロジェクトを隠して、より関連性の高いものだけを示すことがとても重要です。そうすれば、あなたの最良の仕事だけを提示することになります。
+
+## どうやって?
+
+1. もう保守したくないプロジェクトのために新しいOrganizationを作成します。古いリポジトリをすべてこの新しいOrganizationに移動します。この方法を使うと、古いリンクは新しい場所にリダイレクトされ、プルリクエストやIssueなどの古い情報はすべて保持されます。
+
+2. プロジェクトの説明に[UNMAINTAINED]のようなものを追加します。必要に応じて、READMEに <http://unmaintained.tech/> のバッジを付けます。
+
+## その他のヒント
+
+1. 実験を保存するためのOrganizationを作成します。新しいことを試してみたいだけの時はよくあります。プロジェクトがあなたの個人githubに置く価値があると判断したら、後から移動できます。
+
+2. Organization名にはこれらのパターンを使いましょう。保守されていない古いリポジトリには{name}-archive、作成中またはプロフィールに載せる準備ができていないものには{name}-experiments({name}はOrganization名に置き換えます)。
+
+## Gitlabは?
+
+Gitlabも使え、_Group_と_Subgroup_機能により柔軟性が高くなっています。
+[docs.gitlab.com/ee/user/group](https://docs.gitlab.com/ee/user/group/index.html)。
+しかし、リクルーターに使われるのは主にGithubです。

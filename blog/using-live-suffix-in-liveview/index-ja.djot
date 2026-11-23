@@ -1,0 +1,40 @@
+---
+title: LiveViewでLiveサフィックスを使う
+slug: using-live-suffix-in-liveview
+date: 2023-01-13 15:23:24 +00:00
+description: LiveViewを使うとき、モジュール名にLiveを含めないとエラーが発生することがあります。LiveをPhoenixのContextとして使うことで、コードの構成を改善し、モジュール名の末尾にLiveと書く必要がなくなります。
+featured_image: /blog/using-live-suffix-in-liveview/cover.jpg
+tags: elixir, phoenix, liveview, tip, webdev, english
+---
+
+![Roman KraftによるUnsplashの写真](cover.jpg)
+
+`LiveView` を使うとき、モジュール名の中に `Live` を含めないと、このようなエラーが表示されることがあります。
+
+例: `defmodule RankmodeWeb.Profiles.Index do` はLive Suffix Errorを投げます。
+
+![Live Suffix Error](error.png)
+
+例えば、私の[RankmodeのLive Profilesモジュール](https://raw.githubusercontent.com/ElixirCL/rankmode/main/lib/rankmode_web/live/profiles/index.ex)では。
+
+モジュールを `RankmodeWeb.ProfilesLive.Index` に変更すれば動作します。しかし、実は `RankmodeWeb.Live.Profiles.Index` という秘密のオプションも有効です。
+
+`Live` をPhoenixのContextとして使うことで、コードの構成を改善し、モジュール名の末尾に `Live` と書く必要がなくなります。
+
+`router.ex` がどのように改善されるか見てみましょう。
+
+```elixir
+scope "/", RankmodeWeb do
+    pipe_through [:browser, :require_authenticated_user]
+    live "/profiles", Live.Profiles.Index, :index
+    live "/profiles/new", Live.Profiles.New, :new
+    live "/profiles/edit/:profile", Live.Profiles.Edit, :edit
+    live "/profiles/:profile/gameplays", Live.Gameplays.Index, :index
+    live "/profiles/:profile/gameplays/new", Live.Gameplays.New, :new
+    live "/profiles/:profile/gameplays/edit/:gameplay", Live.Gameplays.Edit, :edit
+end
+```
+
+そして、ファイル構成も改善できます。
+
+![ファイル構成](files.png)

@@ -1,0 +1,26 @@
+---
+title: Gambas EMS Flasher GUI
+slug: gambas-ems-flasher-gui
+date: 2011-06-02 12:43:17 +00:00
+description: EMS flasher es un simple grabador de línea de comandos para el cartucho USB EMS de 64 Mbit para Game Boy. Este software es una interfaz gráfica para ese programa, escrita en Gambas Basic.
+featured_image: /blog/gambas-ems-flasher-gui/cover.webp
+tags: gambas, basic, gui, gameboy, linux
+---
+
+![Cartucho EMS](cover.webp)
+
+Una aplicación con interfaz gráfica para ems flasher <http://lacklustre.net/redmine/projects/ems-flash>
+
+EMS flasher es un simple grabador de línea de comandos para el
+cartucho USB EMS de 64 Mbit para Game Boy.
+
+Escrito por Mike Ryan.
+
+Este software es una interfaz gráfica para ese programa. Escrito en
+[Gambas Basic](https://gambas.sourceforge.net/en/main.html).
+
+Puedes comprar un [cartucho EMS en Kitsch Bent](https://store.kitsch-bent.com/collections/cartridges-programmers/products/usb-64m-smart-card)
+
+```github
+NinjasCL-archive/ems-flasher-gui | Interfaz gráfica en Gambas para el grabador EMS de Game Boy
+```

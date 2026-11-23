@@ -1,0 +1,107 @@
+---
+title: A revista Club Nintendo
+slug: la-revista-club-nintendo
+date: 2024-06-08 17:14:30 +00:00
+description: Minhas memórias com a revista e como comecei na informática
+featured_image: /blog/la-revista-club-nintendo/cover.png
+tags: revista, club, nintendo
+---
+
+![Club Nintendo](cover.png)
+
+Quero compartilhar o curso que iniciou meu interesse pela informática.
+O curso de HTML da revista Club Nintendo. Encontrei os escaneamentos da versão
+mexicana, embora eu tenha lido a edição chilena. O conteúdo é o mesmo.
+
+## Primeira Parte
+
+
+<https://archive.org/embed/club-nintendo-ano-06-no-05-mexico>
+
+Página 44. Introdução ao HTML.
+Tags básicas como `<h1>`, `<img>` e as cores hexadecimais. Tabelas e listas.
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-05-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### Conceitos
+
+- <https://developer.mozilla.org/es/docs/Web/HTML>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements>
+- <https://developer.mozilla.org/es/docs/Web/CSS/color>
+- <https://developer.mozilla.org/es/docs/Web/API/HTMLTableElement>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/menu>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/li>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/img>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/br>
+
+
+## Segunda Parte
+
+<https://archive.org/embed/club-nintendo-ano-06-no-10-mexico>
+
+Página 44. Mapas de imagens. Frames, links.
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-10-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### Conceitos
+
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/map>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/frame>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/frameset>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/a>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/sub>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/sup>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/hr>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/u>
+
+## Terceira Parte  (final)
+
+<https://archive.org/embed/club-nintendo-ano-06-no-11-mexico>
+
+Página 52. Formulários e um pouquinho de Javascript.
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-11-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### Conceitos
+
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/form>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/input>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button>
+- <https://developer.mozilla.org/en-US/docs/Web/JavaScript>
+
+
+## Experiência pessoal
+
+Pessoalmente eu tinha 8 anos e estava na segunda série (maio de 1997); não fazia muito que tinha aprendido a ler e escrever. Meu pai trouxe para casa um velho computador com Windows 3.1 que tinha sido baixado do trabalho dele, e ele me serviu para praticar as coisas da revista, embora eu o usasse principalmente para jogar jogos de DOS
+e aprender a escrever com o teclado; com isso também aprendi os comandos básicos de terminal como criar pastas, copiar e apagar arquivos e essas coisas do DOS.
+
+Meu pai era mais de Excel e Word, então tive que aprender todas essas coisas vendo e experimentando por conta própria.
+
+Embora não tivéssemos internet em casa até 2004, eu podia ir ao trabalho dele e baixar coisas e mais tutoriais.
+
+Depois disso ele também me trouxe um livro fotocopiado do Visual Basic 6, onde também aprendi a montar programas de desktop, embora super básicos.
+
+Terminarei este pequeno post com as mesmas palavras do curso de HTML da revista Club Nintendo:
+
+> Espero que esses 3 cursos de HTML sirvam para você e despertem seu interesse em aprender mais. Se for assim, existem livros muito bons de programação de outras linguagens para usar na Internet.

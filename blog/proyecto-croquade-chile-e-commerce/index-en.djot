@@ -1,0 +1,34 @@
+---
+title: Croquade Chile E-commerce Project
+slug: proyecto-croquade-chile-e-commerce
+date: 2016-09-01 19:42:04 +00:00
+description: Croquade Chile Projects: Website creation with shopping cart and payment system integration.
+featured_image: /blog/proyecto-croquade-chile-e-commerce/cover.jpg
+tags: prestashop, php, chile, croquade
+---
+
+![Croquade](cover.jpg)
+
+For the [Nekki.cl](http://nekki.cl) consultancy: website creation
+with shopping cart and payment system integration for Croquade
+Chile.
+
+## Technologies
+
+- Prestashop
+- PHP
+- MySQL
+- Webpay KCC 6
+
+In this project a plugin for Prestashop 1.6.x (1.5.x may work too)
+was developed, integrating with Transbank's Webpay KCC 6.x online
+payment method.
+
+To learn how to configure Webpay on the server, see the Webpay
+Guide.
+
+Support for Webpay KCC TR_NORMAL mode.
+
+```github
+NinjasCL-archive/prestashop-webpay | Módulo de Webpay KCC para Prestashop
+```

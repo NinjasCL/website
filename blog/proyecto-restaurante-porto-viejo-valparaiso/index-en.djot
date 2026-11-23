@@ -1,0 +1,36 @@
+---
+title: Porto Viejo Valparaíso Restaurant Project
+slug: proyecto-restaurante-porto-viejo-valparaiso
+date: 2011-07-01 19:54:53 +00:00
+description: Reverse engineering was done on a sales system built in Visual Basic 6 and PostgreSQL, to determine its data model and create PHP extensions.
+featured_image: /blog/proyecto-restaurante-porto-viejo-valparaiso/foto.jpg
+tags: restaurante, valparaíso, chile, porto, viejo, php, wordpress, codeigniter, vb6
+---
+
+![PortoViejo](foto.jpg)
+
+I worked with a team of programmers on the maintenance of a legacy
+sales management application, designing and coding modules in the
+CodeIgniter framework.
+
+The website was also built using Wordpress.
+
+![Screenshot](screenshot.png)
+
+System maintenance, equipment repair, network configuration.
+
+Reverse engineering was done on a sales system built in Visual
+Basic 6 and PostgreSQL, to determine its data model and create PHP
+extensions.
+
+![Wine](wine.png)
+
+## Technologies
+
+- Wordpress
+- CodeIgniter
+- PHP
+- MySQL
+- Visual Basic 6
+- PostgreSQL
+- Ubuntu

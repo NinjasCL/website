@@ -1,0 +1,26 @@
+---
+title: Guia Webpay KCC
+slug: guia-webpay-kcc
+date: 2014-04-23 18:45:43 +00:00
+description: Um guia sobre como instalar e usar o Webpay KCC
+featured_image: /blog/guia-webpay-kcc/cover.png
+tags: webpay, transbank, kcc
+---
+
+![Captura do Webpay](cover.png)
+
+Webpay é um gateway de pagamento desenvolvido pela
+[Transbank](https://transbank.cl) para realizar transações pela
+Internet com cartões bancários de crédito e débito. Hoje o Webpay é
+uma ferramenta chave para o desenvolvimento de um comércio eletrônico
+eficaz e seguro no Chile.
+
+## Transbank Developers
+
+Site com informações sobre a integração do Webpay.
+
+<http://www.transbankdevelopers.cl/>
+
+```github
+NinjasCL-archive/guia-webpay | Guía y ejemplos para integrar Webpay KCC
+```

@@ -1,0 +1,280 @@
+---
+title: Advent of Code — 1日目の解答
+slug: advent-of-code-in-onyx-day-01
+date: 2024-12-04 15:14:22 +00:00
+description: Advent of Code 2024 の 1日目を Onyx で解いた解答。
+featured_image: /blog/advent-of-code-in-onyx-day-01/cover.jpg
+tags: advent of code, 2024, str, conv, iterator, slice, onyx, elixir
+---
+
+![オニキス](cover.jpg)
+
+画像: [Onyx Mainzerbecken](https://commons.wikimedia.org/wiki/File:Onyx_Mainzerbecken.jpg)
+
+- 参照: [https://adventofcode.com/2024/](https://adventofcode.com/2024/)
+
+## --- 1日目: 歴史家のヒステリー ---
+
+主任歴史家はいつもクリスマスのそり出発の大イベントに姿を見せていたが、もう何か月も誰も彼を見ていない! 最後に聞いた話では、北極にとって歴史的な意味を持つ場所を訪ねて回っているらしい。ベテランの歴史家たちの一団が、彼が最も訪ねそうな場所を確認する間、同行してほしいとあなたに頼んできた。
+
+場所を確認するたびに、彼らはリストに星印を付けていく。主任歴史家は最初に調べる50か所のどこかにいるに違いないと彼らは考えている。クリスマスを救うためには、サンタが12月25日に出発する前に、リストに50個の星を付ける手伝いをする必要がある。
+
+星はパズルを解くことで獲得できる。アドベントカレンダーの毎日、2つのパズルが出題され、1つ目を完了すると2つ目が解放される。各パズルで星が1個もらえる。健闘を祈る!
+
+出発もしていないのに、エルフのベテラン歴史家たちの一団はすでに問題に直面していた。確認すべき場所のリストが空っぽなのだ。結局、誰かが最初に確認すべき最善の場所は主任歴史家のオフィスだと決めた。
+
+オフィスになだれ込むと、全員が主任歴史家が本当にどこにもいないことを確認する。代わりに、エルフたちはメモの山と、歴史的に重要な場所のリストを発見した! これは主任歴史家が出かける前に準備していた計画のようだ! もしかすると、このメモからどの場所を探せばいいのか決められるかもしれない?
+
+主任のオフィス中で、歴史的に重要な場所は名前ではなく、場所IDと呼ばれる一意の番号で記されている。見落としがないように、歴史家たちは2つのグループに分かれ、それぞれがオフィスを調べて、場所IDの完全なリストを独自に作ろうとしている。
+
+ただ1つ問題がある。2つのリストを並べて持ってみると(あなたのパズル入力)、そのリストはあまり似ていないことがすぐに分かる。歴史家たちのリストを調整する手伝いができるかもしれない?
+
+例えば:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+もしかすると、リストはわずかにずれているだけかもしれない。それを確かめるために、数値をペアにして、どれだけ離れているかを測る。左リストの最も小さい数と右リストの最も小さい数をペアにし、次に左の2番目に小さい数と右の2番目に小さい数をペアにし、以下同様に続ける。
+
+各ペアの中で、2つの数がどれだけ離れているかを調べる。それらの距離をすべて合計する必要がある。例えば、左リストの3と右リストの7をペアにした場合、距離は4。9と3をペアにした場合、距離は6。
+
+上の例のリストでは、ペアと距離は次のようになる:
+
+- 左リストの最も小さい数は1、右リストの最も小さい数は3。距離は2。
+- 左リストの2番目に小さい数は2、右リストの2番目に小さい数はもう1つの3。距離は1。
+- 両リストの3番目に小さい数は3なので、距離は0。
+- 次にペアにするのは3と4で、距離は1。
+- 各リストの5番目に小さい数は3と5で、距離は2。
+- 最後に、左リストの最も大きい数は4、右リストの最も大きい数は9。距離は5。
+
+左リストと右リストの合計距離を求めるには、見つけたすべてのペアの距離を合計する。上の例では 2 + 1 + 0 + 1 + 2 + 5 で、合計距離は11!
+
+実際の左右のリストにはたくさんの場所IDが含まれている。あなたのリストの合計距離は?
+
+## --- 第2部 ---
+
+あなたの分析は、皆が恐れていたことを裏付けただけだった。場所IDの2つのリストは、確かにまったく異なる。
+
+本当に?
+
+どちらのグループが間違えたのか、主任の筆跡のほとんどをどう読むかについて、歴史家たちは意見が合わない。しかし騒ぎの中で、あなたは興味深いことに気づく。たくさんの場所IDが両方のリストに現れている! もしかすると、他の数字は場所IDではなく、書き間違えられた筆跡なのかもしれない。
+
+今回は、左リストの各数が右リストに正確に何回現れるかを調べる必要がある。左リストの各数に、その数が右リストに現れる回数を掛けたものを合計して、類似度スコアを計算する。
+
+同じ例のリストをもう一度:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+この例のリストでは、類似度スコアを求める過程は次のとおり:
+
+- 左リストの最初の数は3。右リストに3回現れるので、類似度スコアは 3 * 3 = 9 だけ増える。
+- 左リストの2番目の数は4。右リストに1回現れるので、類似度スコアは 4 * 1 = 4 だけ増える。
+- 左リストの3番目の数は2。右リストに現れないので、類似度スコアは増えない (2 * 0 = 0)。
+- 4番目の数 1 も右リストに現れない。
+- 5番目の数 3 は右リストに3回現れるので、類似度スコアは9だけ増える。
+- 最後の数 3 は右リストに3回現れるので、類似度スコアは再び9だけ増える。
+
+つまり、この例のリストでは、過程の終わりの類似度スコアは 31 (9 + 4 + 0 + 0 + 9 + 9)。
+
+もう一度、あなたの左右のリストを考えてみよう。類似度スコアは?
+
+## 解答
+
+### Onyx
+
+- 作者: Brendan Hansen
+- オリジナルの解答: <https://github.com/brendanfh/onyx-aoc-2024/blob/master/solutions/day01.onyx>
+
+この解答では、以下の要素の使用例を見ることができる:
+
+- 演算子 `~~`
+- [conv.parse/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/conv/parse.onyx#L125)
+- [Iterator.zip/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L421)
+- [Iterator.map/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L205)
+- [Iterator.sum/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L890)
+- [os.get_contents/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/os/file.onyx#L111)
+- [str.bisect/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/string/string.onyx#L648)
+- [str.strip_whitespace/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/string/string.onyx#L315)
+- [Slice.sort/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/slice.onyx#L256)
+- [Slice.count_where/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/slice.onyx#L639)
+
+```go {summary="解答を表示"}
+use core {*}
+
+// MARK: Input
+
+/// The data structure will be two lists of integers (32 bit).
+Input :: struct {
+    first: [..] i32;
+    second: [..] i32;
+}
+
+// MARK: - Input Procedures
+
+/// This procedure will read the input file and return a string, trimming whitespace
+input_read_content :: () -> str {
+    return os.get_contents("input.txt")
+        |> str.strip_whitespace()
+}
+
+/// This will take the content text and transform it to a data structure that can be used in the solution.
+input_to_pairs :: (content : str) -> Input {
+
+    input := Input.{}
+
+    for row in str.split_iter(content, "\n") {
+        // Split the row in two columns using the space as separator
+        first_string, second_string := str.bisect(row, "   ")
+
+        // Convert the strings to integers, so we can do math later
+        first_number := conv.parse(i32, first_string)!
+        second_number := conv.parse(i32, second_string)!
+
+        // Store the numbers in each list
+        input.first->push(first_number)
+        input.second->push(second_number)
+    }
+
+    return input
+}
+
+/// Sort the input lists in ASC order
+input_sort :: (input: Input) -> Input {
+    Slice.sort(input.first, (a, b) => a - b)
+    Slice.sort(input.second, (a, b) => a - b)
+    return input
+}
+
+/// Creates an Iterator so we can use enumerable procedures
+input_to_iterator :: (input: Input) -> Iterator(Pair(i32, i32)) {
+    return Iterator.zip(
+        Iterator.from(input.first)
+        Iterator.from(input.second)
+    )
+}
+
+/// Read the contents and prepare it for the solutions
+get_input :: () -> Input {
+    return input_read_content()
+    |> input_to_pairs()
+}
+
+/// Count the similarity score comparing first column with a number in second column
+input_count_total_similarity :: (input: Input) -> u64 {
+    total: u64 = 0
+    for first_number in input.first {
+        // We use the ~~ operator to automatically cast the result to u64
+        total += ~~(first_number * Slice.count_where(input.second, [second_number](second_number == first_number)))
+    }
+
+    return total
+}
+
+// MARK: Solutions
+part1 :: () {
+    get_input()
+    |> input_sort()
+    |> input_to_iterator()
+    |> Iterator.map(element => math.abs(element.first - element.second))
+    |> Iterator.sum()
+    |> printf("The part 1 solution is: {}\n", _)
+}
+
+part2 :: () {
+    get_input()
+    |> input_count_total_similarity()
+    |> printf("The part 2 solution is: {}\n", _)
+}
+
+// MARK: main
+main :: () {
+    part1()
+    part2()
+}
+```
+
+## Elixir
+
+- 作者: TORIFUKUKaiou
+- オリジナルの解答: <https://qiita.com/torifukukaiou/items/2b02ac5054b0bfe5817f>
+
+```elixir {summary="解答を表示"}
+defmodule AdventOfCode2024Day1Part1 do
+  def calculate_total_distance(left_list, right_list) do
+    sorted_left = Enum.sort(left_list)
+    sorted_right = Enum.sort(right_list)
+
+    distances =
+      Enum.zip(sorted_left, sorted_right)
+      |> Enum.map(fn {left, right} -> abs(left - right) end)
+
+    Enum.sum(distances)
+  end
+
+  def parse_input(input) do
+    input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line, ~r/\s+/, trim: true)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+end
+
+# テストデータ
+input = """
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+"""
+
+{left_list, right_list} = AdventOfCode2024Day1Part1.parse_input(input)
+
+# 距離の計算
+total_distance = AdventOfCode2024Day1Part1.calculate_total_distance(left_list, right_list)
+IO.puts("Total distance: #{total_distance}")
+
+defmodule AdventOfCode2024Day1Part2 do
+  def calculate_similarity_score(left_list, right_list) do
+    right_counts = Enum.frequencies(right_list)
+
+    Enum.reduce(left_list, 0, fn num, acc ->
+      count = Map.get(right_counts, num, 0)
+      acc + num * count
+    end)
+  end
+
+  def parse_input(input) do
+    input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line, ~r/\s+/, trim: true)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+end
+
+{left_list, right_list} = AdventOfCode2024Day1Part2.parse_input(input)
+
+# 類似度スコアの計算
+similarity_score = AdventOfCode2024Day1Part2.calculate_similarity_score(left_list, right_list)
+IO.puts("Similarity score: #{similarity_score}")
+```

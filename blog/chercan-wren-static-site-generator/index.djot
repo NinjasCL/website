@@ -1,0 +1,84 @@
+---
+title: Chercán, un Generador de Sitios Estáticos en Wren
+slug: chercan-wren-static-site-generator
+date: 2020-11-24 01:16:21 +00:00
+description: Chercán es un simple generador de sitios estáticos con el que puedes crear tus páginas HTML usando Wren y Asciidoc.
+featured_image: /blog/chercan-wren-static-site-generator/cover.jpg
+tags: wren, chercán, ssg, generators
+---
+
+![Aves de Chile](cover.jpg)
+
+[Wren](https://wren.io) es un lenguaje de scripting concurrente, pequeño,
+rápido y basado en clases.
+
+Piensa en Smalltalk en un paquete del tamaño de Lua, con un toque de Erlang
+y envuelto en una sintaxis moderna y familiar.
+
+```js
+System.print("Hello, world!")
+
+class Wren {
+  flyTo(city) {
+    System.print("Flying to %(city)")
+  }
+}
+
+var adjectives = Fiber.new {
+  ["small", "clean", "fast"].each {|word| Fiber.yield(word) }
+}
+
+while (!adjectives.isDone) System.print(adjectives.call())
+```
+
+## Chercán
+
+Un simple generador de sitios estáticos usando el lenguaje de programación Wren.
+
+Echa un vistazo a [Chercán](https://github.com/NinjasCL/chercan) (<https://github.com/NinjasCL/chercan>) como un simple generador de sitios estáticos con el que puedes crear tus páginas HTML usando _Wren_ y _Asciidoc_.
+
+```text
+.
+├── LICENSE
+├── Makefile
+├── README.adoc
+├── chercan
+│   ├── build.wren
+│   └── config.wren
+├── content
+│   ├── hello
+│   │   ├── hello.adoc
+│   │   └── hello.html
+│   ├── hello.wren
+│   └── index.wren
+├── docs
+│   ├── hello.html
+│   ├── index.html
+│   ├── normalize.css
+│   └── sakura-vader.css
+├── static
+│   ├── normalize.css
+│   └── sakura-vader.css
+├── themes
+│   └── default
+│       ├── default.wren.html
+│       ├── home.wren.html
+│       └── partials
+│           ├── footer.wren.html
+│           └── header.wren.html
+└── wren
+└── run
+```
+
+```js
+class Page {
+  static title {"Hello Chercan"}
+  static content {Asciidoc.read()}
+}
+
+return Page
+```
+
+```github
+NinjasCL/chercan | Un generador de sitios estáticos usando Wren y Asciidoc
+```

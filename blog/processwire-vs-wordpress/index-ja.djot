@@ -1,0 +1,75 @@
+---
+title: ProcessWire vs Wordpress
+slug: processwire-vs-wordpress
+date: 2016-11-07 17:38:40 +00:00
+description: 2つのコンテンツ管理システム、ProcessWireとWordpressの比較。
+featured_image: /blog/processwire-vs-wordpress/cover.jpg
+tags: processwire, wordpress, php, spanish
+---
+
+![Dietmar BeckerによるUnsplashの写真](cover.jpg)
+
+## ProcessWireとWordpressの類似点
+
+- PHP
+- Apache
+- MySQL
+- オープンソース
+
+## ProcessWire
+
+```github
+processwire/processwire | Un CMS libre de código abierto con una API de desarrollo
+```
+
+- [https://processwire.com/](https://processwire.com/)
+
+### 長所
+
+- 2010年にリリース。2003年から開発。(Dictator CMS)。
+- 非常に安全。CVE-ID: 0
+  <https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=processwire>
+- 非常にカスタマイズ性が高い。
+- 非常にスケーラブル。何百万ものページを問題なくサポート。
+- ロールシステム内蔵。
+- 多言語対応含む。翻訳が簡単。
+- CMSのアップデート適用が簡単。
+- 学習と使用が簡単なAPI。純粋なPHPです。
+- CMSの作成者と直接コミュニケーションのある、友好的で活発なコミュニティ。
+- 複数インスタンスが可能で、軽量かつ堅牢なソフトウェアの設計が容易。
+- HTMLデザインを自己管理型に適応させるのが簡単。
+- 大量のコンテンツを持つさまざまなサイトで使用されている。
+- 機能を拡張するためのモジュールシステム。
+- 週次のCMS改善で、以前のバージョンと下位互換性あり(新バージョンは以前のバージョンのモジュールやシステムとの競合を引き起こしません)。
+- システムは、個人やチームの働き方に適応できる構造を持っています。
+
+### 短所
+
+- Wordpressより知名度が低い。
+- 開発にはより多くの技術的知識が必要。(ただし、システムをニーズに適応させられるため、エンドユーザーは特別なものを必要としません)。そのため、いくつかの領域にはもう少し時間がかかるかもしれませんが、よりパーソナライズされ焦点を絞ったものになります。
+- プラグインやモジュールの数が少ない。(Wordpressのプラグインの多くは、ProcessWireには統合されているか、直接実装が簡単なため不要です)。
+- ProcessWireに適応済みのテーマ(デザイン)が少ない。(HTMLデザインの適応はとてもシンプルで、すでに作られた汎用的なWordpressテーマよりもカスタマイズされたシステムを実現できます)。
+
+## Wordpress
+
+```github
+WordPress/WordPress | El gestor de contenidos más usado del web
+```
+
+- [https://wordpress.org](https://wordpress.org)
+
+### 長所
+
+- 2003年から業界で広く知られている。より多くの技術サポートとドキュメント。
+- 大量の汎用テーマ。
+- 大量のプラグイン(無料と有料)。
+- サイトのプロトタイピングの速さ。
+
+### 短所
+
+- 非常に不安定。アップデートはサイトを破損させたり、監視されていないとハッキングに晒される可能性があります。プラグインを使用すると、そのコンテンツに対する制御や互換性の問題がないため、セキュリティとパフォーマンスが低下する可能性があります。CVE-ID: 1024
+  <https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=wordpress>
+- 遅さ。Wordpressシステムは、大量のリソースを消費し、他のシステムより遅く動作することで知られています。
+- カスタムシステムの作成の難しさ。ブログシステムであるため、ユニークな体験を作るには多くのパッチ的で洗練されていない解決策が必要です。
+- 理解しづらいAPI。情報にアクセスするための関数が直感的でなく、開発時間が増加します。
+- 決められた柔軟性のないテーマ構造。開発者やチームはWordpressに適応しなければなりません。

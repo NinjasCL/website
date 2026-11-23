@@ -1,0 +1,91 @@
+---
+title: Un Requiem para las Aplicaciones Móviles
+slug: un-requiem-para-las-aplicaciones-moviles
+date: 2015-12-03 11:20:59 +00:00
+description: Muchas de las personas que utilizan estos aparatos ignoran la cantidad de esfuerzo y dedicación que se necesita para realizar una aplicación. Es una lástima que todas esas horas de vida de las personas que hicieron la app se perderán en el olvido.
+featured_image: /blog/un-requiem-para-las-aplicaciones-moviles/cover.jpg
+tags: spanish, internet, apps, mobile, ios, android
+---
+
+![No dejes caer tu iPhone 4](cover.jpg)
+
+Imagen: [Clifford Joseph Kozak](https://www.flickr.com/photos/cwwiii/2521364771)
+
+He realizado aplicaciones móviles, especialmente para dispositivos iPhone.
+De todos los softwares que se crean en el mundo, las “apps” según mi opinión,
+son las que tienen un futuro muy triste y desolador.
+
+Pequeños fragmentos de unos y ceros funcionando en un dispositivo que
+cabe en el bolsillo. Algunos las usan para comunicarse, otros para entretenerse
+y unos para realizar sus trabajos, la mayoría del tiempo para todas las anteriores.
+Muchas de las personas que utilizan estos aparatos ignoran la cantidad de
+esfuerzo y dedicación que se necesita para realizar una aplicación.
+Es una lástima que todas esas horas de vida de las personas que
+hicieron la app se perderán en el olvido.
+
+## Un viaje al futuro
+
+Imaginemos que estamos 15 años en el futuro, en el año _2030_.
+Puede ser que ya hayas formado una familia o tus amigos y parientes tengan hijos,
+sobrinos, nietos, etc. Uno de ellos te pregunta sobre cómo era la vida en el
+2015,
+¿Qué era un iPhone?, ¿Cómo se hacían las aplicaciones?, ¿Cómo funcionaban?,
+¿Puedo usarlas ahora?. Si tú eres alguien que desarrolla o utilizas
+muy a menudo aplicaciones para móviles quizás podrías contestarle,
+pero dudo mucho que la gente del futuro pueda experimentar el software
+móvil de la misma manera que lo hacemos hoy en día.
+
+## Estado del Arte
+
+Si nosotros quisiéramos experimentar un software de hace 15, 20 o 30 años
+podemos sin muchas complicaciones; utilizando máquinas virtuales,
+emuladores o el hardware original ejecutar la aplicación y aprender cómo
+funcionaba. Debido principalmente a que las aplicaciones antiguas
+normalmente no necesitaban conectarse a internet, no dependían de
+servicios en la nube o redes sociales para funcionar. En esta categoría
+pueden encontrarse aplicaciones de juegos, ofimática y empresariales,
+entre otras. Hoy en día un gran porcentaje del software podría ser
+ejecutado en 15 años más utilizando máquinas virtuales, emuladores o
+hardware original. El principal problema es que las aplicaciones móviles
+serán muy difíciles de ser preservadas para las futuras generaciones y
+caerán irremediablemente a un agujero negro digital.
+
+Es conocido el caso de la página web de la película [“Space Jam”](http://web.archive.org/web/19961227161755/https://www.spacejam.com/). Prácticamente 20 años han pasado desde su
+estreno (en 1996) y todavía podemos disfrutarla con un navegador moderno.
+Sin embargo, aplicaciones móviles ya han sufrido problemas con las
+actualizaciones del sistema operativo.
+
+> Back to the Future, A Wolf Among Us, and other mobile ports of Telltale Games’ adventure tiles have been removed from the App Store following problems with the new iOS9. — Polygon.com
+
+Traducción: Juegos móviles de Telltale como “Back to the Future”, “A Wolf Among Us” y otros han sido removidos de la App Store debido a problemas con el nuevo sistema operativo iOS 9.
+
+## El Apagón Móvil
+
+Dentro de las muchas razones por las cuales una aplicación deje de estar disponible para ser usada, las siguientes pueden afectar a la mayoría de las aplicaciones móviles:
+
+- Actualización del sistema operativo elimina bibliotecas y funciones obsoletas causando que aplicaciones que las usen dejen de funcionar.
+- Servicio en la nube cambia su estructura o es eliminado. Servicios como Facebook, Twitter, iCloud, Parse, etc. Pueden cambiar su forma de operar durante el transcurso de los años afectando a todas las aplicaciones que no pudieron seguir el ritmo de los cambios.
+- Dispositivo ya no es soportado o manufacturado por el fabricante. Algunas aplicaciones están íntimamente ligadas al hardware de un dispositivo, al eliminar el soporte paulatinamente las aplicaciones que no están adaptadas para el nuevo hardware serán olvidadas.
+- Google, Apple o “Empresa X” dejen de existir. Podría pasar que las grandes compañías que controlan las tiendas de aplicaciones dejen de operar. Eliminando el acceso a todas las aplicaciones disponibles.
+- Empresa que desarrolló la aplicación ya no la mantiene o ha dejado de existir.
+- Aplicación es retirada de la tienda por el proveedor debido a violación de contrato u otra razón.
+
+Iniciativas como [The Internet Archive](http://web.archive.org/) tienen la misión de preservar la cultura de nuestra era digital; miles de documentos, libros, música, videos, sitios webs y software han sido preservados. Sin embargo es virtualmente imposible que puedan respaldar una aplicación nativa para iPhone que utilice Facebook y Parse.com para funcionar, debido a las razones expuestas anteriormente.
+
+## Posibles Soluciones
+
+Es razonable pensar de que muchas de las aplicaciones pueden ser salvadas del olvido. Tal vez no con su preservación del binario y disponibilidad para ser ejecutadas en máquinas virtuales o emuladores, pero por lo menos se puede crear un registro audio visual del proceso de creación y su funcionamiento en los “días de gloria”.
+
+### Detrás de Cámaras
+
+Para mostrar y honrar a las personas que desarrollan las aplicaciones se podrían crear textos, videos, audios y fotografías que documenten todo lo vivido por las personas detrás de las aplicaciones. Realizar una especie de museo donde se muestre el proceso que implica crear una aplicación.
+
+### Tutorial de la App
+
+Es importante mostrar como era el funcionamiento de la aplicación durante el período de vida que tuvo. Las principales funcionalidades y la forma de interactuar con la misma. No es suficiente hacer un video promocional, la idea es prácticamente hacer un “paso a paso” que detalle las características de la aplicación. De esta manera se podrá mostrar a las futuras generaciones cómo se utilizaba una aplicación en particular, manteniendo su esencia a pesar de que esta dependa de servicios externos.
+
+## Conclusión
+
+Personalmente creo que las aplicaciones móviles están en un gran peligro de quedar en el olvido, como también el esfuerzo de miles de personas al crearlas. El software es de naturaleza evolutiva y muchas veces los cambios no son documentados apropiadamente para tener un registro histórico de cómo ha mutado, tanto a nivel de funcionalidad como a nivel de las personas que lograron su creación y desarrollo. También las aplicaciones móviles son diferentes a los sitios webs u otro software debido a que dependen de un ecosistema altamente controlado por empresas como Apple o Google, o utilizan servicios en la nube para realizar sus operaciones. Esto causa que su periodo de vida sea de unos cuantos años mientras se mantengan las condiciones en las cuales fueron creadas, pero al momento de cambiar estas condiciones perderán la posibilidad de ser disfrutadas por las personas.
+
+Es muy importante crear un registro audio visual tanto del funcionamiento de la aplicación como de las personas que lograron su génesis. Para preservar la historia y que las futuras generaciones puedan ver cómo se producía y funcionaba el software en la era de los dispositivos “smartphones”.

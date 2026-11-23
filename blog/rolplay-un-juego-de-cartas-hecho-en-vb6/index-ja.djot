@@ -1,0 +1,231 @@
+---
+title: Rolplay、VB6で作られたカードゲーム
+slug: rolplay-un-juego-de-cartas-hecho-en-vb6
+date: 2024-02-21 17:39:00 +00:00
+description: テック考古学：RolplayはVisual Basic 6で作られたカードゲームです。Rolplayの素晴らしい世界を発見しましょう。
+featured_image: /blog/rolplay-un-juego-de-cartas-hecho-en-vb6/manual2.png
+tags: games, archeology, visual basic 6, chile, spanish
+---
+
+2002年から2005年の頃、カードゲームの爆発的な流行がありました。チリではYu-Gi-Oh、ポケモンTCG、Magic、WWFのもの、Tierras Mágicas、そしてもちろんMitos y Leyendasが流行っていました。
+
+でも、お金があまりなくて、RAMが128メガのコンピューターと _123 Click de Entel_ のインターネットを持っている8年生の子供だったらどうでしょう？素晴らしい _Rolplay_ の世界にアクセスできました。これはDavid González Bisbal（Sevia）がスペインで素晴らしいVisual Basic 6を使って作った無料のオンラインカードゲームです。
+
+## 小さな歴史的概要
+
+David（Sevia）は2002年頃にVisual Basic 6を使って _Rolplay_ を作り、クランや大会まで開かれるほどとても人気になりました。残念ながら、多くのカードのデザインがDungeons and Dragonsのマニュアルから取られていたため、主にその理由でサービスが終了しました。その後Davidは2012年から2015年の間に2番目のバージョンを作りました。今回はAdobe Airテクノロジー（Starling Engine <https://gamua.com/starling/）を使い、AndroidとiOSのバージョンまでありました。しかし、オンラインカードゲームはすでにHearthstoneのようなゲームとの競争が激しく、残念ながら経済的および人気の問題によりゲームは継続されませんでした。>
+
+現在、Davidの消息はあまり知られていません。おそらくとても成功したITコンサルタントでしょう。Github、Youtube、Facebook、Stack Overflow、ChatGPTがない時代に、自分ひとりでオンラインゲームを作ったのですから。
+
+## 2013年のバージョン
+
+データを取得するために、まず最新のバージョンを試しました。しかし、Web Archiveでインストーラーを見つけたにもかかわらず、カードを復元できませんでした。ゲームを起動したときに、もう利用できないサーバーからダウンロードされる仕組みだったからです。
+
+<https://github.com/jindrapetrik/jpexs-decompiler> を使ってゲームを逆コンパイルしようとしました。実際うまくいき、多くのソースコードにアクセスできましたが、カードのデータがないと、これ以上救い出せるものはあまりありませんでした。
+
+
+![Roleplay 2013](rp2013.png)
+
+
+
+## 2002年のバージョン
+
+このバージョンは少し見つけるのが難しかったです。どのWeb Archiveのリンクにもインストーラーがなかったからです。しかし、Softonicのような古いページを探して見つけることができました。奇跡的にインストーラーをダウンロードでき、サーバーがもう存在しないためゲームは動きませんでしたが、ファイルの中にカードの画像がありました。
+
+
+![Rolplay 2002](rp2002.jpg)
+
+
+
+## データ抽出
+
+[Web Archive](http://web.archive.org/web/20020806184536/http://www.rolplay.net:80/eljuego/index.asp) のおかげで、利用可能なカードの情報（名前、レベル、レアリティのみ）が手に入りました。
+
+これには、ブラウザーのコンソールで実行されるシンプルなスクレイパーを作成しました。
+
+```js
+// Example out CSV
+// http://web.archive.org/web/20021231221705/http://www.rolplay.net/eljuego/cartas_lista.asp?coleccion=Todas&nivel=11
+/*
+Trasgo Mayor;80;2;11
+Gran Blitz;10;2;11
+Sombra;60;2;11
+Mole;65;2;11
+Demonio;75;2;11
+Sardo;30;2;11
+Hongo;99;2;11
+Malar;90;2;11
+*/
+
+(() => {
+    const level = 10;
+    let out = "";
+
+    const cards = Array.from(document.getElementsByTagName('td')).map(item => {
+      const components = item.innerText.trim().split('\n');
+
+      // Check if this is not a page layout
+      if (components.length != 4) {
+             return null;
+      }
+
+      const card = {
+        name: components[0].trim(),
+        rarity: parseInt(components[2].replaceAll("Rareza:", "").trim()),
+        quantity: parseInt(components[3].replaceAll("Nº por baraja:", "").trim()),
+        level: level
+      };
+
+      return card;
+    }).filter(item => item != null).map(item => {
+      out += `${item.name};${item.rarity};${item.quantity};${item.level}\n`;
+      return item;
+    });
+
+      console.log('Total Cards:', cards.length);
+      console.log(out);
+})();
+```
+
+これにより _CSV_ ファイルが生成され、_LibreOffice Calc_ で開いて、カードにしか入手できないデータ（コスト、攻撃、防御、効果など）を入力し始めました。
+
+すべてのデータを含むこの特別なファイルが生成されたら（完全に手作業だったので時計職人の仕事でした）、新しい _CSV_ をエクスポートし、今度は _Python_ を使って _JSON_ に変換しました。なお、この _CSV_ には _Python_ で処理される _JSON_ フィールドが含まれていました。
+
+```python
+#!/bin/env python
+
+import json
+import csv
+
+def sanitize(value):
+# replace odd " that spreadsheet adds
+    return value.replace("\u201c", '"').replace("\u201d", '"').strip()
+
+def to_json(value):
+    return json.loads(value)
+
+def sanitize_to_json(value):
+    return to_json(sanitize(value))
+
+cards = open("./RolplayCards.csv", encoding="utf8")
+cards = csv.DictReader(cards, delimiter=";", quotechar="'")
+
+items = []
+
+for card in cards:
+    id =  sanitize_to_json(card["id"])
+    items.append({
+        "id": id,
+        "images": {
+            "normal": f"{id}.jpg",
+            "horizontal": f"{id}_h.jpg",
+            "small": f"{id}_s.jpg"
+        },
+        "name": {
+            "spanish": sanitize(card["name_es"]),
+            "english": sanitize(card["name_en"])
+        },
+
+        "level": sanitize_to_json(card["level"]),
+        "max_per_deck": sanitize_to_json(card["max_per_deck"]),
+        "rarity": {
+            "percent": sanitize_to_json(card["rarity_percent"]),
+            "value": sanitize(card["rarity"])
+        },
+        "casting_cost": sanitize_to_json(card["casting_cost"]),
+        "attack": sanitize_to_json(card["attack"]),
+        "defense": sanitize_to_json(card["defense"]),
+        "badges": {
+            "left": sanitize(card["badge_left"]),
+            "right": sanitize(card["badge_right"])
+        },
+        "class": sanitize(card["class"]),
+        "kind": sanitize_to_json(card["kind"]),
+        "type": sanitize(card["type"]),
+        "subtype": sanitize(card["subtype"]),
+        "abilities": {
+            "main": sanitize_to_json(card["ability"]),
+            "special": sanitize_to_json(card["special"]),
+            "on_before_cast": sanitize_to_json(card["on_before_cast"]),
+            "on_activate": sanitize_to_json(card["on_activate"]),
+            "on_before_attack": sanitize_to_json(card["on_before_attack"])
+        },
+        "settings": sanitize_to_json(card["settings"])
+    })
+
+
+with open("./cards.json", "w") as file:
+    file.write(json.dumps(items))
+```
+
+あとはルールと効果を文書化するマニュアルを生成するだけでした。これはすべて、オリジナルの _README_ を読み、利用可能なスクリーンショットを確認し、他のカードゲームから借りた少しの論理で空欄を埋めることで実現しました。多くのルールはゲーム自体が処理していたため、オリジナルのマニュアルには文書化されていなかったからです。
+
+## マニュアルの作成
+
+適切な美学を持たせるために、このベースhtmlが使われました
+[RPG Template](https://github.com/cskau/rpg-template) と少しの [Bulma.css](https://bulma.io/)。
+
+さらに、スペイン語と英語の両方に対応させたかったので、人生を複雑にせず、すべてのデータを配置してCSSクラスで隠し、Javascriptを使って有効化しました。
+
+
+![ボタン](manual.png)
+
+```js
+const hideItems = (items) => {
+    items.forEach(el => {
+       el.classList.add("hidden");
+    });
+};
+
+const showItems = (items) => {
+    items.forEach(el => {
+        el.classList.remove("hidden");
+    });
+};
+
+const setEnglish = () => {
+    const english = Array.from(document.getElementsByClassName("english"));
+    showItems(english);
+
+    const spanish = Array.from(document.getElementsByClassName("spanish"));
+    hideItems(spanish);
+
+    document.getElementById("button-lang-english").classList.add("is-primary");
+    document.getElementById("button-lang-spanish").classList.remove("is-primary");
+
+    window.language = "english";
+};
+
+const setSpanish = () => {
+    const english = Array.from(document.getElementsByClassName("english"));
+    hideItems(english);
+
+    const spanish = Array.from(document.getElementsByClassName("spanish"));
+    showItems(spanish);
+
+    document.getElementById("button-lang-english").classList.remove("is-primary");
+    document.getElementById("button-lang-spanish").classList.add("is-primary");
+
+    window.language = "spanish";
+};
+```
+
+最後に、_Python_ スクリプトを使ってベースのHTMLテンプレートを取得し、すべてのカードデータと各カードの能力の翻訳を注入しました。
+
+
+![テンプレート](python.png)
+
+
+そして最終結果
+
+
+![マニュアル](manual2.png)
+
+すべてのデータはこのリポジトリで見られます。どう思いましたか？
+
+- [Rolplayマニュアル](https://ninjascl.github.io/rolplus/)
+- [Githubのリポジトリ](https://github.com/NinjasCL/rolplus)
+
+```github
+ninjascl/rolplus | Datos y manual del juego de cartas Rolplay
+```

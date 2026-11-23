@@ -1,0 +1,132 @@
+---
+title: 開発用のコンピューターを選ぶ
+slug: eligiendo-un-computador-para-desarrollo
+date: 2023-12-12 14:28:44 +00:00
+description: 市場には多くの選択肢があります。この小さな記事では、予算に合わせて選べるよういくつかを紹介します。最も安いものから最も高いものまで4つの選択肢を示し、その特徴を詳しく説明します。
+featured_image: /blog/eligiendo-un-computador-para-desarrollo/cover.jpg
+tags: chile, spanish, recycle, tech, begginner
+---
+
+![古いコンピューター](cover.jpg)
+
+開発者として働くためには、どんなコンピューターが必要でしょうか？。
+
+市場には多くの選択肢があります。この小さな記事では、予算に合わせて選べるよういくつかを紹介します。最も安いものから最も高いものまで4つの選択肢を示し、その特徴を詳しく説明します。
+
+## オプション 1: レトロ（RAM 4 GB以下）
+
+これは、非常に安い価格から非常に高い価格まで幅があり得る選択肢です。すべては、手に入れたいマシンがどれほど古いかと、市場での入手可能性次第です。
+
+安い選択肢としては、2007年〜2010年など2000年代のマシンがあります。価格が手頃で、多くのプログラミング言語を実行できます。フリーマーケットで見つけられることもあれば、（マシンによっては）今のインターネットの世界ではもうまく動かないために使っていない人から、ただで譲ってもらえることもあります。
+
+例えば、Windows 7でPythonを実行したいなら、バージョン3.7まで使えます。Windows 7のコンピューターでも、ElixirとErlangの最新バージョンはまだ実行できます。
+
+とはいえ、いつもおすすめなのは、10年以上前のマシンを最新のセキュリティとソフトウェアパッケージでまだサポートしているDebianやFedoraのようなLinuxディストリビューションを使うことです。
+
+これらのマシンは現在のWebの要件ではうまく動かないかもしれませんが、膨大な種類の言語の実験ラボとして使えます。CやPascalなどで学んだことは活かせるので、プログラミングを学ぶ大きな味方です。
+
+RAM 4 GB以下のマシンで快適に動くプログラミング言語のリストです。中には64 MB未満のRAMで動くものもあります。
+
+- <https://www.freebasic.net/> (Basic)
+- <https://www.lazarus-ide.org/> (Free Pascal)
+- <https://gambas.sourceforge.net/> (Gambas Basic)
+- <https://www.dosbox.com/> (DOSエミュレータ)
+- <https://scratch.mit.edu/> (Scratch version 2)
+- <https://smallbasic-publicwebsite.azurewebsites.net/> (MS Small Basic)
+
+### FreeDOS
+
+<https://www.freedos.org/> という無料のオペレーティングシステムがあり、MSDOSのプログラムを実行できます。これにより、Turbo PascalやTurbo Cといったプログラミングの偉大な古典にアクセスできます。
+
+- <https://archive.org/details/msdos_qbasic_megapack>
+- <https://archive.org/details/msdos_borland_turbo_c_2.01>
+- <https://archive.org/details/softwarelibrary_msdos_apps>
+
+```youtube
+6fThPftZuAQ
+```
+
+```youtube
+iNh9ypqFyk0
+```
+
+### プログラミング言語のレガシーバージョン
+
+多くのプログラミング言語は数十年にわたって私たちとともにあり続けています。そのため、望むなら、手に入れたコンピューターとの互換性が最も高いバージョンを使うことができます。ただし、古いバージョンを使うことにはいくつかの不都合がありえます。言語は時代とともに進化するので、レガシーバージョンで学んでから新しいプロジェクトに加わると、多くのことを学び直す必要があるかもしれません。
+
+使える言語の中でも、モダンバージョンには大きな変更がある可能性があるため注意が必要なもの：
+
+- Java
+- Ruby
+- Python
+- Javascript
+- PHP
+- C#
+
+学習のためにこのコンピューターを使うなら、いつもおすすめなのは*C*、*Assembler*、*BASIC*、*Pascal*のような大定番です。HTMLとCSSも悪くないかもしれません。
+
+### 成功事例
+
+![Dell Latitude e430](cover.jpg)
+
+これは2007年のコンピューターです。Dell Latitude e430。家の片付けのときに見つかり、寄付されたものです。
+
+- プロセッサ: Intel Centrino
+- RAM: 2 GB DDR2 533 Mhz
+- ディスク: 128 GB CIF（故障）。
+
+修理のため、全体の清掃と放熱グリスの交換が行われました。
+
+さらに新しいハードディスクが買われましたが、CIFのハードディスクはもう製造されていないため、アダプタとmSataディスクが選ばれました。
+
+- [CIFからmSataへのアダプタ](https://es.aliexpress.com/item/32826615019.html?spm=a2g0o.order_list.order_list_main.23.1aec194duL8JLU&gatewayAdapt=glo2esp)
+- [256のmSataディスク](https://es.aliexpress.com/item/33058237041.html?spm=a2g0o.order_list.order_list_main.29.1aec194duL8JLU&gatewayAdapt=glo2esp)。
+
+その後、Debian 12の64ビット版がインストールされました。golang、rust、elixirの最新バージョンが完璧に動きます。計算能力が限られているため、コンパイルには少し時間がかかりますが。
+
+このコンピューターの入手と修理にかかった費用は合計で約1万5千チリペソ（20 USD）でした。
+
+つまり、予算がかなり限られているなら、これはソフトウェア開発と情報処理の美しい世界へ入るための選択肢になりえます。さらに、電子廃棄物を減らして地球を助けることにもなります。
+
+## オプション 2: オールドスクール（DDR3 RAM 8 GB以下）
+
+これらのコンピューターは、Windows 8からWindows 10、いくつかのバージョンのMacOSとLinuxを実行できます。
+
+このクラスのマシンには、通常、デスクトップよりもノートパソコンをおすすめします。ただし予算次第です。この特徴を持つ安いノートパソコンなら、モダンなプログラミング言語が快適に動きます。
+
+価格はレトロより少し上がりますが、その分多くの計算能力が得られます。
+
+- レンジ: 50K〜200K CLP（60 USD〜200 USD）。
+- 2011年〜2017年のMac。
+
+例：
+
+- [MacMini 2011](https://support.apple.com/kb/sp632?locale=es_ES)
+- [Samsung 355e](https://www.samsung.com/us/business/support/owners/product/series-3-notebook-np355e5c/)
+
+## オプション 3: モダン（DDR4 RAM 16 GB以下）
+
+ここでは市場の多様性が高まり、価格もかなり良くなっていることがあります。ノートパソコンよりもデスクトップコンピューターをおすすめします。
+
+- レンジ: 300K〜1000K CLP（300 USD〜2000 USD）。
+
+- 2018年〜2020年のMac（Intelプロセッサ）。
+
+## オプション 4: ウルトラ（DDR5 RAM 32 Gb以上）
+
+これは最新の流行で、目利きのためだけのものです。何年も使える怪物を確保したい、そしてその価格を払えるなら。
+
+おすすめとして、次のようなスペックを探すことができます：
+
+- CPU: Intel i7 14700K（第14世代）
+- マザーボード: ソケットLGA1700 チップセットZ790 ATX（Gigabyteは良いブランドです）。
+- RAM: DDR5 2x16 5600〜6000Mhz（CorsairまたはKingstonが良いブランドです）
+- ハードディスク: 1テラバイトSSD。（M.2 NVMeはまだ新しすぎるので、購入はしばらく待ちましょう）。（Samsung、WD  は良いブランドです）。
+- 電源: 800 Watt 認証済み
+- ビデオカード: AMD（Linuxとの互換性がより良い）
+
+> スペックの推薦についてPPabloTechに感謝します。
+
+Macで行く場合も。
+
+- 2021年以降のMac（M1以上のプロセッサ搭載）。

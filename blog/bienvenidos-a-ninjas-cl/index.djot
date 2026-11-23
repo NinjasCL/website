@@ -1,0 +1,19 @@
+---
+title: Bienvenidos a Ninjas.cl
+slug: bienvenidos-a-ninjas-cl
+date: 2026-11-16 00:00:00 -03:00
+description: El sitio de Ninjas.cl vuelve a estar en línea con una nueva base construida en Gleam y blogatto.
+featured_image: /img/Ninjas.png
+tags: ninjas.cl, gleam, blogatto
+---
+
+## Hola, mundo
+
+Después de un tiempo, *Ninjas.cl* vuelve a tener un sitio propio.
+
+Este es el punto de partida de nuestro nuevo motor de blog, construido con
+[Gleam](https://gleam.run/) y [blogatto](https://blogat.to/). Desde aquí
+publicaremos notas sobre nuestros experimentos, videojuegos, software y
+cualquier otra cosa que estemos construyendo.
+
+Nos leemos pronto. 🥷

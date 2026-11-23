@@ -1,0 +1,280 @@
+---
+title: Advent of Code — Solução do Dia 01
+slug: advent-of-code-in-onyx-day-01
+date: 2024-12-04 15:14:22 +00:00
+description: Uma solução do Dia 01 do Advent of Code 2024 em Onyx.
+featured_image: /blog/advent-of-code-in-onyx-day-01/cover.jpg
+tags: advent of code, 2024, str, conv, iterator, slice, onyx, elixir
+---
+
+![Ônix](cover.jpg)
+
+Imagem: [Onyx Mainzerbecken](https://commons.wikimedia.org/wiki/File:Onyx_Mainzerbecken.jpg)
+
+- Ver também: [https://adventofcode.com/2024/](https://adventofcode.com/2024/)
+
+## --- Dia 1: Histeria dos Historiadores ---
+
+O Historiador-Chefe sempre está presente na grande partida do trenó de Natal, mas ninguém o vê há meses! A última notícia que se teve é que ele estava visitando locais com significado histórico para o Polo Norte; um grupo de Historiadores Sêniores pediu que você os acompanhe enquanto verificam os lugares que acham que ele tem mais chance de ter visitado.
+
+Cada vez que um local é verificado, eles o marcam em sua lista com uma estrela. Eles calculam que o Historiador-Chefe deve estar em um dos primeiros cinquenta lugares que vão procurar, então, para salvar o Natal, você precisa ajudá-los a conseguir cinquenta estrelas na lista antes de o Papai Noel decolar em 25 de dezembro.
+
+Conquiste estrelas resolvendo quebra-cabeças. Dois quebra-cabeças serão disponibilizados em cada dia do calendário do Advento; o segundo é liberado quando você completa o primeiro. Cada quebra-cabeça concede uma estrela. Boa sorte!
+
+Você nem sequer partiu e o grupo de Historiadores Sêniores Elfos já bateu num problema: a lista de locais a verificar está vazia. No fim, alguém decide que o melhor lugar para verificar primeiro seria o escritório do Historiador-Chefe.
+
+Ao entrarem no escritório, todos confirmam que o Historiador-Chefe realmente não está em lugar nenhum. Em vez disso, os Elfos descobrem uma coleção de notas e listas de locais historicamente significativos! Parece ser o planejamento que o Historiador-Chefe estava fazendo antes de partir. Talvez essas notas possam ser usadas para determinar quais locais procurar?
+
+Por todo o escritório do Chefe, os locais historicamente significativos estão listados não por nome, mas por um número único chamado ID de local. Para não deixar nada para trás, os Historiadores se dividem em dois grupos, cada um vasculhando o escritório e tentando criar sua própria lista completa de IDs de local.
+
+Só há um problema: ao segurar as duas listas lado a lado (a entrada do seu quebra-cabeça), rapidamente fica claro que as listas não são muito parecidas. Talvez você possa ajudar os Historiadores a conciliar suas listas?
+
+Por exemplo:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+Talvez as listas difiram apenas por uma pequena quantidade. Para descobrir, emparelhe os números e meça quão distantes eles estão. Emparelhe o menor número da lista esquerda com o menor da lista direita, depois o segundo menor da esquerda com o segundo menor da direita, e assim por diante.
+
+Dentro de cada par, descubra quão distantes os dois números estão; você precisará somar todas essas distâncias. Por exemplo, se você emparelhar um 3 da lista esquerda com um 7 da direita, a distância é 4; se emparelhar um 9 com um 3, a distância é 6.
+
+Na lista de exemplo acima, os pares e as distâncias seriam os seguintes:
+
+- O menor número da lista esquerda é 1, e o menor da lista direita é 3. A distância entre eles é 2.
+- O segundo menor número da lista esquerda é 2, e o segundo menor da direita é outro 3. A distância entre eles é 1.
+- O terceiro menor número em ambas as listas é 3, então a distância entre eles é 0.
+- Os próximos números a emparelhar são 3 e 4, a uma distância de 1.
+- Os quintos menores números de cada lista são 3 e 5, a uma distância de 2.
+- Por fim, o maior número da lista esquerda é 4, enquanto o maior da direita é 9; estão a uma distância de 5.
+
+Para encontrar a distância total entre a lista esquerda e a direita, some as distâncias entre todos os pares encontrados. No exemplo acima, isso é 2 + 1 + 0 + 1 + 2 + 5, uma distância total de 11!
+
+Suas listas esquerda e direita reais contêm muitos IDs de local. Qual é a distância total entre as suas listas?
+
+## --- Parte Dois ---
+
+Sua análise apenas confirmou o que todos temiam: as duas listas de IDs de local são, de fato, bem diferentes.
+
+Ou não?
+
+Os Historiadores não chegam a um acordo sobre qual grupo cometeu os erros nem sobre como ler a maior parte da letra do Chefe, mas na confusão você nota um detalhe interessante: muitos IDs de local aparecem nas duas listas! Talvez os outros números nem sejam IDs de local, mas sim caligrafia mal interpretada.
+
+Desta vez, você precisará descobrir exatamente com que frequência cada número da lista esquerda aparece na lista direita. Calcule uma pontuação total de similaridade somando cada número da lista esquerda depois de multiplicá-lo pelo número de vezes que ele aparece na lista direita.
+
+Aqui estão as mesmas listas de exemplo novamente:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+Para essas listas de exemplo, o processo para encontrar a pontuação de similaridade é o seguinte:
+
+- O primeiro número da lista esquerda é 3. Ele aparece três vezes na lista direita, então a pontuação de similaridade aumenta em 3 * 3 = 9.
+- O segundo número da lista esquerda é 4. Ele aparece uma vez na lista direita, então a pontuação de similaridade aumenta em 4 * 1 = 4.
+- O terceiro número da lista esquerda é 2. Ele não aparece na lista direita, então a pontuação de similaridade não aumenta (2 * 0 = 0).
+- O quarto número, 1, também não aparece na lista direita.
+- O quinto número, 3, aparece três vezes na lista direita; a pontuação de similaridade aumenta em 9.
+- O último número, 3, aparece três vezes na lista direita; a pontuação de similaridade aumenta em 9 novamente.
+
+Então, para essas listas de exemplo, a pontuação de similaridade no fim do processo é 31 (9 + 4 + 0 + 0 + 9 + 9).
+
+Considere mais uma vez suas listas esquerda e direita. Qual é a pontuação de similaridade delas?
+
+## Solução
+
+### Onyx
+
+- autor: Brendan Hansen
+- Solução original: <https://github.com/brendanfh/onyx-aoc-2024/blob/master/solutions/day01.onyx>
+
+Nesta solução podemos ver um exemplo de uso dos seguintes elementos:
+
+- O operador `~~`
+- [conv.parse/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/conv/parse.onyx#L125)
+- [Iterator.zip/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L421)
+- [Iterator.map/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L205)
+- [Iterator.sum/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/iter.onyx#L890)
+- [os.get_contents/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/os/file.onyx#L111)
+- [str.bisect/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/string/string.onyx#L648)
+- [str.strip_whitespace/1](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/string/string.onyx#L315)
+- [Slice.sort/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/slice.onyx#L256)
+- [Slice.count_where/2](https://github.com/onyx-lang/onyx/blob/2612565e0dd479032c91dbe304f8909f7c79ee8a/core/container/slice.onyx#L639)
+
+```go {summary="Mostrar solução"}
+use core {*}
+
+// MARK: Input
+
+/// The data structure will be two lists of integers (32 bit).
+Input :: struct {
+    first: [..] i32;
+    second: [..] i32;
+}
+
+// MARK: - Input Procedures
+
+/// This procedure will read the input file and return a string, trimming whitespace
+input_read_content :: () -> str {
+    return os.get_contents("input.txt")
+        |> str.strip_whitespace()
+}
+
+/// This will take the content text and transform it to a data structure that can be used in the solution.
+input_to_pairs :: (content : str) -> Input {
+
+    input := Input.{}
+
+    for row in str.split_iter(content, "\n") {
+        // Split the row in two columns using the space as separator
+        first_string, second_string := str.bisect(row, "   ")
+
+        // Convert the strings to integers, so we can do math later
+        first_number := conv.parse(i32, first_string)!
+        second_number := conv.parse(i32, second_string)!
+
+        // Store the numbers in each list
+        input.first->push(first_number)
+        input.second->push(second_number)
+    }
+
+    return input
+}
+
+/// Sort the input lists in ASC order
+input_sort :: (input: Input) -> Input {
+    Slice.sort(input.first, (a, b) => a - b)
+    Slice.sort(input.second, (a, b) => a - b)
+    return input
+}
+
+/// Creates an Iterator so we can use enumerable procedures
+input_to_iterator :: (input: Input) -> Iterator(Pair(i32, i32)) {
+    return Iterator.zip(
+        Iterator.from(input.first)
+        Iterator.from(input.second)
+    )
+}
+
+/// Read the contents and prepare it for the solutions
+get_input :: () -> Input {
+    return input_read_content()
+    |> input_to_pairs()
+}
+
+/// Count the similarity score comparing first column with a number in second column
+input_count_total_similarity :: (input: Input) -> u64 {
+    total: u64 = 0
+    for first_number in input.first {
+        // We use the ~~ operator to automatically cast the result to u64
+        total += ~~(first_number * Slice.count_where(input.second, [second_number](second_number == first_number)))
+    }
+
+    return total
+}
+
+// MARK: Solutions
+part1 :: () {
+    get_input()
+    |> input_sort()
+    |> input_to_iterator()
+    |> Iterator.map(element => math.abs(element.first - element.second))
+    |> Iterator.sum()
+    |> printf("The part 1 solution is: {}\n", _)
+}
+
+part2 :: () {
+    get_input()
+    |> input_count_total_similarity()
+    |> printf("The part 2 solution is: {}\n", _)
+}
+
+// MARK: main
+main :: () {
+    part1()
+    part2()
+}
+```
+
+## Elixir
+
+- autor: TORIFUKUKaiou
+- Solução original: <https://qiita.com/torifukukaiou/items/2b02ac5054b0bfe5817f>
+
+```elixir {summary="Mostrar solução"}
+defmodule AdventOfCode2024Day1Part1 do
+  def calculate_total_distance(left_list, right_list) do
+    sorted_left = Enum.sort(left_list)
+    sorted_right = Enum.sort(right_list)
+
+    distances =
+      Enum.zip(sorted_left, sorted_right)
+      |> Enum.map(fn {left, right} -> abs(left - right) end)
+
+    Enum.sum(distances)
+  end
+
+  def parse_input(input) do
+    input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line, ~r/\s+/, trim: true)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+end
+
+# テストデータ
+input = """
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+"""
+
+{left_list, right_list} = AdventOfCode2024Day1Part1.parse_input(input)
+
+# 距離の計算
+total_distance = AdventOfCode2024Day1Part1.calculate_total_distance(left_list, right_list)
+IO.puts("Total distance: #{total_distance}")
+
+defmodule AdventOfCode2024Day1Part2 do
+  def calculate_similarity_score(left_list, right_list) do
+    right_counts = Enum.frequencies(right_list)
+
+    Enum.reduce(left_list, 0, fn num, acc ->
+      count = Map.get(right_counts, num, 0)
+      acc + num * count
+    end)
+  end
+
+  def parse_input(input) do
+    input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [left, right] = String.split(line, ~r/\s+/, trim: true)
+      {String.to_integer(left), String.to_integer(right)}
+    end)
+    |> Enum.unzip()
+  end
+end
+
+{left_list, right_list} = AdventOfCode2024Day1Part2.parse_input(input)
+
+# 類似度スコアの計算
+similarity_score = AdventOfCode2024Day1Part2.calculate_similarity_score(left_list, right_list)
+IO.puts("Similarity score: #{similarity_score}")
+```

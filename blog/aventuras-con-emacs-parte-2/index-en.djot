@@ -1,0 +1,146 @@
+---
+title: Adventures with Emacs: Part 2
+slug: aventuras-con-emacs-parte-2
+date: 2024-04-09 13:23:00 +00:00
+description: Second part of the Adventures with Emacs. Now with some small additional configurations.
+featured_image: /blog/aventuras-con-emacs-parte-2/cover.jpg
+tags: emacs, editor, programar, código
+---
+
+![Photo by Museums Victoria on Unsplash](cover.jpg)
+
+This is the continuation of
+
+```ninjas
+aventuras-con-emacs | Aventuras con Emacs | La verdad es que deseo encontrar un editor de texto que pueda utilizar en cualquier sistema operativo. Idealmente que no ocupe muchos recursos, ya que a veces me gusta utilizar computadoras bien viejitas. | /blog/aventuras-con-emacs/cover.jpg
+```
+
+## Nomenclature
+
+Some nomenclature that can be of help:
+
+- `SPC`: Space key.
+- `ESC`: Escape key.
+- `C`: Control key.
+- `M`: Meta key (Alt, Option).
+- `s`: Super (Windows)
+
+If a letter is uppercase, it implies the use of the _Shift_ key.
+
+The different key combinations can be seen as
+a sequence of keys, or a chord or musical arpeggio.
+
+### Arpeggios
+
+Similar to an arpeggio are the key combinations that
+must be pressed in a sequential order.
+
+They can be identified when a `space` is used to separate the key sequence.
+
+Example: `SPC f P` means:
+
+1. Press `Space` and release.
+2. Press `f` and release.
+3. Press `P` (uppercase) and release.
+
+### Chords
+
+Similar to a chord. They are a set of keys
+that must be pressed at the same time (without releasing the previous one).
+
+They can be identified when a `-` is used to separate the key sequence.
+
+Example: `C-x` means:
+
+1. Press `Control` and keep holding.
+2. Press `x` and then release all the keys (`Control`, `x`) at the same time.
+
+## Special Configurations
+
+The following configurations must be done in the
+`config.el` file available at `~/.config/doom/config.el`.
+
+To access this configuration from _Emacs_ you simply
+press the key combination
+
+```text
+SPC f-P
+```
+
+### Configure Options
+
+Edit the `config.el` file and add the following `lisp` instructions.
+
+```clojure
+;; User Info
+(setq user-full-name "Camilo Castro"
+      user-mail-address "camilo@ninjas.cl")
+
+;; Mac Config
+(setq mac-option-modifier 'alt
+      mac-pass-control-to-system nil)
+
+;; Ctrl+K removes whole line
+(setq kill-whole-line t)
+
+;; Enable auto save and backup files
+(setq auto-save-default t
+      make-backup-files t)
+
+;; Disable confirm on exit
+(setq confirm-kill-emacs nil)
+
+;; Set Fonts
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16))
+
+;; Set Window Size
+(setq initial-frame-alist '((top . 1) (left . 1) (width . 143) (height . 55)))
+```
+
+
+### Change the Logo
+
+Let's change the startup screen for a more polished one.
+
+The following is what we get out of the box when installing _Doom Emacs_.
+
+![Startup Screen](inicio.png)
+
+And we are going to add a nicer one (Made by Zzamboni)
+
+![Doom](doom.png)
+
+## Copy the Image
+
+Let's copy the image to the corresponding directory
+
+```bash
+mkdir -p ~/.config/doom/splash
+cp doom-emacs-bw-light.svg ~/.config/doom/splash
+```
+
+We edit `config.el` and add the following `lisp` instructions.
+
+```clojure
+(let ((images '("doom-emacs-bw-light.svg")))
+  (setq fancy-splash-image
+        (concat doom-user-dir "splash/"
+                (nth (random (length images)) images))))
+```
+
+
+Finally we will have a nice result.
+
+![Emacs](emacs.png)
+
+
+## References
+
+- <https://zzamboni.org/post/my-doom-emacs-configuration-with-commentary/>
+- <https://discourse.doomemacs.org/t/how-to-change-your-splash-screen/57>
+- <https://github.com/jeetelongname/doom-banners>
+
+## Special Thanks
+
+Thanks to Tomás Solar and the friends at Cuatro Libertades
+for the tips and corrections.

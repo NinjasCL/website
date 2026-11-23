@@ -1,0 +1,58 @@
+---
+title: Moodbit. Slack Chatbot to Evaluate Emotions
+slug: moodbit-chatbot-para-evaluar-las-emociones
+date: 2019-09-21 14:26:26 +00:00
+description: Moodbit. Slack Chatbot to Evaluate Emotions. Created with AWS Lambda and AWS Quicksight.
+featured_image: /blog/moodbit-chatbot-para-evaluar-las-emociones/cover.png
+tags: slack, javascript, aws, lambda, chatbot
+---
+
+![Moodbit](moodbit.png)
+
+I was a *remote* contractor for the _Moodbit_ company (New York,
+USA) during some months of 2018 and 2019. My work consisted of
+developing a chatbot for _Slack_ that used machine learning
+algorithms to evaluate people's "feelings" and "emotions" in the
+chat. I also built a _Dashboard_ that integrated with _AWS
+Quicksight_ to show the results.
+
+## Technologies Used
+
+- AWS Lambda (Javascript and Python).
+- AWS Sagemaker (Python).
+- AWS RDS (Database).
+- AWS API Gateway (Endpoints).
+- AWS Cognito (User Accounts).
+- AWS Quicksight (Information Panels and Reports).
+- Slack SDK (Slack Connection).
+- Google Cloud Natural Language (Text Sentiment Analysis).
+- React.js (Frontend).
+- Firebase (Hosting).
+
+## Tasks
+
+- Program _AWS Lambda_ functions for _Slack_ integration.
+- Database design in _AWS RDS_.
+- Create a dashboard in _AWS Quicksight_.
+- Create a frontend with _React.js_ to integrate _AWS Cognito_ and
+  _AWS Quicksight_.
+- Configure _AWS SageMaker_ to integrate with _AWS Lambda_ and
+  deliver results.
+- Integrate with the _Google CNL_ API.
+- Configure _Firebase_ to host the website.
+
+## Challenge
+
+Additionally I prepared a code _Challenge_ to evaluate candidates
+joining the team.
+
+- [Moodbit Challenge](challenge.pdf)
+
+``` =html
+<video src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  data-canonical-src="/blog/moodbit-chatbot-para-evaluar-las-emociones/moodbit.mp4"
+  controls="controls"
+  muted="muted"
+  style="max-height:640px; min-height: 80dvh; width:100%;">
+</video>
+```

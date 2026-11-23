@@ -1,0 +1,111 @@
+---
+title: Zigにおけるハッシュマップ
+slug: hashmaps-en-zig
+date: 2024-05-07 17:19:23 +00:00
+description: Zig言語でHashMapsを使う方法
+featured_image: /blog/hashmaps-en-zig/cover.jpg
+tags: zig, programación, código
+---
+
+![リスゴーのジグザグ地図](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lithgow_zig_zag_map.jpg)
+
+zigのallocator（アロケータ）を使うと、データ型のための
+メモリ空間を動的に作成できます。
+
+```zig
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+```
+
+_zig_ における文字列のデータ型は次のとおりです。
+
+```zig
+[]const u8
+```
+
+例えば、構造体を作ると
+
+```zig
+const Persona = struct {
+    nombre: []const u8 = "",
+    apellido: []const u8 = "",
+};
+```
+
+これでマップを作成できます。主に使われる型は2つあります。
+`AutoHashMap` と `StringHashMap` です。
+
+- `AutoHashMap`: 任意の型の `key` と `value` でマップを作成できます。
+- `StringHashMap`: 文字列の `key` と任意の型の `value` でマップを作成できます。
+
+```zig
+var personas = std.AutoHashMap(u8, Persona).init(allocator);
+defer personas.deinit();
+
+// Llenamos el mapa
+try personas.put(1, Persona{.nombre = "Camilo", .apellido = "Castro"});
+
+// Mapa de Mapas
+// Notar que usamos el mismo tipo que usamos en el mapa de personas
+var pais = std.StringHashMap(std.AutoHashMap(u8, Persona)).init(allocator);
+defer pais.deinit();
+
+try pais.put("chile", personas);
+
+// Obtenemos el valor
+const habitantes = pais.get("chile").?;
+```
+
+注意：`try` と `defer` は関数の中でのみ使用できます。
+グローバル空間で使用すると、次のようなエラーが発生します
+
+```text
+src/main.zig:7:50: error: expected type expression,
+found 'try' var h = std.AutoHashMap(u8, i32).init(allocator);
+```
+
+これは、`try` でエラーが発生した場合、グローバル空間では
+キャッチできないためです。
+
+完全なコードは次のようになります：
+
+```zig
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+
+const Persona = struct {
+    nombre: []const u8 = "",
+    apellido: []const u8 = "",
+};
+
+pub fn main() !void {
+    var personas = std.AutoHashMap(u8, Persona).init(allocator);
+    defer personas.deinit();
+
+    // Llenamos el mapa
+    try personas.put(1, Persona{.nombre = "Camilo", .apellido = "Castro"});
+
+    // Mapa de Mapas
+    var pais = std.StringHashMap(std.AutoHashMap(u8, Persona)).init(allocator);
+    defer pais.deinit();
+
+    try pais.put("chile", personas);
+
+    // Obtenemos el valor
+    const habitantes = pais.get("chile").?;
+    const camilo = habitantes.get(1).?;
+
+    // Mostramos en stderr
+    std.debug.print("Hola {s} {s}.\n", .{camilo.nombre, camilo.apellido});
+}
+```
+
+zigの面白い特徴として、パターンマッチングもありません。
+関連する低レベルコードの生成が決定論的でなくなるためです。
+この場合は単に `if` を使うことが推奨されます。
+
+もう1つの好奇心：_C_ のコードをコンパイルして _Zig_ と混ぜると、
+_zig_ の内部マッピングは _C_ のマクロに耐えられません。
+_Zig_ で _C_ のライブラリを使いたい場合は、この点に注意してください。

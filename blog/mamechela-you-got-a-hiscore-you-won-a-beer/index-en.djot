@@ -1,0 +1,69 @@
+---
+title: Mamechela You got a Hiscore You Won a Beer
+slug: mamechela-you-got-a-hiscore-you-won-a-beer
+date: 2013-02-22 12:53:04 +00:00
+description: MameChela is a simple hack to mame based in the MKCHAMP hack for Hiscores. You got a Hiscore You Won a Beer
+featured_image: /blog/mamechela-you-got-a-hiscore-you-won-a-beer/cover.jpg
+tags: mame, c, python, arduino, beer
+---
+
+![Photo by Carl Raw on Unsplash](cover.jpg)
+
+MameChela is a simple hack to mame based in the MKCHAMP hack for
+Hiscores.
+
+Consist in a Python Script that Talks to an Arduino. This script
+checks if the files in hiscore directory for the current game are
+equal, if they are not you made a High Score!
+
+0. Download Mame Sources
+
+[Mamedev](http://mamedev.org/)
+
+1. Install mame dependencies (ubuntu)
+
+```bash
+$ sudo aptitude install build-essential libgtk2.0-dev libgnome2-dev libsdl1.2-dev
+```
+
+2. Apply patches
+
+```bash
+$ patch -p0 -E -binary < 0148u1.diff
+$ patch -p0 -E -binary < hi_148.diff
+```
+
+3. Overwrite mame/src/emu/ hiscore.c & hiscore.h with mamechela's
+   hiscore.c & hiscore.h
+
+```bash
+$ cp mamechela/hiscore* ../src/emu/
+```
+
+4. Make (takes some time)
+
+```bash
+$ make
+```
+
+5. Config mame
+6. Put some roms
+
+7. Connect Arduino (more to come)
+
+8. Check that `mamechela.py` is configured correctly (Arduino
+   Config)
+
+9. Check mamechela.sh commands
+
+10. For turn off use Ctrl+C or Arduino's Shutdown command
+
+#### Usage
+
+```bash
+./mamechela.sh <game>
+```
+
+```github
+NinjasCL-archive/mamechela | Un sistema de premios por hiscore en MAME
+```

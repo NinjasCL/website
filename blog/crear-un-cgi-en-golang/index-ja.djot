@@ -1,0 +1,77 @@
+---
+title: GolangでCGIを作る
+slug: crear-un-cgi-en-golang
+date: 2024-05-09 20:45:06 +00:00
+description: GolangのCGIスクリプト
+featured_image: /blog/crear-un-cgi-en-golang/cover.png
+tags: golang, code, programación
+---
+
+![CGI（Common Gateway Interface）のロゴ](cover.png)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CGI_common_gateway_interface.svg)
+
+安いホスティングを利用していると、_PHP_ 以外のプログラミング言語が
+実行できないかもしれません。_CGI_ を使うことで他のツールを利用できます。
+
+この場合、_cgi-bin_ ディレクトリで実行する_Golang_ のスクリプトをコンパイルします。
+
+- <https://blog.schroederspace.com/tumbleweed-technology/cgi-a-blast-from-the-past-with-go>
+- <https://gist.github.com/larryli/8299764>
+- <https://www.digitalocean.com/community/tutorials/how-to-build-go-executables-for-multiple-platforms-on-ubuntu-16-04>
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"net/http/cgi"
+)
+
+func main() {
+	if err := cgi.Serve(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		header := w.Header()
+		header.Set("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprintln(w, "Method:", r.Method)
+		fmt.Fprintln(w, "URL:", r.URL.String())
+		query := r.URL.Query()
+		for k := range query {
+			fmt.Fprintln(w, "Query", k+":", query.Get(k))
+		}
+		r.ParseForm()
+		form := r.Form
+		for k := range form {
+			fmt.Fprintln(w, "Form", k+":", form.Get(k))
+		}
+		post := r.PostForm
+		for k := range post {
+			fmt.Fprintln(w, "PostForm", k+":", post.Get(k))
+		}
+		fmt.Fprintln(w, "RemoteAddr:", r.RemoteAddr)
+		if referer := r.Referer(); len(referer) > 0 {
+			fmt.Fprintln(w, "Referer:", referer)
+		}
+		if ua := r.UserAgent(); len(ua) > 0 {
+			fmt.Fprintln(w, "UserAgent:", ua)
+		}
+		for _, cookie := range r.Cookies() {
+			fmt.Fprintln(w, "Cookie", cookie.Name+":", cookie.Value, cookie.Path, cookie.Domain, cookie.RawExpires)
+		}
+	})); err != nil {
+		fmt.Println(err)
+	}
+}
+```
+
+コンパイルには以下を使用します
+
+```bash
+GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o index.cgi cgi.go
+```
+
+そしてファイルをホスティングの `cgi-bin` ディレクトリにアップロードし、`0755`
+の権限を与えます。
+
+コンパイルの前にアーキテクチャとオペレーティングシステムを指定している点に注目してください。
+これにより、ホスティングの環境向けにコンパイルされていることが確実になります。

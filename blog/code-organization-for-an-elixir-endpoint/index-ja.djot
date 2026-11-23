@@ -1,0 +1,254 @@
+---
+title: Elixirエンドポイントのコード整理
+slug: code-organization-for-an-elixir-endpoint
+date: 2023-02-15 18:39:58 +00:00
+description: これは、エンドポイント内でコードをどのように整理するかについての、ただの私の考えです。店舗の顧客の住所に対してCRUD操作を処理する、addressesエンドポイントの例を見てみましょう。
+featured_image: /blog/code-organization-for-an-elixir-endpoint/cover.jpg
+tags: elixir, phoenix, crc, organization
+---
+
+![UnsplashのJames Dayによる写真](cover.jpg)
+
+これは、エンドポイント内でコードをどのように整理するかについての、ただの私の考えです。店舗の顧客の `addresses`（住所）に対して _CRUD_ 操作を処理する、`addresses` エンドポイントの例を見てみましょう。
+
+簡潔にするため、指定された顧客IDのすべての住所を返す単純なクエリにのみ焦点を当てます。
+
+この構造は[CRC](https://redrapids.medium.com/learning-elixir-its-all-reduce-204d05f52ee7)と、[Designing Elixir Systems with OTP](https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/)の概念の緩やかな解釈に基づいています。
+
+## ディレクトリ構造
+
+```txt
+├── addresses
+│   ├── endpoints.ex
+│   ├── metrics.ex
+│   ├── repo
+│   │   ├── commands.ex
+│   │   └── queries.ex
+│   ├── requests.ex
+│   └── resolvers.ex
+├── metrics.ex
+├── requests.ex
+└── responses.ex
+```
+
+## ルートディレクトリ
+
+### requests.ex
+
+まず、エンドポイントに与えられるパラメータを標準化し、reducer間で受け渡すためのトークン（アキュムレータ）として使う `requests.ex` ファイルから始めましょう。これはCRCにおける `Constructor` にあたります。
+
+```elixir
+defmodule Endpoints.Requests do
+  alias Endpoints.Metrics
+
+  defstruct [params: %{}, metrics: Metrics.new(), data: %{}, valid?: true]
+
+  def new(metrics, params, data \\ %{}, valid? \\ true) do
+    %__MODULE__{metrics: metrics, params: params, data: data, valid?: valid?}
+  end
+
+  def new(params) do
+    %__MODULE__{params: params}
+  end
+
+  def
+end
+```
+
+### responses.ex
+
+`responses.ex` は最終結果を処理します。CRCにおける `Converter` です。
+
+```elixir
+defmodule Endpoints.Responses do
+  alias Endpoints.Requests
+
+  defstruct [:status, :data, request: nil]
+
+  def new(%Requests{} = request, data, status \\ :ok) do
+    %__MODULE__{status: status, data: data, request: request}
+  end
+
+  def new(status, data) do
+    %__MODULE__{status: status, data: data}
+  end
+
+  def ok(data \\ []) do
+    new(:ok, data)
+  end
+
+  def error(data \\ []) do
+    new(:error, data)
+  end
+
+  def render(%__MODULE__{} = response) do
+    {response.status, response.data}
+  end
+end
+```
+
+### metrics.ex
+
+`metrics.ex` は、Prometheusのようなテレメトリーおよび計測サービスに送るパラメータと関数を保存できるシンプルな構造です。これらの呼び出しを標準化・簡素化する `ファサード` です。外部コンポーネントとやり取りするため、`Boundary` レイヤーと関連付けることができます。
+
+```elixir
+defmodule Endpoints.Metrics do
+
+  # Epoch = Start Time
+  # Id = Id to Send to the metrics system
+  defstruct [:epoch, :id]
+
+  def new(id \\ 0) do
+    %__MODULE__{epoch: System.monotonic_time(:microsecond), id: id}
+  end
+
+  def count(data, operation, metrics) do
+    # Call A metrics system to send the count operation
+    {:count, operation, data, metrics.id}
+  end
+
+  def count(operation, metrics), do: count([], operation, metrics)
+
+  def error(data, operation, metrics) do
+    {:count_error, operation, data, metrics.id}
+  end
+
+  def error(operation, metrics), do: error([], operation, metrics)
+
+  @doc """
+  Track are for time measurement since it uses the metrics's epoch
+  """
+  def track(data, operation, metrics) do
+    {:track, operation, data, metrics.id, metrics.epoch}
+  end
+
+  def track(operation, metrics), do: track([], operation, metrics)
+end
+```
+
+## addresses ディレクトリ
+
+### endpoints.ex
+
+これは、HTTPまたはGraphQLリクエストからすべてのパラメータを受け取り、他の関数を呼び出して最終的なレスポンスをレンダリングする境界（boundary）レイヤーです。
+
+```elixir
+defmodule Endpoints.Addresses.Endpoints do
+  alias Endpoints.Addresses.Requests
+  alias Endpoints.Metrics
+
+  def get_all_addresses_for_customer_id(customer_id) do
+    # initiate metrics here to have a good epoch
+    Requests.get_all_addresses_for_customer_id(Metrics.new(), customer_id)
+    |> Resolvers.get_all_addresses_for_customer_id()
+    |> Responses.render()
+  end
+end
+```
+
+### metrics.ex
+
+これらは、すべてのエンドポイント内で使用されるメトリクスを標準化するためのヘルパー関数です。
+
+これらは[マクロ](https://elixir-lang.org/getting-started/meta/macros.html)を使って自動化できるかもしれませんし、冒険好きなら[デコレーター](https://hexdocs.pm/decorator/readme.html)でもできるかもしれません。
+
+```elixir
+defmodule Endpoints.Addresses.Metrics do
+  alias Endpoints.Metrics
+
+  def init_address_request(metrics), do: Metrics.count("INIT_ADDRESS_REQUEST", metrics)
+  def init_address_request(_data, metrics), do: init_address_request(metrics)
+
+  def count_address_found(metrics), do: Metrics.count("OK_ADDRESS_FOUND", metrics)
+  def count_address_found(_data, metrics), do: count_address_found(metrics)
+
+  def count_address_not_found(metrics), do: Metrics.count("OK_ADDRESS_NOT_FOUND", metrics)
+  def count_address_not_found(_data, metrics), do: count_address_not_found(metrics)
+
+  def track_address_get(data, metrics): Metrics.track(data, "TRACK_ADDRESS_GET", metrics)
+  def track_address_get(metrics), do: track_address_get([], metrics)
+end
+```
+
+### requests.ex
+
+addressesリクエストは、パラメータを標準化して新しい `Request` 構造体を返す `Constructor` です。
+
+パラメータを検証して有効かどうかを確認することもできるかもしれません。
+
+```elixir
+defmodule Endpoints.Addresses.Requests do
+  alias Endpoints.Requests
+
+  def get_all_addresses_for_customer_id(metrics, customer_id) do
+    Requests.new(metrics, %{customer: %{id: customer_id}})
+  end
+
+end
+```
+
+### resolvers.ex
+
+resolverは、クエリ、リクエスト、レスポンスをオーケストレーションする存在です。
+
+```elixir
+defmodule Endpoints.Addresses.Resolvers do
+  alias Endpoint.Responses
+  alias Endpoints.Addresses.Requests
+  alias Endpoints.Addresses.Repo.Queries
+  alias Endpoints.Addresses.Metrics
+
+  def get_all_addresses_for_customer_id(%Requests{} = request) do
+    metrics = request.metrics
+    Metrics.init_address_request(metrics)
+    case Queries.addresses(customer: request.params.customer.id) do
+      [] ->
+        Metrics.count_address_not_found(metrics)
+        |> Metrics.track_address_get(metrics)
+        Responses.ok()
+      addresses ->
+        Metrics.count_address_found(metrics)
+        Metrics.track_address_get(addresses, metrics)
+        Responses.ok(addresses)
+    end
+  end
+end
+```
+
+### repo ディレクトリ
+
+これらは、クエリを保存するためにCQRSを使う2つのファイルです。
+
+```ninjas
+using-cqrs-in-phoenix-contexts | Usando CQRS en los Contexts de Phoenix | Recientemente leí un artículo sobre cómo nombrar las funciones de los contexts de Phoenix. Y creo que usar convenciones de nombres está bien, pero quizás podríamos dar un paso más y aplicar CQRS dentro de dichos módulos. | /blog/using-cqrs-in-phoenix-contexts/cover.jpg
+```
+
+#### queries.ex
+
+```elixir
+defmodule Endpoints.Addresses.Repo.Queries do
+  import Ecto.Query
+  use Ecto.Repo
+
+  def addresses(customer: id) do
+    from(a in Address,
+      where: a.customer_id == ^id
+    )
+    |> Repo.all()
+  end
+end
+```
+
+#### commands.ex
+
+```elixir
+defmodule Endpoints.Addresses.Repo.Commands do
+end
+```
+
+## 結論
+
+これらはコード整理についての、ただのいくつかの考えです。私は _CRC_ に従い、さまざまなレイヤーのコード整理を適用しようとしました。
+
+
+ありがとうございます。

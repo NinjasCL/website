@@ -1,0 +1,44 @@
+---
+title: Falhas Comuns nos Teclados de um Notebook
+slug: fallas-comunes-en-los-teclados-de-un-notebook
+date: 2024-05-28 13:52:45 +00:00
+description: Uma falha comum nos teclados dos notebooks atuais.
+featured_image: /blog/fallas-comunes-en-los-teclados-de-un-notebook/cover.jpg
+tags: notebook, reparación, teclados
+---
+
+![Teclado de um notebook HP](cover.jpg)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:HP_laptop_keyboard.jpg)
+
+O outro dia chegou para reparo um computador, um _HP 14 Laptop_.
+Acho que é comum nos notebooks modernos ter falhas no teclado.
+
+Mas não é qualquer falha: normalmente o teclado funciona bem, só
+que algumas teclas deixam de responder. Teclas numa mesma fileira.
+
+Por exemplo, neste teclado todas as teclas funcionavam, exceto as
+teclas da fileira `zxcv`.
+
+Se você testava com um sistema operacional num pendrive, como um
+Linux, o teclado continuava sem funcionar. Então não era problema
+de drivers ou configuração.
+
+O drama que tenho encontrado é que alguns modelos de notebook,
+especialmente os econômicos, têm a bateria sobre o cabo da conexão
+dos teclados.
+
+Este notebook em particular tinha muita poeira sob a bateria e
+sobre o cabo do teclado, o que causava interferências ao enviar os
+sinais.
+
+A recomendação é simplesmente limpar o cabo com álcool isopropílico
+e fazer uma limpeza geral do notebook e dos componentes.
+
+Seguindo um manual oficial do fabricante, é simples saber quais
+chaves de fenda usar e quais parafusos tirar para abrir o notebook.
+
+Antes de pensar em comprar um equipamento novo, sempre é
+recomendável fazer uma limpeza geral — talvez seja simplesmente
+sujeira impedindo o bom funcionamento dos nossos equipamentos
+eletrônicos.

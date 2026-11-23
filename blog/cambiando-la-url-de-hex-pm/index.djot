@@ -1,0 +1,48 @@
+---
+title: Cambiando la URL de Hex.pm
+slug: cambiando-la-url-de-hex-pm
+date: 2024-05-17 15:41:02 +00:00
+description: Una forma de utilizar una URL distinta para instalar paquetes de hex.pm
+featured_image: /blog/cambiando-la-url-de-hex-pm/cover.jpg
+tags: elixir, hex.pm, docker
+---
+
+![Espejo](cover.jpg)
+
+Imagen: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mirror.jpg)
+
+Digamos que `repo.hex.pm` esta bloqueado a nivel de firewall en tu
+organización o quizás estás en un lugar muy alejado del internet con
+poca conexión, entonces una alternativa es usar un repositorio espejo
+para instalar las dependencias.
+
+_Elixir_ permite algunas variables de entorno para poder utilizar
+otra ruta para obtener las dependencias, si se ha creado un
+repositorio espejo de _hex.pm_ dentro de la organización.
+
+Para poder usarlas simplemente se debe añadir una variable de entorno
+antes de ejecutar los comandos de `mix`.
+
+- `HEX_MIRROR`: Para hex.pm.
+- `HEX_CDN`: Para rebar3.
+
+```sh
+$ HEX_MIRROR=https://repo.hex.pm mix deps.get
+$ HEX_CDN=https://repo.hex.pm rebar3 update
+```
+
+Aunque la variable `HEX_MIRROR` esta obsoleta y se recomienda más
+implementar la variable `HEX_TRUSTED_MIRROR`. Todo dependerá de la
+versión de Elixir y Hex que tengas.
+
+Ejemplo de uso
+
+```sh
+HEX_MIRROR=https://repo.hex.pm \
+mix do local.rebar --force, local.hex --force
+```
+
+- <https://hexdocs.pm/hex/Mix.Tasks.Hex.Config.html>
+- <https://hex.pm/docs/mirrors>
+- <https://github.com/elixir-lang/elixir/issues/11414>
+- <https://elixirforum.com/t/hex-pm-mirror-for-isolated-environments/24637>

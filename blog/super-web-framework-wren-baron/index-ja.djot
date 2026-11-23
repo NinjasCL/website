@@ -1,0 +1,82 @@
+---
+title: スーパーウェブフレームワーク Wren Baron
+slug: super-web-framework-wren-baron
+date: 2024-05-18 21:01:43 +00:00
+description: cgi-binでプログラミング言語を実行するための小さな演習。この小さなフレームワークは、PHPとcgi-binのある環境でWrenを実行できます。
+featured_image: /blog/super-web-framework-wren-baron/cover.webp
+tags: wren, php, red, baron, cgi
+---
+
+![赤い男爵](cover.webp)
+
+`cgi-bin` スクリプトを実行する演習として、[赤い男爵](https://es.wikipedia.org/wiki/Red_Baron)のアニメにちなんで `Wren Baron`
+と名付けた小さなウェブフレームワークを作りました。
+
+Golangの投稿で説明したように、`cgi-bin` ディレクトリでは
+他のプログラミング言語でコンパイルされたバイナリを実行できます。
+
+```ninjas
+crear-un-cgi-en-golang | Crear un CGI en Golang | Un script de CGI en Golang | /blog/crear-un-cgi-en-golang/cover.png
+```
+
+しかし、言語にcgiライブラリがない場合はどうなるでしょうか。
+
+これが_Wren_ の場合です。ニッチな言語であるため、
+単体で実行ファイルをコンパイルするための `cgi` ライブラリがありません。
+
+そこで `PHP` とのブリッジを使う必要があります。
+
+このブリッジは単に環境変数を_JSON_ に変換し、
+スクリプトの実行時にパラメータとして渡します。
+
+さらに `2>&1` を使うことで、スクリプト実行時の
+エラーメッセージを取得できます。
+
+```php
+<?php
+
+session_start();
+
+$env = escapeshellarg(json_encode([
+    "get" => $_GET,
+    "post" => $_POST,
+    "server" => $_SERVER,
+    "session" => session_id(),
+    "pwd" => getcwd()
+    ]));
+
+$wren = "../wrenc index.wren $env 2>&1";
+
+passthru($wren);
+?>
+```
+
+wrenのスクリプトではパラメータを受け取り
+_JSON_ を処理します。このようにして、
+`stdout` への出力はすべて表示されます
+
+```js
+import "runtime" for Runtime
+import "os" for Process
+import "json" for JSON
+
+var args = Process.allArguments
+var env = JSON.parse(args[2])
+var name = env["get"]["name"]
+
+System.print("<h1>Hello From Wren %(Runtime.WREN_VERSION)</h1>")
+System.print("<h2>This is rendered from <strong>Wren</strong></h2>")
+System.print("<p>Hello <strong>%(name)</strong></p>")
+```
+
+結果として、普通のHTMLページが出力されます
+
+![Screenshot](https://raw.githubusercontent.com/NinjasCL/wren-baron/main/screenshot.png)
+
+```github
+NinjasCL/wren-baron | Un pequeño web framework para ejecutar Wren en cgi-bin con PHP
+```
+
+```youtube
+CwTmQjaDfCQ
+```

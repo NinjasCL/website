@@ -1,0 +1,89 @@
+---
+title: Djot Showcase
+date: 2025-02-10 00:00:00
+description: A tour of djot syntax features rendered by Blogatto
+---
+
+# Djot Showcase
+
+This post demonstrates writing a Blogatto post in [djot](https://djot.net/)
+instead of Markdown. Djot files use the `.djot` (or `.dj`) extension and are
+rendered through the same `Components` configuration as Markdown posts.
+
+## Inline formatting
+
+Djot supports the usual _emphasis_ and *strong*, plus a few extras like
+{=highlighted=} text, {-deleted-} text, and {+inserted+} text.
+
+You can also write inline `code` and even reference footnotes inline[^djot].
+
+## Lists
+
+Tight bullet list:
+
+- Parses fast
+- Plays nicely with custom components
+- Lives next to Markdown posts
+
+Ordered list with a custom start:
+
+3. Third item
+4. Fourth item
+
+## Code blocks
+
+```gleam
+pub fn hello() -> String {
+  "Hello from djot!"
+}
+```
+
+## Block attributes
+
+Djot lets you annotate any block with attributes using `{...}` syntax: a class
+with `{.class-name}`, or arbitrary key/value pairs with `{key="value"}`. These
+attributes are passed straight to the matching component, so a theme can react
+to them instead of guessing from the content.
+
+This code block carries a `title`, which the `code` component renders as a
+caption:
+
+{title="hello.gleam"}
+```gleam
+pub fn greet() -> String {
+  "Hello from a titled code block!"
+}
+```
+
+## Blockquote
+
+> Djot keeps the readability of Markdown while removing many of its
+> ambiguities.
+
+A blockquote annotated with `{.pull}` is turned into a pull-quote by the
+`blockquote` component:
+
+{.pull}
+> Block attributes make per-element styling possible without smuggling magic
+> strings through the prose.
+
+## Link reference
+
+See the [official site][djot-site] for the full specification.
+
+[djot-site]: https://djot.net/
+
+## Footnotes
+
+Footnotes can be referenced anywhere in the text[^one] and their definitions
+are rendered at the end of the post[^two]. Multiple footnotes are supported and
+appear in a stable order[^three].
+
+[^djot]: Djot was created by John MacFarlane, the author of CommonMark.
+
+[^one]: The first footnote definition.
+
+[^two]: The second footnote, demonstrating that definition bodies are rendered.
+
+[^three]: The third footnote, with some _emphasis_ to show inline formatting
+    works inside footnote bodies.

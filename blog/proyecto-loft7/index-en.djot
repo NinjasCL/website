@@ -1,0 +1,44 @@
+---
+title: Loft7 Project
+slug: proyecto-loft7
+date: 2018-09-16 23:34:14 +00:00
+description: An Arquitecture Site created using ProcessWire
+featured_image: /blog/proyecto-loft7/cover.png
+tags: processwire, php, chile, site, project
+---
+
+![Loft7](cover.png)
+
+- <https://loft7.cl/>
+
+## Team
+
+### Camilo Castro
+
+Processwire and Server Configuration.
+
+### Daniel Montero
+
+Desing, HTML, CSS
+
+## Thanks
+
+- [Ryan Cramer](http://www.ryancramer.com/) for creating Processwire
+
+## Site
+
+### Release Date
+
+- (ISO 8601) 2018-09-16
+
+### Standards
+
+- HTML5
+- CSS3
+- JQuery
+- PHP 7.2
+
+## Software
+
+- [Processwire](https://processwire.com)
+- [AIOM+](http://modules.processwire.com/modules/all-in-one-minify/)

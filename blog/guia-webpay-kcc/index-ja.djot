@@ -1,0 +1,22 @@
+---
+title: Webpay KCCガイド
+slug: guia-webpay-kcc
+date: 2014-04-23 18:45:43 +00:00
+description: Webpay KCCのインストールと使い方に関するガイド
+featured_image: /blog/guia-webpay-kcc/cover.png
+tags: webpay, transbank, kcc
+---
+
+![Webpayのスクリーンショット](cover.png)
+
+Webpayは、銀行のクレジットカードやデビットカードでインターネット上の取引を行うために[Transbank](https://transbank.cl)が開発した決済ゲートウェイです。今日、Webpayはチリで効果的かつ安全な電子商取引を構築するための重要なツールとなっています。
+
+## Transbank Developers
+
+Webpayの統合に関する情報を掲載したウェブサイト。
+
+<http://www.transbankdevelopers.cl/>
+
+```github
+NinjasCL-archive/guia-webpay | Guía y ejemplos para integrar Webpay KCC
+```

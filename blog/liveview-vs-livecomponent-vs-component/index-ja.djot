@@ -1,0 +1,105 @@
+---
+title: LiveView vs LiveComponent vs Component
+slug: liveview-vs-livecomponent-vs-component
+date: 2023-07-26 17:54:58 +00:00
+description: Phoenixが提供する各要素のシンプルな比較。
+featured_image: /blog/liveview-vs-livecomponent-vs-component/cover.jpg
+tags: elixir, liveview, phoenix, webdev
+---
+
+![UnsplashのBattlecreek Coffee Roastersによる写真](cover.jpg)
+
+公式ドキュメントには次のように書かれています：
+
+- マークアップを分割・再利用するには [_Phoenix.Component_](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html) を使う
+- 状態、マークアップ、イベントを分割するには [_Phoenix.LiveComponent_](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html) を使う
+- 状態、マークアップ、イベント、エラー分離を分割するにはネストした [_Phoenix.LiveView_](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html) を使う
+
+## いくつかの文脈
+
+- `handle_params`: URLパラメータとともに親のLiveViewで発生する関数。
+
+- `mount`: 親のLiveViewとLiveComponentで初期値を設定するために発生する関数。
+
+- `update`: コンポーネントインスタンスのassignsを更新するために、親のLiveViewとLiveComponentで発生する関数。
+
+- `preload`: コンポーネントの複数インスタンスのassignsを更新するために、親のLiveViewとLiveComponentで発生する関数。
+
+- `handle_event`: HTML/JS側によって発生する関数。
+
+- `handle_info`: `live_component` の中で `send(self(), args)` を使うことで発生する関数。親のliveviewによって処理されます。
+
+- `pipeline`: live_viewまたはlive_componentを定義するときに呼ばれる関数。
+
+- `@myself`: LiveViewまたはLiveComponentで指定するターゲット。 `phx-target={@myself}`
+
+**lib/my_web/my_web.ex**
+
+```elixir
+def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {MyWeb.Layouts, :app}
+
+      unquote(html_helpers())
+    end
+end
+```
+
+次のように使います
+
+```elixir
+defmodule MyWeb.Live.Home do
+  use MyWeb, :live_view
+```
+
+私が理解している主な違いは次のとおりです
+
+## LiveView
+
+- **socket** を作成する
+- ハンドラー： `handle_event`, `handle_info`, `handle_params`, `mount`, `update`, `preload`.
+- イベント処理に `@myself` を使える（idが必要）
+- htmlをレンダリングする
+
+[live_render/3](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Controller.html#live_render/3)
+
+## LiveComponent
+
+- 親の _LiveView_ で定義された **socket** を使う
+- ハンドラー： `handle_event`, `mount`, `update`, `preload`.
+- イベント処理に `@myself` を使える（idが必要）
+- htmlをレンダリングする
+
+```elixir
+<.live_component module={MyModule} id="unique_id" {assigns} />
+```
+
+## Component
+
+- htmlをレンダリングするだけ
+
+```elixir
+<MyComponent.render {assigns} />
+```
+
+## 比較
+
+``` =html
+<table>
+  <thead>
+    <tr><th>項目</th><th>LiveView</th><th>LiveComponent</th><th>Component</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>htmlをレンダリング</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td><code>@myself</code> を使える（idが必要）</td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>mount</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>update</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>preload</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>handle_event</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+    <tr><td><code>handle_info</code></td><td>✅</td><td>❌</td><td>❌</td></tr>
+    <tr><td><code>handle_params</code></td><td>✅</td><td>❌</td><td>❌</td></tr>
+    <tr><td>socketを作成</td><td>✅</td><td>❌</td><td>❌</td></tr>
+  </tbody>
+</table>
+```

@@ -1,0 +1,176 @@
+---
+title: Ninja Point of Sale
+slug: ninja-point-of-sale
+date: 2016-07-09 00:53:45 +00:00
+description: Ninja Point of Sale (POS) created in Pascal (Lazarus). It allows selling products in a simple way. All of them are programs created using Lazarus Pascal and they work on Windows, Linux and MacOS environments.
+featured_image: /blog/ninja-point-of-sale/cover.jpg
+tags: pascal, lazarus, escpos, rpc, json
+---
+
+Ninja Point of Sale (POS) created in Pascal (Lazarus). It allows selling products in a simple way.
+
+It has three main components:
+
+1. Product Management System.
+2. Sales System.
+3. Reports System.
+4. _ESC POS_ Printers System.
+
+All of them are programs created using _Lazarus Pascal_ and they work on Windows, Linux and MacOS environments.
+
+*Note*
+
+Since all the systems share a _SQLite_ database, only one program can be opened at a time.
+
+This software is free to use, therefore _Ninjas.cl_ is not responsible for any problem that may arise from its use.
+
+All the components unless otherwise indicated are under the *AGPLv3* license.
+
+<https://www.gnu.org/licenses/agpl.html>
+
+```
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
+
+## [RPC Printer](https://codeberg.org/ninjas/point-of-sale/src/branch/main/src/rpcprinter)
+
+It allows sharing an [ESC POS](https://codeberg.org/ninjas/point-of-sale/src/branch/main/src/rpcprinter/docs/escpos.pdf) printer on the network. Offering a _JSON RPC_ interface via IP. The interface allows sending _ESC POS_ commands using a simple plain text language. Extremely useful for situations where several computers must print with a single printer.
+
+It can also serve as a complement for systems built with Web technologies, by enabling printing functionality over _HTTP_.
+
+### Server
+
+1. The printer drivers must be correctly configured.
+2. The printer must be set as the default one.
+3. The port must be available and the network accessible by other computers.
+
+![ESC POS](server.png)
+
+#### Accepted Commands
+
+- `{{init}}`: Start of printing
+- `{{tab}}`: Tabulation
+- `{{lf}}`: Line feed (Carriage Return)
+- `{{feedAndPartialCut}}`: Paper Cut.
+
+### Client
+
+Any client that can make _HTTP POST_ calls. [Example Client](https://codeberg.org/ninjas/point-of-sale/src/branch/main/src/rpcprinter/example).
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "CallPrinter",
+    "params": [
+        {
+            "body": "{{init}}Boleta{{tab}}#15{{lf}}3 Papas Fritas{{tab}}{{tab}}$15.000{{lf}}15 Comida Vegana{{tab}}$5.000{{lf}}{{feedAndPartialCut}}",
+            "copies": 2
+        }
+    ],
+    "id": 1
+}
+```
+
+![Result](cover.jpg)
+
+## Installation
+The zip contains all the files needed to work. These are
+
+- `ninjapos` : Sales Software
+- `productmanager` : Product Management Software
+- `salesexport` : Software for creating reports
+- `rpcprinter` : Printing software, used together with `ninjapos`.
+
+Besides the `cache.db`, `products.db`, `sales.db` databases and the `config.ini` file.
+
+## Configuration
+
+### New Point of Sale
+Ninja POS has a configuration file called `config.ini` where the system options can be changed.
+
+For any change to take effect, the POS System must be restarted.
+
+The default configuration is the following:
+
+```toml
+[POS]
+Name=POSClient1
+PrintServerIP=127.0.0.1
+PrintServerPort=8089
+ReceiptHeader=Ninja POS
+ReceiptFooter=Gracias por su Compra
+ReceiptCopiesOnSale=2
+EnablePrinter=1
+```
+
+The location of this file depends on the operating system.
+
+#### Unix
+`~/.config/NinjaPOS/`
+
+#### Windows Vista +
+`C:\Users\{User}\AppData\NinjaPOS\`
+
+The value of the path depends on where the Windows directory is installed.
+
+#### Parameters
+##### Name
+Name of the POS. It defines the identifier of who makes the sale and it will remain in the records with that name.
+
+##### PrintServerIP
+If the printer server is on another machine, the IP address must be put in this field.
+
+##### PrintServerPort
+If the printer server is on a port other than 8089, the port must be put in this field.
+
+##### ReceiptHeader
+Message that appears on the receipts before showing the purchased products.
+
+##### ReceiptFooter
+Message that appears on the receipts after showing the purchased products.
+
+##### ReceiptCopiesOnSale
+Number of copies of the receipt when printing and finishing the sale.
+
+##### EnablePrinter
+If the value is 1 the printer will be enabled. If it is 0, sales will be recorded in the database, but receipts will not be printed.
+
+### Point of Sale with Existing Products
+If the point of sale has the same products as another one. The database called `products.db` can be copied to the configuration directory. In this way products and stock can be kept up to date between several points of sale. Be careful not to replace the other files or the database information will be lost.
+
+## Product Manager
+The `productmanager` program is in charge of creating and editing the information related to products. It can manage its information and prices to be able to use them in the `ninjapos` program.
+
+## Print Server
+The `rpcprinter` program is in charge of printing the receipts issued in `ninjapos`. It must have a thermal printer configured and marked as the default one to work. The print server allows printing receipts using IP. So you can have one printer per local network and several points of sale. Although it is one printer per Ninja POS Instance allowed for the moment.
+
+## Sales Export
+To export the sales made, use the `salesexport` program. You will be able to select a date range and a `csv` format file will be created that you can open with any spreadsheet program like Excel, Libre Office or Similar.
+
+## POS System
+The Ninja Pos system `ninjapos` is the one used to make the sales. The `productmanager` and `salesexport` programs must be closed. Optionally the `rpcprinter` program can be open if you want to print using a thermal printer.
+
+## Common Errors
+### Opening Programs at the Same Time
+Because the program uses the `SQLite` database, it cannot run two programs that read from the same file at the same time. This means that the POS System cannot be opened if the Products System `productmanager` and the Sales Export System `salesexport` are open. Please make sure that the POS System is closed if you want to use the Products System or the Export System and vice versa.
+
+### Database Problems
+If the database files are deleted or corrupted by mistake, new databases can be created automatically when opening the Products System `productmanager` and the Export System `salesexport` programs. We recommend that you always back up your data.
+
+```embed
+https://codeberg.org/ninjas/point-of-sale | ninjas/point-of-sale | Un punto de venta (POS) creado en Pascal (Lazarus)
+```
+
+Special thanks to *Adán Miranda* for supporting in the process of
+compiling the application and several other tasks.

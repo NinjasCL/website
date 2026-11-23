@@ -1,0 +1,96 @@
+---
+title: História da Máquina Virtual BEAM
+slug: historia-de-la-beam-vm
+date: 2024-06-06 05:05:04 +00:00
+description: Um olhar sobre a BEAM VM, suas virtudes e características gerais. Para que ela é boa?
+featured_image: /blog/historia-de-la-beam-vm/cover.jpg
+tags: erlang, elixir, beam
+---
+
+![Erlang move a internet](cover.jpg)
+
+Imagem: [Guilherme Carvalho (@guieevc) no X](https://x.com/guieevc/status/1002494428748140544)
+
+## O que é Erlang?
+
+_Erlang_ é uma linguagem de programação funcional. Isso quer dizer que se baseia nos princípios de funções com transparência referencial e imutabilidade. A transparência referencial quer dizer que uma função com os mesmos parâmetros deveria retornar o mesmo resultado.  A imutabilidade quer dizer que não posso alterar o valor de uma variável depois que ele foi atribuído; por exemplo, se digo que x é 5, não é lógico que também seja 6 (seria desonesto). No entanto, existem casos onde uma função pode retornar outro resultado com os mesmos parâmetros (por exemplo, uma função da data atual). _Erlang_ usa uma abordagem pragmática: Obedecer aos princípios da programação funcional (imutabilidade, transparência referencial) e quebrá-los quando aparecem conflitos do mundo real.
+
+Além da linguagem de programação, _Erlang_ tem todo um ecossistema de ferramentas. Em primeiro lugar está sua máquina virtual (_BEAM VM_), que executa código compilado com um _bytecode_ específico, muito parecido com a _JVM_ do _Java_. Por isso o código pode ser executado em qualquer sistema para o qual a _BEAM VM_ seja compatível. Também fornece ferramentas de desenvolvimento como compiladores, debuggers, ferramentas para análise de desempenho e testes. O framework OTP, servidores web, geradores de analisadores de código-fonte (parsers), um banco de dados distribuído chamado _mnesia_, entre outras ferramentas. A máquina virtual e suas bibliotecas permitem atualizar o código em tempo real (hot reload), o que significa mudar o código durante a execução do programa sem interrupção do serviço, e também permitem a execução do código de forma distribuída em vários computadores, tratando os erros e falhas de uma forma simples e poderosa.
+
+Todas essas características dão a _Erlang_ uma habilidade de resiliência frente a erros e de organização do código em processos e mensagens concorrentes.
+
+## A Origem de Erlang
+
+_Erlang_ começou como uma biblioteca de _Prolog_, depois como um dialeto de _Prolog_, para finalmente ser uma linguagem de programação por si só. O objetivo foi resolver o problema de construir sistemas distribuídos robustos e confiáveis. Originalmente desenvolvido na empresa de telecomunicações _Ericsson_ para seus switches telefônicos. Desde o início enfrentaram desafios de escala mundial como centenas de milhões de usuários e condições de serviço muito rigorosas. Foi liberado ao público em 1998 como um projeto _Open Source_. Hoje em dia, segundo a [Cisco](https://news.ycombinator.com/item?id=17218190), 90% do tráfego da internet é orquestrado por nós programados em _Erlang_.
+
+_Erlang_ e a _BEAM VM_ evoluíram ao longo de mais de 30 anos para outros casos de uso como robótica, machine learning, aplicações web, entre outros. Um de seus principais criadores, _Joe Armstrong_, detalha da [seguinte forma](https://dl.acm.org/doi/abs/10.1145/1238844.1238850):
+
+Erlang foi projetado para escrever programas concorrentes que executassem eternamente. Erlang usa processos concorrentes para estruturar o programa. Esses processos não têm memória compartilhada e se comunicam por passagem de mensagens assíncronas. Os processos de Erlang são leves e pertencem à linguagem, não ao sistema operacional. Erlang tem mecanismos que permitem que os programas mudem on-the-fly (ao vivo), assim esses programas podem evoluir e mudar sem parar sua execução. Esses mecanismos simplificam a construção de software implementando sistemas non-stop (que não param).
+
+O desenvolvimento inicial de Erlang ocorreu em 1986 no Laboratório de Computação da Ericsson. Erlang foi projetado com um objetivo específico em mente: fornecer uma forma melhor de programar aplicações de telefonia. Naquela época, as aplicações de telefonia eram atípicas do tipo de problemas que as linguagens de programação convencionais podiam resolver. As aplicações de telefonia são, por sua natureza, altamente concorrentes: um simples switch deve lidar com dezenas ou centenas de milhares de transações simultâneas. Tais transações são intrinsecamente distribuídas e o software deve ser altamente tolerante a falhas. Quando o software que controla os telefones falha, sai nos jornais, algo que não acontece quando as aplicações de desktop falham. O software de telefonia também deve mudar on-the-fly, isto é, sem perder o serviço enquanto uma atualização de código é realizada. O software de telefonia também deve operar em tempo real, com requisitos de tempo apertados para algumas operações e requisitos mais relaxados em outras classes de operações.
+
+```youtube
+BXmOlCy0oBM
+```
+
+## Por que Erlang é Bom?
+
+_Joe Armstrong_ fixou os requisitos de _Erlang_ em resolver os problemas de um ambiente altamente concorrente, que não pode se dar ao luxo de cair e que deve ser atualizado sem perda de serviço. Atualmente, essa definição se encaixa com quase a maior parte dos serviços na Internet.
+
+No entanto, pensar que _Erlang_ serve somente para casos de uso de processos e mensagens leves e concorrentes é insuficiente para descrevê-lo. Em sua [tese de doutorado](http://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A9492&dswid=9576) _Joe Armstrong_ detalha componentes genéricos chamados "behaviours" (comportamentos) em _Erlang_.  Esses "behaviours" são semelhantes às interfaces em outras linguagens de programação e permitem o polimorfismo, ou seja, que os programas possam trabalhar com múltiplas formas.
+
+_Joe Armstrong_ detalhou seis distintos _behaviours_: `gen_server`, `gen_event`, `gen_fsm` (`gen_statem`), `supervisor`, `application` e `release`. Definiu que esses seis _behaviours_ eram suficientes para criar sistemas distribuídos confiáveis e robustos.
+
+Os _behaviours_ são escritos por especialistas e são baseados em anos de experiência, representando as "melhores práticas". Permitem que os programadores da aplicação se concentrem na "lógica de negócios", enquanto a infraestrutura é fornecida automaticamente pelo _behaviour_. O código é escrito de forma sequencial e toda a concorrência é realizada pelo _behaviour_ "por baixo dos panos". Isso facilita que novos membros do time aprendam a lógica de negócios, já que é sequencial e é semelhante a como outras linguagens de programação operam.
+
+A lista a seguir é uma breve descrição de cada _behaviour_.
+
+- `gen_server`: Um servidor genérico. Permite criar um serviço que pode receber chamadas.
+- `gen_event`: Um gerenciador de eventos. Permite enviar mensagens quando ocorrem eventos definidos.
+- `gen_statem`: Uma máquina de estados, anteriormente conhecida como `gen_fsm`. Permite validar estados dos dados.
+- `supervisor`: Um supervisor é um processo cuja tarefa é manter outros processos (filhos) vivos e realizando seu trabalho. Com múltiplas estratégias para reiniciá-los se falharem. Um supervisor pode ser pai de outros supervisores.
+- `application`: Uma aplicação é um conjunto de componentes `gen_server`, `gen_event`, `gen_statem` e `supervisor` utilizados para um fim. Chama-se "árvore de supervisão" (supervision tree).
+- `release`:  Um sistema pode conter uma ou múltiplas `application`, o que é considerado um `release`. Além disso, fornece ferramentas para atualizar o código e voltar a um estado anterior (_rollback_) se a atualização falhar.
+
+Levando em conta que um supervisor pode supervisionar outros supervisores (que podem estar executando em outro computador), dá uma ideia de quão poderosos os _behaviour_ podem ser. Poderia se fazer um paralelo com o _Kubernetes_, mas a principal diferença é que esses _behaviours_ são executados no nível de processo/thread, ao contrário do _Kubernetes_, que roda no nível do contêiner Docker.
+
+As ideias dos supervisores e das estratégias de reinício vêm da observação de que normalmente é mais simples reiniciar um serviço para resolver um problema. Já tentou desligar e ligar um equipamento para resolver um problema?. Isso pode ser explicado com um exemplo: Se estou seguindo a rota de um mapa e me perco, é mais simples partir do ponto inicial do que de onde me perdi para chegar ao destino, ou seja, em vez de encontrar o erro e repará-lo em tempo real, é mais rápido e correto registrar o erro e voltar ao início para tentar de novo.
+
+Saber que os processos podem falhar e serão reiniciados por um supervisor nos permite falhar cedo e rápido (Seguindo as recomendações de [Jim Gray](https://en.wikipedia.org/wiki/Fail-fast_system)). Um processo produz um resultado correto de acordo com a especificação ou envia um sinal de falha e para sua operação. "Let it crash!" (Deixe cair) é uma frase cunhada por _Joe Armstrong_ para denominar esse comportamento de "caminho feliz", onde, se algo fora do "caminho feliz" acontece, o processo deve parar e não tentar resolver o problema em tempo real (potencialmente piorando a situação), deixando que outro componente dentro da árvore de supervisão trate do erro.
+
+Os supervisores e a filosofia "Let it Crash!" do _Erlang_ permitem produzir sistemas robustos e confiáveis. Pode-se exemplificar com a máquina _Ericsson AXD301_, que alcançou nove noves (99,9999999%) de confiabilidade em seus sistemas. Para colocar em perspectiva, a confiabilidade de cinco noves (99,999%) é considerada boa (5,26 minutos de serviço caído por ano). Em grandes companhias estima-se que exista 1,6 hora de serviço caído por semana. Nove noves de confiabilidade é como um piscar de olhos de serviço caído por ano (31,56 milissegundos por ano). Embora os nove noves tenham sido alcançados em uma situação específica e não haja total clareza sobre como esses dados foram obtidos, pode-se afirmar que a tecnologia de _Erlang_ dá uma confiabilidade e robustez muito grandes.
+
+## O Modelo de Atores
+
+Definimos _Erlang_ e seu ecossistema, mas para ter uma noção mais completa deve-se explicar o que é concorrência. Em muitos lugares pode-se considerar concorrência e paralelismo como o mesmo conceito. Em _Erlang_ são duas ideias separadas. A concorrência refere-se à ideia de atores executando de forma independente, mas não necessariamente ao mesmo tempo. O paralelismo é ter atores independentes executando ao mesmo tempo. Se olharmos no nível do processador, concorrência é cada processo ter seu tempo de execução em um único processador, semelhante a como funcionavam os sistemas antes da existência de múltiplos núcleos nos processadores. O paralelismo está disponível desde o início de _Erlang_; bastava um computador adicional conectado ao computador principal.  Atualmente os processadores com múltiplos núcleos permitem paralelismo em um único computador (em contextos industriais chegando a dezenas de núcleos por processador) e _Erlang_ permite aproveitar essas características por completo (desde aproximadamente 2009 com a implementação do [multiprocessamento simétrico](https://en.wikipedia.org/wiki/Symmetric_multiprocessing)).
+
+Para alcançar a concorrência, _Erlang_ utiliza o [modelo de atores](https://en.wikipedia.org/wiki/Actor_model). Cada ator é um processo separado (função) isolado na máquina virtual, e eles se comunicam usando mensagens. Cada processo (ator) é totalmente independente e não compartilha nenhuma informação com outros processos; eles só usam mensagens entre si para comunicar dados. São leves (não são processos do sistema operacional). Toda a comunicação é explícita, segura e com alta rastreabilidade. Se um processo falha, não afetará os outros processos, já que são totalmente independentes entre si.
+
+Uma coisa importante a considerar em relação às habilidades de escalonamento de _Erlang_ e seus processos leves. É verdade que pode haver centenas de milhares de processos existentes ao mesmo tempo, mas isso não significa abusar deles. Por exemplo, criar um videogame de tiro em que cada bala é seu próprio ator é algo excessivo. Como há um pequeno custo em enviar mensagens entre atores, dividir as tarefas demais pode até prejudicar o desempenho.
+
+Pode-se pensar que a programação paralela é diretamente proporcional à quantidade de núcleos de um processador, o que se conhece como escalonamento linear. Mas é importante lembrar que não existe algo perfeito e livre de custos associados. O paralelismo não é a resposta para todo problema; em alguns casos pode até afetar a velocidade da aplicação, por exemplo quando existem tarefas redundantes ou o código é 100% sequencial mas tenta utilizar processos paralelos. Um programa paralelo anda tão rápido quanto sua parte sequencial mais lenta. Isso significa que usar paralelismo para todos os problemas não garante que seja mais rápido. Simplesmente é uma ferramenta que pode ser muito útil, mas nem sempre é a adequada.
+
+## Conclusão
+
+Talvez você tenha se encontrado em uma situação semelhante à seguinte: Meu sistema é local e não preciso das capacidades de concorrência que _Erlang_ fornece. Jamais chegarei aos níveis de exigência nos meus sistemas que justifiquem usar tais capacidades.
+
+Poderia-se pensar que, tendo sistemas de nicho, nunca teremos a necessidade de usar as bondades da _BEAM VM_. Mas o que acontece se tivermos uma quantidade enorme de dados que precisa ser processada?.
+
+Isso aconteceu em uma empresa onde precisavam migrar um banco de dados de usuários para um novo sistema. As tabelas deviam ser processadas e ajustadas ao formato do novo sistema, ou seja, era preciso criar um pequeno script ETL (Extract Transform Load) para extrair, transformar e carregar dados. No início, um programador que só conhecia _Python_ tentou realizar a migração, mas devido à quantidade de dados a operação levava mais de uma semana para ser concluída. Depois a tarefa passou para um time que conhecia _Elixir_ e a operação levou menos de um dia para ser concluída, graças às bondades de concorrência e paralelismo da _Beam VM_.
+Pode-se argumentar que talvez era inexperiência em _Python_ ou que não foram usadas as ferramentas adequadas nessa linguagem. Mas isso nos mostra que fazer concorrência e paralelismo em outras linguagens não é tão simples quanto no ecossistema de _Erlang_.
+
+Embora todas essas ferramentas e ideias possam ser implementadas e desenvolvidas em outras linguagens de programação e ecossistemas (e vice-versa), não é uma tarefa simples, nem contaria com mais de 30 anos de evolução funcionando em sistemas produtivos de classe mundial. Portanto, a máquina virtual de _Erlang_ (_BEAM VM_) é uma tecnologia robusta, confiável e acertada para ser usada nas soluções de software atuais. Cada problema deve ser avaliado e as ferramentas adequadas selecionadas conforme seu contexto.
+
+## Referências
+
+- <https://altenwald.org/2009/09/02/la-historia-de-erlang/>
+- <https://github.com/stevana/armstrong-distributed-systems/blob/main/docs/erlang-is-not-about.md>
+- <https://emanuelpeg.blogspot.com/2024/05/tipos-en-erlang.html>
+- <https://emanuelpeg.blogspot.com/2014/05/elixir.html>
+- <http://jlouisramblings.blogspot.com/2010/12/response-to-erlang-overhyped-or.html>
+- <https://learnyousomeerlang.com/the-hitchhikers-guide-to-concurrency>
+- <https://adabeat.com/fp/is-erlang-relevant-in-2024/>
+- <https://www.reddit.com/r/programming/comments/erboq/a_response_to_erlang_overhyped_or_underestimated/>
+- <https://adoptingerlang.org/>
+- <https://michal.muskala.eu/post/why-i-stayed-with-elixir/>
+- <https://railsware.com/blog/important-overhaul-elixir-did-to-erlang-to-become-appealing-web-development-tool/>

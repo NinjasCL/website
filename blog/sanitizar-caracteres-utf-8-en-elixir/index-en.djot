@@ -1,0 +1,54 @@
+---
+title: Sanitizing UTF-8 Characters in Elixir
+slug: sanitizar-caracteres-utf-8-en-elixir
+date: 2024-09-17 20:42:26 +00:00
+description: How to standardize characters in Elixir
+featured_image: /blog/sanitizar-caracteres-utf-8-en-elixir/cover.jpg
+tags: elixir, sanitizar, unicode
+---
+
+![Colorful Unicode character map](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Unicode_character_map_(color).jpg)
+
+For example, if we have the following sentence: `¿Hola cómo estás?`,
+transform it into `Hola como esta`.
+
+```elixir
+nombre =
+"¿Hola cómo estás?"
+|> String.trim()
+
+# We standardize the characters to their canonical unicode representation
+|> :unicode.characters_to_nfd_binary()
+
+# We clean any unicode character that is not a space
+|> String.replace(~r/\p{Mn}/u, "")
+```
+
+We can also use the `String.normalize/1` function instead of
+`:unicode.characters_to_nfd_binary/1`.
+
+```elixir
+String.normalize(:nfd)
+```
+
+Now we can remove the characters that are not valid for a name. We
+get the characters that are not letters and store them in a unique
+list.
+
+```elixir
+noletras = nombre
+|> String.replace(~r/0-9a-zA-Z/, "")
+|> String.graphemes()
+|> Enum.uniq()
+```
+
+Finally we replace the unwanted characters.
+
+```elixir
+nombre = String.replace(nombre, noletras, "")
+```
+
+- <https://www.erlang.org/doc/apps/stdlib/unicode.html#characters_to_nfd_binary/1>
+- <https://unicode.org/reports/tr15/#Norm_Forms>

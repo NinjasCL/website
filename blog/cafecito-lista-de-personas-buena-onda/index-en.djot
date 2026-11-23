@@ -1,0 +1,32 @@
+---
+title: Cafecito: A list of good-vibes people
+slug: cafecito-lista-de-personas-buena-onda
+date: 2024-05-02 14:18:42 +00:00
+description: A list of good-vibes people to have a coffee with
+featured_image: /blog/cafecito-lista-de-personas-buena-onda/cover.jpg
+tags: javascript, markdown, devs, chile
+---
+
+![A small cup of coffee](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:A_small_cup_of_coffee.JPG)
+
+This was a tiny project to build a list of people who are available
+for a "cafecito" — that is, to chat for a while over a good coffee.
+
+Technologies:
+
+- Github Actions
+- Javascript
+- Markdown
+
+```github
+devschile/cafecito | Un bot que lleva la lista de personas buena onda en devschile
+```
+
+A script to back up the emoticons of the
+[devschile](https://devschile.cl) slack was also made.
+
+```github
+devschile/emoticons | Emoticons para Mattermost
+```

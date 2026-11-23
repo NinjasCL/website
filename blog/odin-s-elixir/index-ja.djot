@@ -1,0 +1,218 @@
+---
+title: オーディンのエリクサー
+slug: odin-s-elixir
+date: 2024-11-10 14:54:49 +00:00
+description: OdinとElixirは、まさにヴァルハラで生まれた組み合わせです
+featured_image: /blog/odin-s-elixir/cover.jpg
+tags: odin, elixir, ffi
+---
+
+![北欧神話の絵画、オーディンとサガ](cover.jpg)
+
+画像: [Wikimedia CommonsのOdin und Saga](https://commons.wikimedia.org/wiki/File:Odin_und_Saga.jpg)
+
+## Odinとは？
+
+Odinは、_Rust_、_Zig_、_C_ の直接的な代替となるシステムレベルの言語です。_C_ 言語の代替を作ることはほぼ不可能な作業です。なぜなら _C_ には40年を超える歴史があるからです。しかし、少なくとも新しいプログラミング言語は、現代のシステムとアーキテクチャにおいて _C_ の代替となりえます。ウェブサイトの言葉を借りれば「Odinはプログラミングの喜びのためのCの代替」です。Odinの公式実装は現在、amd64、arm64/aarch64（Raspberry Pi）、wasm32/wasm64p32をサポートしています。この言語は _Pascal_、_C_、_Go_、_Oberon-2_、_Newsqueak_、_GLSL_ から大きく影響を受けています。
+
+## Odinの設計の背後にある指針とは？
+
+Odinは、高いパフォーマンス、現代のシステム、データ指向プログラミングのために作られた、明確な型付けを持つ汎用プログラミング言語です。
+
+- シンプルさと読みやすさ。
+- ミニマルであること：何かを書く方法は一つであるべき。
+- 直交性の追求。
+- プログラムとは、データを別の形のデータに変換すること。
+- コードとはアルゴリズムを表現するものであり、型システムではない。
+- より古いプログラミング言語には知識と知恵が組み込まれている。
+- 言語仕様全体は、ひとりの平凡な人間でも暗記できるものであるべき。
+
+*OdinでのHello World*
+
+```go
+package main
+
+import "core:fmt"
+
+main :: proc() {
+	fmt.println("Hellope!")
+}
+```
+
+*フィボナッチ*
+
+```go
+fibonacci :: proc(n: int) -> int {
+	switch {
+        case n < 1:
+            return 0
+        case n == 1:
+            return 1
+	}
+	return fibonacci(n-1) + fibonacci(n-2)
+}
+
+fmt.println(fibonacci(3)) // 2
+```
+
+## オーディンのエリクサー？
+
+_Odin_ と _Elixir_ は、まさに _ヴァルハラ_ で生まれた組み合わせです。_Elixir_ では堅牢で信頼性の高いシステムを作ることができ、OdinではFFIによる強力で安全な低レベル拡張、あるいは他のプログラミング言語と共有できる自己完結型のターミナルアプリケーションやライブラリを作ることができます。_C_、_Rust_、_Zig_、_Go_ のような代替を使う代わりにです。
+
+これは _Odin_ と _Elixir_ を統合する方法についてのビデオです：
+
+```youtube
+Gyt0kzLhtgs
+```
+
+Elixir（2011年）とOdin（2016年）は、非常にモダンな言語であるにもかかわらず、どちらもかなり小さいです。言語ガイドを数時間読めば、核心となる概念をしっかり把握できます。これにより、習熟がずっと早くなります。
+
+## 宝探し
+
+_CRC_（`Constructors`、`Reducers`、`Converters`）を使った簡単な練習をしましょう。これは _Bruce Tate_ が作ったコード整理の原則です。
+
+```youtube
+69wZzHYa0aM
+```
+
+- `Constructors`：`Reducers` と `Converters` に渡されるデータ構造を作成して設定する手続き（または関数）です。このデータ構造は `accumulator` や `token` として知られています。
+
+- `Reducers`：これらの手続きは `accumulator` を取り、それを「還元」します。`Converter` の準備ができた状態に到達するまで、さまざまな操作と手続きのパイプラインを適用します。
+
+- `Converter`：accumulatorを取り、それを最終的なフォーマットに「変換」します。これはユーザーへの表示や、別の _CRC_ のパイプラインへの受け渡しの準備ができています。例として、`json` データ構造を取り、それを `string` に変換する手続きが挙げられます。この文字列は、内容をディスク上のファイルに保存するためのパイプラインに渡されます。
+
+この形の整理のおかげで、コードを一貫性のある統一された方法で見ることができます。共通のデータ構造といくつかの手続き（または関数）を持つことで、操作を実行し、より優れた可読性で自分を表現できます。私たちのシステムは将来、理解と保守がより容易になるでしょう。一貫性はシステムの重要な品質要素であり、_CRC_ を使うことはそれを達成するための素晴らしいツールです。この原則の本当に価値あるアイデアは、状態を変更する手続きと変更しない手続きを明確に分離できれば非常に便利だということです。なぜなら、作成手続きをより多くの状況でより自信を持って使い、どこにでも導入し、順番を変えることができるからです。reducersとconvertersにはより注意が必要です。
+
+### Elixirバージョン
+
+```elixir
+defmodule Treasure do
+  # Creator
+  def new(x, y), do: {x, y}
+  def new, do: new(0, 0)
+
+  # Reducers
+  def north({x, y}), do: {x, y - 1}
+  def south({x, y}), do: {x, y + 1}
+
+  def east({x, y}), do: {x - 1, y}
+  def west({x, y}), do: {x + 1, y}
+
+  # Converter
+  def show({x, y}), do: "The treasure is located at (#{x},#{y})"
+end
+
+
+Treasure.new()
+|> north()
+|> north()
+|> north()
+|> north()
+|> west()
+|> west()
+|> west()
+|> south()
+|> east()
+|> east()
+|> east()
+|> show() # The treasure is located at (0,-3)
+```
+
+### Odinバージョン1
+
+```go
+package CRC
+
+import "core:fmt"
+
+Treasure :: struct {
+    x: int,
+    y: int
+}
+
+// Constructors
+new :: proc(x: int, y: int) -> Treasure {
+    treasure : Treasure
+    treasure.x = x
+    treasure.y = y
+    return treasure
+}
+
+empty :: proc() -> Treasure {
+    return new(0, 0)
+}
+
+// Reducers
+north :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x, treasure.y - 1)
+}
+
+south :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x, treasure.y + 1)
+}
+
+east :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x - 1, treasure.y)
+}
+
+west :: proc(treasure : Treasure) -> Treasure {
+    return new(treasure.x + 1, treasure.y)
+}
+
+// Converter
+show :: proc (treasure : Treasure) -> (string, int, int) {
+    return "The treasure is located at (%d, %d)", treasure.x, treasure.y
+}
+
+// Pipeline
+main :: proc() {
+    treasure := empty() // (0, 0)
+    treasure = north(treasure) // (0, -1)
+    treasure = north(treasure) // (0, -2)
+    treasure = north(treasure) // (0, -3)
+    treasure = north(treasure) // (0, -4)
+    treasure = west(treasure)  // (1, -4)
+    treasure = west(treasure)  // (2, -4)
+    treasure = west(treasure)  // (3, -4)
+    treasure = south(treasure) // (3, -3)
+    treasure = east(treasure)  // (2, -3)
+    treasure = east(treasure)  // (1, -3)
+    treasure = east(treasure)  // (0, -3)
+    out, x, y := show(treasure)
+    fmt.printfln(out, x, y) // The treasure is at (0, -3)
+}
+```
+
+### Odinバージョン2
+
+Odinはこの課題に取り組むもうひとつの興味深い方法を提供しています。それは [_配列プログラミング_](https://odin-lang.org/docs/overview/#array-programming) の手法を使うもので、同じ長さの2つの固定サイズ配列に対する基本演算（+、-、*など）は要素ごとに行われます。_Odin_ の利点のひとつです。
+
+```go
+Treasure :: [2]int
+
+NORTH :: Treasure{ 0, -1}
+SOUTH :: Treasure{ 0, +1}
+EAST  :: Treasure{-1,  0}
+WEST  :: Treasure{+1,  0}
+
+treasure := \
+    NORTH + // (0, -1)
+    NORTH + // (0, -2)
+    NORTH + // (0, -3)
+    NORTH + // (0, -4)
+    WEST +  // (1, -4)
+    WEST +  // (2, -4)
+    WEST +  // (3, -4)
+    SOUTH + // (3, -3)
+    EAST +  // (2, -3)
+    EAST +  // (1, -3)
+    EAST    // (0, -3)
+```
+
+これには大きな利点があります。宝の地図を生成するのに数値の代わりに _string_ のようなものを使うと、コンパイルされません。つまり検証は実行時ではなくコンパイラレベルで行われます。
+
+## 最後に
+
+_Odin_ と _Elixir_ は、堅牢なシステム、低レベルのバインディング、高性能なコードを作るための強力なツールを提供します。_Elixir_ 開発者は _Odin_ を学べば恩恵を受けられますし、_Odin_ 開発者は _Elixir_ を学べば恩恵を受けられます。
+
+_Odin_ と _Elixir_ は、まさにヴァルハラで生まれた組み合わせです。

@@ -1,0 +1,297 @@
+---
+title: Wren CLIの中でGoを使う
+slug: using-go-inside-wren-cli
+date: 2021-04-28 01:10:23 +00:00
+description: Wren CLIは、Wrenを組み込んだ小さなコマンドラインアプリケーションのための公式プロジェクトである。実装例として機能する。この簡単な演習では、Goの関数をエクスポートして、CLIの中で新しいクラスとして使う。
+featured_image: /blog/using-go-inside-wren-cli/cover.jpg
+tags: wren, go, cli, english, tutorial
+---
+
+![Amee Fairbank-BrownによるUnsplashの写真](cover.jpg)
+
+[Wren Wikiのオリジナル](https://github.com/wren-lang/wren/wiki/%5BCookbook%5D-Use-Golang-functions-inside-Wren-CLI)
+
+[Wren CLI](https://github.com/wren-lang/wren-cli)は、_Wren_を組み込んだ小さなコマンドラインアプリケーションのための公式プロジェクトである。実装例として機能する。
+
+このチュートリアルのまったく同じバージョンを使いたい場合は、[このコミットを見てほしい](https://github.com/wren-lang/wren-cli/commit/8229047c3b9d33509cd8849316a8758229683782)。
+
+この簡単な演習では、Goの関数をエクスポートして、_CLI_の中で新しいクラスとして使う。
+
+この関数は、[localhost:8080](http://localhost:8080)にアクセスするとメッセージを返す、シンプルな_Http_サーバーにする。
+
+![](https://user-images.githubusercontent.com/292738/116343900-5c08d780-a7b3-11eb-85d8-ec9f88597934.png)
+
+## Golang
+
+Goのインストールが必要なら、[ここからダウンロードできる](https://golang.org/dl/)。(_go version go1.16.3 darwin/amd64_)
+
+私たちのGoのコードは本当にシンプルだ。
+[Golang http server](https://golangr.com/golang-http-server/)をベースにしている。
+
+```go
+package main
+
+import "C"
+
+import (
+	"io"
+	"log"
+	"net/http"
+)
+
+//export Http
+func Http() {
+	// Set routing rules
+	http.HandleFunc("/", Tmp)
+
+	//Use the default DefaultServeMux.
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+			log.Fatal(err)
+	}
+}
+
+func Tmp(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Calling Go functions from Wren in static libs")
+}
+
+func main() {}
+```
+
+私たちのGoのコードの主な要件は次の通りだ：
+
+- `import "C"` : `cgo`ランタイムをインポートする
+- `//export Http` : コンパイラに `Http` という名前の関数をエクスポートするよう伝える
+- `func main() {}`: ライブラリをエクスポートするために必要だ。
+
+さらに例が必要なら[ここを見ることができる](https://github.com/vladimirvivien/go-cshared-examples)。
+
+それでは、_cli_プロジェクトの中に新しいディレクトリとファイルを作成しよう：
+
+![](https://user-images.githubusercontent.com/292738/116344740-cb32fb80-a7b4-11eb-9b63-fff5d9f4bf3e.png)
+
+`src`の中に `go` という名前の新しいディレクトリを作成し、その中に `http.go` と `Makefile` の2つのファイルを作成する。
+
+`http.go` に上のコードを記入する。続いて `Makefile` には次を：
+
+```makefile
+.PHONY: build
+b build:
+	go build -buildmode=c-archive -o libhttp.a http.go
+```
+
+`src/go` ディレクトリに移動して `make build` を実行すると、`libhttp.a` と `libhttp.h` の2つの新しいファイルができる。
+
+![](https://user-images.githubusercontent.com/292738/116345764-cbcc9180-a7b6-11eb-853c-5ea2fe715a58.png)
+
+素晴らしい！
+
+次に、`C` のコードファイルを設定し、新しい_Wren_クラスを追加する必要がある。
+
+`src/module` に移動して、`server.h`、`server.c`、`server.wren`、`server.wren.inc` を作成する。
+
+![](https://user-images.githubusercontent.com/292738/116346053-6e851000-a7b7-11eb-8407-78b86f269bad.png)
+
+*server.h*
+
+```c
+#ifndef server_h
+#define server_h
+
+#include "wren.h"
+
+void httpServer(WrenVM* vm);
+
+#endif
+```
+
+*server.c*
+
+```c
+#include "wren.h"
+
+// We import our generated h file from go
+#include "libhttp.h"
+
+// And create a simple wrapper to Bind the exported function to the Wren VM
+void httpServer(WrenVM* vm) {
+  Http();
+}
+```
+
+*server.wren*
+
+```js
+
+class Http {
+// foreign is used to tell Wren this will be implemented in C
+    foreign static serve()
+}
+```
+
+*server.wren.inc*
+
+```c
+// This file can be auto generated too! using
+// python3 util/wren_to_c_string.py src/module/server.wren.inc src/module/server.wren
+// the convention is <filename>ModuleSource
+
+static const char* serverModuleSource =
+"class Http {\n"
+"  foreign static serve()\n"
+"}\n"
+"\n";
+```
+
+よし、`src/cli/modules.c` ファイルを変更して新しいクラスを組み込もう。
+
+```c
+// near line 4
+#include "modules.h"
+
+#include "io.wren.inc"
+#include "os.wren.inc"
+#include "repl.wren.inc"
+#include "scheduler.wren.inc"
+#include "timer.wren.inc"
+
+// We add our generated server.wren.inc file
+#include "server.wren.inc"
+```
+
+```c
+// near line 51
+extern void stdoutFlush(WrenVM* vm);
+extern void schedulerCaptureMethods(WrenVM* vm);
+extern void timerStartTimer(WrenVM* vm);
+
+// Add our new function as a extern (this will tell the compiler that this function
+// is implemented elsewhere (in our server.c file)
+extern void httpServer(WrenVM* vm);
+```
+
+```c
+  // near line 180
+  MODULE(timer)
+    CLASS(Timer)
+      STATIC_METHOD("startTimer_(_,_)", timerStartTimer)
+    END_CLASS
+  END_MODULE
+
+  // We add our module mapping
+  // import "server" for Http
+  // Http.serve()
+  MODULE(server)
+    CLASS(Http)
+      STATIC_METHOD("serve()", httpServer)
+    END_CLASS
+  END_MODULE
+```
+
+最後に、コンパイル時にライブラリとオブジェクトが含まれるように、_Makefile_に新しいパスを含めなければならない。
+
+`projects/make.mac/wren_cli.make` に移動する。
+
+![](https://user-images.githubusercontent.com/292738/116347424-3206e380-a7ba-11eb-8694-01beae4b4f23.png)
+
+```makefile
+# Near line 30 prepend -I../../src/go
+INCLUDES += -I../../src/go -I../../src/cli
+```
+
+```makefile
+# Near line 34
+LIBS += -L../../src/go -lhttp -framework CoreFoundation -framework Security
+# Note that we use -lhttp to refer to libhttp.a
+# also we include the required frameworks from MacOS that Go http module needs to work
+```
+
+```makefile
+# Near line 160
+OBJECTS += $(OBJDIR)/wren_value.o
+OBJECTS += $(OBJDIR)/wren_vm.o
+
+OBJECTS += $(OBJDIR)/server.o
+# We include the generated object
+```
+
+```makefile
+# Near line 382
+$(OBJDIR)/timer1.o: ../../src/module/timer.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+
+$(OBJDIR)/server.o: ../../src/module/server.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+
+# We include the server.c source file for the object.
+```
+
+これでほぼ準備完了。`make.mac` ディレクトリに移動して `make` コマンドを実行するだけだ。
+
+![](https://user-images.githubusercontent.com/292738/116348291-d63d5a00-a7bb-11eb-968d-334f37c04c3f.png)
+
+すべて順調なら、`bin/` の中に輝く `wren_cli` バイナリができているはずだ。_REPL_を実行すれば新しいモジュールを使うことができ、テストのために [localhost:8080](http://localhost:8080) にアクセスできる。
+
+```sh
+bin/wren_cli
+\\/"-
+ \_/   wren v0.4.0
+> import "server" for Http
+> Http.serve()
+```
+
+```js
+import "server" for Http
+Http.serve()
+```
+
+### 考慮事項
+
+- 生成された静的ライブラリには、1つしかエクスポートしていなくても大量の関数が含まれている。そのため _wren_cli_ のサイズが増える。この場合、最大で5Mbほどだ。
+- `python3 util/wren_to_c_string.py src/module/server.wren.inc src/module/server.wren` で `wren.inc` ファイルの生成を自動化できる。
+- [Premake](https://premake.github.io/) を使って `projects/make.mac/wren_cli.make` ファイルの生成を自動化できる。
+- [Rust](https://www.rust-lang.org/) など他の言語でも同じ手順に従うことができ、その全機能を _Wren_ にもたらせる。
+
+### Premakeを使う
+
+必要な最低バージョンは次の通りだ：
+
+- `premake5 (Premake Build Script Generator) 5.0.0-alpha14`
+
+`projects/premake/premake5.lua` を設定する。
+
+```lua
+-- near line 58
+includedirs {
+    "../../src/cli",
+    "../../src/module",
+    "../../src/go",
+  }
+```
+
+```lua
+-- near line 118
+  filter "system:macosx"
+    systemversion "10.12"
+    links { "http", "/Library/Frameworks/CoreFoundation.framework", "/Library/Frameworks/Security.framework" }
+    linkoptions {"-L../../src/go"}
+```
+
+そして次を実行する。
+`python3 utils/generate_projects.py`
+
+### Rust
+
+_Rust_ も同様の手順になる。唯一の違いは静的ライブラリの生成だ。[それについてはこのチュートリアル](https://docs.rust-embedded.org/book/interoperability/rust-with-c.html)か[こちらの記事](https://dev.to/luzero/building-crates-so-they-look-like-c-abi-libraries-1ibn)、そして[cbindgenツール](https://github.com/eqrion/cbindgen)に従えばよい。httpサーバーのサンプルは[ここにある](https://gist.github.com/mjohnsullivan/e5182707caf0a9dbdf2d)。
+
+### 結論
+
+_Wren_ は素晴らしく、その_CLI_はハックして拡張するのが簡単だ。_Wren_ に産業レベルの拡張が必要なら、_Go_ や _Rust_ の豊富なライブラリに頼って、素晴らしいものを作ることができる。
+
+[完全なプロジェクトが必要ならここへ行ける](https://github.com/NinjasCL-archive/wren-cli/tree/golang)
+
+```github
+NinjasCL-archive/wren-cli/tree/golang | Un proyecto completo de wren-cli con el servidor HTTP hecho en Go
+```

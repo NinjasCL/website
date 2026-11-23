@@ -1,0 +1,44 @@
+schema: spec-driven
+
+# Project context (optional)
+# Add only constraints that should guide OpenSpec artifacts and workflows.
+# Include constraints an agent cannot infer by reading the code.
+# Keep general project documentation and discoverable codebase facts out.
+context: |
+  website is the Gleam source for the ninjas.cl site, built with blogatto
+  (a Lustre/mist-based static site generator) on OTP 29 and Gleam 1.18.
+  Source lives in src/, tests in test/, and the Gleam build output is build/
+  (git-ignored).
+
+  CI (.github/workflows/test.yml) runs `gleam deps download`, `gleam test`,
+  and `gleam format --check src test` on every push and pull request. Any
+  change must keep those three commands passing, so format code with
+  `gleam format src test` before finishing.
+
+  blogatto is pinned to >= 8.0.0 and < 9.0.0; do not change that range or
+  bump Gleam/OTP versions in CI without an explicit requirement.
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+rules:
+  proposal:
+    - Keep proposals focused on a single site feature or content change.
+    - State explicitly what is out of scope.
+    - Reference the blogatto/Gleam APIs involved when they drive the design.
+  design:
+    - Cover how routing, content files, and templates are affected.
+    - Note any new dependency and why an existing blogatto feature is insufficient.
+  tasks:
+    - Break tasks into small, verifiable steps.
+    - Include the checks (`gleam test`, `gleam format --check src test`) needed to close each implementation task.
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+operations:
+  apply:
+    guidance:
+      - Run `gleam format src test` and `gleam test` before reporting work complete.
+      - Keep the dev server (`gleam run`) out of committed changes.
+  archive:
+    guidance:
+      - Summarize what shipped and any follow-up gaps against the specs before archiving.

@@ -1,0 +1,255 @@
+---
+title: Organización de código para un Endpoint de Elixir
+slug: code-organization-for-an-elixir-endpoint
+date: 2023-02-15 18:39:58 +00:00
+description: Estos son solo mis pensamientos sobre cómo organizaría el código en un endpoint. Tengamos como ejemplo un endpoint de direcciones que manejará operaciones CRUD para las direcciones de los clientes en una tienda.
+featured_image: /blog/code-organization-for-an-elixir-endpoint/cover.jpg
+tags: elixir, phoenix, crc, organization
+---
+
+![Foto de James Day en Unsplash](cover.jpg)
+
+Estos son solo mis pensamientos sobre cómo organizaría el código en un endpoint. Tengamos como ejemplo un endpoint de `addresses` (direcciones) que manejará operaciones _CRUD_ para las `addresses` de los clientes en una tienda.
+
+Por brevedad nos enfocaremos solamente en una consulta simple que retorna todas las direcciones para un id de cliente dado.
+
+La estructura está basada en [CRC](https://redrapids.medium.com/learning-elixir-its-all-reduce-204d05f52ee7) y una interpretación libre de los conceptos en [Designing Elixir Systems with OTP](https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/)
+
+## Estructura de Directorios
+
+```txt
+├── addresses
+│   ├── endpoints.ex
+│   ├── metrics.ex
+│   ├── repo
+│   │   ├── commands.ex
+│   │   └── queries.ex
+│   ├── requests.ex
+│   └── resolvers.ex
+├── metrics.ex
+├── requests.ex
+└── responses.ex
+```
+
+## Directorio Raíz
+
+### requests.ex
+
+Comencemos con el archivo `requests.ex` que estandarizará los parámetros dados a los endpoints y lo usará como un token (acumulador) para pasar entre los reducers. Esto sería un `Constructor` en CRC.
+
+```elixir
+defmodule Endpoints.Requests do
+  alias Endpoints.Metrics
+
+  defstruct [params: %{}, metrics: Metrics.new(), data: %{}, valid?: true]
+
+  def new(metrics, params, data \\ %{}, valid? \\ true) do
+    %__MODULE__{metrics: metrics, params: params, data: data, valid?: valid?}
+  end
+
+  def new(params) do
+    %__MODULE__{params: params}
+  end
+
+  def
+end
+```
+
+### responses.ex
+
+El `responses.ex` manejará el resultado final. Será nuestro `Converter` en CRC.
+
+```elixir
+defmodule Endpoints.Responses do
+  alias Endpoints.Requests
+
+  defstruct [:status, :data, request: nil]
+
+  def new(%Requests{} = request, data, status \\ :ok) do
+    %__MODULE__{status: status, data: data, request: request}
+  end
+
+  def new(status, data) do
+    %__MODULE__{status: status, data: data}
+  end
+
+  def ok(data \\ []) do
+    new(:ok, data)
+  end
+
+  def error(data \\ []) do
+    new(:error, data)
+  end
+
+  def render(%__MODULE__{} = response) do
+    {response.status, response.data}
+  end
+end
+```
+
+### metrics.ex
+
+El `metrics.ex` es una estructura simple que puede almacenar los parámetros y funciones para enviar a servicios de telemetría e instrumentación como Prometheus. Es una `fachada` que puede estandarizar y simplificar esas llamadas. Esto puede asociarse con una capa `Boundary`, porque interactúa con un componente externo.
+
+```elixir
+defmodule Endpoints.Metrics do
+
+  # Epoch = Start Time
+  # Id = Id to Send to the metrics system
+  defstruct [:epoch, :id]
+
+  def new(id \\ 0) do
+    %__MODULE__{epoch: System.monotonic_time(:microsecond), id: id}
+  end
+
+  def count(data, operation, metrics) do
+    # Call A metrics system to send the count operation
+    {:count, operation, data, metrics.id}
+  end
+
+  def count(operation, metrics), do: count([], operation, metrics)
+
+  def error(data, operation, metrics) do
+    {:count_error, operation, data, metrics.id}
+  end
+
+  def error(operation, metrics), do: error([], operation, metrics)
+
+  @doc """
+  Track are for time measurement since it uses the metrics's epoch
+  """
+  def track(data, operation, metrics) do
+    {:track, operation, data, metrics.id, metrics.epoch}
+  end
+
+  def track(operation, metrics), do: track([], operation, metrics)
+end
+```
+
+## Directorio de Direcciones
+
+### endpoints.ex
+
+Esta es una capa de frontera (boundary) que recibirá todos los parámetros
+de la petición HTTP o GraphQL y llamará a las otras funciones y renderizará la respuesta final.
+
+```elixir
+defmodule Endpoints.Addresses.Endpoints do
+  alias Endpoints.Addresses.Requests
+  alias Endpoints.Metrics
+
+  def get_all_addresses_for_customer_id(customer_id) do
+    # initiate metrics here to have a good epoch
+    Requests.get_all_addresses_for_customer_id(Metrics.new(), customer_id)
+    |> Resolvers.get_all_addresses_for_customer_id()
+    |> Responses.render()
+  end
+end
+```
+
+### metrics.ex
+
+Estas son funciones de ayuda para estandarizar las métricas usadas dentro de todos los endpoints.
+
+Quizás estas puedan ser automatizadas usando [macros](https://elixir-lang.org/getting-started/meta/macros.html) o si eres aventurero un [decorator](https://hexdocs.pm/decorator/readme.html)
+
+```elixir
+defmodule Endpoints.Addresses.Metrics do
+  alias Endpoints.Metrics
+
+  def init_address_request(metrics), do: Metrics.count("INIT_ADDRESS_REQUEST", metrics)
+  def init_address_request(_data, metrics), do: init_address_request(metrics)
+
+  def count_address_found(metrics), do: Metrics.count("OK_ADDRESS_FOUND", metrics)
+  def count_address_found(_data, metrics), do: count_address_found(metrics)
+
+  def count_address_not_found(metrics), do: Metrics.count("OK_ADDRESS_NOT_FOUND", metrics)
+  def count_address_not_found(_data, metrics), do: count_address_not_found(metrics)
+
+  def track_address_get(data, metrics): Metrics.track(data, "TRACK_ADDRESS_GET", metrics)
+  def track_address_get(metrics), do: track_address_get([], metrics)
+end
+```
+
+### requests.ex
+
+La petición de direcciones es un `Constructor` que estandarizará parámetros y retornará una nueva estructura `Request`.
+
+Quizás también pueda validar los parámetros y ver si son válidos.
+
+```elixir
+defmodule Endpoints.Addresses.Requests do
+  alias Endpoints.Requests
+
+  def get_all_addresses_for_customer_id(metrics, customer_id) do
+    Requests.new(metrics, %{customer: %{id: customer_id}})
+  end
+
+end
+```
+
+### resolvers.ex
+
+El resolver es quien orquesta queries, requests y responses.
+
+```elixir
+defmodule Endpoints.Addresses.Resolvers do
+  alias Endpoint.Responses
+  alias Endpoints.Addresses.Requests
+  alias Endpoints.Addresses.Repo.Queries
+  alias Endpoints.Addresses.Metrics
+
+  def get_all_addresses_for_customer_id(%Requests{} = request) do
+    metrics = request.metrics
+    Metrics.init_address_request(metrics)
+    case Queries.addresses(customer: request.params.customer.id) do
+      [] ->
+        Metrics.count_address_not_found(metrics)
+        |> Metrics.track_address_get(metrics)
+        Responses.ok()
+      addresses ->
+        Metrics.count_address_found(metrics)
+        Metrics.track_address_get(addresses, metrics)
+        Responses.ok(addresses)
+    end
+  end
+end
+```
+
+### Directorio Repo
+
+Estos son dos archivos que usan CQRS para almacenar queries.
+
+```ninjas
+using-cqrs-in-phoenix-contexts | Usando CQRS en los Contexts de Phoenix | Recientemente leí un artículo sobre cómo nombrar las funciones de los contexts de Phoenix. Y creo que usar convenciones de nombres está bien, pero quizás podríamos dar un paso más y aplicar CQRS dentro de dichos módulos. | /blog/using-cqrs-in-phoenix-contexts/cover.jpg
+```
+
+#### queries.ex
+
+```elixir
+defmodule Endpoints.Addresses.Repo.Queries do
+  import Ecto.Query
+  use Ecto.Repo
+
+  def addresses(customer: id) do
+    from(a in Address,
+      where: a.customer_id == ^id
+    )
+    |> Repo.all()
+  end
+end
+```
+
+#### commands.ex
+
+```elixir
+defmodule Endpoints.Addresses.Repo.Commands do
+end
+```
+
+## Conclusión
+
+Estos son solo algunos pensamientos sobre organización de código. Intenté seguir _CRC_ y aplicar diferentes capas de organización de código.
+
+
+Gracias.

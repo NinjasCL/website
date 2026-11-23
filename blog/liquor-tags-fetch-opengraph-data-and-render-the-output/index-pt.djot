@@ -1,0 +1,56 @@
+---
+title: Liquor Tags - Buscar dados do OpenGraph e Renderizar o resultado
+slug: liquor-tags-fetch-opengraph-data-and-render-the-output
+date: 2024-03-25 19:45:24 +00:00
+description: Liquor Tags. Inspirado nos embed tags do dev.to (liquid tags), obtém dados Open Graph de URLs e gera o resultado usando templates EEx pseudo.
+featured_image: /blog/liquor-tags-fetch-opengraph-data-and-render-the-output/cover.jpg
+tags: elixir, tags, liquor, embed
+---
+
+![Foto de Saman Taheri no Unsplash](cover.jpg)
+
+_Liquor Tags_. Inspirado nos embed tags do dev.to (liquid tags),
+obtém dados Open Graph de URLs e gera o resultado usando templates
+EEx pseudo. Útil para criar pré-visualizações de sites usando dados
+do Open Graph.
+
+## Instalação
+
+```elixir
+Mix.install([
+  {:liquor, "~> 1.0.1"},
+  {:req, "~> 0.4.14"}, # Just for demostration
+  {:kino, "~> 0.12.3"} # Just for demostration
+])
+```
+
+```elixir
+alias Liquor.Tags.Tag
+
+content = """
+{% github ElixirCL % }
+{% embed https://ninjas.cl % }
+"""
+
+tags = [
+  Tag.new("github", "Github: < %= og.url %>", "https://github.com"),
+  Tag.new("embed", "Website: < %= og.title %>")
+]
+
+# Fetch only needs to return the HTML string
+fetch = fn url -> Req.get!(url) |> then(& &1.body) end
+
+Liquor.render(content, tags, fetch)
+|> Kino.Text.new()
+```
+
+### Renderiza
+
+```text
+Github: https://github.com/ElixirCL
+Website: Ninja Software Chile (Ninjas.cl)
+```
+
+```github
+elixircl/liquor | Etiquetas Liquid que obtienen datos OpenGraph y los renderizan
+```

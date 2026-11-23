@@ -1,0 +1,111 @@
+---
+title: Hash Maps em Zig
+slug: hashmaps-en-zig
+date: 2024-05-07 17:19:23 +00:00
+description: Como usar HashMaps em Zig Lang
+featured_image: /blog/hashmaps-en-zig/cover.jpg
+tags: zig, programación, código
+---
+
+![O mapa zig zag de Lithgow](cover.jpg)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lithgow_zig_zag_map.jpg)
+
+Um allocator em zig nos permite criar dinamicamente os espaços em memória
+para os tipos de dados.
+
+```zig
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+```
+
+O tipo de dados para uma string em _zig_ é o seguinte.
+
+```zig
+[]const u8
+```
+
+Por exemplo, ao criar uma estrutura
+
+```zig
+const Persona = struct {
+    nombre: []const u8 = "",
+    apellido: []const u8 = "",
+};
+```
+
+Agora podemos criar um mapa. Existem dois tipos que serão usados
+principalmente: `AutoHashMap` e `StringHashMap`.
+
+- `AutoHashMap`: Permite criar um mapa com `key` e `value` de qualquer tipo.
+- `StringHashMap`: Permite criar um mapa com `key` string e `value` de qualquer tipo.
+
+```zig
+var personas = std.AutoHashMap(u8, Persona).init(allocator);
+defer personas.deinit();
+
+// Llenamos el mapa
+try personas.put(1, Persona{.nombre = "Camilo", .apellido = "Castro"});
+
+// Mapa de Mapas
+// Notar que usamos el mismo tipo que usamos en el mapa de personas
+var pais = std.StringHashMap(std.AutoHashMap(u8, Persona)).init(allocator);
+defer pais.deinit();
+
+try pais.put("chile", personas);
+
+// Obtenemos el valor
+const habitantes = pais.get("chile").?;
+```
+
+Nota: os `try` e `defer` só podem ser usados dentro de funções;
+se usados no escopo global lançarão um erro semelhante a
+
+```text
+src/main.zig:7:50: error: expected type expression,
+found 'try' var h = std.AutoHashMap(u8, i32).init(allocator);
+```
+
+Isso ocorre porque se acontecer um erro no `try`, ele não poderá ser capturado
+se usado no escopo global.
+
+Tendo o código completo, ficaria semelhante ao seguinte:
+
+```zig
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+
+const Persona = struct {
+    nombre: []const u8 = "",
+    apellido: []const u8 = "",
+};
+
+pub fn main() !void {
+    var personas = std.AutoHashMap(u8, Persona).init(allocator);
+    defer personas.deinit();
+
+    // Llenamos el mapa
+    try personas.put(1, Persona{.nombre = "Camilo", .apellido = "Castro"});
+
+    // Mapa de Mapas
+    var pais = std.StringHashMap(std.AutoHashMap(u8, Persona)).init(allocator);
+    defer pais.deinit();
+
+    try pais.put("chile", personas);
+
+    // Obtenemos el valor
+    const habitantes = pais.get("chile").?;
+    const camilo = habitantes.get(1).?;
+
+    // Mostramos en stderr
+    std.debug.print("Hola {s} {s}.\n", .{camilo.nombre, camilo.apellido});
+}
+```
+
+Algumas características curiosas do zig: ele também não tem pattern matching,
+porque gerar o código de baixo nível associado não seria muito determinístico.
+Nesse caso, simplesmente recomenda-se usar `if`.
+
+Outra curiosidade: ao compilar código _C_ e misturá-lo com _Zig_,
+o mapeamento interno do _zig_ não aguenta as macros de _C_. É preciso
+ter isso em mente se quiser usar uma biblioteca de _C_ em _Zig_.

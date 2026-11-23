@@ -1,0 +1,64 @@
+---
+title: Ordenando Ramas de Git
+slug: decluttering-git-branches
+date: 2018-09-25 20:34:27 +00:00
+description: Esta es una forma rápida de archivar una rama de git. Quizás ya no usas el código y la rama llena el repositorio, pero por respaldo o razones históricas necesitas mantenerla en algún lugar.
+featured_image: /blog/decluttering-git-branches/cover.jpg
+tags: git, clutter, commands, english
+---
+
+![Foto de Beng Ragon en Unsplash](cover.jpg)
+
+Esta es una forma rápida de archivar una rama de git. Quizás ya no
+usas el código y la rama llena el repositorio, pero por respaldo o
+razones históricas necesitas mantenerla en algún lugar.
+
+Lo primero es cambiarse a la rama.
+
+```bash
+$ git checkout my-branch
+```
+
+Luego crear una nueva etiqueta. Yo uso el formato
+`archive/branch-{name}`.
+
+```bash
+$ git tag archive/branch-my-branch
+```
+
+Ahora podemos subir las etiquetas a Github o Gitlab.
+
+```bash
+$ git push origin --tags
+```
+
+Y borrar la rama de los repositorios local y origin.
+
+Asegúrate de estar en otra rama como master.
+
+```bash
+$ git checkout master
+```
+
+Entonces
+
+```bash
+$ git branch -d my-branch
+$ git push origin :my-branch
+```
+
+Si necesitas borrar la etiqueta (y todo el respaldo de la rama) de
+local
+
+```bash
+$ git tag -d archive/branch-my-branch
+```
+
+O de origin
+
+```bash
+$ git push --delete origin archive/branch-my-branch
+```
+
+Esto borrará todos los datos de la rama etiquetada. Por favor, ten
+cuidado.

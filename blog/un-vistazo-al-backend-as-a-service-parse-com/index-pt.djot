@@ -1,0 +1,1083 @@
+---
+title: Uma olhada no Backend as a Service Parse.com
+slug: un-vistazo-al-backend-as-a-service-parse-com
+date: 2014-04-18 13:06:30 +00:00
+description: Pequena apresentação do Parse.com para iOS criada para o evento CodeCamp 2014, BioBio Chile.
+featured_image: /blog/un-vistazo-al-backend-as-a-service-parse-com/cover.png
+tags: ios, mobile, objective-c, parse.com, javascript
+---
+
+![Parse.com](cover.png)
+
+## Bío-Bío Code Camp 2014
+
+25 e 26 de Abril nas dependências da Universidad del Bío-Bío
+
+- <http://www.codecamp.cl/biobio-codecamp>
+
+### Por quê?
+
+Na região do Bío-Bío desenvolve-se uma indústria de software incipiente; diversos atores independentes, empresas consolidadas e startups escolheram nossa região para realizar suas operações.
+
+Queremos gerar uma instância que nos permita analisar, da perspectiva do co-working, o estado da "indústria do software" em nossa região.
+
+Contribuir para o "ecossistema" regional com um evento de caráter prático, onde os participantes possam tomar parte ativamente tanto na exposição de temas quanto no aprendizado de novos conceitos tecnológicos.
+
+Os objetivos que o evento busca alcançar:
+
+- Gerar um espaço colaborativo de aprendizado.
+- Conhecer o trabalho de diferentes empresas.
+- Aprender com a experiência adquirida por quem gerou soluções inovadoras.
+- Aprender na prática sobre diferentes tecnologias e plataformas.
+
+### Tecnologias de Interesse
+
+O evento busca fomentar aquelas tecnologias que são de utilidade no desenvolvimento de software, aplicações, sistemas e serviços na indústria atual. Principalmente aquelas que potencialmente podem ser usadas pelos participantes no desenvolvimento de suas diferentes iniciativas, ou que podem produzir um impacto positivo no ecossistema regional.
+
+- Tecnologias FLOSS.
+- Plataformas móveis: Android / WindowsPhone / iOS
+- Tecnologias Web.
+- Linguagens de programação: Java / C# / Ruby / Python / PHP / Javascript / Objective-C
+
+![Pôster](poster.png)
+
+![Foto 1](foto1.jpg)
+![Foto 2](foto2.png)
+
+
+## O que é um Backend as a Service?
+
+É um serviço que oferece armazenamento de dados e arquivos, análises, notificações push, código no servidor, entre outros.
+
+- Kinvey.com
+- FatFractal.com
+- Parse.com
+- Firebase.com
+
+Oferecem: Segurança, Rapidez e Escalabilidade.
+
+### Parse.com
+
+- 1 milhão de solicitações (Máx. 20 solicitações por segundo)
+- 1 milhão de push notifications
+- N aplicações
+- 1 GB para armazenar arquivos (Fotos, Vídeos, Música, etc)
+- Armazenamento de Dados (Texto, Números, GeoPosição, Relações)
+- Mongo DB
+- SDK para iOS, Android e Javascript
+
+## Aplicação Demo do CodeCamp BioBio 2014
+
+A seguir, uma aplicação para iOS que usa o Parse.com para obter dados. Os dados foram importados para o Parse usando o código-fonte em javascript.
+
+![CodeCamp1](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img1.png)
+
+![CodeCamp2](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img2.png)
+
+![CodeCamp3](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img3.png)
+
+*CCExpositor*
+
+```objectivec
+#import <UIKit/UIKit.h>
+
+@interface CCExpositor : PFObject<PFSubclassing>
+
+@property (nonatomic, strong) NSString * nombre;
+
+@property (nonatomic, strong) NSString *especialidad;
+
+@property (nonatomic, strong) NSString * bio;
+
+@property (nonatomic, strong) NSString * twitter;
+
+@property (nonatomic, strong) NSString * linkedIn;
+
+@property (nonatomic, strong) NSArray * temas;
+
+
++ (void) buscarTodosLosExpositoresConBlock:(PFArrayResultBlock) resultBlock;
+@end
+
+```
+
+```objectivec
+#import "CCExpositor.h"
+#import <Parse/PFObject+Subclass.h>
+
+@implementation CCExpositor
+@dynamic nombre;
+@dynamic especialidad;
+@dynamic bio;
+@dynamic twitter;
+@dynamic linkedIn;
+@dynamic temas;
+
++ (NSString *) parseClassName {
+    return @"Expositor";
+}
+
++ (void) buscarTodosLosExpositoresConBlock:(PFArrayResultBlock) resultBlock {
+
+    PFQuery * query = [CCExpositor query];
+
+    [query orderByAscending:@"nombre"];
+
+    [query includeKey:@"temas"];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+
+        resultBlock(objects, error);
+    }];
+}
+@end
+```
+
+*CCTema*
+
+```objectivec
+#import <UIKit/UIKit.h>
+
+@class CCExpositor;
+
+// Tipo Tema General
+extern NSString * const kCCTipoTemaGeneral;
+
+@interface CCTema : PFObject<PFSubclassing>
+
+@property (nonatomic, strong) NSString * descripcion;
+
+@property (nonatomic, strong) NSString * ubicacion;
+
+@property (nonatomic, strong) NSString * tipo;
+
+@property (nonatomic, strong) NSString * horaInicio;
+
+@property (nonatomic, strong) NSString * horaFin;
+
+@property (nonatomic, strong) NSString * fecha;
+
+@property (nonatomic, strong) CCExpositor * expositor;
+
+
++ (void) buscarTemasParaElDiaViernes : (BOOL) esViernes conBlock:(PFArrayResultBlock) resultBlock;
+@end
+```
+
+```objectivec
+#import "CCTema.h"
+#import <Parse/PFObject+Subclass.h>
+@implementation CCTema
+
+NSString * const kCCTipoTemaGeneral = @"General";
+
+@dynamic descripcion;
+@dynamic ubicacion;
+@dynamic expositor;
+@dynamic tipo;
+@dynamic horaFin;
+@dynamic horaInicio;
+@dynamic fecha;
+
++ (NSString *) parseClassName {
+    return @"Tema";
+}
+
++ (void) buscarTemasParaElDiaViernes : (BOOL) esViernes conBlock:(PFArrayResultBlock) resultBlock {
+
+    PFQuery * query = [CCTema query];
+
+
+    NSString * dia = @"Sábado 26";
+
+    if (esViernes)
+             dia = @"Viernes 25";
+
+    [query whereKey:@"fecha" equalTo:dia];
+
+    [query orderByAscending:@"horaInicio"];
+
+    [query includeKey:@"expositor"];
+    [query includeKey:@"expositor.temas"];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        resultBlock(objects, error);
+    }];
+}
+@end
+```
+
+## Importar Dados
+
+Para importar dados existem diferentes formas. A que será mostrada a seguir é a usada na aplicação de exemplo, que contém os dados do *CodeCamp 2014*, seus temas e expositores.
+
+![Modelo de Dados](modelo.png)
+
+### CodeCloud
+
+É uma ferramenta fornecida pelo Parse.com que permite executar código JavaScript na Nuvem. Pode ser usada para se conectar a APIs externas e para executar validações antes e depois de salvar e excluir dados. Também pode ser usada para executar tarefas agendadas (Cron Jobs).
+
+Adicionalmente, o Parse.com conta com um hosting para páginas web simples (arquivos html, css e javascript) que nos poupará a tarefa de configurar um servidor somente para hospedar uma aplicação Web que utilize o Parse.com.
+
+O CodeCloud consegue simplificar enormemente a execução de características compartilhadas entre dispositivos, pois é programado apenas uma vez e cada dispositivo, usando seu SDK correspondente, pode utilizar esse código, com a vantagem de que, se um código for modificado no CodeCloud, será replicado automaticamente.
+
+### Promessas
+
+As promessas são uma alternativa aos callbacks; cada método assíncrono no SDK JavaScript do Parse retorna uma Promise (Promessa), e o código fica muito mais limpo do que o código piramidal obtido usando callbacks. A Promise representa o resultado de uma tarefa, que pode ou não estar completa. Uma Promise deve ter uma função chamada "then", à qual serão enviados os callbacks quando a promessa for cumprida ou se houver algum erro.
+
+Para mais informações sobre as Promises, visite:
+
+- [Guia de Promessas](https://www.parse.com/docs/js_guide#promises)
+- [Artigo 1](http://blog.parse.com/2013/01/29/whats-so-great-about-javascript-promises/)
+- [Artigo 2](http://blog.parse.com/2013/06/18/new-docs-for-javascript-files-and-promises/)
+
+O código de exemplo a seguir mostra uma implementação em que Promises são usadas para salvar uma série de objetos da classe Person.
+
+```js
+/*
+* El siguiente código demuestra el uso de promesas
+* para guardar objetos en Parse.com usando Javascript
+* sirve tanto para el SDK de Javascript como CodeCloud
+*/
+
+// Nombres
+var names = ['Camilo', 'Marcela', 'Francisco', 'Alison', 'Jason', 'Daniela', 'Michael', 'Evelyn'];
+
+// Clase
+var Person = Parse.Object.extend('Person');
+
+// Creo una nueva promesa
+var promise = Parse.Promise.as();
+
+// Inicio el Proceso
+promise.then(function(){
+	// Creo una Promesa Interna
+	var innerPromise = Parse.Promise.as();
+
+	// Usando underscore.js
+	_.each(names, function(personName){
+
+		// Creo un nuevo objeto del tipo Person
+		var person = new Person();
+
+		// Le asigno la propiedad de fullName
+		person.set('fullName', personName);
+
+		// Extiendo la Promesa
+		innerPromise = innerPromise.then(function(){
+
+			// Guardo el objeto una vez que el anterior se ha guardado
+			// El método save() devuelve una promesa
+			return person.save().then(function(){
+				console.log('Persona Creada');
+			});
+		});
+	});
+
+	// Devuelvo la promesa interna
+	// que contiene todas las promesas save() anteriores
+
+	return innerPromise;
+
+}).then(function(){
+	// Éste código se ejecuta luego de guardar todos los nombres
+	console.log('Todo Creado');
+}, function(error){
+	// Éste código se ejecuta si hubo un error
+	console.error(error.message);
+});
+
+// Fin del código
+```
+
+### Relações
+
+As relações permitem realizar conexões entre os objetos. Por exemplo, em uma aplicação de fotografias é necessária uma relação entre o usuário que tirou a foto e a fotografia.
+
+Existem quatro formas de construir conexões no Parse:
+
+- Ponteiros (ideais para relações um para um e um para muitos)
+- Arrays (ideais para relações um para muitos e muitos para muitos)
+- Relações (ideais para relações um para muitos e muitos para muitos)
+- Tabelas Join (ideais para relações muitos para muitos complexas)
+
+*Nota*
+
+> Para criar uma relação com sucesso, ambos os objetos devem existir previamente no banco de dados.
+
+*Ponteiros*
+
+Um ponteiro é uma associação entre um objeto e outro. É usado normalmente para relações simples um para um.
+
+Exemplo:
+
+Um animal pertence a uma família biológica
+
+```javascript
+
+  // Clases
+  var Animal = Parse.Object.extend('Animal');
+  var Familia = Parse.Object.extend('Familia');
+
+  var perro = new Animal();
+  perro.id = 'cjaXsd092'; // Objeto que ya existe en BD
+
+  var canidos = new Familia();
+  canidos.id = 'jfj229Cs';
+
+  // Establecemos la relacion de uno a uno
+  perro.set('familia', canidos);
+
+  perro.save().then(function(){
+  		console.log('Relacion Perro - Familia Creada');
+  });
+```
+
+*Arrays*
+
+Uma associação do tipo array é ideal para relações um para muitos ou muitos para muitos pequenas, com menos de 100 objetos.
+
+Exemplo:
+
+```javascript
+
+	// Clases
+	var Automobil = Parse.Object.extend('Automobil');
+	var Rueda = Parse.Object.extend('Rueda');
+
+	var chevy = new Automobil();
+	chevy.id = 'ci239Hjcs'; // Objetos ya almacenados en BD
+
+	// Arreglo de Ruedas
+	var ruedas = [];
+
+	var rueda = new Rueda();
+	rueda.id = 'casdj123';
+	ruedas.push(rueda);
+
+	var rueda2 = new Rueda();
+	rueda2.id = 'rie2939cs';
+	ruedas.push(rueda2);
+
+	var rueda3 = new Rueda();
+	rueda3.id = 'ii929ddaF';
+	ruedas.push(rueda3);
+
+	var rueda4 = new Rueda();
+	rueda4.id = 'k39jdJdss';
+	ruedas.push(rueda4);
+
+	chevy.set('ruedas', ruedas);
+
+	chevy.save().then(function(){
+			console.log('Auto con Ruedas Creado');
+	});
+```
+
+*Relations*
+
+Uma Relation é ideal para associações um para muitos e muitos para muitos. A diferença em relação aos arrays é que suportam quantidades maiores de objetos e, para acessar seus dados, é necessário fazer uma Query (consulta).
+
+*Tabelas Join*
+
+Basicamente, é uma tabela criada especificamente para guardar uma relação entre objetos que precise de mais detalhes. Como é uma tabela normal, todas as formas de fazer consultas se aplicam.
+
+Exemplo:
+
+Uma pessoa compra passagens de ônibus e se quer saber a data da compra
+
+```javascript
+// Tabla Join para relacionar persona con pasaje comprado
+var CompraPasaje = Parse.object.extend('CompraPasaje');
+
+// Asumimos que pasaje y persona están almacenados en la BD
+
+var compra = new CompraPasaje();
+
+compra.set('comprador', persona1);
+compra.set('pasaje', pasaje1);
+
+compra.set('fechaCompra', new Date());
+
+compra.save().then(function(){
+	console.log('Pasaje Asociado a Comprador');
+});
+```
+
+*Exemplo*
+
+```js
+/*
+* Crea una conexión entre un arcoiris y muchos colores
+* Esta asociación también podría hacerse utilizando simples arreglos
+* pero una "Relation" es un concepto un poco más abstracto y queda
+* mejor ilustrado con este ejemplo simple.
+*/
+
+// Clases
+var Arcoiris = Parse.Object.extend('Arcoiris');
+var Color = Parse.Object.extend('Color');
+
+// Crear Colores
+var colores = [];
+
+var verde = new Color();
+verde.set('nombre', 'Verde');
+colores.push(verde);
+
+var rojo = new Color();
+rojo.set('nombre', 'Rojo');
+colores.push(rojo);
+
+var amarillo = new Color();
+amarillo.set('nombre', 'Amarillo');
+colores.push(amarillo);
+
+// Creamos un nuevo arcoiris
+var arcoiris = new Arcoiris();
+arcoiris.set('nombre', 'Double Rainbow');
+
+// Nueva promesa
+var promise = Parse.Promise.as();
+
+// Comenzamos la creación utilizando promesas
+promise.then(function(){
+
+	// Primero necesitamos guardar cada color en la base de datos
+
+	// Promesa interna para esperar a que guarde cada color
+	// antes de continuar
+	var innerPromise = Parse.Promise.as();
+
+	// underscore.js
+	_.each(colores, function(color){
+		innerPromise = innerPromise.then(function(){
+			// Guardamos cada color en la BD
+			return color.save().then(function(){
+				console.log('Color Creado');
+			});
+		});
+	});
+
+	return innerPromise;
+
+}).then(function(){
+	// Guardamos el Arcoiris
+	return arcoiris.save().then(function(){
+		console.log('Arcoiris Creado');
+	});
+}).then(function(){
+	// Ahora cada color y arcoiris tienen objectId
+	// por que se han guardado en la BD.
+	// Se puede implementar la relacion Arcoiris - Colores
+	var relacionColoresArcoiris = arcoiris.relation('colores');
+
+	_.each(colores, function(color){
+		// Agregamos el color a la relaciones 'colores' de arcoiris
+		relacionColoresArcoiris.add(color);
+
+		// Por cada color incrementamos el contador de colores del arcoiris
+		arcoiris.increment('cantidadColores');
+	});
+
+	// Guardamos nuestro arcoiris con todos sus colores
+	// no es necesario guardar relacionColoresArcoiris
+	// por que solo es una referencia a la relacion colores de arcoiris
+
+	return arcoiris.save().then(function(){
+		console.log('Colores añadidos al arcoiris');
+	});
+
+}).then(function(){
+	// Verificamos que todos los colores esten guardados en el arcoiris
+	// haciendo una consulta
+
+	// Obtenemos la relacion
+	var relacionColoresArcoiris = arcoiris.relation('colores');
+
+	// Ahora creamos una query para obtener los objetos de la relacion
+	var query = relacionColoresArcoiris.query();
+
+	return query.find().then(function(colores){
+		// Mostramos todos los colores
+		console.log('Colores de ' + arcoiris.get('nombre'));
+		_.each(colores, function(color){
+			console.log('Color: ' + color.get('nombre'));
+		});
+	});
+}).then(function(){
+	console.log('Todo OK');
+}, function(error){
+	console.error(error.message);
+});
+```
+
+#### Mais Informações
+
+- [Relações em JavaScript](https://www.parse.com/docs/js_guide#objects-pointers)
+- [Guia de Relações](https://www.parse.com/docs/relations_guide)
+- [Artigo 1](http://blog.parse.com/2012/05/17/new-many-to-many/)
+
+### Roles
+
+Os roles são uma forma de agrupar usuários e dar permissões usando ACL.
+
+#### Código de Exemplo
+
+Contém o código do CodeCloud para obter um role associado ao usuário atual. Para que este código encontre corretamente o role, o usuário deve ter feito login com sucesso.
+
+```js
+// Definimos una función llamada
+// obtenerRolParaUsuarioActual
+
+Parse.Cloud.define("obtenerRolParaUsuarioActual", function(request, response) {
+
+    // Un nombre para cuando no se encuentre el Rol asociado al usuario
+    var desconocido = 'desconocido';
+
+    // Master Key
+    // Usada para evitar conflictos con ACL establecidas
+    Parse.Cloud.useMasterKey();
+
+    // Una nueva consulta para obtener objetos de la clase Role
+    var query = new Parse.Query(Parse.Role);
+
+    // Donde el usuario actual esté dentro de la
+    // propiedad "users" de la clase Role
+    query.equalTo('users', Parse.User.current());
+
+    // Obtenemos el primer resultado
+    query.first().then(function(role){
+		// Si existe un resultado
+		// retornar éxito junto al nombre del Rol
+        if(role) {
+            response.success(role.get("name"));
+
+        // Si no existe, entonces
+        // asumimos que el usuario no tiene Rol asignado
+        } else {
+
+            response.error(desconocido);
+        }
+    });
+
+});
+```
+
+#### Links
+
+- [Let's Role!](http://blog.parse.com/2012/05/25/lets-role/)
+- [API JavaScript](http://parse.com/docs/js/symbols/Parse.Role.html)
+- [Data Security](https://parse.com/docs/data#security)
+- [Roles Javascript](https://parse.com/docs/js_guide#roles)
+
+### Código Final
+
+```js
+function importar() {
+	var Expositor = Parse.Object.extend('Expositor');
+	var Tema = Parse.Object.extend('Tema');
+
+
+    var expositor1 = new Expositor();
+    expositor1.set('nombre', 'Gonzalo Pérez');
+    expositor1.set('especialidad', 'MS MVP - Mobile Developer - Web Developer.');
+    expositor1.set('bio', 'Destacado desarrollador de software y docente de la Región.');
+    expositor1.set('twitter', 'chalalo');
+    expositor1.set('linkedin','');
+
+
+    var expositor2 = new Expositor();
+    expositor2.set('nombre', 'Yoel Torres');
+    expositor2.set('especialidad', 'Co-founder Jaumach? - Co-founder Verdant');
+    expositor2.set('bio', 'Ingeniero Comercial y emprendedor en diversos proyectos digitales en la región del Bío-Bío.');
+    expositor2.set('twitter', 'ytorres05');
+    expositor2.set('linkedin','');
+
+
+    var expositor3 = new Expositor();
+    expositor3.set('nombre', 'Javier Chacana');
+    expositor3.set('especialidad', 'Senior Java Developer - Ingeniero de Software');
+    expositor3.set('bio', 'Ingeniero Civil Informático de la Universidad del Bío-Bío actualmente radicado en la región Metropolitana. Con vasta experiencia en Ingeniería de Software.');
+    expositor3.set('twitter', 'jchacana');
+    expositor3.set('linkedin','');
+
+
+    var expositor4 = new Expositor();
+    expositor4.set('nombre', 'Jasna Meza');
+    expositor4.set('especialidad', 'Sun Certified Java Programmer SCJP 5.0 - Docente');
+    expositor4.set('bio', 'Magister en Ciencias de la Computación, Docente instructor del área de programación en DuocUC de cursos asociados a POO, Analis y Diseño de Algoritmos y Programación.');
+    expositor4.set('twitter', '');
+    expositor4.set('linkedin','http://www.linkedin.com/pub/jazna-meza-hidalgo/2b/7a0/586');
+
+
+    var expositor5 = new Expositor();
+    expositor5.set('nombre', 'Andrés Villagrán');
+    expositor5.set('especialidad', 'Mobile Developer - Web Developer - Game Developer - Apps Developer');
+    expositor5.set('bio', 'Destacado desarrollador de software en diferentes plataformas para diversas empresas nacionales. Organizador del Flex Camp Chile y co-founder de VillagranQuiroz.');
+    expositor5.set('twitter', 'avillagran');
+    expositor5.set('linkedin','');
+
+
+    var expositor6 = new Expositor();
+    expositor6.set('nombre', 'Lautaro Silva');
+    expositor6.set('especialidad', 'Ingeniero de Software - Realidad Virtual - GIS');
+    expositor6.set('bio', '(c)Magister en Ciencias de la Computación, Universidad del Bio-Bio, Chile. Ingeniero de Ejecución en Computación e Informática. Participó como desarrollador experto en Realidad Virtual en el Proyecto Alfa III Gaviota de la Unión Europea utilizando Realidad Virtual para la simulación de espacios urbanos y simulación de conducción.');
+    expositor6.set('twitter', 'jlautarosilva');
+    expositor6.set('linkedin','');
+
+
+    var expositor7 = new Expositor();
+    expositor7.set('nombre', 'Brede Basualdo');
+    expositor7.set('especialidad', 'Web Developer - Mobile Developer');
+    expositor7.set('bio', 'Destacado desarrollador de software regional que ha participado en importantes proyectos tanto a nivel regional como nacional y ha colaborado en diversos emprendimientos.');
+    expositor7.set('twitter', 'BredeBS');
+    expositor7.set('linkedin','');
+
+
+    var expositor8 = new Expositor();
+    expositor8.set('nombre', 'Rodrigo Ramirez');
+    expositor8.set('especialidad', 'CEO Blackhole - Director TI Hablalot');
+    expositor8.set('bio', 'Ingeniero en Informática con experiencia de 10 años desarrollando soluciones TI. Especializado en Soluciones VoIP.');
+    expositor8.set('twitter', '');
+    expositor8.set('linkedin','http://www.linkedin.com/in/rodrigoramireznorambuena');
+
+
+    var expositor9 = new Expositor();
+    expositor9.set('nombre', 'Karina Gonzalez');
+    expositor9.set('especialidad', 'Mobile Developer - Android Developer');
+    expositor9.set('bio', 'Analista Programador Computacional de DuocUC, developer Android.');
+    expositor9.set('twitter', '');
+    expositor9.set('linkedin','');
+
+
+    var expositor10 = new Expositor();
+    expositor10.set('nombre', 'Camilo Castro');
+    expositor10.set('especialidad', 'iOS Developer - Parse.com Specialist');
+    expositor10.set('bio', 'Desarrollador iOS');
+    expositor10.set('twitter', 'camcasc');
+    expositor10.set('linkedin','');
+
+
+    var expositor11 = new Expositor();
+    expositor11.set('nombre', 'CodeCamp');
+    expositor11.set('especialidad', '');
+    expositor11.set('bio', '');
+    expositor11.set('twitter', '');
+    expositor11.set('linkedin','');
+
+
+    var expositor12 = new Expositor();
+    expositor12.set('nombre', 'Qualitat Corp');
+    expositor12.set('especialidad', '');
+    expositor12.set('bio', '');
+    expositor12.set('twitter', '');
+    expositor12.set('linkedin','');
+
+
+    var expositor13 = new Expositor();
+    expositor13.set('nombre', 'Innova BioBio');
+    expositor13.set('especialidad', '');
+    expositor13.set('bio', '');
+    expositor13.set('twitter', '');
+    expositor13.set('linkedin','');
+
+
+    var expositor14 = new Expositor();
+    expositor14.set('nombre', 'Alejandro Melo Domínguez');
+    expositor14.set('especialidad', '');
+    expositor14.set('bio', '');
+    expositor14.set('twitter', '');
+    expositor14.set('linkedin','');
+
+
+    var expositor15 = new Expositor();
+    expositor15.set('nombre', 'Sandro Gomez A.');
+    expositor15.set('especialidad', '');
+    expositor15.set('bio', '');
+    expositor15.set('twitter', '');
+    expositor15.set('linkedin','');
+    var expositores = [expositor1, expositor2, expositor3, expositor4, expositor5, expositor6, expositor7, expositor8, expositor9, expositor10, expositor11, expositor12, expositor13, expositor14, expositor15, ];
+
+    var tema1 = new Tema();
+    tema1.set('descripcion', 'Apertura');
+    tema1.set('ubicacion','Auditorio');
+    tema1.set('tipo','General');
+    tema1.set('fecha','Viernes 25');
+    tema1.set('horaInicio','14.00');
+    tema1.set('horaFin','14.30');
+
+
+
+    var tema2 = new Tema();
+    tema2.set('descripcion', 'Líneas de financiamiento de Innova Bío Bío y casos de éxito.');
+    tema2.set('ubicacion','Auditorio');
+    tema2.set('tipo','General');
+    tema2.set('fecha','Viernes 25');
+    tema2.set('horaInicio','14.30');
+    tema2.set('horaFin','15.00');
+
+
+
+    var tema3 = new Tema();
+    tema3.set('descripcion', 'Smart City Gran Concepción');
+    tema3.set('ubicacion','Auditorio');
+    tema3.set('tipo','General');
+    tema3.set('fecha','Viernes 25');
+    tema3.set('horaInicio','14.30');
+    tema3.set('horaFin','15.00');
+
+
+
+    var tema4 = new Tema();
+    tema4.set('descripcion', 'Mobile Services');
+    tema4.set('ubicacion','Auditorio');
+    tema4.set('tipo','Charla');
+    tema4.set('fecha','Viernes 25');
+    tema4.set('horaInicio','15.00');
+    tema4.set('horaFin','16.30');
+
+
+
+    var tema5 = new Tema();
+    tema5.set('descripcion', 'Del Papel al Éxito: Canvas.');
+    tema5.set('ubicacion','Auditorio');
+    tema5.set('tipo','Taller');
+    tema5.set('fecha','Viernes 25');
+    tema5.set('horaInicio','16.30');
+    tema5.set('horaFin','17.30');
+
+
+
+    var tema6 = new Tema();
+    tema6.set('descripcion', 'Desarrollo en Android');
+    tema6.set('ubicacion','Laboratorio 1');
+    tema6.set('tipo','Taller');
+    tema6.set('fecha','Viernes 25');
+    tema6.set('horaInicio','16.30');
+    tema6.set('horaFin','17.30');
+
+
+
+    var tema7 = new Tema();
+    tema7.set('descripcion', 'Súbete a la Nube Voladora: Amazon Web Services');
+    tema7.set('ubicacion','Aula');
+    tema7.set('tipo','Taller');
+    tema7.set('fecha','Viernes 25');
+    tema7.set('horaInicio','16.30');
+    tema7.set('horaFin','17.30');
+
+
+
+    var tema8 = new Tema();
+    tema8.set('descripcion', 'Conversatorio / Cierre');
+    tema8.set('ubicacion','Auditorio');
+    tema8.set('tipo','General');
+    tema8.set('fecha','Viernes 25');
+    tema8.set('horaInicio','17.30');
+    tema8.set('horaFin','18.00');
+
+
+
+    var tema9 = new Tema();
+    tema9.set('descripcion', 'Apertura');
+    tema9.set('ubicacion','Auditorio');
+    tema9.set('tipo','General');
+    tema9.set('fecha','Sábado 26');
+    tema9.set('horaInicio','10.00');
+    tema9.set('horaFin','10.30');
+
+
+
+    var tema10 = new Tema();
+    tema10.set('descripcion', 'Asterik: Abriendo el mundo de las comunicaciones');
+    tema10.set('ubicacion','Auditorio');
+    tema10.set('tipo','Speech');
+    tema10.set('fecha','Sábado 26');
+    tema10.set('horaInicio','10.30');
+    tema10.set('horaFin','11.00');
+
+
+
+    var tema11 = new Tema();
+    tema11.set('descripcion', 'Realidad Vs. Fantasía en la Industria del Software');
+    tema11.set('ubicacion','Auditorio');
+    tema11.set('tipo','Speech');
+    tema11.set('fecha','Sábado 26');
+    tema11.set('horaInicio','11.00');
+    tema11.set('horaFin','11.30');
+
+
+
+    var tema12 = new Tema();
+    tema12.set('descripcion', 'Realidad Virtual');
+    tema12.set('ubicacion','Auditorio');
+    tema12.set('tipo','Speech');
+    tema12.set('fecha','Sábado 26');
+    tema12.set('horaInicio','11.30');
+    tema12.set('horaFin','12.00');
+
+
+
+    var tema13 = new Tema();
+    tema13.set('descripcion', 'Desarrollo Móvil con Android');
+    tema13.set('ubicacion','Laboratorio 2');
+    tema13.set('tipo','Taller');
+    tema13.set('fecha','Sábado 26');
+    tema13.set('horaInicio','10.30');
+    tema13.set('horaFin','11.30');
+
+
+
+    var tema14 = new Tema();
+    tema14.set('descripcion', 'Bootstrap es la Cumbia');
+    tema14.set('ubicacion','Aula');
+    tema14.set('tipo','Charla');
+    tema14.set('fecha','Sábado 26');
+    tema14.set('horaInicio','10.30');
+    tema14.set('horaFin','11.30');
+
+
+
+    var tema15 = new Tema();
+    tema15.set('descripcion', 'Break 1');
+    tema15.set('ubicacion','Auditorio');
+    tema15.set('tipo','General');
+    tema15.set('fecha','Sábado 26');
+    tema15.set('horaInicio','12.00');
+    tema15.set('horaFin','12.30');
+
+
+
+    var tema16 = new Tema();
+    tema16.set('descripcion', 'Una aproximación a las metodologías ágiles');
+    tema16.set('ubicacion','Auditorio');
+    tema16.set('tipo','Taller');
+    tema16.set('fecha','Sábado 26');
+    tema16.set('horaInicio','12.30');
+    tema16.set('horaFin','13.30');
+
+
+
+    var tema17 = new Tema();
+    tema17.set('descripcion', 'Desarrollando en iOS con Parse.com');
+    tema17.set('ubicacion','Laboratorio 1');
+    tema17.set('tipo','Taller');
+    tema17.set('fecha','Sábado 26');
+    tema17.set('horaInicio','12.30');
+    tema17.set('horaFin','13.30');
+
+
+
+    var tema18 = new Tema();
+    tema18.set('descripcion', 'Java + Hibernate: The easy way');
+    tema18.set('ubicacion','Laboratorio 2');
+    tema18.set('tipo','Taller');
+    tema18.set('fecha','Sábado 26');
+    tema18.set('horaInicio','12.30');
+    tema18.set('horaFin','13.30');
+
+
+
+    var tema19 = new Tema();
+    tema19.set('descripcion', 'Break 2');
+    tema19.set('ubicacion','Auditorio');
+    tema19.set('tipo','General');
+    tema19.set('fecha','Sábado 26');
+    tema19.set('horaInicio','13.30');
+    tema19.set('horaFin','14.30');
+
+
+
+    var tema20 = new Tema();
+    tema20.set('descripcion', 'Expo APP');
+    tema20.set('ubicacion','Auditorio');
+    tema20.set('tipo','Taller');
+    tema20.set('fecha','Sábado 26');
+    tema20.set('horaInicio','14.30');
+    tema20.set('horaFin','15.30');
+
+
+
+    var tema21 = new Tema();
+    tema21.set('descripcion', 'Desarrollando con Ruby con Padrino');
+    tema21.set('ubicacion','Laboratorio 1');
+    tema21.set('tipo','Taller');
+    tema21.set('fecha','Sábado 26');
+    tema21.set('horaInicio','14.30');
+    tema21.set('horaFin','15.30');
+
+
+
+    var tema22 = new Tema();
+    tema22.set('descripcion', 'Realidad Virtual con Oculus Rift + MS Kinect');
+    tema22.set('ubicacion','Laboratorio 2');
+    tema22.set('tipo','Taller');
+    tema22.set('fecha','Sábado 26');
+    tema22.set('horaInicio','14.30');
+    tema22.set('horaFin','15.30');
+
+
+
+    var tema23 = new Tema();
+    tema23.set('descripcion', 'Challenge / Pizza / Cierre');
+    tema23.set('ubicacion','Auditorio');
+    tema23.set('tipo','General');
+    tema23.set('fecha','Sábado 26');
+    tema23.set('horaInicio','15.30');
+    tema23.set('horaFin','18.00');
+
+    var temas = [	tema1,
+	tema2,
+	tema3,
+	tema4,
+	tema5,
+	tema6,
+	tema7,
+	tema8,
+	tema9,
+	tema10,
+	tema11,
+	tema12,
+	tema13,
+	tema14,
+	tema15,
+	tema16,
+	tema17,
+	tema18,
+	tema19,
+	tema20,
+	tema21,
+	tema22,
+	tema23,
+];
+
+var temasParaExpositor = new Object();
+temasParaExpositor['Gonzalo Pérez'] = [tema4, tema6, ];
+
+temasParaExpositor['Yoel Torres'] = [tema5, ];
+
+temasParaExpositor['Javier Chacana'] = [tema11, tema16, ];
+
+temasParaExpositor['Jasna Meza'] = [tema18, ];
+
+temasParaExpositor['Andrés Villagrán'] = [tema21, ];
+
+temasParaExpositor['Lautaro Silva'] = [tema22, ];
+
+temasParaExpositor['Brede Basualdo'] = [tema14, ];
+
+temasParaExpositor['Rodrigo Ramirez'] = [tema10, ];
+
+temasParaExpositor['Karina Gonzalez'] = [tema13, ];
+
+temasParaExpositor['Camilo Castro'] = [tema17, ];
+
+temasParaExpositor['CodeCamp'] = [tema1, tema8, tema9, tema15, tema19, tema20, tema23, ];
+
+temasParaExpositor['Qualitat Corp'] = [tema12, ];
+
+temasParaExpositor['Innova BioBio'] = [tema2, ];
+
+temasParaExpositor['Alejandro Melo Domínguez'] = [tema3, ];
+
+temasParaExpositor['Sandro Gomez A.'] = [tema7, ];
+
+
+	var promise = Parse.Promise.as();
+
+	// Comenzamos la importacion
+
+	promise.then(function() {
+		// Guardar todos los expositores
+		var innerPromise = Parse.Promise.as();
+
+		_.each(expositores, function(expositor){
+			innerPromise = innerPromise.then(function(){
+				return expositor.save().then(function(){
+					console.log('Expositor Guardado');
+				});
+			});
+		});
+
+		return innerPromise;
+	}).then(function(){
+		// Guardar todos los temas
+
+		var innerPromise = Parse.Promise.as();
+
+		_.each(temas, function(tema){
+			innerPromise = innerPromise.then(function(){
+				return tema.save().then(function(){
+					console.log('Tema Guardado');
+				});
+			});
+		});
+
+		return innerPromise;
+
+	}).then(function(){
+		// Asociar temas a expositor
+
+		var innerPromise = Parse.Promise.as();
+
+		_.each(expositores, function(expositor){
+			var nombre = expositor.get('nombre');
+			var temas = temasParaExpositor[nombre];
+
+			expositor.set('temas', temas);
+
+			innerPromise = innerPromise.then(function(){
+				return expositor.save().then(function(){
+
+					console.log('Temas asociados a Expositor');
+
+					var innerPromise2 = Parse.Promise.as();
+
+					_.each(temas, function(tema){
+						tema.set('expositor', expositor);
+
+						innerPromise2 = innerPromise2.then(function(){
+							return tema.save().then(function(){
+								console.log('Expositor Asociado a Tema');
+							});
+						});
+					});
+
+					return innerPromise2;
+				});
+			});
+		});
+
+		return innerPromise;
+
+	}).then(function(){
+		console.log('Todo OK');
+	}, function(error){
+		console.error(error.message);
+	});
+}
+// Fin del Script de Importar
+```
+
+## Conclusões
+
+O Parse.com é uma grande ajuda para fazer aplicações e protótipos de forma rápida e sem sofrer dores de cabeça associadas à manutenção e à escalabilidade de servidores. No entanto, como todas as coisas, o leque de necessidades que uma aplicação complexa tem pode significar utilizar serviços externos que complementem o que o Parse oferece. Os pontos a seguir devem ser levados em conta na hora de considerar o Parse.com para um novo projeto:
+
+- O Parse tem um limite de 1 milhão de Requests na versão gratuita; uma aplicação popular pode facilmente ultrapassá-lo, e é preciso estar preparado para pagar os custos dos excedentes ou passar para a versão profissional ou empresarial, se necessário.
+
+- Atualmente, embora esteja em processo de implementação, não existe uma forma direta de passar uma aplicação do ambiente de desenvolvimento para um ambiente de produção. Para isso, é preciso transferir as informações de uma aplicação para outra nova, mas não há como transferir as ACLs. Uma possível solução é usar a importação com Javascript.
+
+- Os dados de Analytics podem ser exportados, mas somente de forma manual. Não existe uma API para acessar esses dados de forma automática (ainda). Serviços externos que cumprem a função de Analytics poderiam ser [Count.ly](http://count.ly/), [Piwik](http://piwik.org/) e [Google Analytics](http://www.google.com/analytics/)
+
+- O código do CodeCloud será sobrescrito no momento em que for enviado; recomenda-se usar Git quando mais de uma pessoa trabalhar nesse código.
+
+- Se Javascript for usado para criar a versão web de uma aplicação, as chaves de acesso estarão disponíveis; é importante criar ACLs que restrinjam o acesso aos dados.
+
+- Como o Parse.com foi adquirido pelo Facebook, há mais chances de que uma aplicação que use o Parse seja comprada pelo Facebook se chegar a ser popular :) .
+
+## Código
+
+```github
+NinjasCL-archive/guia-parse.com | Guía de Parse.com con la aplicación iOS de ejemplo del CodeCamp BioBio 2014
+```

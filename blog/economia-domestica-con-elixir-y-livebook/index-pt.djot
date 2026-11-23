@@ -1,0 +1,149 @@
+---
+title: Economia Doméstica com Elixir e Livebook
+slug: economia-domestica-con-elixir-y-livebook
+date: 2024-05-16 13:46:13 +00:00
+description: Um pequeno caderno com algumas consultas SQL para gerenciar a economia pessoal e doméstica.
+featured_image: /blog/economia-domestica-con-elixir-y-livebook/cover.jpg
+tags: elixir, livebook, sql, sqlite
+---
+
+![Sugestões para o lar (1921)](cover.jpg)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Home_suggestions._(1921)_(14801988743).jpg)
+
+Dando continuidade ao tema da gestão financeira pessoal e doméstica
+
+```ninjas
+finanzas-personales | Finanzas Personales | Es importante para cualquier profesional tener sus finanzas ordenadas y controlar sus gastos. En este artículo mostraré algunas estrategias y consejos para poder tener una saludable situación financiera. | /blog/finanzas-personales/cover.webp
+```
+
+criei este pequeno _Livebook_ que permite gerenciar as finanças do lar
+usando _SQLite3_, _Elixir_ e _Livebook_.
+
+Primeiro temos uma tabela de transações periódicas.
+Ela armazena qualquer transação que deva ser realizada uma vez cumprida
+uma quantidade específica de dias. Por exemplo, pagar a conta de luz
+a cada 30 dias.
+
+Estas transações serão adicionadas à lista de transações diárias
+no momento apropriado.
+
+Note também que a quantidade (amount) é um valor inteiro,
+já que não é recomendado armazenar valores de dinheiro em decimais
+por causa da capacidade discreta de ponto flutuante dos computadores.
+
+As receitas serão do tipo 0 (type 0) e as despesas do tipo 1 (type 1)
+
+```sql
+CREATE TABLE IF NOT EXISTS periodic_txs (
+      id INTEGER PRIMARY KEY,
+      label TEXT NOT NULL,
+      amount INTEGER NOT NULL, -- minimum currency value
+      type INTEGER NOT NULL, -- 0 income, 1 expense
+      days INTEGER NOT NULL DEFAULT 1,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      applied_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+      UNIQUE(label)
+    );
+```
+
+A seguir está a tabela de transações diárias; nesta tabela
+serão armazenadas as transações de receita e despesa de cada dia.
+
+Cada vez que ocorrer um movimento econômico, um registro
+será armazenado nesta tabela.
+
+Por exemplo, comprar um quilo de pão por dia são `$ CLP 1300` e
+será considerado uma despesa.
+
+
+```sql
+CREATE TABLE IF NOT EXISTS txs (
+      id INTEGER PRIMARY KEY,
+      amount INTEGER NOT NULL,
+      type INTEGER NOT NULL, -- 0 income, 1 expense
+      description TEXT,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+```
+
+Uma vez por dia deve-se verificar se há receitas ou despesas periódicas
+que cumpriram sua data e devem ser aplicadas novamente.
+
+Para verificar, primeiro consultamos os que cumprem a condição e depois os adicionamos
+à tabela correspondente, atualizando em seguida a data do último
+uso.
+
+```elixir
+Exqlite.query!(conn, """
+  SELECT * FROM periodic_txs WHERE
+  julianday('now') - julianday(applied_at) >= days
+""")
+|> then(& &1.rows)
+|> Enum.each(fn [id, label, amount, type, _days, _created_at, _applied_at] ->
+  Exqlite.query!(
+    conn,
+    """
+      INSERT OR IGNORE INTO txs (amount, type, description) VALUES (?, ?, ?)
+    """,
+    [amount, type, label]
+  )
+
+  Exqlite.query!(
+    conn,
+    """
+      UPDATE periodic_txs SET applied_at = CURRENT_TIMESTAMP WHERE id = ?
+    """,
+    [id]
+  )
+end)
+```
+
+Para adicionar transações diárias, apenas uma query de inserção simples é necessária.
+
+```elixir
+[
+  %{
+    description: "Cafe de una sirena",
+    # expense
+    type: 1,
+    amount: 5 * 100
+  },
+  %{
+    description: "10 billetes en el sofá",
+    # income
+    type: 0,
+    amount: 10 * 100
+  }
+]
+|> Enum.map(fn item ->
+  Exqlite.query!(
+    conn,
+    """
+    INSERT OR IGNORE INTO txs (amount, type, description)
+      VALUES (?, ?, ?)
+    """,
+    [item.amount, item.type, item.description]
+  )
+end)
+```
+
+Finalmente podemos realizar consultas _SQL_ e descobrir dados importantes
+do nosso comportamento econômico.
+
+Por exemplo, desta forma obtemos as transações realizadas
+durante o mês atual.
+
+
+```sql
+SELECT SUM(amount) AS total_amount
+            FROM   txs
+            WHERE created_at BETWEEN
+                datetime('now', 'start of month') AND
+                datetime('now', 'start of month', '+1 month', '-1 day')
+```
+
+```github
+ElixirCL/home-economy | Un pequeño cuaderno de Livebook para la economía del hogar
+```

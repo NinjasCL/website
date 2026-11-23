@@ -1,0 +1,50 @@
+---
+title: Domepunk Bibliotecas para Jogos com Wren
+slug: domepunk-bibliotecas-para-juegos-con-wren
+date: 2020-09-25 19:12:06 +00:00
+description: Ferramentas para a Dome engine feitas com Wren.
+featured_image: /blog/domepunk-bibliotecas-para-juegos-con-wren/cover.jpg
+tags: wren, game, code
+---
+
+![Galinha com olho de ira](cover.jpg)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hen_with_anger_eye.jpg)
+
+Wren é uma linguagem de programação especializada mas agradável.
+Infelizmente, carece de muitas funções e bibliotecas que outros
+ecossistemas têm por padrão.
+
+Dome Engine é um motor de jogo maravilhoso com uma abordagem
+minimalista.
+
+Este projeto se inspirou em bibliotecas de jogos como Flash Punk e
+Haxe Punk. Seu objetivo principal é trazer bibliotecas e ferramentas
+de qualidade de vida que podem beneficiar tanto os projetos Dome
+Game quanto os Vanilla Wren.
+
+## Requisitos
+
+- [Dome Engine](https://domenegine.com)
+- [Wren](https://wren.io)
+- Python 3
+
+## Bibliotecas
+
+- <https://github.com/NinjasCL/domepunk/wiki>
+
+- State Machines
+- Palettes
+- Tilesets
+- Resolutions
+- Emoji
+- Calculation
+- Probabilities
+- Percentages
+- Statistics
+- WrenDoc
+- Unit Tests
+
+```github
+NinjasCL/domepunk | Bibliotecas para juegos con Wren
+```

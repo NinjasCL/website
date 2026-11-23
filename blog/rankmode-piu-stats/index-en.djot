@@ -1,0 +1,27 @@
+---
+title: Rankmode PIU Stats
+slug: rankmode-piu-stats
+date: 2022-12-20 14:47:04 +00:00
+description: A system to store your Pump it Up scores, built with Elixir and Phoenix
+featured_image: /blog/rankmode-piu-stats/cover.png
+tags: piu, rankmode, phoenix, elixir
+---
+
+![RankMode](cover.png)
+
+This is a simple system to store your scores in the game
+[Pump it Up](https://en.wikipedia.org/wiki/Pump_It_Up_(video_game_series)).
+
+It has a song list and a simple rest API to store the data.
+
+It is a great example of:
+
+- User systems
+- Data storage
+- Migrations
+- Rest API
+- Tailwind
+
+```github
+ElixirCL/rankmode | Estadísticas de Rankmode para Pump It Up
+```

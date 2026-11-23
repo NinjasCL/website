@@ -1,0 +1,29 @@
+---
+title: Classic.com Project
+slug: proyecto-classic-com
+date: 2022-10-01 00:50:35 +00:00
+description: Classic.com is a Miami-based (USA) startup. A search engine specialized in car auctions, built with Elixir, Tailwind and Surface UI.
+featured_image: /blog/proyecto-classic-com/cover.png
+tags: elixir, classic.com, cars, autos
+---
+
+![Classic.com](classic.png)
+
+Classic.com is a startup headquartered in Miami (USA). A search
+engine specialized in car auctions.
+
+I worked with the experience team (Elixir Frontend) and the backend
+team (GraphQL JavaScript) to deliver bug solutions, improve code
+organization, and provide new features to an existing codebase built
+with Elixir, Tailwind, and Surface UI. The main focus was within the
+Experience team.
+
+I implemented new endpoints in the GraphQL backend using JavaScript.
+
+I implemented new frontend features using SurfaceUI and Tailwind.
+
+I submitted code organization and improvement proposals.
+
+I helped team members debug issues in pair programming sessions.
+
+Project carried out between February and October 2022.

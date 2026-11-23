@@ -1,0 +1,44 @@
+---
+title: Wrenによるゲーム用Domepunkライブラリ
+slug: domepunk-bibliotecas-para-juegos-con-wren
+date: 2020-09-25 19:12:06 +00:00
+description: Wrenで作られたDomeエンジン向けツール。
+featured_image: /blog/domepunk-bibliotecas-para-juegos-con-wren/cover.jpg
+tags: wren, game, code
+---
+
+![怒りの目を持つ雌鶏](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hen_with_anger_eye.jpg)
+
+Wrenは、専門的でありながら快適なプログラミング言語です。残念ながら、他のエコシステムがデフォルトで持っている多くの機能やライブラリが不足しています。
+
+Dome Engineは、ミニマリスト的なアプローチを持つ素晴らしいゲームエンジンです。
+
+このプロジェクトは、Flash PunkやHaxe Punkのようなゲームライブラリにインスピレーションを受けています。主な目標は、Dome GameプロジェクトとVanilla Wrenの両方に役立つ、生活の質を向上させるライブラリとツールを提供することです。
+
+## 必要要件
+
+- [Dome Engine](https://domenegine.com)
+- [Wren](https://wren.io)
+- Python 3
+
+## ライブラリ
+
+- <https://github.com/NinjasCL/domepunk/wiki>
+
+- State Machines
+- Palettes
+- Tilesets
+- Resolutions
+- Emoji
+- Calculation
+- Probabilities
+- Percentages
+- Statistics
+- WrenDoc
+- Unit Tests
+
+```github
+NinjasCL/domepunk | Bibliotecas para juegos con Wren
+```

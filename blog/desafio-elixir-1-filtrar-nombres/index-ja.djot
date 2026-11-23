@@ -1,0 +1,116 @@
+---
+title: Elixirチャレンジ1：名前のフィルタリング
+slug: desafio-elixir-1-filtrar-nombres
+date: 2024-06-11 18:51:30 +00:00
+description: Elixirでリストとデータのフィルタリングを学ぶ小さな演習
+featured_image: /blog/desafio-elixir-1-filtrar-nombres/cover.jpg
+tags: elixir, javascript, haskell, código
+---
+
+![1895年の織機の象嵌細工](cover.jpg)
+
+画像: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:1895_E._M._Matthias_aus_Rethen,_Intarsien_am_Webstuhl.jpg)
+
+以下は、[ヘルシンキ大学](https://haskell.mooc.fi/part1)で利用可能な
+_Haskell_ のコースで見つけた小さな演習です。
+
+## チャレンジ
+
+名前と姓のリストが与えられます：
+
+- 名前： `["Eva", "Mike"]`
+- 姓： `["Smith", "Wood", "Odd"]`
+
+長さが偶数の人だけを要素とするリストを返します。
+
+**戻り値の例**
+
+- `["EvaSmith", "EvaOdd", "MikeWood"]`
+
+## Haskellでの解答
+
+Haskellはパターンマッチングと `list comprehensions` を提供しています。
+
+```haskell
+[whole | first <- ["Eva", "Mike"],
+         last <- ["Smith", "Wood", "Odd"],
+         let whole = first ++ last,
+         even (length whole)]
+```
+
+## Elixirでの解答
+
+_Elixir_ の解答は _Haskell_ ほど短くありませんが、
+同じくらいエレガントです。
+
+```elixir
+require Integer
+
+for first <- ~w[Eva Mike],
+  last <- ~w[Smith Wood Odd],
+  name <- [first <> last],
+  name
+  |> String.length()
+  |> Integer.is_even(), do: name
+```
+
+ここでは `for comprehensions` の機能を使っています。
+
+- <https://elixirschool.com/en/lessons/basics/comprehensions>
+
+## Javascriptでの解答
+
+_Javascript Chile_ の _David_ さんが _Javascript_ を使った
+命令型と宣言型の両方のバージョンを書いてくれました。
+
+**命令型**
+
+```javascript
+const nombres = ["Eva", "Mike"];
+const apellidos = ["Smith", "Wood", "Odd"];
+
+const output = [];
+
+for(let i = 0; i < nombres.length; i++){
+    for(let j = 0; j < apellidos.length; j++){
+        const fullName = `${nombres[i]}${apellidos[j]}`;
+        if(fullName.length % 2 == 0){
+            output.push(fullName);
+        }
+    }
+}
+```
+
+**宣言型**
+
+```javascript
+const nombres = ["Eva", "Mike"];
+const apellidos = ["Smith", "Wood", "Odd"];
+
+const output = nombres.flatMap(n =>
+        apellidos.map(a => `${n}${a}`)
+    )
+    .filter(fullName => fullName.length % 2 == 0);
+```
+
+**Elixir**
+
+_Javascript_ の宣言型バージョンは _Elixir_ で次のように
+エミュレートできます：
+
+```elixir
+~w[Eva Mike]
+|> Enum.flat_map(fn first ->
+  ~w[Smith Wood Odd]
+  |> Enum.map(fn last ->
+    first <> last
+  end)
+end)
+|> Enum.filter(&
+    &1
+    |> String.length()
+    |> Integer.is_even()
+)
+```
+
+ただし、`for comprehensions` を使うほどエレガントではありません。

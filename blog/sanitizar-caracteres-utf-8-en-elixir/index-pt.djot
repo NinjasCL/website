@@ -1,0 +1,54 @@
+---
+title: Sanitizar Caracteres UTF-8 em Elixir
+slug: sanitizar-caracteres-utf-8-en-elixir
+date: 2024-09-17 20:42:26 +00:00
+description: Como padronizar caracteres em Elixir
+featured_image: /blog/sanitizar-caracteres-utf-8-en-elixir/cover.jpg
+tags: elixir, sanitizar, unicode
+---
+
+![Mapa de caracteres Unicode colorido](cover.jpg)
+
+Imagem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Unicode_character_map_(color).jpg)
+
+Por exemplo, se temos a seguinte frase: `¿Hola cómo estás?`,
+transformá-la em `Hola como esta`.
+
+```elixir
+nombre =
+"¿Hola cómo estás?"
+|> String.trim()
+
+# Padronizamos os caracteres para sua representação canônica unicode
+|> :unicode.characters_to_nfd_binary()
+
+# Limpamos qualquer caractere unicode que não seja um espaço
+|> String.replace(~r/\p{Mn}/u, "")
+```
+
+Também podemos usar a função `String.normalize/1` em vez de
+`:unicode.characters_to_nfd_binary/1`.
+
+```elixir
+String.normalize(:nfd)
+```
+
+Agora podemos eliminar os caracteres que não sejam válidos para um
+nome. Obtemos os caracteres que não são letras e os guardamos numa
+lista única.
+
+```elixir
+noletras = nombre
+|> String.replace(~r/0-9a-zA-Z/, "")
+|> String.graphemes()
+|> Enum.uniq()
+```
+
+Finalmente substituímos os caracteres indesejados.
+
+```elixir
+nombre = String.replace(nombre, noletras, "")
+```
+
+- <https://www.erlang.org/doc/apps/stdlib/unicode.html#characters_to_nfd_binary/1>
+- <https://unicode.org/reports/tr15/#Norm_Forms>

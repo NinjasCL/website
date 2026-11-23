@@ -1,0 +1,150 @@
+---
+title: GITをsFTPの代わりに使う
+slug: using-git-as-an-alternative-to-sftp
+date: 2016-11-17 00:09:45 +00:00
+description: 多くのウェブ開発者は、最新の変更をftpやsftpでアップロードする作業に直面しています。この方法の問題は、エラーが起きやすいことです。ファイルをアップロードしている最中に接続が切れたらどうでしょう。サーバーには最新版と古い版のファイルが混在することになります。
+featured_image: /blog/using-git-as-an-alternative-to-sftp/cover.jpg
+tags: english, git, sftp, linux, cpanel
+---
+
+![Sarah Dorweilerによる画像](cover.jpg)
+
+画像: [UnsplashのSarah Dorweiler](https://unsplash.com/@sarahdorweiler)
+
+多くのウェブ開発者は、最新の変更をftpやsftpでアップロードする作業に直面しています。
+この方法の問題は、エラーが起きやすいことです。
+ファイルをいくつかアップロードしていて、接続が切れたところを想像してください。
+サーバーには最新版と古い版のファイルが混在することになります。
+さらに、（アップロードの進行中には）一時的に新旧のファイルが
+混在する瞬間もあります。
+
+これはウェブサイトに巨大なセキュリティホールを引き起こしかねません。
+Gitを使うとssh経由でファイルをアップロードできます。この問題を防ぎ、
+たった1つのシンプルなコマンドで安全にアップロード作業を簡単にします。
+
+_Cpanel_ のウェブサイトをお持ちなら、このソリューションでデプロイが楽になるかもしれません。
+
+## 必要なもの
+
+このアプローチには次のツールが必要です：
+
+- ssh経由のサーバーアクセス
+- git
+- _Ruby_（任意）
+- vim、emacs、nano（テキストエディター）
+
+## サーバーの設定
+
+_ssh_ 経由でサーバーにアクセスしてください。
+次に、コードをデプロイするディレクトリにgitリポジトリを持てるように設定します。
+コマンドでは、これが_Ubuntu_ のような_Debian_ ベースのlinuxサーバーであると仮定します。
+
+まず、gitバージョン管理システムと_Ruby_ プログラミング言語をインストールします。
+
+```bash
+$ sudo apt-get update
+$ sudo apt-get install git-core ruby-full
+```
+
+次に、デプロイディレクトリに移動して新しいgitリポジトリを初期化します。
+
+```bash
+$ cd /var/www/mywebsite
+$ git init
+$ touch README.md
+$ git commit -am 'initial commit'
+```
+
+その後、このgitリポジトリがローカルの変更をすべて無視し、常に最新のコミットの内容を使うようにします。
+
+```bash
+$ git config receive.denyCurrentBranch ignore
+```
+
+OK。最後にやるべきことは、`.git/hooks` ディレクトリの中にpost-receiveフックを作成し、
+実行権限を与えることです。
+
+```bash
+$ cd .git/hooks
+$ touch post-receive
+$ chmod +x post-receive
+```
+
+`post-receive` ファイルは、自分のコンピューターでgit pushが行われ、
+サーバーがファイルを受け取った後に起動します。
+この `post-receive` は、サーバーが実行できる任意の言語で書けます。
+今回の場合は_Ruby_ です。
+
+ファイルを編集して以下の内容を貼り付けてください（必要に応じて編集）：
+
+```bash
+$ vim post-receive
+```
+
+```ruby
+#!/usr/bin/env ruby
+# post-receive
+
+# 1. Read STDIN (Format: "from_commit to_commit branch_name") from, to, branch = ARGF.read.split " "
+# 2. Only deploy if master branch was pushed
+if (branch =~ /master$/) == nil
+    puts "Received branch #{branch}, not deploying."
+    exit
+end
+
+# 3. Copy files to deploy directory
+deploy_to_dir = File.expand_path('../')
+
+`GIT_WORK_TREE="#{deploy_to_dir}" git checkout -f master`
+
+puts "DEPLOY: master(#{to}) copied to '#{deploy_to_dir}'"
+
+# 4.TODO: Deployment Tasks
+# i.e.: Run Puppet Apply, Restart Daemons, Clean up etc
+
+File.delete("#{deploy_to_dir}/README.md")
+```
+## クライアントの設定
+
+サーバーが設定できたので、ファイルをサーバーにアップロードできるようにクライアントを少し設定します。
+
+```bash
+$ cd mywebsite
+$ git init
+$ git remote add hosting user@example.com:/var/www/mywebsite
+$ git pull hosting master
+```
+
+これでウェブサイトのディレクトリに_README.md_ ファイルがあるはずです。
+サイトの開発を始めてコミットをする準備ができました。
+いくつかコミットしたら、変更をサーバーのリポジトリにpushできます。
+
+例として `index.html` ファイルを追加してみます。
+
+```bash
+$ touch index.html
+$ git commit -am 'added bare bones index.html'
+$ git push -u hosting master
+```
+
+これでコードをサーバーにアップロードするために必要なことはすべて揃いました。
+パスワードなしにするにはssh-keysの設定が必要かもしれません。
+このガイド <https://help.github.com/articles/generating-an-ssh-key/> に従い、
+コンピューターの `~/.ssh/id_rsa.pub` の内容を
+サーバーの `~/.ssh/authorized_keys` にコピーしてください。
+
+## 結論
+
+サーバー内のディレクトリにファイルをアップロードするのにgitを使うことは、ftpを使うよりも速く、
+安全で簡単な方法です。継続的デプロイツールを使うような、
+より複雑なワークフローも可能になります。
+ホスティングがsshの使用を許可しているなら、この方法をぜひ使うべきです。
+
+### 参考
+
+- <https://processwire.com/talk/topic/7441-using-git-instead-of-ftp-in-shared-hostings/>
+- <http://www.arlocarreon.com/blog/git/push-git-repo-into-shared-hosting-account-like-hostgator/>
+- <http://ahmadassaf.com/blog/miscellaneous/how-to-use-git-to-host-and-push-projects-on-shared-hosting-services/>
+- <http://motorscript.com/setting-up-a-remote-git-repo-on-shared-server-like-hostgator/>
+- <http://krisjordan.com/essays/setting-up-push-to-deploy-with-git>
+- <http://git-scm.com/book/en/Customizing-Git-Git-Hooks>

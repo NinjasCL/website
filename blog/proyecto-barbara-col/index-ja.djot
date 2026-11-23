@@ -1,0 +1,41 @@
+---
+title: Barbara Colプロジェクト
+slug: proyecto-barbara-col
+date: 2015-12-16 23:40:49 +00:00
+description: ProcessWireで作られた写真ウェブサイト
+featured_image: /blog/proyecto-barbara-col/cover.png
+tags: processwire, site, php, project
+---
+
+![サイトのスクリーンショット](cover.png)
+
+## チーム
+
+### Camilo Castro
+
+Processwireおよびサーバー構成。
+
+### Daniel Montero
+
+デザイン、HTML、CSS
+
+## 謝辞
+
+- [Caffetteria Diego en Famiglia, Olmué, Chile](https://www.facebook.com/diegoenfamiglia/)
+- Processwireを作成した[Ryan Cramer](http://www.ryancramer.com/)
+
+## サイト
+
+### リリース日
+
+- (ISO 8601) 2015-12-16
+
+## 標準
+
+- HTML5
+- CSS3
+- PHP 5.6
+
+## ソフトウェア
+
+- [Processwire](https://processwire.com)

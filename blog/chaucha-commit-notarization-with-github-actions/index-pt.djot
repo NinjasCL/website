@@ -1,0 +1,88 @@
+---
+title: Notarização de Commits com Chaucha e Github Actions
+slug: chaucha-commit-notarization-with-github-actions
+date: 2020-09-21 01:23:49 +00:00
+description: Usando a blockchain da Chaucha, os commits podem ser certificados usando OP_RETURN. Agora o histórico do Github pode ser notarizado.
+featured_image: /blog/chaucha-commit-notarization-with-github-actions/cover.jpg
+tags: github, blockchain, chile, chaucha, crypto, english, python
+---
+
+![Foto de Stephen Goldberg no Unsplash](cover.jpg)
+
+Usando a blockchain da [_Chaucha_](https://chaucha.cl), os commits
+podem ser certificados usando _OP_RETURN_. Agora o histórico do
+_Github_ pode ser _notarizado_.
+
+![OP_RETURN](https://user-images.githubusercontent.com/292738/93739829-9546ec80-fbbf-11ea-9c66-a1b7c1dfca99.png)
+
+![OP_RETURN no Explorer](https://user-images.githubusercontent.com/292738/93740190-654c1900-fbc0-11ea-898c-bc7e0e20ab9f.png)
+
+![OP_RETURN Decodificado](https://user-images.githubusercontent.com/292738/93740118-3c2b8880-fbc0-11ea-9356-f6d3a4904075.png)
+
+## Uso
+
+Usando uma mistura de `OP_RETURN` e
+[Git Notes](https://github.com/NinjasCL/gha-notes) podemos notarizar
+cada commit.
+
+### Workflow de exemplo
+
+```yaml
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Self test
+        id: selftest
+
+        uses: proyecto-chaucha/chaucha-gha-opreturn@master
+        with:
+          privkey: "${{secrets.PRIVKEY}}"
+          pubkey: "${{secrets.PUBKEY}}"
+          sendkey: "${{secrets.SENDKEY}}"
+          message: "repo: ${{github.repository}};branch: ${{github.ref}};commit: ${{github.sha}}"
+
+      # Save certification using git-notes
+      - run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git fetch origin "refs/notes/*:refs/notes/*"
+          git notes append -m "repo: ${{env.GITHUB_REPOSITORY}} ; branch: ${{env.GITHUB_REF}} ; commit: ${{env.GITHUB_SHA}} ; tx: ${{steps.selftest.outputs.response}}"
+          git push origin "refs/notes/*"
+```
+
+### Entradas
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Entrada</th><th>Descrição</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>privkey</code></td><td>Chave privada para assinar a transação. Use <em>PRIVKEY</em> no Github Secrets.</td></tr>
+    <tr><td><code>pubkey</code></td><td>Chave pública da chave privada para verificar confirmações. Use <em>PUBKEY</em> no Github Secrets.</td></tr>
+    <tr><td><code>sendkey</code></td><td>Chave pública para enviar a transação. Use <em>SENDKEY</em> no Github Secrets.</td></tr>
+    <tr><td><code>message</code></td><td>Mensagem a enviar com <code>OP_RETURN</code>. Máximo 255 caracteres.</td></tr>
+  </tbody>
+</table>
+```
+
+### Saídas
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Saída</th><th>Descrição</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>response</code></td><td>Resposta com a mensagem de resultado do <code>OP_RETURN</code></td></tr>
+  </tbody>
+</table>
+```
+
+```github
+proyecto-chaucha/chaucha-gha-opreturn | GitHub Action para notarizar commits en Chaucha vía OP_RETURN
+```

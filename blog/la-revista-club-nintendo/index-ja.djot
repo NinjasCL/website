@@ -1,0 +1,106 @@
+---
+title: クラブニンテンドー誌
+slug: la-revista-club-nintendo
+date: 2024-06-08 17:14:30 +00:00
+description: この雑誌との思い出と、私がコンピュータを始めたきっかけ
+featured_image: /blog/la-revista-club-nintendo/cover.png
+tags: revista, club, nintendo
+---
+
+![Club Nintendo](cover.png)
+
+私がコンピュータに興味を持つきっかけとなったコースを共有したいと思います。
+クラブニンテンドー誌のHTMLコースです。私はチリ版を読みましたが、
+メキシコ版のスキャンを見つけました。内容は同じです。
+
+## 第一部
+
+
+<https://archive.org/embed/club-nintendo-ano-06-no-05-mexico>
+
+44ページ。HTMLの入門。
+`<h1>`、`<img>` のような基本タグや16進数のカラーコード。テーブルとリスト。
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-05-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### コンセプト
+
+- <https://developer.mozilla.org/es/docs/Web/HTML>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements>
+- <https://developer.mozilla.org/es/docs/Web/CSS/color>
+- <https://developer.mozilla.org/es/docs/Web/API/HTMLTableElement>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/menu>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/li>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/img>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/br>
+
+
+## 第二部
+
+<https://archive.org/embed/club-nintendo-ano-06-no-10-mexico>
+
+44ページ。イメージマップ。フレーム、リンク。
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-10-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### コンセプト
+
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/map>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/frame>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/frameset>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/a>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/sub>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/sup>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/hr>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/u>
+
+## 第三部（最終回）
+
+<https://archive.org/embed/club-nintendo-ano-06-no-11-mexico>
+
+52ページ。フォームと少しだけJavascript。
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-11-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### コンセプト
+
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/form>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/input>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button>
+- <https://developer.mozilla.org/en-US/docs/Web/JavaScript>
+
+
+## 個人的な経験
+
+当時私は8歳で小学校2年生（1997年5月）、読み書きを覚えてからそう日は経っていませんでした。父が職場で廃棄になったWindows 3.1の古いコンピュータを家に持ち帰ってくれて、それで雑誌の内容を練習するのに使いましたが、主にはDOSゲームで遊んだり、キーボードでタイピングを覚えたりしていました。そのおかげで、フォルダの作成、ファイルのコピーと削除など、DOSの基本的なターミナルコマンドも覚えました。
+
+父はどちらかというとExcelとWordの人だったので、そういうことはすべて自分で見て実験して学ばなければなりませんでした。
+
+家にインターネットが来たのは2004年になってからでしたが、父の職場に行って様々なものやチュートリアルをダウンロードできました。
+
+その後、コピーされたVisual Basic 6の本も持ってきてくれて、そこでデスクトッププログラムの作り方も、超基本的なものながら学びました。
+
+この小さな投稿は、クラブニンテンドー誌のHTMLコースと同じ言葉で締めくくります：
+
+> この3つのHTMLコースがあなたの役に立ち、もっと学びたいという興味を引き起こしますように。もしそうなら、インターネットで使える他の言語のとても良いプログラミングの本があります。

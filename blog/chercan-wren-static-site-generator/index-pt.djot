@@ -1,0 +1,84 @@
+---
+title: Chercán, um Gerador de Sites Estáticos em Wren
+slug: chercan-wren-static-site-generator
+date: 2020-11-24 01:16:21 +00:00
+description: Chercán é um simples gerador de sites estáticos com o qual você pode criar suas páginas HTML usando Wren e Asciidoc.
+featured_image: /blog/chercan-wren-static-site-generator/cover.jpg
+tags: wren, chercán, ssg, generators
+---
+
+![Aves do Chile](cover.jpg)
+
+[Wren](https://wren.io) é uma pequena linguagem de scripting concorrente,
+rápida e baseada em classes.
+
+Pense no Smalltalk em um pacote do tamanho do Lua, com um toque de Erlang
+e envolto em uma sintaxe moderna e familiar.
+
+```js
+System.print("Hello, world!")
+
+class Wren {
+  flyTo(city) {
+    System.print("Flying to %(city)")
+  }
+}
+
+var adjectives = Fiber.new {
+  ["small", "clean", "fast"].each {|word| Fiber.yield(word) }
+}
+
+while (!adjectives.isDone) System.print(adjectives.call())
+```
+
+## Chercán
+
+Um simples gerador de sites estáticos usando a linguagem de programação Wren.
+
+Dê uma olhada no [Chercán](https://github.com/NinjasCL/chercan) (<https://github.com/NinjasCL/chercan>) como um simples gerador de sites estáticos com o qual você pode criar suas páginas HTML usando _Wren_ e _Asciidoc_.
+
+```text
+.
+├── LICENSE
+├── Makefile
+├── README.adoc
+├── chercan
+│   ├── build.wren
+│   └── config.wren
+├── content
+│   ├── hello
+│   │   ├── hello.adoc
+│   │   └── hello.html
+│   ├── hello.wren
+│   └── index.wren
+├── docs
+│   ├── hello.html
+│   ├── index.html
+│   ├── normalize.css
+│   └── sakura-vader.css
+├── static
+│   ├── normalize.css
+│   └── sakura-vader.css
+├── themes
+│   └── default
+│       ├── default.wren.html
+│       ├── home.wren.html
+│       └── partials
+│           ├── footer.wren.html
+│           └── header.wren.html
+└── wren
+└── run
+```
+
+```js
+class Page {
+  static title {"Hello Chercan"}
+  static content {Asciidoc.read()}
+}
+
+return Page
+```
+
+```github
+NinjasCL/chercan | Un generador de sitios estáticos usando Wren y Asciidoc
+```

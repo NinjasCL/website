@@ -1,0 +1,94 @@
+// Original Solution: https://github.com/brendanfh/onyx-aoc-2024/blob/master/solutions/day01.onyx
+
+use core {*}
+
+// MARK: Input
+
+/// The data structure will be two lists of integers (32 bit).
+Input :: struct {
+    first: [..] i32;
+    second: [..] i32;
+}
+
+// MARK: - Input Procedures
+
+/// This procedure will read the input file and return a string, trimming whitespace
+input_read_content :: () -> str {
+    return os.get_contents("input.txt")
+        |> str.strip_whitespace()
+}
+
+/// This will take the content text and transform it to a data structure that can be used in the solution.
+input_to_pairs :: (content : str) -> Input {
+
+    input := Input.{}
+
+    for row in str.split_iter(content, "\n") {
+        // Split the row in two columns using the space as separator
+        first_string, second_string := str.bisect(row, "   ")
+
+        // Convert the strings to integers, so we can do math later
+        first_number := conv.parse(i32, first_string)!
+        second_number := conv.parse(i32, second_string)!
+
+        // Store the numbers in each list
+        input.first->push(first_number)
+        input.second->push(second_number)
+    }
+
+    return input
+}
+
+/// Sort the input lists in ASC order
+input_sort :: (input: Input) -> Input {
+    Slice.sort(input.first, (a, b) => a - b)
+    Slice.sort(input.second, (a, b) => a - b)
+    return input
+}
+
+/// Creates an Iterator so we can use enumerable procedures
+input_to_iterator :: (input: Input) -> Iterator(Pair(i32, i32)) {
+    return Iterator.zip(
+        Iterator.from(input.first)
+        Iterator.from(input.second)
+    )
+}
+
+/// Read the contents and prepare it for the solutions
+get_input :: () -> Input {
+    return input_read_content()
+    |> input_to_pairs()
+}
+
+/// Count the similarity score comparing first column with a number in second column
+input_count_total_similarity :: (input: Input) -> u64 {
+    total: u64 = 0
+    for first_number in input.first {
+        // We use the ~~ operator to automatically cast the result to u64
+        total += ~~(first_number * Slice.count_where(input.second, [second_number](second_number == first_number)))
+    }
+
+    return total
+}
+
+// MARK: Solutions
+part1 :: () {
+    get_input()
+    |> input_sort()
+    |> input_to_iterator()
+    |> Iterator.map(element => math.abs(element.first - element.second))
+    |> Iterator.sum()
+    |> printf("The part 1 solution is: {}\n", _)
+}
+
+part2 :: () {
+    get_input()
+    |> input_count_total_similarity()
+    |> printf("The part 2 solution is: {}\n", _)
+}
+
+// MARK: main
+main :: () {
+    part1()
+    part2()
+}

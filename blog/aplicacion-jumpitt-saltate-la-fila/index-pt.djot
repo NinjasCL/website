@@ -1,0 +1,93 @@
+---
+title: Aplicativo Jumpitt: Fure a Fila
+slug: aplicacion-jumpitt-saltate-la-fila
+date: 2013-05-03 17:03:46 +00:00
+description: O aplicativo Jumpitt foi um protótipo criado em maio de 2013 para se candidatar a fundos de empreendedorismo junto com um grupo de pessoas. Minha tarefa foi criar um protótipo usando Objective-C.
+featured_image: /blog/aplicacion-jumpitt-saltate-la-fila/cover.jpg
+tags: app, mobile, ios, jumpitt, objective-c, parse.com
+---
+
+![Jumpitt](cover.jpg)
+
+O aplicativo _Jumpitt_ foi um protótipo criado em **maio de 2013** para
+se candidatar a fundos de empreendedorismo junto com um grupo de pessoas.
+
+Minha tarefa foi criar um protótipo usando Objective-C.
+
+O aplicativo consistia em um carrinho de compras que permitia
+comprar produtos em redes de fast food como a _Fritz_.
+
+O objetivo era _"furar a fila"_ e apenas ir retirar
+o pedido quando estivesse pronto.
+
+Para isso o aplicativo usava _Push Notifications_ e outras
+ferramentas para avisar a pessoa de que podia ir buscar seu pedido.
+
+Infelizmente os fundos não foram conquistados e o aplicativo
+caiu no esquecimento. Eventualmente o aplicativo deu origem à
+empresa **Jumpitt Labs**.
+
+A seguir estão alguns screenshots do aplicativo em sua versão de protótipo.
+
+![Screenshot 1](ss1.jpeg)
+![Screenshot 3](ss3.jpeg)
+![Screenshot 4](ss4.jpeg)
+![Screenshot 5](ss5.jpeg)
+![Screenshot 6](ss6.jpeg)
+![Screenshot 7](ss7.jpeg)
+![Screenshot 8](ss8.jpeg)
+![Screenshot 9](ss9.jpeg)
+
+## Tecnologias
+
+- Objective-C
+- iOS 6
+- Parse.com
+
+```objectivec
+
+#import "Item.h"
+#import <Parse/PFObject+Subclass.h>
+
+@implementation Item
+
+@dynamic displayName;
+@dynamic displayDescription;
+@dynamic image;
+@dynamic available;
+@dynamic isAdultsOnly;
+@dynamic categories;
+
++ (NSString *)parseClassName {
+    return @"Item";
+}
+@end
+```
+
+```objectivec
+#import <Parse/Parse.h>
+#import "Item.h"
+
+@interface Product : Item <PFSubclassing>
++ (NSString *)parseClassName;
+
+
+// How much it costs
+@property (strong) NSNumber * price;
+
+// What this product is made of
+// Array of Components
+@property (strong) NSArray * components;
+
+// What are the default ones
+// Array of Components
+@property (strong) NSArray * defaultComponents;
+
+// If a component have a lesser price when used in an specific product
+// Array of NSNumbers
+// Must be in the same position as the Array of Components
+// Later combine components and price correction in a NSDictionary for easier use
+@property (strong) NSArray * priceCorrectionsForComponents;
+
+@end
+```

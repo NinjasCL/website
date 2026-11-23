@@ -1,0 +1,86 @@
+---
+title: Controle suas Apresentações pelo Navegador com Python
+slug: control-your-presentations-from-the-web-browser-with-python
+date: 2014-07-26 00:05:08 +00:00
+description: Cria um servidor web que envia comandos de teclas para controlar apresentações com qualquer dispositivo capaz de navegar. Para poder controlar suas apresentações com seu iPhone, Android ou dispositivo similar, o servidor de apresentações e o dispositivo devem estar na mesma rede. E a apresentação deve ser a janela ativa no servidor.
+featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover.jpg
+tags: python, web, script, mac, linux, windows
+---
+
+![Foto de Glenn Carstens-Peters no Unsplash](cover.jpg)
+
+Cria um servidor web que envia comandos de teclas para controlar
+apresentações com qualquer dispositivo capaz de navegar. Para poder
+controlar suas apresentações com seu iPhone, Android ou dispositivo
+similar, o servidor de apresentações e o dispositivo devem estar na
+mesma rede. E a apresentação deve ser a janela ativa no servidor.
+
+## Instalação
+
+Para usar corretamente esta aplicação você precisa instalar python
+2.7.x
+
+### Windows
+
+Instale o [Active Python](http://www.activestate.com/activepython);
+ele tem todos os componentes (_win32api, win32com_) que o servidor
+precisa.
+
+### Linux
+
+Você provavelmente já tem Python instalado, mas o servidor depende do
+[xdotool](http://www.semicomplete.com/projects/xdotool/) para enviar
+comandos. Verifique se você o tem na sua máquina.
+
+### Mac
+
+Já tem todos os componentes instalados. (testado no Mac OSX Mavericks)
+
+## Uso
+
+Primeiro você precisa ter pelo menos 2 arquivos, _keys.html_ e
+_server-*_ (depende do seu sistema operacional).
+
+Segundo, você deve abrir o arquivo do servidor dentro de um terminal
+com _python server-<os>.py_, por exemplo:
+
+```bash
+python server-mac.py
+```
+
+> Provavelmente dar um duplo clique no arquivo também funcione, mas eu
+> prefiro a via da linha de comandos.
+
+Quando o servidor mostrar *"Serving at localhost:8080"*, você precisa
+verificar qual é o endereço ip da máquina que hospeda a apresentação.
+
+Linux e Mac podem usar _ifconfig_ (no terminal), Windows precisa usar
+_ipconfig_ (no cmd).
+
+Você obterá algo como
+
+```text
+192.168.0.114
+```
+
+Finalmente abra o navegador no seu Android, iPhone ou dispositivo
+similar e vá para 192.168.0.xxx:8080.
+
+Verifique que seu servidor de apresentações tenha a apresentação como
+a janela ativa, para que o servidor possa controlar a apresentação.
+
+## Teclas Disponíveis
+
+O servidor pode enviar as seguintes teclas
+
+- Up
+- Down
+- Left
+- Right
+- Space
+
+Mas você pode adicionar mais facilmente se precisar :)
+
+```github
+NinjasCL-archive/iCtrl | Controla tus presentaciones desde el navegador con Python
+```

@@ -1,0 +1,59 @@
+---
+title: Lua 8: ファンタジーコンソールのためのLua
+slug: lua-8-lua-para-fantasy-consoles
+date: 2020-03-14 23:06:34 +00:00
+description: これはlua v5.3.5のフォークで、TIC-80のようなファンタジーコンソール/コンピューターでトークンを節約するためのパワーパッチをいくつか含んでいます。Luaの構文はすべて有効です。糖衣構文を追加するパッチがいくつか含まれているだけです。
+featured_image: /blog/lua-8-lua-para-fantasy-consoles/cover.jpg
+tags: lua, fantasy, console, pico8, tic80, custom, c
+---
+
+![Sanni SahilによるUnsplashの写真](cover.jpg)
+
+これは[lua v5.3.5](https://github.com/lua/lua/tree/v5.3)のフォークで、
+[TIC-80](https://github.com/nesbox/TIC-80)のような
+[ファンタジーコンソール/コンピューター](https://github.com/paladin-t/fantasy)でトークンを節約するための[パワーパッチ](http://lua-users.org/wiki/LuaPowerPatches)をいくつか含んでいます。
+
+Luaの構文はすべて有効です。糖衣構文を追加するパッチがいくつか含まれているだけです。
+
+## 含まれるパッチ
+
+これらは含まれているパッチの一部です。
+
+## [Perlスタイルの数値](https://hoelz.ro/projects/lua-power-patches)
+
+このパッチにより、Perlと同様に、数値に任意のアンダースコアを挿入できます。100万を `1_000_000` と書けます。
+
+標準のLua数値は引き続き使用可能です。
+
+_Hoelz_ による `perl-numbers.patch` に基づいています。
+
+## [複合代入演算子](http://lua-users.org/files/wiki_insecure/power_patches/5.4/plusequals-5.4.patch)
+
+`"object.counter += 2"` のような文を可能にします。実装済みの `+=, -=, *=, /=` に加えて、シフト演算子とビット演算子 `(<<=, >>=, &=, |=, ^=)` を追加します。
+
+標準のLua代入は引き続き使用可能です。
+
+_Dave Hayden_ (<dave@panic.com>) と _SvenOlsen_ による `plusequals-5.4.patch` に基づいています。
+
+## [CおよびBashスタイルのコメント](http://lua-users.org/files/wiki_insecure/power_patches/5.2/cppcomt.diff)
+
+Luaソース内でCスタイル(`/*...*/`)の複数行コメントとBashスタイル(`# ...`)の単行コメントを使用できます。
+
+Bashスタイルのコメントでは、長さ演算子(`#`)と区別するために、後にスペースが必要です。
+
+標準のLuaコメントは引き続き使用可能です。
+
+_criptych_ による `cppcomt.diff` パッチに基づいています。
+
+## iOS互換
+
+iOSは_ISO C_プラットフォームではないため(Luaが準拠しているのはISO Cです)、このオペレーティングシステムとの互換性のために `loslib.c` に特別な変更が加えられました。
+
+`IOS` フラグをONに設定する必要があります。
+
+[@jet082](https://github.com/jet082) に感謝します。
+<https://github.com/libretro/TIC-80/issues/2> を参照してください。
+
+```github
+NinjasCL-archive/lua8 | Lua 8: Lua para fantasy consoles
+```

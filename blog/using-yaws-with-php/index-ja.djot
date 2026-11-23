@@ -1,0 +1,117 @@
+---
+title: YawsをPHPと一緒に使う
+slug: using-yaws-with-php
+date: 2023-09-05 12:41:52 +00:00
+description: YAWSをPHPアプリケーション（ProcessWire）と一緒に構成する方法を紹介するシンプルなプロジェクト。ErlangとPHPの組み合わせは強力です。PHPには広大なWeb開発エコシステムがあり、Erlangには30年以上の、本番で実績のあるスケーラブルな並行性ソリューションがあります。
+featured_image: /blog/using-yaws-with-php/cover.jpg
+tags: php, erlang, yaws, processwire, web
+---
+
+![Evgeniya ShustikovaによるUnsplashの写真](cover.jpg)
+
+```github
+joyofpw/pwyaws | Un proyecto que muestra cómo configurar YAWS con una aplicación PHP (ProcessWire)
+```
+
+[YAWS (Yet Another Webserver)](https://github.com/erlyaws/yaws)は、完全に[Erlang](https://www.erlang.org/)で書かれたHTTP 1.0/1.1ウェブサーバーです。YAWSは多くのケースで動的コンテンツのWebアプリケーションにとても適しているとされてきました。
+
+他のWeb開発環境からErlangとYawsへ移ってくる開発者のほとんどは、NginxやApacheなどの他のウェブサーバーを使ってきたことでしょう。ErlangのYawsウェブサーバーは同じ基本的なタスクを実行しますが、よくある操作を行う細部はしばしば異なります。
+
+Erlangは単なる言語ではなく、ランタイムシステムでもあり、アプリケーションサーバーにとても近いものでもあります。そのため、ErlangとYaws（または他のウェブサーバー）は、Apache/PHP/MySQLなどの役割を1つのシステムでまとめて担います。
+
+Erlang/YawsとApache/PHPの主な違いは、Erlangがものをセットアップするやり方に大きく関係しています。Erlangはシステムがクラスタを組むことを前提としており、Erlangのプロセスは他の多くのシステムで使われているものとは少し異なります。
+
+mod_phpを組み込んだApacheを使ったことがあれば、各リクエストがプロセスまたはスレッドで処理されるのを覚えているかもしれません（設定によります）。古典的なCGI（Common Gateway Interface）はリクエストごとに新しいプロセスを起動していました。これらのスレッドとプロセスはOSの構成物であり、比較的重いオブジェクトです。Erlangでは、プロセスはOSではなく言語ランタイムが所有します。
+
+YawsはErlangの軽量スレッドシステムを使うため、高い並行性の下でも良好に動作します。2002年に行われたYawsとApacheの比較ロードテストでは、テストしたハードウェアでApacheは同時接続4,000で失敗したのに対し、Yawsは同時接続80,000以上でも動作し続けました。
+
+Erlangは電気通信システムにおける低遅延のバイナリデータストリーミングのために作られました。極めて高い管理性、スケーラビリティ、並行処理を念頭に置いて設計されました。
+Webに対してErlangを使うと、電気通信システムの持つ力のすべてを、Webスケールの、非同期で、ノンブロッキングで、シャードされた、イベント駆動で、メッセージパッシングベースの、noSQLな、信頼できて、高可用で、高性能で、セキュアで、質の高い、リアルタイムの、クラスタ可能なアプリケーションのために解放できます。
+
+## Erlang
+
+おすすめの方法は、ビルド済みの_erlang_インストールをパッケージマネージャで使うことです。
+_Erlang_ 22以降が推奨されます。
+
+- <https://github.com/asdf-vm/asdf>
+- <https://github.com/asdf-vm/asdf-erlang>
+- <https://www.pluralsight.com/guides/installing-elixir-erlang-with-asdf>
+
+[Erlangインストールガイド](https://www.erlang.org/doc/installation_guide/install)の手順に従うこともできます。
+
+_Erlang_をインストールしたら、次は_YAWS_をインストールする必要があります。
+
+追加の手順は <https://github.com/erlyaws/yaws/> を参照してください。
+
+### ポートフォワーディング
+
+ファイアウォールでポート80を8080へ転送する必要がある場合：
+
+```shell
+iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 8080
+```
+
+### Bragful
+
+PHPコードを_Erlang_の中で実行したい場合は、[Bragful](https://bragful.com/)を使ってPHPコードを解釈することもできます。
+
+### 注意
+
+[.htaccess](https://github.com/processwire/processwire/blob/master/htaccess.txt)ファイルは、*yaws*では`appmods`として知られています。`yaws/appmods/processwire.erl`にある提供ファイルは、最小限の`mod_rewrite`にすぎません。公式の_.htaccess_ファイルにあるセキュリティ上の考慮事項はすべて含まれていません。_ProcessWire_用の適切な`appmod`を求めて、*Pull Request*をぜひお送りください。
+
+## なぜ？
+
+ErlangとPHPを混ぜるのは強力な組み合わせです。PHPには広大なWeb開発エコシステムがあり、Erlangには30年以上の、
+本番で実績のあるスケーラブルな並行性ソリューションがあります。
+
+## Makefile
+
+- `make install`: _ProcessWire_を`www`ディレクトリにダウンロードし、`php.ini`をコピーして、`Dockerfile`をビルドします。
+
+- `make up`: `docker-compose`を使ってサービスを起動します。
+
+- `make bash`: _YAWS_コンテナに入ってシェルを開きます。
+
+### 便利なDockerコマンド
+
+- `docker-compose up -d` : コンテナを起動します
+- `docker ps`: 実行中のコンテナを表示します
+- `docker kill <container id>`: コンテナを停止します
+- `docker network prune`: ネットワークをリセットします
+- `docker container prune`: 停止したコンテナをリセットします
+
+## サーバー
+
+デフォルトのアドレスは[localhost:8080](http://localhost:8080)です。
+
+## YAWS設定
+
+`yaws`ディレクトリには_YAWS_の設定ファイルが入っています。
+
+- `yaws.conf`: サーバーのメイン設定ファイル。エントリポイント`yaws -i --conf /usr/local/etc/yaws/yaws.conf`で使われます。
+- `conf.d/processwire.conf`: _ProcessWire_を格納する`www`ディレクトリのサイト設定。
+- `appmods/processwire.erl`: リライト規則（`.htaccess`ファイルに似たもの）が含まれます。コンパイルが必要です（`processwire.beam`を生成します）。
+
+```shell
+erlc processwire.erl
+```
+
+## 参考文献
+
+- <https://github.com/erlyaws/yaws/>
+- <https://medium.com/@dr.linux/how-to-run-laravel-on-yaws-33cd61e75e37>
+- <https://thestaticvoid.com/post/2009/08/04/replacing-apache-with-yaws/>
+- <https://www.oreilly.com/library/view/building-web-applications/9781449320621/ch02.html>
+- <https://www.infoq.com/articles/vinoski-erlang-rest/>
+- <https://lionet.livejournal.com/42016.html>
+- <https://web.archive.org/web/20150518194538/https://www.sics.se/~joe/apachevsyaws.html>
+- <http://steve.vinoski.net/pdf/IC-Yaws.pdf>
+- <https://en.wikipedia.org/wiki/Yaws_(web_server)>
+- <https://erlang.org/euc/02/yaws.pdf>
+- <http://web.archive.org/web/20110811064942/http://kkovacs.eu/running-yaws-with-drupal-wordpress-zend-framework>
+- <https://weblambdazero.blogspot.com/2008/08/php-zend-framework-on-yaws.html>
+- <https://github.com/segeda/docker-yaws>
+- <https://blog.lfe.io/tutorials/2015/11/28/2110-lfe-yaws-docker-update/>
+- <https://github.com/lfe-deprecated/lfeyawsdemo>
+- <https://synrc.com/apps/n2o/doc/book.pdf>
+- <https://github.com/Houdini/configs/tree/master/yaws>

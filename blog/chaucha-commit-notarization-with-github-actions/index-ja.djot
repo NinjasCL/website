@@ -1,0 +1,84 @@
+---
+title: Chauchaによるコミットの公証とGithub Actions
+slug: chaucha-commit-notarization-with-github-actions
+date: 2020-09-21 01:23:49 +00:00
+description: Chauchaブロックチェーンを使い、コミットをOP_RETURNで証明できます。これでGithubの履歴を公証できるようになりました。
+featured_image: /blog/chaucha-commit-notarization-with-github-actions/cover.jpg
+tags: github, blockchain, chile, chaucha, crypto, english, python
+---
+
+![Stephen GoldbergによるUnsplashの写真](cover.jpg)
+
+[_Chaucha_](https://chaucha.cl) ブロックチェーンを使うことで、コミットを _OP_RETURN_ で証明できます。これで _Github_ の履歴を_公証_できるようになりました。
+
+![OP_RETURN](https://user-images.githubusercontent.com/292738/93739829-9546ec80-fbbf-11ea-9c66-a1b7c1dfca99.png)
+
+![エクスプローラーでのOP_RETURN](https://user-images.githubusercontent.com/292738/93740190-654c1900-fbc0-11ea-898c-bc7e0e20ab9f.png)
+
+![デコードされたOP_RETURN](https://user-images.githubusercontent.com/292738/93740118-3c2b8880-fbc0-11ea-9356-f6d3a4904075.png)
+
+## 使い方
+
+`OP_RETURN` と [Git Notes](https://github.com/NinjasCL/gha-notes) を組み合わせることで、各コミットを公証できます。
+
+### ワークフローの例
+
+```yaml
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Self test
+        id: selftest
+
+        uses: proyecto-chaucha/chaucha-gha-opreturn@master
+        with:
+          privkey: "${{secrets.PRIVKEY}}"
+          pubkey: "${{secrets.PUBKEY}}"
+          sendkey: "${{secrets.SENDKEY}}"
+          message: "repo: ${{github.repository}};branch: ${{github.ref}};commit: ${{github.sha}}"
+
+      # Save certification using git-notes
+      - run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git fetch origin "refs/notes/*:refs/notes/*"
+          git notes append -m "repo: ${{env.GITHUB_REPOSITORY}} ; branch: ${{env.GITHUB_REF}} ; commit: ${{env.GITHUB_SHA}} ; tx: ${{steps.selftest.outputs.response}}"
+          git push origin "refs/notes/*"
+```
+
+### 入力
+
+``` =html
+<table>
+  <thead>
+    <tr><th>入力</th><th>説明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>privkey</code></td><td>トランザクションに署名するための秘密鍵。Github Secretsで <em>PRIVKEY</em> を使用してください。</td></tr>
+    <tr><td><code>pubkey</code></td><td>確認を検証するための秘密鍵に対する公開鍵。Github Secretsで <em>PUBKEY</em> を使用してください。</td></tr>
+    <tr><td><code>sendkey</code></td><td>トランザクションを送信するための公開鍵。Github Secretsで <em>SENDKEY</em> を使用してください。</td></tr>
+    <tr><td><code>message</code></td><td><code>OP_RETURN</code> で送信するメッセージ。最大255文字。</td></tr>
+  </tbody>
+</table>
+```
+
+### 出力
+
+``` =html
+<table>
+  <thead>
+    <tr><th>出力</th><th>説明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>response</code></td><td><code>OP_RETURN</code> の結果メッセージを含むレスポンス</td></tr>
+  </tbody>
+</table>
+```
+
+```github
+proyecto-chaucha/chaucha-gha-opreturn | GitHub Action para notarizar commits en Chaucha vía OP_RETURN
+```

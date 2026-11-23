@@ -1,0 +1,94 @@
+---
+title: Projects for IMGOnline
+slug: proyectos-para-imgonline
+date: 2021-12-23 16:28:51 +00:00
+description: I worked as a consultant and contractor for IMGOnline, on several projects from mobile app development to Laravel PHP backends.
+featured_image: /blog/proyectos-para-imgonline/cover.png
+tags: imgonline, consultora, php, laravel, javascript, ios
+---
+
+![IMOnline](imgonline.png)
+
+I was a contractor for [IMGOnline](https://imgonline.cl) from 2016 to 2021.
+Assigned to several projects, from mobile apps, research, and the development
+of Backend and Frontend projects (mainly with Laravel).
+
+The consultancy's main client was _Chilquinta_, an electric power company.
+
+Among the projects, the following are some of the most notable ones.
+
+### Chilquinta: IT Support Developer (July 2021 – December 2021)
+
+I created JavaScript automation scripts to generate SQL queries from Excel files. Reducing the time required to complete the process by 90%.
+
+I implemented a simple panel using Laravel, Inertia, and Svelte to run administration tasks such as locking/unlocking records in a SQLServer database.
+
+Bugs were fixed in an existing Laravel backend.
+
+I created a prototype for a maps application showing KMZ geopositions using the <https://cesium.com/> technology.
+
+### Sixbell: Google Analytics Upgrade (July 2021)
+
+Updating a system built with React 16, adding a tracking system through Google Analytics.
+
+Technologies used:
+
+- React.js 16
+
+### Chilquinta: Weatherlink to SQLite-Excel Script (June 2021)
+
+A simple JavaScript program that connects to a server (<https://weatherlink.github.io/weatherlink-live-local-api/>) and saves the JSON to a local database file. It also allows exporting the saved values to a combined Excel-compatible format using dates as filters.
+
+### Chilquinta: Mobile App Maintenance (May 2021)
+
+A previously existing Cordova app made with jQuery and Laravel. My duties were fixing existing bugs and reviewing AppStore and Playstore comments.
+
+Technologies used:
+
+- jQuery
+- Cordova
+- Laravel 5.8
+
+### Chilquinta: Denuncio System (January 2021 - March 2021)
+
+A small system that lets technicians report illegal or tampered connections to the power grid. The constraints were: use Laravel 5.8 and SQLServer with Stored Procedures for data manipulation. The project deadline was 8 weeks. The system needed to show data tables, send email notifications, download reports, and manage report data. A designer provided the basic HTML mockups.
+
+I designed SQLServer tables and stored procedures.
+
+I implemented a Dashboard using Laravel 5.8, Svelte, Bootstrap 4.1, and InertiaJS. The HTML was based on a template provided by Chilquinta.
+
+I created mobile apps using Cordova and configured Firebase notifications.
+
+### Sixbell: Legacy Scheduling System Frontend Update (December 2020 - January 2021)
+
+A two-week project to update old interface code in a legacy system. This system was used to schedule appointments with doctors. The client's requirements were to use jQuery and CodeIgniter 3. I was in charge of adapting the basic html pages provided by the designer so they were compatible with the CodeIgniter backend.
+
+I worked on a legacy codebase built with CodeIgniter 3.
+Updated designs following a provided specification with jQuery and Bootstrap 3.
+
+### Internal Hybrid Mobile App Built (around 2017)
+
+Chilquinta had an old web system made in ASP.net and SQLServer. They requested an Android mobile app that retrieved information from the database, showed some reports, and allowed filling out special forms. A REST API was created using Laravel 5.x and it used Onsen for the app.
+
+- Technologies used: PHP, Laravel 5.x, Onsen Framework, SQL Server, Javascript.
+
+### Webpay KCC Upgraded to Webpay SOAP (around 2017)
+
+Some internal sites required updating the code to use the Webpay SOAP payment method. They were using Webpay KCC (the previous version).
+
+- Technologies used: PHP, Webpay SOAP.
+
+### Technology Standardization (around 2017)
+
+The wide range of Chilquinta contractors used different technologies for web development. A small research was requested to select which framework should be used as the default solution for new projects. Laravel 5.x or later was recommended.
+
+- Technologies used: Laravel.
+
+### Legacy iPhone App Updated (around 2016)
+
+Chilquinta requested updating a legacy Objective-C iPhone app (created by another company).
+Adding new features, fixing bugs, and including integration with a Swift framework for
+computer vision (Based on Tensorflow). The modifications also required updating
+the backend that was made with Laravel 4.x, adding new endpoints.
+
+- Technologies used: Objective-C, Laravel.

@@ -1,0 +1,225 @@
+---
+title: Usando CQRS en los Contexts de Phoenix
+slug: using-cqrs-in-phoenix-contexts
+date: 2023-01-12 18:08:10 +00:00
+description: Recientemente leí un artículo sobre cómo nombrar las funciones de los contexts de Phoenix. Y creo que usar convenciones de nombres está bien, pero quizás podríamos dar un paso más y aplicar CQRS dentro de dichos módulos.
+featured_image: /blog/using-cqrs-in-phoenix-contexts/cover.jpg
+tags: elixir, ecto, phoenix, ddd, cqrs
+---
+
+![Foto de Danielle-Claude Bélanger en Unsplash](cover.jpg)
+
+Recientemente leí este artículo [Naming Phoenix context functions](https://www.stephenlewis.me/blog/naming-phoenix-context-functions). Y creo que usar convenciones de nombres está bien, pero quizás podríamos dar un paso más y aplicar _CQRS_ dentro de dichos módulos.
+
+> [Command Query Responsability Segregation](https://martinfowler.com/bliki/CQRS.html) es la noción de que puedes usar un modelo diferente para actualizar la información que el modelo que usas para leer información...
+> --- Martin Fowler
+
+Hice un [pequeño sistema para guardar gameplays](https://github.com/ElixirCL/rankmode) de resultados de máquinas de baile como _Pump it Up_.
+
+```github
+ElixirCL/rankmode | Estadísticas de Rankmode para Pump It Up
+```
+
+Por ejemplo este es el archivo [cards.ex](https://raw.githubusercontent.com/ElixirCL/rankmode/main/lib/rankmode/cards/cards.ex).
+
+```elixir
+defmodule Rankmode.Cards.Queries do
+  import Ecto.Query, warn: false
+
+  alias Rankmode.Repo
+  alias Rankmode.Cards.Card
+
+  def all() do
+    Repo.all(Card)
+    |> Repo.preload([:user, :game, :mix])
+  end
+
+  def for(user: user_id) do
+    from(c in Card,
+      where: c.user_id == ^user_id,
+      order_by: [desc: c.activated_at],
+      preload: [:user, :game, :mix, :profile])
+    |> Repo.all()
+  end
+
+  def get!(uid: uid) do
+    from(c in Card, where: c.uid == ^uid,
+      preload: [:user, :game, :mix, :profile]
+    )
+    |> Repo.one!()
+  end
+
+  def get(uid: uid) do
+    from(c in Card, where: c.uid == ^uid,
+      preload: [:user, :game, :mix, :profile]
+    )
+    |> Repo.one()
+  end
+
+  def get(id: card_id, user: user_id) do
+    from(c in Card,
+      where: c.id == ^card_id and c.user_id == ^user_id,
+      preload: [:user, :game, :mix, :profile]
+    )
+    |> Repo.one()
+  end
+
+  def get(:notactivated, uid: uid) do
+    from(c in Card,
+      where: c.uid == ^uid and
+        is_nil(c.activated_at) and
+        is_nil(c.user_id),
+      preload: [:user, :game, :mix]
+    )
+    |> Repo.one()
+  end
+end
+
+defmodule Rankmode.Cards.Changesets do
+  alias Rankmode.Cards.Card
+
+  def new(attrs) do
+    %Card{}
+    |> Card.changeset(attrs)
+  end
+
+  def empty() do
+    new(%{})
+  end
+
+  def activate(id, attrs) do
+    %Card{id: id}
+    |> Card.changeset_activate(attrs)
+  end
+
+  def update(id, attrs) do
+    %Card{id: id}
+    |> Card.changeset(attrs)
+  end
+end
+
+defmodule Rankmode.Cards.Commands do
+
+  import Ecto.Query, warn: false
+
+  alias Rankmode.Repo
+  alias Rankmode.Cards.Changesets
+
+  def create(attrs) do
+    Changesets.new(attrs)
+    |> Repo.insert()
+  end
+
+  def activate(id, attrs) do
+    Changesets.activate(id, attrs)
+    |> Repo.update()
+  end
+
+  def update(id, attrs) do
+    Changesets.update(id, attrs)
+    |> Repo.update()
+  end
+end
+
+defmodule Rankmode.Cards do
+end
+```
+
+Y el archivo Schema correspondiente [card.ex](https://raw.githubusercontent.com/ElixirCL/rankmode/main/lib/rankmode/cards/card.ex)
+
+```elixir
+defmodule Rankmode.Cards.Card do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "cards" do
+    field :uid, :string
+    field :checksum, :string
+    field :activated_at, :naive_datetime
+    belongs_to :mix, Rankmode.Mixes.Mix
+    belongs_to :game, Rankmode.Games.Game
+    belongs_to :user, Rankmode.Accounts.User
+    has_one :profile, Rankmode.Profiles.Profile
+    timestamps()
+  end
+
+  @optional [:activated_at, :user_id, :mix_id, :game_id]
+  @required [:uid, :checksum]
+
+  def changeset(model, attrs) do
+    model
+    |> cast(transform(attrs), @optional ++ @required)
+    |> validate_required(@required)
+    |> validate_length(:uid, min: 3, max: 255)
+    |> unique_constraint(:uid, name: :cards_uid_checksum_index)
+    |> unique_constraint(:checksum, name: :cards_uid_checksum_index)
+  end
+
+  def changeset_activate(model, attrs) do
+    changeset(model, activate(attrs))
+  end
+
+  defp checksum(attrs) do
+    Map.merge(attrs, %{checksum: Base.encode16(:crypto.hash(:sha256, Map.get(attrs, :uid, "")))})
+  end
+
+  defp activate(attrs) do
+    Map.merge(attrs, %{activated_at: NaiveDateTime.utc_now()})
+  end
+
+  defp transform(attrs) do
+    checksum(attrs)
+  end
+end
+```
+
+Mi enfoque separa las responsabilidades en 4 módulos.
+
+## Módulo Base
+
+Un módulo base, que podría guardar funciones de ayuda o cualquier otra función que no encaje en los otros módulos.
+
+```elixir
+defmodule Rankmode.Cards do
+end
+```
+
+## Módulo de Queries
+
+Un módulo para funciones mayormente de tipo `SELECT`
+
+```elixir
+defmodule Rankmode.Cards.Queries do
+end
+```
+
+## Módulo de Commands
+
+Un módulo para funciones mayormente de tipo `INSERT`, `UPDATE`, `DELETE`.
+
+```elixir
+defmodule Rankmode.Cards.Commands do
+end
+```
+
+## Módulo de Changesets
+
+Un módulo para guardar los changesets usados tanto en Queries como en Commands.
+
+```elixir
+defmodule Rankmode.Cards.Changesets do
+end
+```
+
+## Estructura de archivos
+
+Prefiero guardar esto en un solo archivo. Pero si se vuelve desordenado con el tiempo, se puede usar una estructura como esta.
+
+```text
+cards/
+├── card.ex
+├── cards.ex
+├── changesets.ex
+├── commands.ex
+└── queries.ex
+```

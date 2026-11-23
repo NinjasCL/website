@@ -1,0 +1,599 @@
+/*! Ninjas.cl custom styles on top of retrostrap. */
+
+:root {
+  /* Fallback tile when JavaScript is unavailable; background.js replaces it. */
+  --random-pattern: url("/patterns/macos9/128.png");
+  /* 35% purple tint over the randomly selected pattern. */
+  --pattern-tint: rgba(102, 0, 153, 0.35);
+}
+
+/* Retro cursor pack: arrow everywhere, hand on interactive controls.
+   :is() adopts [role="button"]'s (0,1,0) specificity, tying with retrostrap's
+   .rs-btn/.rs-tabs__tab/... pointer rules; style.css loads last, so it wins.
+   Disabled controls drop back to the custom arrow instead of the system one. */
+body {
+  cursor: url("/cursors/arrow.cur"), auto;
+}
+
+:is(a, button, summary, label, [role="button"]) {
+  cursor: url("/cursors/hand.cur"), pointer;
+}
+
+:is(a, button, summary, label, [role="button"]):is(:disabled, [aria-disabled="true"]) {
+  cursor: url("/cursors/arrow.cur"), default;
+}
+
+/* Cosmic theme tiles the body from ../assets/tile-stars.png; override it with
+   a random /patterns tile plus the purple tint. */
+html[data-rs-theme="cosmic"] body {
+  background-color: #330066;
+  background-image:
+    linear-gradient(var(--pattern-tint), var(--pattern-tint)),
+    var(--random-pattern);
+  background-repeat: repeat, repeat;
+  background-attachment: fixed, fixed;
+}
+
+/* The main page container (.rs-page) renders the cosmic theme's solid
+   --rs-bg-content (#330033) with a solid bevel border, hiding the tiled
+   body behind the content. Give it the old ninjas.cl scheme's full
+   .violet-frame recipe instead — the rgba(33, 4, 49, 0.945) wash (about
+   5% transparency) plus the dashed #7540bd border at retrostrap's 2px —
+   so the random tile ghosts through behind the content while the light
+   cosmic text keeps its contrast. */
+html[data-rs-theme="cosmic"] .rs-page {
+  background: rgba(33, 4, 49, 0.945);
+  border-style: dashed;
+  border-color: #7540bd;
+}
+
+/* Retrostrap styles section headers (.rs-panel__title) as small tab
+   labels at --rs-font-size-2 (0.8125rem). Enlarge them to --rs-font-size-5
+   (1.5rem, ≈1.85× that default) so "Sobre nosotros" and every other home
+   section title reads as a heading — tuned down from --rs-font-size-6
+   (2rem) for better visual balance. style.css loads after retrostrap, so
+   the same-specificity rule wins the cascade. */
+.rs-panel__title {
+  font-size: var(--rs-font-size-5);
+}
+
+/* Site-wide 16px floor: the cosmic theme shrinks retrostrap's body text
+   to the 13px ladder step; this restores the 16px step as the base, so
+   every inheriting element — paragraphs, lists, the footer, the
+   marquee — follows, and lifts the chrome that styles itself below the
+   floor: navbar links, the hero note, figure captions, the back-to-top
+   link, and the post list's date fine print. Nothing the site renders
+   stays under sixteen pixels. */
+html[data-rs-theme="cosmic"] {
+  --rs-font-size-body: var(--rs-font-size-3);
+}
+
+.rs-navbar a {
+  font-size: var(--rs-font-size-3);
+}
+
+.rs-note {
+  font-size: var(--rs-font-size-3);
+}
+
+.rs-figure__caption {
+  font-size: var(--rs-font-size-3);
+}
+
+.rs-top {
+  font-size: var(--rs-font-size-3);
+}
+
+.rs-list small {
+  font-size: var(--rs-font-size-3);
+}
+
+.hero__logo {
+  display: block;
+  width: 40%;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* Post language options: the post's sibling variants as an inline row at
+   the site's 16px floor — the current language bold and marked as the
+   current page, the others linking to their variant URLs, separated by
+   " · ". */
+.post-languages {
+  font-size: var(--rs-font-size-3);
+}
+
+.post-languages span[aria-current="page"] {
+  font-weight: 700;
+}
+
+/* Post tags: the frontmatter `tags` field as a row of rounded labels
+   below the date, led by the Bookmark icon (the Win95 replacement for
+   the old site's 🏷️). The pill treatment follows the old site's
+   .tag.tag-purple.tag-rounded recipe: the site's violet, fully
+   rounded, sized to the 16px floor with a small gap. */
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--rs-space-1);
+}
+
+.post-tag {
+  padding: 2px 12px;
+  font-size: var(--rs-font-size-3);
+  font-weight: 400;
+  border-radius: 16px;
+  color: #fff;
+  background: #7540bd;
+}
+
+/* Post navigation: links to the adjacent entries in the newest-first
+   post list — "Anterior" the newer post, "Siguiente" the older one —
+   each resolved to the reader's current language variant. The two
+   links spread apart on one row; a single link sits inline. */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--rs-space-2);
+  margin-block-start: var(--rs-space-3);
+}
+
+/* Post warnings: the machine-translated notice on non-default language
+   variants and the staleness notice on entries older than a year —
+   small amber panels led by the pack's warning icon. */
+.post-warning {
+  padding: var(--rs-space-1) var(--rs-space-2);
+  border: 2px dashed #e8a33d;
+  background: rgba(232, 163, 61, 0.18);
+}
+
+/* Post code blocks sit in their own Night Owl panel: the editor
+   background (#011627) is darker than the page's violet surface, so
+   highlighted code reads on a deep navy field framed by the theme's
+   contrast border — wide blocks scroll horizontally instead of
+   wrapping. */
+.post-body pre {
+  background: #011627;
+  color: #d6deeb;
+  padding: var(--rs-space-2);
+  border: 2px solid #122d42;
+  overflow-x: auto;
+}
+
+/* The Night Owl token palette (sdras/night-owl-vscode-theme), mapped
+   scope by scope onto the smalto classes: keywords are the theme's
+   purple italic, strings its peach, comments its muted italic, and
+   builtins and library types its green-yellow. */
+.smalto-keyword {
+  color: #c792ea;
+  font-style: italic;
+}
+
+.smalto-string {
+  color: #ecc48d;
+}
+
+.smalto-number {
+  color: #f78c6c;
+}
+
+.smalto-comment {
+  color: #637777;
+  font-style: italic;
+}
+
+.smalto-function {
+  color: #82aaff;
+  font-style: italic;
+}
+
+.smalto-operator {
+  color: #7fdbca;
+}
+
+.smalto-punctuation {
+  color: #d6deeb;
+}
+
+.smalto-type {
+  color: #ffcb8b;
+}
+
+.smalto-module {
+  color: #c5e478;
+}
+
+.smalto-variable {
+  color: #d6deeb;
+}
+
+.smalto-constant {
+  color: #82aaff;
+}
+
+.smalto-builtin {
+  color: #c5e478;
+}
+
+.smalto-tag {
+  color: #caece6;
+}
+
+.smalto-attribute {
+  color: #c5e478;
+  font-style: italic;
+}
+
+.smalto-selector {
+  color: #c792ea;
+  font-style: italic;
+}
+
+.smalto-property {
+  color: #80cbc4;
+}
+
+.smalto-regex {
+  color: #5ca7e4;
+}
+
+/* Post typography: the cosmic theme shrinks the body text to the 13px
+   ladder step; post bodies read at the 16px step (size-3), which honors
+   the reader's own browser font-size preference. Post code — blocks
+   and inline spans — carries JetBrains Mono (loaded in the head from
+   Google Fonts), falling back to retrostrap's mono stack. */
+.post-body {
+  font-size: var(--rs-font-size-3);
+}
+
+.post-body pre,
+.post-body code {
+  font-family: 'JetBrains Mono', var(--rs-font-mono);
+}
+
+/* Single-backtick spans in djot render as a bare <code> in the prose —
+   fenced blocks are the ones inside <pre>. Highlight the word in the
+   site's violet instead of giving it a block panel, keeping the same
+   JetBrains Mono face as block code. */
+.post-body :not(pre) > code {
+  font-family: 'JetBrains Mono', var(--rs-font-mono);
+  color: #fafafa;
+  background-color: #7540bd;
+  padding: 0 0.2em;
+  border-radius: 3px;
+}
+
+/* Content embeds: the full OpenGraph card of the old site's
+   `tags/embed.html` — site name, title, and description in a text
+   column beside the target's image, framed in the site's dashed
+   violet, the whole card one link — plus the full-width YouTube
+   player of `tags/youtube.html` in the same frame. */
+.embed-full {
+  display: flex;
+  align-items: stretch;
+  gap: var(--rs-space-2);
+  padding: var(--rs-space-2);
+  margin-block: var(--rs-space-2);
+  border: 2px dashed #7540bd;
+  text-decoration: none;
+  color: inherit;
+}
+
+.embed-full__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--rs-space-1);
+  min-width: 0;
+}
+
+.embed-full__site {
+  font-size: 0.8rem;
+  color: #80cbc4;
+}
+
+.embed-full__title {
+  font-weight: 700;
+}
+
+.embed-full__description {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.embed-full__image {
+  flex: 0 0 40%;
+  width: 40%;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.embed-full:hover {
+  border-color: #e8a33d;
+}
+
+.embed-video {
+  margin-block: var(--rs-space-2);
+  padding: var(--rs-space-2);
+  border: 2px dashed #7540bd;
+}
+
+.embed-video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-height: 640px;
+}
+
+.embed-video:hover {
+  border-color: #e8a33d;
+}
+
+/* Single post mastheads carry no hero: the post's header image (its
+   featured_image, or the Ninjas logo placeholder) fills the whole masthead
+   as its background. cover crops instead of stretching so any image ratio
+   renders undistorted, centered on the area; the min-height keeps the
+   cover a banner now that no hero content gives the masthead its height.
+   The navbar keeps retrostrap's own raised bevel background, so it stays
+   legible over the image. */
+.masthead--cover {
+  min-height: 240px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Sobre nosotros: the portrait and the text share one row — the portrait
+   fills a ~30% left column, a ~10% gap separates it from the text, and the
+   text fills a ~60% right column. The percentage gap resolves first and
+   the remaining 90% splits 3fr:6fr into exactly 30/60; below retrostrap's
+   vga breakpoint the row collapses to one column, portrait first. */
+.about__cols {
+  display: grid;
+  grid-template-columns: 3fr 6fr;
+  gap: var(--rs-space-2);
+  column-gap: 2%;
+}
+
+/* Showcase cards — proyectos, libros and juegos — follow the same row
+   structure as Sobre nosotros (same values as .about__cols above): the
+   figure fills a ~1/3 left column, a 2% gap separates it from the text,
+   and the text fills a ~2/3 right column; below the vga breakpoint the
+   shared media query collapses the row to one column, figure first. */
+.showcase__cols {
+  display: grid;
+  grid-template-columns: 3fr 6fr;
+  gap: var(--rs-space-2);
+  column-gap: 2%;
+}
+
+/* Entradas del blog: the featured post follows the same row structure
+   as Sobre nosotros (same values as .about__cols above): its figure
+   fills a ~1/3 left column at natural proportions (the post's featured
+   image, or the Ninjas logo placeholder), a 2% gap separates it from
+   the text, and the text fills a ~2/3 right column; below the vga
+   breakpoint the shared media query collapses the row, figure first. */
+.post__cols {
+  display: grid;
+  grid-template-columns: 3fr 6fr;
+  gap: var(--rs-space-2);
+  column-gap: 2%;
+}
+
+@media (max-width: 639px) { /* below retrostrap's vga breakpoint */
+  .about__cols,
+  .showcase__cols,
+  .post__cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The about portrait, the featured post's figure, and every showcase
+   card figure fill their column at the image's intrinsic ratio, so
+   proportions are kept. */
+#about .rs-figure,
+.showcase__cols .rs-figure,
+.post__cols .rs-figure {
+  display: block;
+  margin-inline: 0;
+}
+
+#about .rs-figure img,
+.post__cols .rs-figure img {
+  width: 100%;
+  height: auto;
+}
+
+/* Showcase card image boxes share one height: the Super Club Net cover's
+   shape (1050×1600, the tallest shipped ratio). Each box takes that ratio
+   at the column width — the uniform minimum — and object-fit: contain
+   keeps natural proportions, letterboxing shorter or wider images
+   centered instead of distorting them. The about portrait above keeps
+   its natural-height presentation. */
+.showcase__cols .rs-figure img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1050 / 1600;
+  object-fit: contain;
+}
+
+/* Showcase card buttons (Ver/View, Código/Code) and the post
+   navigation buttons (Anterior/Siguiente) carry retrostrap's own
+   rs-btn--large variant (1.125rem label, ≈1.8× the small default —
+   tuned down one ladder step from the first pass by the site owner);
+   rs-btn--icon flexes the matching /icons pack icon beside the label,
+   sized to the text and rendered crisp (pixelated at near-native
+   scale). */
+.showcase__cols .rs-btn img,
+.post-nav .rs-btn img {
+  height: 1.25em;
+  width: auto;
+  image-rendering: pixelated;
+}
+
+/* The post-neighbor buttons point with the Win95 hand: the Msow10 sprite
+   points up out of the pack, so each button turns it a quarter rotation —
+   counter-clockwise for "Anterior", clockwise for "Siguiente". A right
+   angle keeps the pixel-art crisp under the pixelated scaling above. */
+.post-nav__hand--left {
+  transform: rotate(-90deg);
+}
+
+.post-nav__hand--right {
+  transform: rotate(90deg);
+}
+
+/* Inline icons (from the /icons Win95 pack) replace the site's emoji
+   chrome; em-relative sizing keeps them right from navbar to the
+   enlarged section titles, and pixelated scaling stays crisp. */
+.site-icon {
+  height: 1.25em;
+  width: auto;
+  image-rendering: pixelated;
+  vertical-align: -0.25em;
+}
+
+/* The banner wall fills the untitled panel at #contact: the shipped
+   retro GIFs flow in wrapping, centered rows with retrostrap's small
+   gap. Each banner renders at its intrinsic size — no width or height
+   forcing, so the odd-sized ones (iframsuc 87×31, ubuntu-88x31 90×32,
+   netbsd2 90×33) keep their proportions — and pixelated scaling keeps
+   the pixel art crisp. */
+.banner-wall {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rs-space-3);
+  justify-content: center;
+}
+
+.banner-wall img {
+  image-rendering: pixelated;
+}
+
+/* The home page's section panels — Sobre nosotros, Entradas del blog,
+   Proyectos, Libros, Juegos, and the banner wall at #contact — sit too
+   close to the content above them: retrostrap's 16px top margin leaves
+   the next section's floating title (raised 0.7em above the border)
+   nearly touching the previous panel. A 32px top margin gives every
+   section real clearance, the same bump #blog gets below. */
+#about,
+#posts,
+#projects,
+#books,
+#games,
+#contact {
+  margin-top: var(--rs-space-5);
+}
+
+/* The blog index's title panel: retrostrap's 16px top margin leaves
+   the panel's floating title (raised 0.7em above the border) nearly
+   touching the navbar — a 32px margin gives the header real clearance
+   below the menu. */
+#blog {
+  margin-top: var(--rs-space-5);
+}
+
+/* The home page's Entradas del blog panel and the blog index's title panel
+   sit slightly right of the page container's edge, giving their floating
+   titles a small inset without shifting the other home sections. */
+#posts,
+#blog {
+  margin-left: var(--rs-space-3);
+}
+
+/* The post page's "Otras entradas" panel: it follows the post navigation
+   directly, so give it the same generous top clearance as the home page's
+   sections to keep it from hugging the content above. */
+.post-others {
+  margin-block-start: var(--rs-space-5);
+}
+
+/* Blog index entry cards (`/blog/page/{n}/`): the embed-full card as the
+   entry's main link — date, title, and description in the left column —
+   framed together with a meta row carrying the post's tags and the
+   links to its translations. Anchors cannot nest, so the meta row sits
+   below the link inside the frame: the frame owns the dashed border and
+   hover, and the inner embed-full keeps its layout without its own
+   border. The frame carries the Night Owl navy surface (#011627 — the
+   same darker-than-violet reading field the post code panels use) so
+   the cards stand off the page's violet wash, and every frame closes
+   with a bottom margin so consecutive results read as separate blocks.
+   The post's header image covers the frame's whole height: positioned
+   against the frame, it spans the link and meta rows alike as a 40%
+   right column, zoomed by object-fit cover, while the link's padding
+   and the meta row's margin reserve that column in flow — so the
+   card's height follows its text alone, never the image. */
+.blog-entry {
+  position: relative;
+  margin-bottom: var(--rs-space-4);
+  border: 2px dashed #7540bd;
+  background: #011627;
+}
+
+.blog-entry:hover {
+  border-color: #e8a33d;
+}
+
+.blog-entry .embed-full {
+  border: none;
+  margin-block: 0;
+  padding-right: calc(40% + var(--rs-space-3));
+}
+
+.blog-entry .embed-full__image {
+  position: absolute;
+  top: var(--rs-space-2);
+  right: var(--rs-space-2);
+  /* A replaced element does not stretch between top and bottom insets:
+     its height would follow its intrinsic ratio and portrait covers
+     would spill past the frame's bottom. An explicit height against
+     the frame fills the column exactly, from the top inset to the
+     bottom one, with object-fit cover zooming the content into it. */
+  height: calc(100% - var(--rs-space-3));
+  width: 40%;
+  max-height: none;
+}
+
+.blog-entry__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--rs-space-2);
+  margin-right: calc(40% + var(--rs-space-3));
+  padding: var(--rs-space-2);
+  border-top: 2px dashed #7540bd;
+}
+
+.blog-entry__meta .post-tags,
+.blog-entry__languages {
+  margin: 0;
+}
+
+/* The index title section's feed link: the old site's feed icon beside
+   the page title, linking the Atom feed. */
+.blog-feed img {
+  height: 1.25em;
+  width: auto;
+  vertical-align: -0.25em;
+}
+
+/* The index pagination counter between the retrostrap buttons. */
+.blog-pages {
+  font-weight: bold;
+}
+
+/* The home title's Chilean rainbow: retrostrap's rs-rainbow technique —
+   hard-banded gradient clipped to the text — carrying the 🇨🇱 emoji's own
+   flag palette (twemoji's flag-cl): blue #1f429b, white #eee, red
+   #d42d27. The bands run top to bottom — the flag's own arrangement —
+   so every glyph reads horizontally intact instead of being sliced
+   mid-stroke by the left-to-right bands. */
+.cl-rainbow {
+  background: linear-gradient(180deg,
+    #1f429b 0 33%, #eee 33% 66%, #d42d27 66% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

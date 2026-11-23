@@ -1,0 +1,61 @@
+---
+title: Modificador do Centro Comunitário de Stardew Valley
+slug: stardew-valley-community-center-modifier
+date: 2016-12-10 12:35:19 +00:00
+description: É uma ferramenta simples criada em Laravel 5. Não usa bancos de dados. Execute com Mamp/Wamp/Xampp, o Valet do Laravel ou o servidor embutido do PHP.
+featured_image: /blog/stardew-valley-community-center-modifier/cover.png
+tags: games, mod, stardew valley, php, laravel
+---
+
+![Stardew Valley](cover.png)
+
+Uma ferramenta simples que permite modificar os itens e nomes do
+centro comunitário. É baseada na web com PHP.
+
+É compatível com Stardew Valley 1.4 e também é um aplicativo
+autocontido; agora você pode gerar o arquivo XNB necessário para
+substituir o do jogo pela sua versão personalizada.
+
+Se precisar, você pode substituir os arquivos YML dentro de
+www/resources/yaml pelos seus personalizados, para começar com um
+centro comunitário já modificado.
+
+Basta executar `ccmod.cmd` e estará tudo pronto (ferramenta só para
+Windows, mas os arquivos xnb funcionam em qualquer SO).
+
+> Nota: Como o script gera uma página web pesada (50mb), levará um
+> tempo para carregar corretamente.
+
+- <https://github.com/NinjasCL-archive/stardewvalley-ccmod>
+
+## Tecnologias
+
+- Laravel 5
+- PHP
+- Yaml
+- jQuery
+- Bulma.css
+- Windows CMD
+
+## Bundle de exemplo
+
+O jogo exige que você use produtos animais no Centro Comunitário
+para completar o arco. Eu queria uma alternativa vegana, então fiz um
+pequeno mod só para isso.
+
+![Bundle](bundle.webp)
+
+### Instalação
+
+Copie `Bundles.xnb` substituindo o arquivo em `Data/Bundles.xnb`
+dentro dos arquivos do StarDew Valley.
+
+### Importante
+
+- Faça backup dos seus arquivos.
+- Use por sua conta e risco.
+- Isto é beta, pode travar o jogo. Testado atualmente no SDV v1.1.
+
+```github
+NinjasCL-archive/stardewvalley-veganmod | Un mod que modifica el Centro Comunitario de Stardew Valley
+```

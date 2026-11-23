@@ -1,0 +1,94 @@
+---
+title: IMGOnline向けのプロジェクト
+slug: proyectos-para-imgonline
+date: 2021-12-23 16:28:51 +00:00
+description: IMGOnline社のコンサルタントおよび請負業者として、モバイルアプリ開発からLaravel PHPバックエンドまで、さまざまなプロジェクトに参加しました。
+featured_image: /blog/proyectos-para-imgonline/cover.png
+tags: imgonline, consultora, php, laravel, javascript, ios
+---
+
+![IMOnline](imgonline.png)
+
+私は2016年から2021年まで[IMGOnline](https://imgonline.cl) の請負業者でした。
+モバイルアプリから調査、バックエンドおよびフロントエンドプロジェクトの開発
+（主にLaravel）まで、さまざまなプロジェクトを担当しました。
+
+このコンサルティング会社の主要クライアントは_Chilquinta_ という電力会社でした。
+
+その中から、特に目立ついくつかのプロジェクトを紹介します。
+
+### Chilquinta：ITサポート開発者（2021年7月～2021年12月）
+
+ExcelファイルからSQLクエリを生成するJavaScript自動化スクリプトを作成しました。プロセスの完了に必要な時間を90%削減しました。
+
+Laravel、Inertia、Svelteを使って、SQLServerデータベースのレコードのロック/アンロックなどの管理タスクを実行するシンプルなパネルを実装しました。
+
+既存のLaravelバックエンドのバグを修正しました。
+
+<https://cesium.com/> テクノロジーを使ってKMZジオポジションを表示する地図アプリのプロトタイプを作成しました。
+
+### Sixbell：Google Analyticsのアップデート（2021年7月）
+
+React 16で作られたシステムを更新し、Google Analyticsによるトラッキングシステムを追加しました。
+
+使用技術：
+
+- React.js 16
+
+### Chilquinta：WeatherlinkからSQLite-Excelスクリプト（2021年6月）
+
+サーバー（<https://weatherlink.github.io/weatherlink-live-local-api/）に接続してJSONをローカルのデータベースファイルに保存するシンプルなJavaScriptプログラム。保存した値を、日付をフィルターとして、Excel互換の結合フォーマットにエクスポートすることもできます。>
+
+### Chilquinta：モバイルアプリの保守（2021年5月）
+
+jQueryとLaravelで作られた既存のCordovaアプリ。私の担当は既存のバグの修正と、AppStoreおよびPlaystoreのコメントの確認でした。
+
+使用技術：
+
+- jQuery
+- Cordova
+- Laravel 5.8
+
+### Chilquinta：Denuncioシステム（2021年1月～2021年3月）
+
+技術者が電力網への不法な接続や改ざんを通報できる小さなシステム。制約は次のとおりでした：データ操作にLaravel 5.8と、ストアドプロシージャを使ったSQLServerを使用すること。プロジェクトの期限は8週間でした。システムには、データテーブルの表示、メール通知の送信、レポートのダウンロード、レポートデータの管理が必要でした。デザイナーが基本的なHTMLモックアップを提供しました。
+
+SQLServerのテーブルとストアドプロシージャを設計しました。
+
+Laravel 5.8、Svelte、Bootstrap 4.1、InertiaJSを使ってダッシュボードを実装しました。HTMLはChilquintaが提供したテンプレートに基づいていました。
+
+Cordovaを使ってモバイルアプリを作成し、Firebase通知を設定しました。
+
+### Sixbell：レガシーの予約システムのフロントエンド更新（2020年12月～2021年1月）
+
+レガシーシステムの古いインターフェースコードを更新する2週間のプロジェクト。このシステムは医師との面会の予約に使われていました。クライアントの要件はjQueryとCodeIgniter 3を使うことでした。私は、デザイナーが提供した基本的なhtmlページをCodeIgniterバックエンドと互換性があるように適応させる担当でした。
+
+CodeIgniter 3で作られたレガシーコードベースで作業しました。
+jQueryとBootstrap 3を使って、提供された仕様に従ってデザインを更新しました。
+
+### 社内ハイブリッドモバイルアプリの構築（2017年頃）
+
+ChilquintaにはASP.netとSQLServerで作られた古いウェブシステムがありました。データベースから情報を取得し、いくつかのレポートを表示し、特別なフォームに入力できるAndroidモバイルアプリが求められました。Laravel 5.xを使ってREST APIを作成し、アプリにはOnsenを使用しました。
+
+- 使用技術： PHP、Laravel 5.x、Onsen Framework、SQL Server、Javascript。
+
+### Webpay KCCからWebpay SOAPへのアップデート（2017年頃）
+
+一部の社内サイトで、Webpay SOAP決済方法を使うようにコードを更新する必要がありました。それまではWebpay KCC（旧バージョン）を使っていました。
+
+- 使用技術： PHP、Webpay SOAP。
+
+### テクノロジーの標準化（2017年頃）
+
+Chilquintaの幅広い請負業者は、ウェブ開発にさまざまなテクノロジーを使っていました。新しいプロジェクトのデフォルトソリューションとしてどのフレームワークを使うべきかを選定するための小さな調査が依頼されました。Laravel 5.x以降が推奨されました。
+
+- 使用技術： Laravel。
+
+### レガシーiPhoneアプリの更新（2016年頃）
+
+Chilquintaから、レガシーなObjective-CのiPhoneアプリ（他社が作成）の更新が依頼されました。
+新機能の追加、バグの修正、そしてコンピュータービジョン用のSwiftフレームワーク
+（Tensorflowベース）との統合の導入。この変更には、Laravel 4.xで作られた
+バックエンドの更新と新しいエンドポイントの追加も必要でした。
+
+- 使用技術： Objective-C、Laravel。

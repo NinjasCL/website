@@ -1,0 +1,18 @@
+---
+title: Discord向けMateBot
+slug: matebot-para-discord
+date: 2023-05-14 15:52:00 +00:00
+description: 🧉 ユーザーにごほうびを与えるDiscordボット
+featured_image: /blog/matebot-para-discord/cover.png
+tags: elixir, discord, chat, bot
+---
+
+![Discord向けMateBotのスクリーンショット](cover.png)
+
+_Elixir_ と _Phoenix_ でプログラムされており、ユーザーがマテ茶 🧉 を贈り合えるようにします。
+
+[heytaco.com](https://heytaco.com/) の小さなクローンです。
+
+```github
+ElixirCL/mate | Un clon pequeño de heytaco.com para Discord, en Elixir
+```

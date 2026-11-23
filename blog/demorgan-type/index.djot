@@ -1,0 +1,68 @@
+---
+title: Tipo Demorgan
+slug: demorgan-type
+date: 2021-04-30 15:40:35 +00:00
+description: Una idea es usar el valor de Demorgan como una denominación alternativa para los Bools.
+featured_image: /blog/demorgan-type/cover.jpg
+tags: wren, javascript, programming, disscussion, idea, english
+---
+
+![Foto de Scott Rodgerson en Unsplash](cover.jpg)
+
+[Esta conversación en los issues de Wren](https://github.com/wren-lang/wren/issues/991)
+me hizo buscar una denominación alternativa para los Bools que
+considere `0` como falso.
+
+En JavaScript `0` es `false`.
+
+```js
+(() => {
+  const zero = Boolean(0);
+  // false
+  console.log(zero);
+})();
+```
+
+En otros lenguajes como _Wren_, `0` se considera como `true`.
+
+```js
+var zero = 0
+if (zero) {
+   System.print("zero is true")
+}
+```
+
+Así que como forma de estandarizar, una idea es usar el valor de
+[Demorgan](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) como
+una denominación alternativa para los Bools.
+
+En un mundo de ensueño todos los lenguajes:
+
+- `Bool` considerará `false`, `null`, `undefined` como falso, todo lo
+  demás como `true`.
+- `Demorgan` considerará `false`, `null`, `undefined`, `0` como
+  falso, todo lo demás como `true`.
+
+Pero como hay muchos lenguajes con distintas implementaciones y
+consideraciones sobre lo que significa `0`, una idea es:
+
+- `Bool` considerará `false` lo que el lenguaje ya considere
+  `false`.
+- `Demorgan` considerará `false` todo lo que el lenguaje ya
+  considere `false`, excepto `0`, cuyo valor booleano sería negado.
+
+Así que en el ejemplo de JavaScript:
+
+```js
+(() => {
+  const zero = Boolean(0);
+
+  // false
+  console.log(zero);
+
+  const negatedZero = Demorgan(0);
+
+   // true
+  console.log(negatedZero);
+})();
+```

@@ -1,0 +1,118 @@
+---
+title: The Club Nintendo Magazine
+slug: la-revista-club-nintendo
+date: 2024-06-08 17:14:30 +00:00
+description: My memories with the magazine and how I got started with computers
+featured_image: /blog/la-revista-club-nintendo/cover.png
+tags: revista, club, nintendo
+---
+
+![Club Nintendo](cover.png)
+
+I want to share the course that started my interest in computers.
+The HTML course from the Club Nintendo magazine. I found the scans of the
+Mexican version, although I read the Chilean edition. The content is the same.
+
+## First Part
+
+
+<https://archive.org/embed/club-nintendo-ano-06-no-05-mexico>
+
+Page 44. Introduction to HTML.
+Basic tags like `<h1>`, `<img>` and hexadecimal colors. Tables and lists.
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-05-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### Concepts
+
+- <https://developer.mozilla.org/es/docs/Web/HTML>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements>
+- <https://developer.mozilla.org/es/docs/Web/CSS/color>
+- <https://developer.mozilla.org/es/docs/Web/API/HTMLTableElement>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/menu>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/li>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/img>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/br>
+
+
+## Second Part
+
+<https://archive.org/embed/club-nintendo-ano-06-no-10-mexico>
+
+Page 44. Image maps. Frames, links.
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-10-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### Concepts
+
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/map>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/frame>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/frameset>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/a>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/sub>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/sup>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/hr>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/u>
+
+## Third Part  (final)
+
+<https://archive.org/embed/club-nintendo-ano-06-no-11-mexico>
+
+Page 52. Forms and a little bit of Javascript.
+
+``` =html
+<iframe
+      src="https://archive.org/embed/club-nintendo-ano-06-no-11-mexico"
+      width="100%" height="384" frameborder="0"
+      webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen
+    ></iframe>
+```
+
+### Concepts
+
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/form>
+- <https://developer.mozilla.org/es/docs/Web/HTML/Element/input>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox>
+- <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button>
+- <https://developer.mozilla.org/en-US/docs/Web/JavaScript>
+
+
+## Personal Experience
+
+Personally I was 8 years old and in second grade (May 1997); I had not long
+before learned to read and write. My father brought home an old computer with
+Windows 3.1 that had been written off at his work, and it served me to practice
+the things from the magazine, although I mainly used it to play DOS games
+and learn to type on the keyboard; with that I also learned the basic terminal
+commands like creating folders, copying and deleting files, and those DOS
+things.
+
+My father was more of an Excel and Word person, so I had to learn all those
+things by watching and experimenting on my own.
+
+Even though we didn't have internet at home until 2004, I could go to his
+work and download things and more tutorials.
+
+After that he also brought me a photocopied Visual Basic 6 book, where I also
+learned to build desktop programs, though super basic ones.
+
+I will finish this small post with the same words from the HTML course of the
+Club Nintendo magazine:
+
+> Hopefully these 3 HTML courses will serve you and awaken your interest in
+> learning more. If so, there are very good programming books for other
+> languages to use on the Internet.

@@ -1,0 +1,170 @@
+---
+title: Por que escolhi Elixir e Phoenix como minha stack principal
+slug: why-i-selected-elixir-and-phoenix-as-my-main-stack
+date: 2023-01-21 14:41:37 +00:00
+description: Esta é apenas a documentação de uma jornada pessoal sobre como decidi usar minha stack tecnológica atual. Por que escolhi Elixir? Porque o achei divertido, funcional e robusto. E consegui um trabalho dos sonhos só porque gostava da linguagem.
+featured_image: /blog/why-i-selected-elixir-and-phoenix-as-my-main-stack/cover.jpg
+tags: elixir, english, webdev, programming, beginners
+---
+
+![Foto de Markus Spiske no Unsplash](cover.jpg)
+
+Esta é apenas a documentação de uma jornada pessoal sobre como decidi usar minha stack tecnológica atual.
+
+Ao longo dos anos experimentei diferentes frameworks, na sua maioria em PHP, como [Code Igniter](https://codeigniter.com/) (2010), [ProcessWire](https://processwire.com/) (2014) e [Laravel](https://laravel.com/) (2015).
+
+Eles me ajudaram a completar diferentes projetos com diversa complexidade. São ferramentas maravilhosas. Mas infelizmente a maioria dos empregos que consegui era com versões legadas de PHP, e a base de código e a experiência de desenvolvimento eram espartãs, para dizer o mínimo. Como exemplo, em um projeto (2020) eu tinha que me conectar a uma máquina Windows remota, editar o código no Notepad++ e depois subir usando FTP. Deixando de lado os fluxos de trabalho estranhos, eu queria conseguir projetos mais modernos. Então me embarquei numa busca por uma nova stack tecnológica.
+
+Primeiro quis atualizar minhas ferramentas, talvez eu só precisasse de um pequeno patch em vez de trocá-las. Então fiz um projeto para um cliente usando Laravel, [Inertia.js](https://inertiajs.com/), [Svelte](https://svelte.dev/), e depois outro projeto usando Laravel, Inertia e [React](https://reactjs.org/). Gostei mais de _Svelte_ do que de _React_, então se projetos de frontend aparecessem no futuro, minha ferramenta principal seria _Svelte_.
+
+Ambos os projetos resultaram numa experiência de desenvolvimento super melhorada e foram terminados em tempo recorde. Um único monólito com backend e frontend fez maravilhas porque não precisei criar APIs REST nem endpoints GraphQL para fazer um sistema fullstack. Agora posso ter todo o poder de uma SPA com todas as boas partes de um Backend, como acesso direto a um banco de dados.
+
+Explorei usar _Inertia.js_ como minha ferramenta principal e fiz alguns adaptadores para ProcessWire, para entender melhor como funcionava.
+
+```ninjas
+inertia-js-adapter-for-processwire | Adaptador de Inertia.js para ProcessWire | Inertia te permite crear aplicaciones de página única completamente renderizadas del lado del cliente, sin gran parte de la complejidad que conllevan las SPA modernas. Para el proyecto ProcessWire creé este simple adaptador de Inertia. Y también un proyecto de ejemplo ProcessWire + Svelte + Laravel Mix + Inertia. | /blog/inertia-js-adapter-for-processwire/cover.avif
+```
+
+## Vapor (Swift)
+
+Minha primeira opção diferente de PHP foi usar [Swift](https://developer.apple.com/swift/) e [Vapor](https://vapor.codes/). Já tinha feito alguns projetos com iOS e Objective-C, talvez eu também pudesse aprender _Swift_ e criar tanto apps iOS nativas quanto backends com a mesma linguagem.
+
+Mas descobri que faltava o adaptador de _Inertia.js_, então encontrei este projeto
+
+```github
+lloople/vapor-inertia-adapter | Un adaptador de Inertia.js para Vapor
+```
+
+e criei um exemplo
+
+```github
+ninjascl/vapor-inertia-svelte-example | Un ejemplo de Vapor con Inertia.js y Svelte
+```
+
+### Prós
+
+- Usar _Xcode_ para programar uma aplicação backend foi muito legal. Foi ótimo ter uma IDE com todos os frisos para a linguagem _Swift_.
+
+- Vir de _Objective-C_ ajudava a entender o ecossistema e os fluxos de trabalho da Apple.
+
+### Contras
+
+- Muitas vezes eu tinha que recorrer a outros editores como _VSCode_ para editar arquivos sem bom suporte, como arquivos _JS_, _CSS_ ou _HTML_.
+
+- Se você quer usar _XCode_ precisa de um sistema operacional atualizado; se você tem um Mac antigo sem suporte, precisará usar _Docker_ e a versão _Linux_ do framework _Vapor_, com desempenho e experiência de desenvolvimento piores por usar contêineres em vez de _Xcode_.
+
+## Masonite (Python)
+
+[Masonite](https://docs.masoniteproject.com/) é um framework de [Python](https://www.python.org/) maravilhoso, bem parecido com _Laravel_, que encontrei em 2018. Eu até conversei com Joseph sobre ele nos antigos canais do Slack, antes de a comunidade se mudar para o Discord.
+
+```embed
+https://dev.to/masonite/the-history-of-the-masonite-framework-2n2b | The History of the Masonite Framework | La historia de cómo surgió el framework Masonite
+```
+
+E também havia um adaptador de Inertia para _Masonite_
+
+```github
+girardinsamuel/masonite-inertia | Un adaptador de Inertia.js para Masonite
+```
+
+### Prós
+
+- Gostei de como ele é bem organizado e de o mantenedor ser super simpático.
+
+- Você pode aproveitar todas as ferramentas maravilhosas que _Python_ tem, como o [PyCharm](https://www.jetbrains.com/pycharm/).
+
+### Contras
+
+- Não gostei da forma como _Python_ gerencia suas dependências; tendo tantas opções como [Poetry](https://python-poetry.org/) ou [Pipenv](https://pipenv.pypa.io/en/latest/), parece pouco padronizado em comparação com outras linguagens.
+
+- Muitos dos empregos disponíveis para _Python_ que consegui encontrar eram para projetos baseados em [_Django_](https://www.djangoproject.com/) ou coisas de Machine Learning que eu não gostava muito. Então usar _Masonite_ seria só para projetos green field.
+
+## Springboot (Java)
+
+Na universidade aprendi um pouco de [Java](https://www.java.com/), então talvez eu pudesse usá-lo profissionalmente, imagino?. Havia muitas opções para escolher: [DropWizard](https://www.dropwizard.io/en/latest/), [Spark](https://sparkjava.com/), [Play Framework](https://www.playframework.com/). Mas o mais documentado na internet que encontrei foi o [Springboot](https://spring.io/projects/spring-boot); além disso havia alguns cursos em espanhol e alguns amigos que sabiam algo de _Springboot_, então dei uma chance a ele.
+
+Criei alguns experimentos, como um bot simples de Discord
+
+```github
+NinjasCL/wrenbot | Un bot de Discord
+```
+
+Mas não consegui encontrar um adaptador para Inertia, só um _POC_, e eu não queria investir tempo demais criando um adaptador para ele.
+
+```github
+jrodalo/inertia | Una prueba de concepto de un adaptador de Inertia.js para Java
+```
+
+### Prós
+
+- Framework altamente robusto, muita documentação, cursos e exemplos.
+
+- Bibliotecas e dependências super maduras.
+
+### Contras
+
+- A maioria dos empregos que consegui encontrar era para bancos e outras instituições "antigas". Que têm requisitos como ir ao escritório (antes do C19) e até códigos de vestimenta. Eu prefiro trabalhar remotamente.
+
+## JavaScript
+
+Já uso [_Javascript_](https://www.javascript.com/) no frontend, por que não usar no backend?. Tentei [Adonis.js](https://adonisjs.com/) porque era parecido com Laravel, mas me pareceu estranho. Também um cliente uma vez precisou de uma ponte e eu usei [Fastify](https://www.fastify.io/).
+
+```github
+NinjasCL/airnotifier-moodle-bridge | Un puente entre AirNotifier y Moodle hecho con Fastify
+```
+
+## Prós
+
+- Eu já conhecia _Javascript_ e tinha feito algumas APIs e scripts pequenos.
+
+## Contras
+
+- Existem muitos frameworks diferentes por aí. Se você aprende um, não há garantia de que o próximo emprego que encontrar use o mesmo. Por exemplo, se você aprende [_Express_](https://expressjs.com/) e o próximo usa [_Koa_](https://koajs.com/) ou [_Nest_](https://nestjs.com/).
+
+- Já sentia que havia algo errado em _Javascript_, porque sempre há alguma mudança que quebra tudo e que exige reescrever a base de código ou atualizar as dependências. Não gostava que _npm_ jogasse um monte de avisos na inicialização do projeto ou ao instalar dependências.
+
+## Elixir e Phoenix
+
+OK, então anteriormente eu tinha brincado um pouco com [Elixir](https://elixir-lang.org/) no [Exercism](https://exercism.org/tracks/elixir) e gostei muito da linguagem. Encontrei o [framework Phoenix](https://www.phoenixframework.org/) mas não o entendia muito bem.
+
+Uma linguagem funcional levou tempo para eu entender as convenções e fluxos de trabalho. Era como um mundo totalmente novo.
+
+Ainda assim, apenas esperei um tempo antes de ir fulltime como dev Elixir. Aceitando pequenos freelances em PHP e outros projetos pequenos. Mas decidi escrever no meu _CV_:
+
+> "Adoraria participar em projetos baseados em Elixir"
+
+Eu realmente amei a ideia de _LiveView_ e como não era preciso um framework frontend separado para alcançar uma experiência tipo SPA. Então Inertia.js não era necessário em primeiro lugar.
+
+Embora um adaptador esteja disponível, criado antes de _LiveView_ existir.
+
+```github
+devato/inertia_phoenix | Un adaptador de Inertia.js para Phoenix
+```
+
+Em fevereiro de 2022 recebi minha primeira oferta como desenvolvedor Elixir fulltime, só porque disse que gostava de trabalhar com Elixir, sem exigir experiência prévia!.
+
+Lá aprendi mais a fundo sobre _LiveView_ e [Surface UI](https://surface-ui.org/).
+
+Até fiz um curso com o professor incrível [Bruce Tate](https://twitter.com/redrapids) da [Grox.io](https://grox.io/), foi uma experiência incrível. Altamente recomendado.
+
+### Prós
+
+- Elixir é uma linguagem divertida. *fun*cional e *divertida* de trabalhar.
+
+- É mais fácil encontrar bons empregos e ser selecionado, comparando com outros mercados como Javascript onde há mais oportunidades de emprego, mas também mais pessoas para competir.
+
+- O ecossistema de [Erlang](https://www.erlang-solutions.com/) (1986) é mais antigo que o Java (1995). Então está cheio de muitas soluções robustas para problemas do mundo real, como concorrência.
+
+### Contras
+
+- No meu país há poucas empresas que usam Elixir (espero que isso mude em breve), mas se você sabe inglês pode acessar facilmente posições remotas internacionais.
+
+## Conclusões
+
+Por que escolhi Elixir? Porque o achei divertido, funcional e robusto. E consegui um trabalho dos sonhos só porque gostava da linguagem, comparado com outras tecnologias em que eu teria que escrever uma "tese de doutorado" só para ser entrevistado. A experiência de busca de emprego em Elixir foi suave.
+
+Aquele primeiro emprego de Elixir terminou em outubro de 2022 e, depois de umas pequenas férias, consegui outro trabalho dos sonhos logo em seguida.
+
+Elixir é uma potência tanto no lado da Tecnologia quanto no lado do mercado de empregos.
+
+Para mim é a tecnologia da década de 2020 e muito mais!.

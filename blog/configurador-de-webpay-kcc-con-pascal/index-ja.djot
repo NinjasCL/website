@@ -1,0 +1,31 @@
+---
+title: PascalによるWebpay KCCコンフィギュレーター
+slug: configurador-de-webpay-kcc-con-pascal
+date: 2016-05-01 22:57:05 +00:00
+description: TransbankのKCCのtbk_config.datファイルを設定するためのグラフィカルインターフェース。開発者を支援するために作られました。
+featured_image: /blog/configurador-de-webpay-kcc-con-pascal/cover.png
+tags: pascal, lazarus, gui, webpay, kcc
+---
+
+![Pascal](cover.png)
+
+TransbankのKCCの _tbk_config.dat_ ファイルを設定するためのグラフィカルインターフェースです。開発者を支援するために作られました。
+
+## ライセンス
+
+GPL v3の下で公開されているソフトウェアです。
+
+## ヘルプ
+
+```github
+NinjasCL-archive/guia-webpay | Guía y ejemplos para integrar Webpay KCC
+```
+
+## 謝辞
+
+- Object Pascalで <http://lazarus-ide.org> を使ってプログラムされました
+- アプリケーションのアイコンは <http://publicicons.org> によるものです
+
+```github
+NinjasCL-archive/EzWebpayConfigurator | Configurador visual para Webpay KCC escrito en FreePascal
+```

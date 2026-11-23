@@ -1,0 +1,219 @@
+---
+title: Adventures with Emacs
+slug: aventuras-con-emacs
+date: 2024-04-08 17:40:46 +00:00
+description: The truth is that I want to find a text editor that I can use on any operating system. Ideally one that doesn't take up many resources, since sometimes I like to use really old computers.
+featured_image: /blog/aventuras-con-emacs/cover.jpg
+tags: emacs, editores, código
+---
+
+![Photo by Ugi K. on Unsplash](cover.jpg)
+
+In this article I will detail my adventures with the _Emacs_ editor.
+
+## Why _Emacs_?
+
+First. Why _Emacs_?. The truth is that I want to find a text editor
+that I can use on any operating system. Ideally one that doesn't take up many
+resources, since sometimes I like to use really old computers.
+
+_VSCode_ is a great editor, however on the most humble computers
+it can be very resource consuming.
+
+_WebStorm_ is a great IDE, however, besides being demanding on resources,
+it doesn't always have the latest versions of _Elixir_ in its syntax highlighter.
+(It's not _WebStorm_'s fault).
+
+_VIM_ I have used it for a while, although I never managed to learn beyond the basic
+usage commands like _i_, _$_, _0_, _dd_, _yy_, _p_, _u_, _x_, and _:x_.
+
+So my idea is to have two editors.
+
+1. _Vim_ for quick edits (git commits, quick file editing in the terminal).
+2. _Emacs_ to replace a _VSCode_ or _WebStorm_.
+
+## Installation
+
+The first thing is to install a modern version of _Emacs_. Preferably one above _25_.
+From the official page of [GNU Emacs](https://www.gnu.org/software/emacs/).
+
+The installed version (as of today) is _29.3_.
+
+After installing, the editor must be configured. Since I don't want to navigate those waters yet,
+I have preferred to use a previously configured environment.
+
+There are several, but the highlighted ones are two.
+
+- [SpacEmacs](https://www.spacemacs.org/)
+- [DoomEmacs](https://github.com/doomemacs/)
+
+I chose _DoomEmacs_ simply because I like the game _Doom_.
+
+To install _DoomEmacs_ you must run the following command.
+
+```bash
+git clone --depth 1 --single-branch https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+```
+
+Note that the configuration will be saved in `~/.config/emacs`. Some tutorials and documentation
+have an alternative path which is `~/.emacs.d`. Both directories will work, but only one
+must be present, otherwise _Emacs_ will take the configuration from `~/.emacs.d`,
+it is recommended to use `~/.config/emacs` since it doesn't pollute our _$HOME_ directory. If _DoomEmacs_
+doesn't load, check that both directories don't exist, only one.
+You can make sure by running the command `rm -rf ~/.emacs.d/`.
+
+#### PATH
+
+It is recommended to configure the _$PATH_ environment variable with the _doom_
+binaries so that they can be executed freely.
+
+```bash
+PATH="$HOME/.config/emacs/bin":$PATH
+```
+
+#### Recommendations
+
+A very useful command is `doom doctor` which allows detecting problems in our configuration
+or if some essential program is missing.
+
+We also recommend installing _Node.js_ for the compilation of _Markdown_ files (optional).
+
+```bash
+npm install -g stylelint
+npm install -g marked
+npm install -g js-beautify
+```
+
+Also the _editorconfig_ package
+
+```bash
+brew install editorconfig
+```
+
+And the ripgrep and grep packages
+
+```bash
+brew install ripgrep
+brew install grep
+```
+
+Add the following to `.bashrc`
+
+```bash
+if [ -d "$(brew --prefix)/opt/grep/libexec/gnubin" ]; then
+    PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+fi
+```
+
+- See: <https://asdf-vm.com/> to install _Node.js_.
+- See: <https://brain.mikecordell.com/posts/20220709152320-doom_emacs/>
+
+#### MacOS
+
+On _MacOS_ it is recommended to install _Emacs_ from homebrew as follows:
+
+##### Install Dependencies
+
+```bash
+brew install git ripgrep
+brew install coreutils fd
+xcode-select --install
+```
+
+##### Compile Emacs
+
+```bash
+brew tap railwaycat/emacsmacport
+brew install emacs-mac --with-modules --with-native-compilation --with-starter --with-unlimited-select --with-emacs-big-sur-icon
+ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
+```
+
+For more details check the guide <https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#with-homebrew>
+
+### Fonts
+
+The installation of fonts is important, especially the [Nerd Fonts](https://www.nerdfonts.com/)
+since they have special icons that will make everything prettier. My recommended font is [JetBrains Mono](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.0/JetBrainsMono.zip).
+
+_DoomEmacs_ uses a special font called _NFM.ttf_, which can be installed by following these steps:
+
+1. Open _Emacs_ normally.
+2. Press the keys `Alt + x` (M-x).
+3. Find the command `nerd-icons-install-fonts` and run it.
+4. Restart _Emacs_.
+
+
+### Installation of Modes
+
+_Emacs_ works with different modes. For example, if we have a file that contains _Markdown_ and _JSON_ in it,
+we can switch between different modes to get syntax highlighting and special commands
+only designed for that type of file.
+
+We are going to install _markdown_ and _json_.
+
+1. Press the _Space_ key and then _f_ to finally press the _P_ key (uppercase) (SPC f-P)
+2. We look for the `init.el` file and open it for editing.
+3. Near line 144 we can activate both _markdown_ and _json_.
+4. Close _Emacs_.
+5. Run the `doom sync` command to download the components (in our terminal).
+6. Open _Emacs_.
+
+![init.el](init.png)
+
+For example, if we open a file we can switch between the modes and alternate between them to get
+an appropriate syntax highlighting.
+
+To switch a mode we only have to press `M-x` (_Alt_ and then the _x_ key) and type
+`markdown` or `json` to activate the respective mode.
+
+*Note*: If we want to exit the section to change modes we can press `C-g` (Ctrl + g).
+
+_Markdown_ mode:
+
+![Markdown Mode](markdown.png)
+
+_JSON_ mode:
+
+![JSON Mode](json.png)
+
+#### Evil Mode
+
+The _evil_ mode. It has to do with enabling the _VIM_
+commands for the use of _Emacs_, which makes things much easier for
+_Vim_ users like me.
+
+In _DoomEmacs_ it comes activated by default.
+
+Anyway, I would recommend learning the _Emacs_ commands to navigate the files
+since they are also used on other platforms (Hello _IEX_ from Erlang and Elixir).
+
+You may wonder why the crazy nomenclatures of _Emacs_.
+The truth is simply because of its age. _Emacs_ existed long before the standards
+like _CTRL C_ and _CTRL V_. So it had to invent its own.
+
+The _Emacs_ nomenclature could be considered an alternative standard
+to <https://en.wikipedia.org/wiki/IBM_Common_User_Access> (CUA).
+
+
+#### Personal Opinion
+
+This modality has pleased me a lot, because other editors
+tend to make syntax highlighting a bit difficult when there is a file
+with multiple languages mixed in (Hello PHP).
+
+I think it's great to be able to easily switch between languages and also have
+special support commands.
+
+### Support Material
+
+The following documents can be of help.
+
+- <https://www.masteringemacs.org/>
+- <https://docs.doomemacs.org/latest/>
+- <https://jblevins.org/projects/markdown-mode/>
+- <https://github.com/json-emacs/json-mode>
+
+## To Be Continued
+
+Stay tuned for the next parts, while I continue learning _Emacs_.

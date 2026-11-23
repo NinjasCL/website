@@ -1,0 +1,72 @@
+---
+title: Lua 8: Lua para Fantasy Consoles
+slug: lua-8-lua-para-fantasy-consoles
+date: 2020-03-14 23:06:34 +00:00
+description: Este é um fork do lua v5.3.5 com alguns power patches para economizar tokens em fantasy consoles/computadores. Como o TIC-80. Toda a sintaxe do Lua continua válida. Apenas alguns patches foram incluídos para adicionar açúcar.
+featured_image: /blog/lua-8-lua-para-fantasy-consoles/cover.jpg
+tags: lua, fantasy, console, pico8, tic80, custom, c
+---
+
+![Foto de Sanni Sahil no Unsplash](cover.jpg)
+
+Este é um fork do
+[lua v5.3.5](https://github.com/lua/lua/tree/v5.3) com alguns
+[power patches](http://lua-users.org/wiki/LuaPowerPatches) para
+economizar tokens em
+[fantasy consoles/computadores](https://github.com/paladin-t/fantasy),
+como o [TIC-80](https://github.com/nesbox/TIC-80).
+
+Toda a sintaxe do Lua continua válida. Apenas alguns patches foram
+incluídos para adicionar açúcar.
+
+## Patches Incluídos
+
+Estes são alguns dos patches incluídos.
+
+## [Numerais ao estilo Perl](https://hoelz.ro/projects/lua-power-patches)
+
+Este patch permite inserir sublinhados arbitrariamente nos números,
+como se pode em Perl. Isto permite digitar `1_000_000` para um
+milhão.
+
+Os numerais padrão do Lua continuam disponíveis.
+
+Baseado no `perl-numbers.patch` por _Hoelz_.
+
+## [Operadores de Atribuição Compostos](http://lua-users.org/files/wiki_insecure/power_patches/5.4/plusequals-5.4.patch)
+
+Permite declarações como `"object.counter += 2"`. Adiciona
+operadores de deslocamento e bit a bit `(<<=, >>=, &=, |=, e ^=)` aos
+já implementados `+=, -=, *=, e /=.`.
+
+A atribuição padrão do Lua continua disponível.
+
+Baseado no `plusequals-5.4.patch` por _Dave Hayden_
+(<dave@panic.com>) e _SvenOlsen_.
+
+## [Comentários ao estilo C e Bash](http://lua-users.org/files/wiki_insecure/power_patches/5.2/cppcomt.diff)
+
+Permite o uso de comentários multilinha ao estilo C (`/*...*/`) e de
+uma linha ao estilo Bash (`# ...`) no código Lua.
+
+Para os comentários ao estilo Bash é necessário um espaço depois
+para diferenciá-lo do operador de comprimento (`#`).
+
+Os comentários padrão do Lua continuam disponíveis.
+
+Baseado no patch `cppcomt.diff` por _criptych_.
+
+## Compatível com iOS
+
+O iOS não é uma plataforma _ISO C_, que é aquela a que o Lua se
+compromete. Por isso foram adicionadas mudanças especiais ao
+`loslib.c` para ser compatível com este sistema operacional.
+
+Você precisa ativar o flag `IOS`.
+
+Obrigado, [@jet082](https://github.com/jet082)
+Ver <https://github.com/libretro/TIC-80/issues/2>
+
+```github
+NinjasCL-archive/lua8 | Lua 8: Lua para fantasy consoles
+```

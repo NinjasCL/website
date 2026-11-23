@@ -1,6 +1,10 @@
+*.beam
+*.ez
+/build
+/dist
+erl_crash.dump
 .DS_Store
-Thumbs.db
-.vscode
-.idea
-_build/
-update.sh
+.env
+.ftp-upload-dist/
+old/
+.opengraph/

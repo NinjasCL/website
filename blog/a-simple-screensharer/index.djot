@@ -1,0 +1,59 @@
+---
+title: Un simple compartidor de pantalla
+slug: a-simple-screensharer
+date: 2020-05-31 01:36:23 +00:00
+description: Este es un script simple para resolver un problema simple al tomar turnos en servicios públicos.
+featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+tags: javascript, node, chile, express, english
+---
+
+![Portada](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+
+Es un problema común en las instituciones públicas chilenas (y en
+muchos otros lugares) que debes estar en el lugar para tomar tu turno
+y esperar ahí hasta que tu número llegue (y puedes perder tu turno si
+no llegas a tiempo).
+
+Muchas de estas instituciones tienen un software de turnos basado en
+computador similar a este.
+
+El problema es que no puedes acceder a esa información fuera del
+lugar designado.
+
+Este software es una solución simple a ese problema específico. Toma
+una captura de pantalla de la pantalla del computador y la comparte
+en un sitio web, refrescado cada 15 segundos.
+
+Aún necesitas estar presente para tomar tu número, pero al menos
+puedes ver el estado actual y no es necesario estar en el lugar si tu
+número está lejos de llegar.
+
+## Instalación
+
+```bash
+npm install
+```
+
+## Ejecución
+
+```bash
+npm start
+```
+
+- Recomendado usar [Forever](https://github.com/foreversd/forever).
+
+## Flujo de trabajo
+
+- Instala y ejecuta el servidor (en el computador que muestra los
+  números de turno).
+- Configura el acceso al computador para que pueda ser alcanzado
+  fuera de localhost (configura los routers y ten una ip pública, el
+  puerto por defecto es 3000). Quizás usando túneles ssh con Ngrok o
+  herramientas similares.
+- Comparte el sitio web usando un código QR.
+- Ahora la gente puede ir al sitio web y ver los números con una
+  simple captura de pantalla.
+
+```github
+NinjasCL/screensharer | Comparte tu pantalla de forma simple, hecho en Elixir
+```

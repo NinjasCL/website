@@ -1,0 +1,151 @@
+---
+title: Usando GIT como alternativa ao sFTP
+slug: using-git-as-an-alternative-to-sftp
+date: 2016-11-17 00:09:45 +00:00
+description: Muitos desenvolvedores web enfrentam a tarefa de subir as últimas mudanças via ftp ou sftp. O problema dessa abordagem é que é mais propensa a erros. Imagine que você está enviando alguns arquivos e a conexão cai. O servidor terá uma mistura de arquivos da versão mais recente e das mais antigas.
+featured_image: /blog/using-git-as-an-alternative-to-sftp/cover.jpg
+tags: english, git, sftp, linux, cpanel
+---
+
+![Imagem de Sarah Dorweiler](cover.jpg)
+
+Imagem: [Sarah Dorweiler no Unsplash](https://unsplash.com/@sarahdorweiler)
+
+Muitos desenvolvedores web enfrentam a tarefa de subir as últimas mudanças via ftp ou sftp.
+O problema dessa abordagem é que é mais propensa a erros.
+Imagine que você está enviando alguns arquivos e a conexão cai.
+O servidor terá uma mistura de arquivos da versão mais recente e das mais antigas.
+Ainda mais, por um breve momento haverá uma mistura de arquivos antigos e novos
+(enquanto o upload estiver acontecendo).
+
+Isso poderia causar um enorme buraco de segurança no nosso site.
+O Git permite enviar arquivos via ssh. Evitando este problema e facilitando
+a tarefa de upload com apenas um comando simples e de forma segura.
+
+Se você tem um site com _Cpanel_, talvez esta solução possa facilitar os deploys.
+
+## Ferramentas
+
+Para esta abordagem você precisa das seguintes ferramentas:
+
+- acesso ao servidor via ssh
+- git
+- _Ruby_ (opcional)
+- vim, emacs ou nano (editor de texto)
+
+## Configuração do Servidor
+
+Você deve acessar seu servidor via _ssh_.
+Depois precisamos configurá-lo para que tenhamos um repo git no diretório onde
+faremos o deploy do nosso código. Para os comandos assumiremos que é um servidor linux
+baseado em _Debian_, como o _Ubuntu_.
+
+Primeiro instalamos o sistema de controle de versões git e a linguagem de programação _Ruby_.
+
+```bash
+$ sudo apt-get update
+$ sudo apt-get install git-core ruby-full
+```
+
+Agora precisamos dar um _cd_ até o nosso diretório de deploy e inicializar um novo repo git.
+
+```bash
+$ cd /var/www/mywebsite
+$ git init
+$ touch README.md
+$ git commit -am 'initial commit'
+```
+
+Depois disso precisamos garantir que este repo git ignore todas as mudanças locais e sempre use o conteúdo do último commit.
+
+```bash
+$ git config receive.denyCurrentBranch ignore
+```
+
+OK. A última coisa a fazer é criar um hook post-receive dentro do diretório `.git/hooks`
+e dar permissões de execução a ele.
+
+```bash
+$ cd .git/hooks
+$ touch post-receive
+$ chmod +x post-receive
+```
+
+O arquivo `post-receive` será disparado depois que um git push for feito no nosso
+computador e o servidor receber os arquivos.
+Este `post-receive` pode ser programado em qualquer linguagem que o servidor
+puder executar. No nosso caso é _Ruby_.
+
+Edite o arquivo e cole estes conteúdos (edite conforme necessário):
+
+```bash
+$ vim post-receive
+```
+
+```ruby
+#!/usr/bin/env ruby
+# post-receive
+
+# 1. Read STDIN (Format: "from_commit to_commit branch_name") from, to, branch = ARGF.read.split " "
+# 2. Only deploy if master branch was pushed
+if (branch =~ /master$/) == nil
+    puts "Received branch #{branch}, not deploying."
+    exit
+end
+
+# 3. Copy files to deploy directory
+deploy_to_dir = File.expand_path('../')
+
+`GIT_WORK_TREE="#{deploy_to_dir}" git checkout -f master`
+
+puts "DEPLOY: master(#{to}) copied to '#{deploy_to_dir}'"
+
+# 4.TODO: Deployment Tasks
+# i.e.: Run Puppet Apply, Restart Daemons, Clean up etc
+
+File.delete("#{deploy_to_dir}/README.md")
+```
+## Configuração do Cliente
+
+Agora que o servidor está configurado, precisamos configurar um pouco o cliente para podermos enviar nossos arquivos ao servidor.
+
+```bash
+$ cd mywebsite
+$ git init
+$ git remote add hosting user@example.com:/var/www/mywebsite
+$ git pull hosting master
+```
+
+Agora devemos ter o arquivo _README.md_ no diretório do nosso site.
+Estamos prontos para começar a desenvolver nosso site e fazer commits.
+Depois de alguns commits você já pode subir as mudanças para o repo do servidor.
+
+Como exemplo vamos adicionar um arquivo `index.html`.
+
+```bash
+$ touch index.html
+$ git commit -am 'added bare bones index.html'
+$ git push -u hosting master
+```
+
+E isso é tudo que você precisa para enviar seu código ao servidor.
+Talvez você precise configurar ssh-keys para não usar senha.
+Siga este guia <https://help.github.com/articles/generating-an-ssh-key/>
+e copie o conteúdo de `~/.ssh/id_rsa.pub` do seu computador
+para `~/.ssh/authorized_keys` no servidor.
+
+## Conclusão
+
+Usar git para enviar arquivos a um diretório dentro de um servidor é uma forma mais rápida,
+segura e fácil do que usar ftp. Permite fluxos de trabalho mais complexos,
+como usar ferramentas de deploy contínuo.
+Se sua hospedagem permite usar ssh, você deveria totalmente usar este método.
+
+### Referências
+
+- <https://processwire.com/talk/topic/7441-using-git-instead-of-ftp-in-shared-hostings/>
+- <http://www.arlocarreon.com/blog/git/push-git-repo-into-shared-hosting-account-like-hostgator/>
+- <http://ahmadassaf.com/blog/miscellaneous/how-to-use-git-to-host-and-push-projects-on-shared-hosting-services/>
+- <http://motorscript.com/setting-up-a-remote-git-repo-on-shared-server-like-hostgator/>
+- <http://krisjordan.com/essays/setting-up-push-to-deploy-with-git>
+- <http://git-scm.com/book/en/Customizing-Git-Git-Hooks>

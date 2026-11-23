@@ -1,0 +1,122 @@
+---
+title: Por que escolher Elixir e Phoenix?
+slug: por-que-elegir-elixir-y-phoenix
+date: 2023-09-25 20:02:35 +00:00
+description: Por que escolher Elixir e Phoenix? A Erlang VM (Beam) tem mais de 30 anos de evolução em ambientes distribuídos e concorrentes, o que a torna ideal para os sistemas de hoje.
+featured_image: /blog/por-que-elegir-elixir-y-phoenix/cover.png
+tags: elixir, erlang, chile, español
+---
+
+![Elixir Phoenix](cover.png)
+
+*Imagens criadas com DALL-E*
+
+## Por que Elixir?
+
+Elixir é baseado em _Erlang_. Mais precisamente, compila para código de bytes compatível com a _Erlang VM_ (BEAM), o que o torna 100% interoperável com _Erlang_, seu desempenho e seu ecossistema. Baseia-se em um conhecido modelo de concorrência que agora é um padrão no design de sistemas altamente escaláveis e distribuídos: o modelo de atores. Elixir nos entrega um bom equilíbrio entre desempenho e características de alto nível.
+
+A Erlang VM roda em empresas com necessidades de alto desempenho como WhatsApp, Netflix, Pinterest e 50% do sistema de telecomunicações europeu. Algumas dessas empresas são Ericsson, T-Mobile e Nortel.
+
+Finalmente, Erlang faz parte do clube exclusivo dos nove noves, ou seja, 32 ms de tempo de inatividade em 1 ano. O que a torna uma das plataformas mais disponíveis e confiáveis que existem.
+
+Elixir é assíncrono e sem bloqueio em sua essência. Certamente há outras linguagens que oferecem concorrência, mas Elixir facilita a concorrência.
+
+Mesmo que existam linguagens com melhores desempenhos, Elixir é um bom equilíbrio entre desempenho puro e características de alto nível. Como toda linguagem, não é perfeito, mas devido a todas as suas características ajudará a alcançar o nível de escalabilidade e disponibilidade que os sistemas com transações em tempo real exigem.
+
+## Por que utilizar Phoenix frente às alternativas?
+
+Embora seja possível criar backends somente com _Elixir_
+usando `mix` e `plug`. O framework mais recomendado é o [*Phoenix*](https://www.phoenixframework.org/).
+
+Phoenix é um framework de desenvolvimento web escrito em Elixir que implementa o padrão Model View Controller (MVC) do lado do servidor.
+
+Muitos de seus componentes e conceitos nos serão familiares a nós que temos experiência em outros frameworks web como Ruby on Rails ou Python com Django.
+
+Phoenix oferece o melhor dos dois mundos: alta produtividade dos desenvolvedores e alto desempenho das aplicações.
+
+Também tem alguns giros novos e interessantes, como canais para implementar funções em tempo real e templates pré-compilados para uma velocidade incrível.
+
+Hoje em dia existem diversas alternativas para elaborar soluções de backend. Entre as mais populares encontramos o [Nitrogen com Erlang](https://github.com/nitrogen), PHP com Laravel, Python com Django, Ruby com Rails, Java com Springboot e muitas outras com Javascript.
+
+Embora um projeto possa ser bem-sucedido, robusto e bem estruturado com qualquer tecnologia. O ideal é sempre utilizar tecnologias que sejam altamente coesas e facilitem elaborar sistemas bem estruturados desde o começo, que contem com as proteções necessárias de segurança. Com padrões e documentação ampla que facilitem o aprendizado de novos desenvolvedores.
+
+_Phoenix_ conta com os mais de trinta anos da máquina virtual de _Erlang_ (BEAM) para sua robustez e altos padrões de segurança, além da sintaxe amigável e moderna da linguagem de programação _Elixir_, que tem um ecossistema florescente e um amplo leque de cursos como o [Grox.io](https://grox.io) e certificações disponíveis na [Erlang Foundation](https://www.erlang-solutions.com/landings/landing-certification-2/).
+
+Devido à alta concorrência das necessidades atuais (com milhões de dispositivos conectados ao mesmo tempo), utilizar tecnologias que resolvem esses problemas de fábrica é um grande acerto.
+
+O autor _Sasa Juric_ em sua palestra "A alma de Elixir". Nos mostra por qual razão é uma boa ideia utilizar soluções baseadas na máquina virtual de _Erlang_, já que nos permite reduzir enormemente a quantidade de dependências da solução, utilizando componentes que vêm de fábrica para resolver problemas comuns em sistemas distribuídos.
+
+![A alma de Elixir](soul.png)
+
+O simplificar a estrutura de servidores ao utilizar uma base sólida como a _BEAM_ nos dá uma redução da entropia (menor quantidade de componentes) e uma redução significativa de custos.
+
+Um exemplo é o caso da empresa *Pinterest* onde um dos
+sistemas que executava em 200 servidores _Python_ agora roda em quatro servidores Elixir.
+
+O efeito combinado de uma melhor arquitetura e Elixir economizou para o _Pinterest_ mais de US$ 2 milhões por ano em custos de servidor.
+
+Além disso, o desempenho e a confiabilidade dos sistemas aumentaram apesar de funcionar com muito menos hardware.
+Quando o sistema de notificações rodava em Java,
+estava em 30 instâncias _c32.xl_.
+
+Quando mudou para Elixir, podia rodar em 15.
+Apesar de executar em menos hardware, os tempos de resposta foram reduzidos significativamente, assim como os erros.
+
+Uma linguagem que permite às empresas economizar dinheiro enquanto melhora a confiabilidade e o desempenho parece uma fantasia. Elixir pode demonstrar este incrível resultado porque a linguagem é construída sobre Erlang, uma plataforma projetada para software concorrente que deve permanecer online. -Os sites de comércio e os produtos SaaS são apenas alguns exemplos; a maioria do software corporativo atual tem esse requisito. A história de Elixir melhorando um produto enquanto reduz custos se repete.
+
+### Mais além do Backend
+
+Rails tem o Hotwire, Laravel tem o Livewire, HTMx e Inertia.js também são opções populares para muitos frameworks. Comumente, em outras soluções, separa-se o backend do frontend mediante o uso de APIs REST ou GraphQL com React, Vue, Svelte, entre outros como cliente. Além dessa possibilidade, Phoenix conta com o _LiveView_. LiveView é centrado no servidor. Elimina a necessidade de separar o cliente e o servidor para manter tudo sincronizado. LiveView atualiza automaticamente o cliente à medida que as mudanças são realizadas no servidor.
+
+```youtube
+MZvmYaFkNJI
+```
+
+## Escolhendo Tecnologias Emocionantes
+
+O manifesto Choose Boring Technology se opõe à adoção precoce e pode frear a inovação.
+
+A escolha de algum framework, tecnologia ou linguagem pode nos deixar mais lentos na entrega de valor. Pode tornar mais difícil manter a base de código no futuro. Menos desenvolvedores a conhecem. Tudo isso é importante de uma perspectiva empresarial de curto prazo. Mas na vida e no trabalho há mais coisas do que simplesmente maximizar o valor comercial de tudo o que fazemos. É importante levar em conta o negócio e otimizar o retorno do investimento (ROI), mas é fácil demais cair na armadilha de otimizar em excesso.
+
+Essa coisa nova e emocionante fará nosso time aprender muito mais rápido do que algo bem estabelecido. Dará uma nova perspectiva ao que já sabemos. Pode ajudar a atrair talentos. Pode trazer mais alegria à programação. Às vezes, o risco empresarial supera tudo. Isso, mas é raro. Tendemos a superestimar o risco empresarial.
+
+A tecnologia, especialmente a de nicho, pode ser um bom filtro para contratar desenvolvedores; se alguém está interessado em Elixir, podemos assumir que tem curiosidade, algo essencial para um programador.
+
+Não siga regras gerais às cegas. Se a emoção te impulsiona, você não está sozinho. Junte-se ao clube _Choose Exciting Technology_.
+
+Finalmente, segundo a pesquisa do Stack Overflow. Elixir e Phoenix estão entre as tecnologias mais amadas e melhor pagas do mercado.
+
+![Phoenix](phoenix.png)
+![Phoenix 2](phoenix2.png)
+
+## Resumo
+
+Por que escolher Elixir e Phoenix?
+
+- Razão Técnica: A Erlang VM (Beam) tem mais de 30 anos de evolução em ambientes distribuídos e concorrentes, o que a torna ideal para os sistemas de hoje.
+
+- Razão Negócio: Utilizar tecnologias modernas como Elixir permite contratar pessoas curiosas, que têm maior probabilidade de serem bons candidatos. A diminuição das dependências permitirá economizar custos no médio e longo prazo.
+
+- Razão Emocional: Elixir e Phoenix são linguagens e frameworks modernos e fáceis de aprender, o que os torna divertidos e permite motivar as pessoas a experimentar e gerar novas ideias ou soluções. Além disso, são bem valorizados no mercado e as ofertas de trabalho são bem remuneradas.
+
+```ninjas
+why-i-selected-elixir-and-phoenix-as-my-main-stack | Why I selected Elixir and Phoenix as my main stack | This is just a personal journey documentation on how I decided to use my current tech stack. Why I selected Elixir?. Because I found it fun, functional and robust. And I landed a dream like job just because I liked the language. | /blog/why-i-selected-elixir-and-phoenix-as-my-main-stack/cover.jpg
+```
+
+*Links*
+
+- <https://www.phoenixframework.org/>
+- <https://elixir-lang.org/learning.html>
+- [A alma de Erlang e Elixir](https://www.youtube.com/watch?v=JvBT4XBdoUE)
+- <https://paraxial.io/blog/elixir-savings>
+- [Erlang Movie](https://www.youtube.com/watch?v=xrIjfIjssLE)
+- [Benchmark de Phoenix](https://gist.github.com/omnibs/e5e72b31e6bd25caf39a)
+- <https://hackernoon.com/elixir-the-new-wave-or-an-elegant-niche-5e38b4de0783>
+- <https://medium.com/fresha-engineering/choosing-elixir-for-sheduls-tomorrow-3debbe485d77>
+- [Why Elixir](http://web.archive.org/web/20171025222015/https://blog.trustbk.com/why-elixir-546427542c)
+- <https://dockyard.com/blog/2016/08/09/phoenix-channels-vs-rails-action-cable>
+- <https://medium.com/coryodaniel/from-erverless-to-elixir-48752db4d7bc>
+- <https://lucjan.medium.com/choose-exciting-technology-e735bba08acc>
+- <https://mcfunley.com/choose-boring-technology>
+- <https://survey-stackoverflow-co.translate.goog/2023/>
+- <https://json-media.translate.goog/blog/ko/elixir_and_phoenix_in_2023_developer_survey?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=wapp>

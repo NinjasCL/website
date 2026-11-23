@@ -1,0 +1,229 @@
+---
+title: Usando Gleam en tus Hooks de Phoenix
+slug: using-gleam-in-your-phoenix-hooks
+date: 2023-01-31 19:47:23 +00:00
+description: Phoenix usa Elixir, pero al trabajar con LiveView Hooks requiere JavaScript. ¿Pero qué tal usar otro lenguaje funcional en esa área? Presentando Gleam.
+featured_image: /blog/using-gleam-in-your-phoenix-hooks/cover.png
+tags: elixir, phoenix, gleam, javascript, hooks
+---
+
+![Gleam](cover.png)
+
+[Phoenix](https://www.phoenixframework.org/) usa [Elixir](https://elixir-lang.org/), pero al trabajar con [LiveView Hooks](https://hexdocs.pm/phoenix_live_view/js-interop.html) requiere JavaScript. ¿Pero qué tal usar otro lenguaje funcional en esa área?
+
+Presentando [Gleam](https://gleam.run/)
+
+```embed
+https://gleam.run | Gleam | Un lenguaje funcional y tipado que compila a Erlang y JavaScript
+```
+
+El poder de un sistema de tipos, la expresividad de la programación funcional, con una sintaxis familiar y moderna.
+
+Gleam viene con compilador, herramienta de construcción, formateador, integraciones de editor y gestor de paquetes todo incluido, así que crear un proyecto Gleam es solo ejecutar `gleam new`.
+
+En mi humilde opinión, *¡Gleam es la alternativa perfecta a Typescript!* si quieres todas las ventajas de un lenguaje funcional y un sistema de tipos para tus Phoenix Hooks.
+
+## Instalación
+
+Asegúrate de que el binario `gleam` esté en tu _$PATH_. Puedes consultar la [Guía de Instalación](https://gleam.run/getting-started/installing/) para más detalles.
+
+```sh
+$ gleam --version
+gleam 0.26.1
+```
+
+## Proyecto GleamPhx
+
+Este será un proyecto pequeño y simple (Phoenix 1.6) sin ecto. Solo un LiveView con un hook simple para demostración.
+
+### Creando nuestro Proyecto
+
+Primero comencemos con un proyecto llamado `gleamphx` sin requerimiento de base de datos (solo para ser ligero).
+
+```sh
+$ mix phx.new . --app gleamphx --no-ecto
+```
+
+### Creando nuestro Proyecto Gleam
+
+Vamos al directorio `assets/` y creamos un nuevo `Proyecto Gleam` llamado `hooks`.
+
+```sh
+$ cd assets
+$ gleam new hooks
+$ cd hooks
+```
+
+Ahora editamos `gleam.toml` para configurar el objetivo `Javascript`.
+
+```toml
+name = "hooks"
+version = "0.1.0"
+description = "A Gleam project"
+# ...
+target = "javascript"
+
+[javascript]
+# Generate TypeScript .d.ts files
+typescript_declarations = true
+
+# Which JavaScript runtime to use with `gleam run`, `gleam test` etc.
+runtime = "node" # or "deno"
+```
+
+#### Código JavaScript
+
+Este será el archivo Javascript principal que exportará todos nuestros hooks. Este archivo será usado en `app.js` más adelante.
+
+```sh
+$ touch assets/hooks/index.js
+```
+
+```js
+import * as Hello from "./build/dev/javascript/hooks/hello.mjs";
+
+export default { Hello };
+```
+
+#### Código Gleam
+
+Dentro del directorio `src/` crearemos nuestros hooks.
+Creemos el hook `hello.gleam`.
+
+```gleam
+import gleam/io
+
+pub fn mounted() {
+  io.println("Hello from Gleam!")
+}
+```
+
+### Configuración de Phoenix
+
+OK, estamos listos con nuestro hook. ¡Configuremos Phoenix!.
+
+#### assets/app.js
+
+Primero editemos `assets/app.js` para importar nuestros hooks.
+
+```js
+// ...
+import Hooks from "../hooks"
+// ...
+
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
+
+```
+
+#### mix.exs
+
+Añadamos un nuevo paso de construcción en la tarea `assets.deploy`.
+
+```elixir
+"gleam.build": [
+   "cmd cd assets/hooks && rm -rf build && gleam build"
+ ]
+```
+
+Esta tarea solo construye el código gleam a los archivos objetivo javascript.
+
+```elixir
+defp aliases do
+    [
+      "gleam.build": [
+        "cmd cd assets/hooks && rm -rf build && gleam build"
+      ],
+      setup: ["deps.get"],
+      "assets.deploy": [
+        "gleam.build",
+        "esbuild default --minify",
+        "phx.digest"]
+    ]
+  end
+```
+
+Añadimos la tarea al pipeline `assets.deploy`.
+
+#### lib/gleamphx_web/router.ex
+
+OK ahora solo tenemos que probar. Creemos un simple live view con un div que está conectado (Hooked) a la función `Hello` en Gleam.
+
+Primero configuramos nuestro router
+
+```elixir
+scope "/", GleamphxWeb do
+    pipe_through :browser
+
+    live "/", Live.Example, :index
+  end
+```
+
+#### lib/gleamphx_web/live/example.ex
+
+Y luego creamos nuestro módulo
+
+```elixir
+defmodule GleamphxWeb.Live.Example do
+  use GleamphxWeb, :live_view
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+      <div id="ExampleGleamHook" phx-hook="Hello">Example Hooked Component</div>
+    """
+  end
+end
+```
+
+Si todo salió OK entonces después de `mix phx.server` verás en la consola del navegador un mensaje similar a este.
+
+![Gleam](cover.png)
+
+## ¿Qué Falta?
+
+Hay algunas pequeñas advertencias al usar Gleam en lugar de Typescript. Por ejemplo, como Gleam es un lenguaje funcional, todo debe ser una función. Así que si quieres acceder a algunas APIs dentro de un objeto JS, solo necesitas crear un wrapper alrededor para hacerlo funcional. Sin embargo, trabajar con `ffi` es agradable y sin dolor, pero tomaría algo de tiempo si quieres envolver algo grande, afortunadamente sería una tarea de una sola vez.
+
+### Herramienta automatizada para bindings ffi
+
+Actualmente si quieres usar una biblioteca que es solo JS, necesitarías crear los bindings `ffi` para ella. Un ffi de DOM para las apis estándar del navegador (`document`, `window`, etc) sería genial.
+
+Sería muy bueno que existiera alguna herramienta que haga la conversión de TS a Gleam y facilite la parte del puente.
+
+### Más documentación sobre el objetivo JS
+
+Hay algunos ejemplos:
+
+- <https://github.com/brettkolodny/react-gleam>
+- <https://github.com/gleam-lang/javascript>
+- <https://github.com/hayleigh-dot-dev/gleam-lustre>
+
+Ejemplo trabajando con promesas JS.
+
+```gleam
+pub fn stream(stream: Promise(Stream), element) {
+  use stream <- promise.await(stream)
+
+  let video = dom.create_video_element()
+  dom.append_child(video)
+  dom.video.play(video)
+  video
+}
+```
+
+Ver más detalles aquí:
+
+<https://discord.com/channels/768594524158427167/768594524158427170/1070179914432643122>
+
+## ¿Siguientes Pasos?
+
+Quizás configurar la recarga automática al cambiar archivos gleam.
+
+Puedes revisar algunos proyectos de ejemplo aquí:
+
+```github
+ElixirCL/gleamphx | Proyecto Phoenix de ejemplo usando Gleam en sus LiveView Hooks
+```
+
+```github
+ElixirCL/example-gleam-web-dom-ffi | Bindings de ejemplo en Gleam para el DOM del navegador
+```

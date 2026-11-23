@@ -1,0 +1,59 @@
+---
+title: Gitブランチの整理
+slug: decluttering-git-branches
+date: 2018-09-25 20:34:27 +00:00
+description: gitブランチをアーカイブする簡単な方法です。もうコードを使っていなくてブランチがリポジトリを散らかしているけれど、バックアップや歴史的な理由でどこかに残しておく必要があるかもしれません。
+featured_image: /blog/decluttering-git-branches/cover.jpg
+tags: git, clutter, commands, english
+---
+
+![Beng RagonによるUnsplashの写真](cover.jpg)
+
+これはgitブランチをアーカイブする簡単な方法です。もうコードを使っていなくてブランチがリポジトリを散らかしているけれど、バックアップや歴史的な理由でどこかに残しておく必要があるかもしれません。
+
+まず、そのブランチにチェックアウトします。
+
+```bash
+$ git checkout my-branch
+```
+
+次に新しいタグを作成します。私は `archive/branch-{name}` という形式を使っています。
+
+```bash
+$ git tag archive/branch-my-branch
+```
+
+これでタグをGithubやGitlabにアップロードできます。
+
+```bash
+$ git push origin --tags
+```
+
+そして、ローカルとoriginのリポジトリからブランチを削除します。
+
+masterなどの別のブランチにいることを確認してください。
+
+```bash
+$ git checkout master
+```
+
+そして
+
+```bash
+$ git branch -d my-branch
+$ git push origin :my-branch
+```
+
+タグ(とブランチのバックアップすべて)をローカルから削除する必要がある場合は
+
+```bash
+$ git tag -d archive/branch-my-branch
+```
+
+またはoriginから
+
+```bash
+$ git push --delete origin archive/branch-my-branch
+```
+
+これにより、タグ付けされたブランチのデータはすべて消去されます。くれぐれもご注意ください。

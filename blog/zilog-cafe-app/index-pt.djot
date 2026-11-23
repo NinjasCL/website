@@ -1,0 +1,49 @@
+---
+title: Zilog Cafe App
+slug: zilog-cafe-app
+date: 2014-03-20 21:50:24 +00:00
+description: Feito no final de 2013 e início de 2014. É um protótipo de um aplicativo para comprar comida usando o iPhone. Isso foi muito antes de o Uber Eats ou o Cornershop existirem.
+featured_image: https://raw.githubusercontent.com/NinjasCL/zilogcafe/main/process.png
+tags: ios, objective-c, app, zilog, cafe, prototype
+---
+
+![Zilog Cafe](https://raw.githubusercontent.com/NinjasCL/zilogcafe/main/process.png)
+
+Feito no final de 2013 e início de 2014. É um protótipo de um
+aplicativo para comprar comida usando o iPhone. Isso foi muito antes
+de o Uber Eats ou o Cornershop existirem.
+
+Infelizmente, devido à falta de financiamento, nunca realmente
+decolou.
+
+```github
+NinjasCL/zilogcafe | La app del Zilog Café
+```
+
+## Tecnologia
+
+- Parse Framework
+- Objective-C
+
+## Vídeo
+
+Como o Parse.com não está mais ativo e pela natureza antiga deste
+código, o aplicativo não pode ser executado.
+
+Mas ao menos tem um vídeo gravado para a posteridade.
+
+A "Cafeta" foi uma mudança de marca feita para uma apresentação
+específica.
+
+``` =html
+<video src="https://user-images.githubusercontent.com/292738/126543678-d6b0e4db-1ab2-4992-834a-c5d3a1cde89e.mp4"
+  data-canonical-src="https://user-images.githubusercontent.com/292738/126543678-d6b0e4db-1ab2-4992-834a-c5d3a1cde89e.mp4"
+  controls="controls"
+  muted="muted"
+  style="max-height:640px; min-height: 200px">
+</video>
+```
+
+## Licença
+
+MIT

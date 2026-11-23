@@ -1,0 +1,39 @@
+name = "blogatto"
+version = "8.0.0"
+description = "A Gleam framework for building static blogs with Lustre and Markdown. Generates HTML pages, RSS feeds, sitemaps, and robots.txt from markdown files with frontmatter, with multilingual support."
+repository = { type = "github", user = "veeso", repo = "blogatto" }
+licenses = ["MIT"]
+target = "erlang"
+internal_modules = ["blogatto/internal", "blogatto/internal/*"]
+links = [
+  { title = "Website", href = "https://blogat.to" },
+]
+
+[dependencies]
+filepath = ">= 1.1.2 and < 2.0.0"
+filespy = ">= 0.7.0 and < 1.0.0"
+frontmatter = ">= 1.0.1 and < 2.0.0"
+gleam_erlang = ">= 1.3.0 and < 2.0.0"
+gleam_http = ">= 4.3.0 and < 5.0.0"
+gleam_otp = ">= 1.2.0 and < 2.0.0"
+gleam_stdlib = ">= 0.44.0 and < 2.0.0"
+gleam_time = ">= 1.7.0 and < 2.0.0"
+gtempo = ">= 7.2.4 and < 8.0.0"
+houdini = ">= 1.2.0 and < 2.0.0"
+jot = ">= 12.0.0 and < 13.0.0"
+lustre = ">= 5.6.0 and < 6.0.0"
+marceau = ">= 1.3.0 and < 2.0.0"
+maud = ">= 2.0.0 and < 3.0.0"
+mist = ">= 6.0.0 and < 7.0.0"
+mork = ">= 1.12.0 and < 2.0.0"
+simplifile = ">= 2.4.0 and < 3.0.0"
+smalto = ">= 3.0.0 and < 4.0.0"
+smalto_lustre = ">= 3.0.0 and < 4.0.0"
+str = ">= 2.0.1 and < 3.0.0"
+tzif = ">= 2.0.0 and < 3.0.0"
+webls = ">= 1.6.2 and < 2.0.0"
+zones = ">= 1.26010.1 and < 2.0.0"
+
+[dev-dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"
+temporary = ">= 1.0.0 and < 2.0.0"

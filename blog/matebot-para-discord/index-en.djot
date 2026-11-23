@@ -1,0 +1,19 @@
+---
+title: MateBot for Discord
+slug: matebot-para-discord
+date: 2023-05-14 15:52:00 +00:00
+description: 🧉 A Discord bot that rewards users
+featured_image: /blog/matebot-para-discord/cover.png
+tags: elixir, discord, chat, bot
+---
+
+![Screenshot of MateBot for Discord](cover.png)
+
+Written in _Elixir_ and _Phoenix_, it lets users interact to gift
+mates 🧉.
+
+A small clone of [heytaco.com](https://heytaco.com/)
+
+```github
+ElixirCL/mate | Un clon pequeño de heytaco.com para Discord, en Elixir
+```

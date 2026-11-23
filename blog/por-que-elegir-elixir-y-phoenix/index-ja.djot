@@ -1,0 +1,121 @@
+---
+title: なぜElixirとPhoenixを選ぶのか？
+slug: por-que-elegir-elixir-y-phoenix
+date: 2023-09-25 20:02:35 +00:00
+description: なぜElixirとPhoenixを選ぶのか？Erlang VM（Beam）は分散・並行環境で30年以上の進化を遂げており、今日のシステムに理想的です。
+featured_image: /blog/por-que-elegir-elixir-y-phoenix/cover.png
+tags: elixir, erlang, chile, español
+---
+
+![Elixir Phoenix](cover.png)
+
+*DALL-Eで作成された画像*
+
+## なぜElixirなのか？
+
+Elixirは_Erlang_を基盤としています。より正確には、_Erlang VM_（BEAM）と互換性のあるバイトコードにコンパイルされるため、_Erlang_、そのパフォーマンス、そしてそのエコシステムと100%相互運用可能です。高度にスケーラブルで分散されたシステムの設計において、今や標準となっているよく知られた並行性モデル、すなわちアクターモデルに基づいています。Elixirは、パフォーマンスと高レベルな機能のバランスを両立させてくれます。
+
+Erlang VMは、WhatsApp、Netflix、Pinterest、そしてヨーロッパの電気通信システムの50%など、高いパフォーマンスを必要とする企業で動いています。その中にはEricsson、T-Mobile、Nortelなどがあります。
+
+さらに、Erlangは9つの9という排他的なクラブの一員です。つまり、1年間のダウンタイムが32ミリ秒です。これにより、最も可用性が高く信頼できるプラットフォームの一つとなっています。
+
+Elixirは本質的に非同期かつノンブロッキングです。並行性を提供する他の言語も確かにありますが、Elixirは並行性を簡単にします。
+
+より優れたパフォーマンスを持つ言語が存在するとしても、Elixirは純粋なパフォーマンスと高レベルな機能の間の良いバランスです。どんな言語も完璧ではありませんが、そのすべての特徴により、リアルタイムトランザクションを伴うシステムが求めるスケーラビリティと可用性の水準に到達する助けになるでしょう。
+
+## なぜ代替手段ではなくPhoenixを使うのか？
+
+`mix`と`plug`を使って_Elixir_だけでバックエンドを作ることは可能ですが、最も推奨されるフレームワークは[*Phoenix*](https://www.phoenixframework.org/)です。
+
+PhoenixはElixirで書かれたWeb開発フレームワークで、サーバーサイドのModel View Controller（MVC）パターンを実装しています。
+
+そのコンポーネントや概念の多くは、Ruby on RailsやPythonのDjangoなど、他のWebフレームワークの経験がある人には馴染みのあるものです。
+
+Phoenixは両方の世界の良いところを提供します。開発者の高い生産性とアプリケーションの高いパフォーマンスです。
+
+さらに、リアルタイム機能を実装するためのチャネルや、驚異的な速度を可能にするプリコンパイル済みテンプレートなど、新しく興味深いひねりも持っています。
+
+今日、バックエンドソリューションを作るにはさまざまな選択肢があります。最も人気のあるものの中には、[ErlangのNitrogen](https://github.com/nitrogen)、PHPのLaravel、PythonのDjango、RubyのRails、JavaのSpringboot、そしてJavascriptを使った多くのものがあります。
+
+どんな技術でも、プロジェクトは成功し、堅牢でよく構造化される可能性はあります。それでも理想的なのは、高い凝集性を持ち、必要なセキュリティ保護を備えた、よく構造化されたシステムを最初から作りやすい技術を常に使うことです。新しい開発者の学びを容易にする、標準と充実したドキュメントとともに。
+
+_Phoenix_は、その堅牢さと高いセキュリティ基準のために_Erlang_ VM（BEAM）の30年以上の歴史を持ち、さらに_Elixir_プログラミング言語の親しみやすくモダンな構文、繁栄するエコシステム、[Grox.io](https://grox.io)のような幅広い講座、そして[Erlang Foundation](https://www.erlang-solutions.com/landings/landing-certification-2/)で利用できる認定を備えています。
+
+今日のニーズの高い並行性（何百万ものデバイスが同時に接続される）のため、これらの問題を工場出荷時点で解決してくれる技術を使うのは素晴らしい選択です。
+
+_Sasa Juric_は「Elixirの魂」という講演の中で、_Erlang_ VMに基づくソリューションを使うのがなぜ良い考えなのかを示しています。分散システムでよくある問題を解決する部品が最初から組み込まれているため、ソリューションの依存関係の数を大幅に削減できるからです。
+
+![Elixirの魂](soul.png)
+
+_Beam_のような堅固な基盤を使ってサーバー構成をシンプルにすることで、エントロピー（構成要素の減少）の削減と、大幅なコスト削減が得られます。
+
+一例として*Pinterest*という企業のケースがあります。200台の_Python_サーバーで
+動いていたシステムの1つが、現在は4台のElixirサーバーで動いています。
+
+より良いアーキテクチャとElixirの相乗効果により、_Pinterest_はサーバーコストを年200万ドル以上削減しました。
+
+さらに、ずっと少ないハードウェアで動いているにもかかわらず、システムのパフォーマンスと信頼性は向上しました。
+通知システムがJavaで動いていたときは、
+30個の_c32.xl_インスタンスで動いていました。
+
+Elixirに切り替えたときは、15個で動かせるようになりました。
+より少ないハードウェアで動いているにもかかわらず、応答時間はエラーと同様に大幅に短縮されました。
+
+信頼性とパフォーマンスを向上させながら企業のコストを削減できる言語は、まるで夢物語のように聞こえます。Elixirがこの素晴らしい結果を示せるのは、常時接続が求められる並行ソフトウェアのために設計されたプラットフォームであるErlangの上に言語が構築されているからです。-コマースサイトやSaaS製品はほんの一例であり、今日のエンタープライズソフトウェアの大半がこの要件を持っています。コストを削減しながら製品を改善するElixirの物語は繰り返されています。
+
+### バックエンドのその先へ
+
+RailsにはHotwireがあり、LaravelにはLivewireがあり、HTMxとInertia.jsも多くのフレームワークで人気の選択肢です。多くの場合、他のソリューションでは、React、Vue、Svelteなどをクライアントとして、RESTやGraphQLのAPIを使ってバックエンドとフロントエンドを分離します。この可能性に加えて、Phoenixには_LiveView_があります。LiveViewはサーバー中心です。すべてを同期させるためにクライアントとサーバーを分離する必要性をなくします。LiveViewは、サーバーで変更が行われるたびにクライアントを自動的に更新します。
+
+```youtube
+MZvmYaFkNJI
+```
+
+## エキサイティングな技術を選ぶ
+
+Choose Boring Technology（退屈な技術を選べ）というマニフェストは早期採用に反対し、イノベーションを妨げることがあります。
+
+フレームワーク、技術、または言語の選択は、価値の提供を遅くする可能性があります。将来コードベースを維持するのが難しくなる可能性があります。それを知っている開発者は少ないのです。これらはすべて短期的なビジネスの観点から重要です。しかし、人生と仕事には、自分たちが行うすべての商業的価値を単純に最大化すること以上のものがあります。ビジネスを考慮し、投資収益率（ROI）を最適化することは重要ですが、過剰に最適化する罠に陥るのはあまりにも簡単です。
+
+この新しいワクワクするものは、確立されたものよりも、はるかに速くチームに学ばせてくれるでしょう。すでに知っていることへの新しい視点をもたらします。人材を引き付ける助けになります。プログラミングに喜びを運んできてくれます。時にはビジネスリスクがすべてに勝ることもあります。それはレアなケースです。私たちはビジネスリスクを過大評価しがちです。
+
+技術、特にニッチな技術は、開発者を採用するための良いフィルターになりえます。誰かがElixirに興味を持っているなら、プログラマーに不可欠な性質である好奇心を持っているとみなせるでしょう。
+
+一般的なルールを盲目的に追わないでください。興奮があなたを駆り立てているなら、あなたは一人ではありません。_Choose Exciting Technology_（エキサイティングな技術を選べ）クラブに加わりましょう。
+
+最後に、Stack Overflowの調査によると。ElixirとPhoenixは市場で最も愛され、最も高給な技術の一つです。
+
+![Phoenix](phoenix.png)
+![Phoenix 2](phoenix2.png)
+
+## まとめ
+
+なぜElixirとPhoenixを選ぶのか？
+
+- 技術的な理由: Erlang VM（Beam）は分散・並行環境で30年以上の進化を遂げており、今日のシステムに理想的です。
+
+- ビジネス上の理由: Elixirのようなモダンな技術を使うことで、好奇心のある人々、つまり良い候補者である可能性が高い人々を採用できます。依存関係の削減により、中長期的にコストを節約できます。
+
+- 感情的な理由: ElixirとPhoenixはモダンで学びやすい言語とフレームワークであり、楽しく、人々が実験して新しいアイデアやソリューションを生み出すモチベーションを高めます。さらに市場で高く評価され、求人の報酬も良好です。
+
+```ninjas
+why-i-selected-elixir-and-phoenix-as-my-main-stack | Why I selected Elixir and Phoenix as my main stack | This is just a personal journey documentation on how I decided to use my current tech stack. Why I selected Elixir?. Because I found it fun, functional and robust. And I landed a dream like job just because I liked the language. | /blog/why-i-selected-elixir-and-phoenix-as-my-main-stack/cover.jpg
+```
+
+*リンク*
+
+- <https://www.phoenixframework.org/>
+- <https://elixir-lang.org/learning.html>
+- [ErlangとElixirの魂](https://www.youtube.com/watch?v=JvBT4XBdoUE)
+- <https://paraxial.io/blog/elixir-savings>
+- [Erlang Movie](https://www.youtube.com/watch?v=xrIjfIjssLE)
+- [Phoenixのベンチマーク](https://gist.github.com/omnibs/e5e72b31e6bd25caf39a)
+- <https://hackernoon.com/elixir-the-new-wave-or-an-elegant-niche-5e38b4de0783>
+- <https://medium.com/fresha-engineering/choosing-elixir-for-sheduls-tomorrow-3debbe485d77>
+- [Why Elixir](http://web.archive.org/web/20171025222015/https://blog.trustbk.com/why-elixir-546427542c)
+- <https://dockyard.com/blog/2016/08/09/phoenix-channels-vs-rails-action-cable>
+- <https://medium.com/coryodaniel/from-erverless-to-elixir-48752db4d7bc>
+- <https://lucjan.medium.com/choose-exciting-technology-e735bba08acc>
+- <https://mcfunley.com/choose-boring-technology>
+- <https://survey-stackoverflow-co.translate.goog/2023/>
+- <https://json-media.translate.goog/blog/ko/elixir_and_phoenix_in_2023_developer_survey?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=wapp>

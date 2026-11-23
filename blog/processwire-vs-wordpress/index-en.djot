@@ -1,0 +1,96 @@
+---
+title: ProcessWire vs Wordpress
+slug: processwire-vs-wordpress
+date: 2016-11-07 17:38:40 +00:00
+description: A comparison between two content managers, ProcessWire and Wordpress.
+featured_image: /blog/processwire-vs-wordpress/cover.jpg
+tags: processwire, wordpress, php, spanish
+---
+
+![Photo by Dietmar Becker on Unsplash](cover.jpg)
+
+## Similarities between ProcessWire and Wordpress
+
+- PHP
+- Apache
+- MySQL
+- Open Source
+
+## ProcessWire
+
+```github
+processwire/processwire | Un CMS libre de código abierto con una API de desarrollo
+```
+
+- [https://processwire.com/](https://processwire.com/)
+
+### Pros
+
+- Released in 2010. In development since 2003. (Dictator CMS).
+- Highly secure. CVE-ID: 0
+  <https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=processwire>
+- Highly customizable.
+- Highly scalable. Supporting millions of pages without problems.
+- Built-in Roles system.
+- Multi-language included. Easy to translate.
+- Easy to apply CMS updates.
+- API easy to learn and use. It is pure PHP.
+- Friendly, active community with direct communication with the CMS
+  creator.
+- Allows multiple instances, making it easy to design lightweight and
+  robust software.
+- Easy to adapt an HTML design into a self-managed one.
+- Used in several sites with high amounts of content.
+- Module system to expand functionalities.
+- Weekly CMS improvements, backwards compatible with previous
+  versions (new versions cause no conflicts between modules and
+  systems with previous versions).
+- The system has a structure that adapts to the way a person or team
+  works.
+
+### Cons
+
+- Less known than Wordpress.
+- Requires more technical knowledge for development. (Although the
+  end user needs nothing special since the system can be adapted to
+  their needs). For the same reason some areas may take a bit more
+  time, but they will be more personalized and focused.
+- Fewer plugins and modules. (Many Wordpress plugins are not needed
+  with ProcessWire since it integrates them or they are easy to
+  implement directly).
+- Fewer themes (designs) already adapted to ProcessWire. (Adapting
+  an HTML design is very simple and allows a more customized system
+  than an already elaborated and generic Wordpress theme).
+
+## Wordpress
+
+```github
+WordPress/WordPress | El gestor de contenidos más usado del web
+```
+
+- [https://wordpress.org](https://wordpress.org)
+
+### Pros
+
+- Widely known by the industry since 2003. Greater amount of
+  technical support and documentation.
+- Large amount of generic themes.
+- Large amount of plugins (free and paid).
+- Speed for prototyping a site.
+
+### Cons
+
+- Highly insecure. Updates can corrupt a site or expose it to
+  hacking for not being monitored and constant. Using plugins can
+  reduce security and performance by having no control over their
+  content and compatibility problems between them. CVE-ID: 1024
+  <https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=wordpress>
+- Slowness. Wordpress systems are known for consuming large amounts
+  of resources and running slower than other systems.
+- Difficulty creating custom systems. Being a Blog system, many
+  patchy and inelegant solutions are required to create a unique
+  experience.
+- Hard to understand API. The functions to access the information
+  are unintuitive, increasing development times.
+- Defined and inflexible theme structure. The person or development
+  team must adapt to Wordpress.

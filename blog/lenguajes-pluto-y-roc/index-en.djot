@@ -1,0 +1,78 @@
+---
+title: The Pluto and Roc Languages
+slug: lenguajes-pluto-y-roc
+date: 2024-05-14 17:35:47 +00:00
+description: A look at the Pluto and Roc programming languages
+featured_image: /blog/lenguajes-pluto-y-roc/cover.jpg
+tags: pluto, roc, lenguajes, código
+---
+
+![Pluto and Charon](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pluto_and_Charon_(4092391173).jpg)
+
+Looking for programming languages I found two that are interesting,
+mainly because they allow using the pipe operator `|>` like **Elixir**.
+
+## Pluto
+
+_Pluto_ is a programming language based on _Lua_. It is a fork of the Lua VM
+with some additional things that are very good.
+
+```lua
+local { http, json } = require "pluto:*"
+
+http.request("https://httpbin.org/get")
+|> json.decode
+|> dumpvar
+|> print
+```
+
+<https://pluto-lang.org>
+
+## Roc
+
+Roc is a functional and immutable language.
+
+<https://www.roc-lang.org/>
+
+```elixir
+app [main] { pf: platform "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br" }
+
+import pf.Stdout
+import pf.Task
+
+main =
+    List.range { start: At 1, end: At 100 }
+    |> List.map fizzBuzz
+    |> Str.joinWith ","
+    |> Stdout.line
+```
+
+## Wren
+
+An experiment was also made in _Wren_ to use _Pipes_ although,
+since it is a slower-paced language, nothing official exists yet.
+
+<https://github.com/wren-lang/wren/issues/1144>
+
+One comment by [**@mhermier**](https://github.com/wren-lang/wren/issues/1144#issuecomment-1489819677) stands out:
+
+Object Oriented Programming (OOP) is not about creating
+a giant taxonomy with a complex hierarchy of objects.
+
+The excessive use of dot syntax (`object.method()`) is a
+consequence of that misinterpretation.
+
+OOP is about having objects that quack like a duck, but
+are not necessarily a duck (quack like a duck, but is not a duck).
+
+There is great confusion about the idea that in OOP
+only methods exist and not functions. Even _Smalltalk_ (the Father of OOP) has functions
+(hidden under a special syntax).
+
+[...]
+
+Pipes are a great tool for working with functions and
+should be considered both for functions and for objects
+that act as functions (following the principles of OOP).

@@ -1,0 +1,28 @@
+---
+title: Wireshell ProcessWire command-line companion
+slug: wireshell-processwire-command-line-companion
+date: 2015-10-14 23:19:54 +00:00
+description: A command-line interface for CMS/CMF ProcessWire based on the Symfony Console component. Can be easily extended through ProcessWire's ability of being bootstrapped into other applications, its great API and Symfony Console's modular command approach.
+featured_image: /blog/wireshell-processwire-command-line-companion/cover.jpg
+tags: processwire, php, symphony, cli
+---
+
+![Photo by George Girnas on Unsplash](cover.jpg)
+
+*ProcessWire command-line companion*
+
+Version 1.0.6, compatibility: ProcessWire 3.x
+
+A command-line interface for CMS/CMF
+[ProcessWire](https://processwire.com) based on the Symfony Console
+component. Can be easily extended through ProcessWire's ability of
+being bootstrapped into other applications, its great
+[API](https://processwire.com/api/) and Symfony Console's
+[modular command approach](http://symfony.com/doc/current/components/console/introduction%20%20%20%20%20%20.html).
+
+Wireshell's code and documentation were extended/cleaned up by
+@clsource.
+
+```github
+wireshell/wireshell | Un compañero de línea de comandos para ProcessWire
+```

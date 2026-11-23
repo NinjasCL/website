@@ -1,0 +1,82 @@
+---
+title: Super Web Framework Wren Baron
+slug: super-web-framework-wren-baron
+date: 2024-05-18 21:01:43 +00:00
+description: Un pequeño ejercicio para ejecutar lenguajes de programación en cgi-bin. Este pequeño framework permite ejecutar Wren en entornos con PHP y cgi-bin.
+featured_image: /blog/super-web-framework-wren-baron/cover.webp
+tags: wren, php, red, baron, cgi
+---
+
+![El Barón Rojo](cover.webp)
+
+Como un ejercicio para ejecutar scripts `cgi-bin` realicé este pequeño
+web framework llamado `Wren Baron` en alusión al anime del [Barón Rojo](https://es.wikipedia.org/wiki/Red_Baron).
+
+Cómo demostré en el post sobre Golang, la carpeta `cgi-bin` permite
+ejecutar binarios compilados con otros lenguajes de programación.
+
+```ninjas
+crear-un-cgi-en-golang | Crear un CGI en Golang | Un script de CGI en Golang | /blog/crear-un-cgi-en-golang/cover.png
+```
+
+Sin embargo ¿Qué pasa si el lenguaje no tiene una biblioteca de cgi?.
+
+Esto pasa con _Wren_, al ser un lenguaje de nicho no tiene
+bibliotecas de `cgi` para compilar un ejecutable por su cuenta.
+
+Por lo que tenemos que usar un puente con `PHP`.
+
+Este puente simplemente convierte a _JSON_ las variables de entorno
+y las pasa como parámetros al ejecutar el script.
+
+Además el uso de `2>&1` nos permite obtener los mensajes de error
+al ejecutar el script.
+
+```php
+<?php
+
+session_start();
+
+$env = escapeshellarg(json_encode([
+    "get" => $_GET,
+    "post" => $_POST,
+    "server" => $_SERVER,
+    "session" => session_id(),
+    "pwd" => getcwd()
+    ]));
+
+$wren = "../wrenc index.wren $env 2>&1";
+
+passthru($wren);
+?>
+```
+
+El script de wren obtenemos el parámetro
+y procesamos el _JSON_, de esta forma
+cualquier salida a `stdout` es mostrada
+
+```js
+import "runtime" for Runtime
+import "os" for Process
+import "json" for JSON
+
+var args = Process.allArguments
+var env = JSON.parse(args[2])
+var name = env["get"]["name"]
+
+System.print("<h1>Hello From Wren %(Runtime.WREN_VERSION)</h1>")
+System.print("<h2>This is rendered from <strong>Wren</strong></h2>")
+System.print("<p>Hello <strong>%(name)</strong></p>")
+```
+
+Dando como resultado una página HTML común
+
+![Screenshot](https://raw.githubusercontent.com/NinjasCL/wren-baron/main/screenshot.png)
+
+```github
+NinjasCL/wren-baron | Un pequeño web framework para ejecutar Wren en cgi-bin con PHP
+```
+
+```youtube
+CwTmQjaDfCQ
+```

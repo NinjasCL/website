@@ -1,0 +1,30 @@
+---
+title: RioTinto Casablancaプロジェクト
+slug: proyecto-riotinto-casablanca
+date: 2015-04-01 23:45:51 +00:00
+description: RioTinto Casablancaは、ウェブサイトの制作を依頼したレストランです。
+featured_image: /blog/proyecto-riotinto-casablanca/cover.png
+tags: processwire, php, web, sitio
+---
+
+![サイトのスクリーンショット](cover.png)
+
+## チーム
+
+### Camilo Castro
+
+Processwireおよびサーバー構成。
+
+## 謝辞
+
+- Processwireを作成した[Ryan Cramer](http://www.ryancramer.com/)
+
+## 標準
+
+- HTML5
+- CSS3
+- PHP 5.6
+
+## ソフトウェア
+
+- [Processwire](https://processwire.com)

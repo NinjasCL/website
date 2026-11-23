@@ -1,0 +1,267 @@
+---
+title: Premate: Aplicativo de Apoio para Monitorias da PUCV
+slug: premate-aplicacion-de-apoyo-para-ayudanti-as-de-la-pucv
+date: 2014-03-31 16:06:40 +00:00
+description: Premate foi um projeto realizado pela Jumpitt Labs para a Pontifícia Universidade Católica de Valparaíso em 2014. Consistia em um aplicativo móvel (iOS e Android) e um sistema de backend Web que permitia aos alunos monitores das disciplinas de ciências básicas (Física, Química, Matemática) se registrarem e obter informações sobre as próximas monitorias.
+featured_image: /blog/premate-aplicacion-de-apoyo-para-ayudanti-as-de-la-pucv/Logo.png
+tags: ios, objective-c, jumpitt, chile, pucv
+---
+
+![Logo](Logo.png)
+
+Premate foi um projeto realizado pela *Jumpitt Labs* para a *Pontifícia Universidade Católica de Valparaíso* em 2014.
+
+UNIDADE DE APOIO À APRENDIZAGEM DOS ESTUDANTES
+Direção de Assuntos Estudantis
+Vice-Reitoria Acadêmica
+
+Consistia em um aplicativo móvel (iOS e Android) e um sistema de backend Web que permitia aos alunos monitores das disciplinas de ciências básicas (Física, Química, Matemática) se registrarem e obter informações sobre as próximas monitorias, além de ajudar os organizadores a verificar a presença.
+
+Minha tarefa consistiu em elaborar o backend e o cliente iOS.
+
+## Tecnologias
+
+- Objective-C
+- iOS 7
+- Parse.com (Notificações Push)
+- PHP (ProcessWire)
+
+### Podfile
+
+```ruby
+pod 'Realm+JSON'
+pod 'Realm'
+pod 'AFNetworking'
+pod 'Bolts', '~> 1.1.2'
+pod 'SVProgressHUD', '~> 1.0'
+pod 'ReactiveCocoa', '~> 2.3'
+pod 'Parse', '1.4.0'
+pod 'pop', '~> 1.0'
+```
+
+*Exemplo*
+
+```json
+{
+ about = "Premate de Prueba";
+ "can_join" = 1;
+ code = "Premate Jumpitt";
+ "done_at" = "";
+ "done_at_unix" = "";
+ id = 4479;
+ isDone = 0;
+ location = Jumpitt;
+ "premate_url" = "http://premate.cl/api/users/b3b19cfae4b348e544021331257c4057/premates/4479";
+ "start_at" = "24/09/2014 09:15:00";
+ "start_at_unix" = 1411560900;
+ state = Activo;
+ "state_code" = Active;
+ timecode = "9:15 - 11:15";
+ "timelimit_at" = "23/09/2014 11:59:59";
+ "timelimit_at_unix" = 1411484399;
+ title = "(JUMPITT-02) Premate Jumpitt";
+ uid = "JUMPITT-02";
+ "user_confirmed" = 0;
+}
+```
+
+```c
+#import <Realm/Realm.h>
+#import "JMPTChannel.h"
+
+extern NSString * const kJMPTActivePremateState;
+extern NSString * const kJMPTClosedPremateState;
+extern NSString * const kJMPTAbortedPremateState;
+extern NSString * const kJMPTDonePremateState;
+extern NSString * const kJMPTDoneWithPeoplePremateState;
+
+@interface JMPTPremate : RLMObject
+
+@property (nonatomic) NSInteger number;
+@property (nonatomic) NSString * displayName;
+@property (nonatomic) NSString * code;
+
+@property (nonatomic) NSString * startAt;
+@property (nonatomic) double startAtUnix;
+
+@property (nonatomic) NSString * endAt;
+@property (nonatomic) double endAtUnix;
+
+@property (nonatomic) NSString * timelimitAt;
+@property (nonatomic) double  timelimitUnix;
+
+@property (nonatomic) NSString * address;
+@property (nonatomic) NSString * about;
+
+@property (nonatomic) NSString * state;
+@property (nonatomic) NSString * stateCode;
+
+@property (nonatomic) NSString * timeCode;
+@property (nonatomic) BOOL isUserConfirmed;
+
+@property (nonatomic) NSString * uid;
+
+@property (nonatomic) RLMArray<JMPTChannel> * channels;
+
+#pragma mark -  Instance Methods
+
+/*!
+ * Confirm Current User in Premate
+ * @return BFTask when the Confirmation is Done
+ */
+- (BFTask *) makeConfirmation;
+
+- (BOOL) isNotDone;
+@end
+
+// This protocol enables typed collections. i.e.:
+// RLMArray<JMPTPremate>
+RLM_ARRAY_TYPE(JMPTPremate)
+```
+
+```c
+#import "JMPTPremate.h"
+#import "JMPTPremateUrls.h"
+#import "JMPTUser.h"
+#import "JMPTChannels.h"
+#import "JMPTJSONResponseSerializerWithData.h"
+#import "RLMObject+JSON.h"
+#import "RLMObject+Copying.h"
+#import <AFNetworking/AFNetworking.h>
+
+@implementation JMPTPremate
+
+NSString * const kJMPTActivePremateState = @"Active";
+NSString * const kJMPTClosedPremateState = @"Closed";
+NSString * const kJMPTAbortedPremateState = @"Aborted";
+NSString * const kJMPTDonePremateState = @"Done";
+NSString * const kJMPTDoneWithPeoplePremateState = @"DoneWithPeople";
+
+// Specify default values for properties
+
++ (NSDictionary *)defaultPropertyValues
+{
+  return @{@"displayName" : @"(EMPTY)",
+           @"number" : @0,
+           @"code" : @"",
+           @"about" : @"",
+           @"startAt" : @"",
+           @"startAtUnix" : @0,
+           @"endAt" : @"",
+           @"endAtUnix" : @0,
+           @"timelimitAt" : @"",
+           @"timelimitUnix" : @0,
+           @"address" : @"",
+           @"isUserConfirmed" : @YES,
+           @"uid" : @"",
+           @"state" : @"",
+           @"stateCode" : @"",
+           @"timeCode" : @""
+           };
+}
+
++ (NSString *) primaryKey {
+  return @"number";
+}
+
+
+
+#pragma mark - Custom Setters
+- (void) setStateCode:(NSString *)stateCode {
+
+    NSLog(@"%@", stateCode);
+
+    if (!([stateCode isEqualToString:kJMPTActivePremateState] ||
+        [stateCode isEqualToString:kJMPTClosedPremateState] ||
+        [stateCode isEqualToString:kJMPTAbortedPremateState] ||
+        [stateCode isEqualToString:kJMPTDonePremateState] ||
+        [stateCode isEqualToString:kJMPTDoneWithPeoplePremateState])) {
+
+    _state = @"Finalizado";
+    }
+
+    if ([stateCode isEqualToString:kJMPTClosedPremateState]) {
+        _state = @"SIN INSCRIPCIONES";
+    }
+
+    _stateCode = stateCode;
+}
+
+#pragma mark - Instance Methods
+/*!
+ * Confirm Current User in Premate
+ * @return BFTask when the Confirmation is Done
+ */
+- (BFTask *) makeConfirmation {
+  BFTaskCompletionSource * promise = [BFTaskCompletionSource taskCompletionSource];
+
+  NSString * token  = [JMPTUser current].token;
+
+  NSString * confirmationUrl = [JMPTPremateUrls confirmPremateForToken:token andPremate:self];
+
+
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
+  // Request Manager
+  AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
+
+  manager.requestSerializer = [AFJSONRequestSerializer serializer];
+
+  manager.responseSerializer = [JMPTJSONResponseSerializerWithData serializer];
+
+  // Send the Request
+  [manager POST:confirmationUrl parameters:@{} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+    [promise setResult:responseObject];
+
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    [promise setError:error];
+  }];
+
+  // Register the channels
+  [[promise.task continueWithSuccessBlock:^id(BFTask *task) {
+
+    NSArray * channels = task.result[@"result"][@"data"][@"channels"];
+
+    NSLog(@"Subscribing to Channels %@", channels);
+
+    [JMPTChannels subscribeToChannels:channels];
+
+
+      // Should put this on a model or helper
+
+    return task;
+
+  }] continueWithBlock:^id(BFTask *task) {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    return task;
+  }];
+
+  return promise.task;
+}
+
+- (BOOL) isNotDone {
+    return ([self.stateCode isEqualToString:kJMPTActivePremateState] ||
+            [self.stateCode isEqualToString:kJMPTClosedPremateState]);
+}
+
+@end
+```
+
+## Time Jumpitt Março de 2014
+
+Membros da Equipe
+
+- Camilo Castro (iOS, Backend)
+- Fernando Valencia (Android)
+- Olga Orrego (Design)
+- Daniel Montero (Design)
+- Alvaro Rojas (Testes)
+- Matías Arancibia (Testes)
+- Gustavo Pedreros (Testes)
+- Felipe Ojeda (CEO)
+- Marcos Amador (CFO)
+- Alejandro Martínez (CTO)
+- Nicolás Gutiérrez (RH)
+
+![Sobre](acercade.png)

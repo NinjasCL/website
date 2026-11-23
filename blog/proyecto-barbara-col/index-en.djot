@@ -1,0 +1,41 @@
+---
+title: Barbara Col Project
+slug: proyecto-barbara-col
+date: 2015-12-16 23:40:49 +00:00
+description: A photography website made with ProcessWire
+featured_image: /blog/proyecto-barbara-col/cover.png
+tags: processwire, site, php, project
+---
+
+![Screenshot of the site](cover.png)
+
+## Team
+
+### Camilo Castro
+
+Processwire and Server Configuration.
+
+### Daniel Montero
+
+Desing, HTML, CSS
+
+## Thanks
+
+- [Caffetteria Diego en Famiglia, Olmué, Chile](https://www.facebook.com/diegoenfamiglia/)
+- [Ryan Cramer](http://www.ryancramer.com/) for creating Processwire
+
+## Site
+
+### Release Date
+
+- (ISO 8601) 2015-12-16
+
+## Standards
+
+- HTML5
+- CSS3
+- PHP 5.6
+
+## Software
+
+- [Processwire](https://processwire.com)

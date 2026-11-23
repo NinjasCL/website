@@ -1,0 +1,30 @@
+---
+title: Projeto Classic.com
+slug: proyecto-classic-com
+date: 2022-10-01 00:50:35 +00:00
+description: A Classic.com é uma startup com sede em Miami (EUA). Um buscador especializado em leilões de carros, criado com as tecnologias Elixir, Tailwind e Surface UI.
+featured_image: /blog/proyecto-classic-com/cover.png
+tags: elixir, classic.com, cars, autos
+---
+
+![Classic.com](classic.png)
+
+A Classic.com é uma startup com sede em Miami (EUA). Um buscador
+especializado em leilões de carros.
+
+Trabalhei com a equipe de experiência (Frontend Elixir) e a equipe de
+backend (GraphQL JavaScript) para oferecer soluções de erros, melhorar
+a organização do código e fornecer novas funções a uma base de código
+existente criada com as tecnologias Elixir, Tailwind e Surface UI. O
+foco principal estava dentro da equipe de Experiência.
+
+Implementei novos endpoints no backend de GraphQL usando JavaScript.
+
+Implementei novas funções no frontend usando SurfaceUI e Tailwind.
+
+Enviei propostas de melhoria e organização do código.
+
+Ajudei os membros da equipe a depurar problemas em sessões de
+programação em par.
+
+Projeto elaborado entre Fevereiro e Outubro de 2022.

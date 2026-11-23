@@ -1,0 +1,62 @@
+---
+title: Um simples compartilhador de tela
+slug: a-simple-screensharer
+date: 2020-05-31 01:36:23 +00:00
+description: Este é um script simples para resolver um problema simples de esperar a vez em serviços públicos.
+featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+tags: javascript, node, chile, express, english
+---
+
+![Capa](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+
+É um problema comum nas instituições públicas chilenas (e em muitos
+outros lugares) você ter que estar no local para pegar sua senha e
+esperar lá até que seu número chegue (e você pode perder sua vez se
+não chegar a tempo).
+
+Muitas dessas instituições têm um software de senhas baseado em
+computador semelhante a este.
+
+O problema é que você não pode acessar essa informação fora do local
+designado.
+
+Este software é uma solução simples para esse problema específico.
+Tira uma captura de tela do computador e a compartilha num site,
+atualizado a cada 15 segundos.
+
+Você ainda precisa estar presente para pegar seu número, mas ao
+menos pode ver o estado atual e não precisa estar no local se o seu
+número ainda está longe de ser chamado.
+
+## Instalação
+
+```bash
+npm install
+```
+
+## Execução
+
+```bash
+npm start
+```
+
+- Recomendado usar o [Forever](https://github.com/foreversd/forever).
+
+## Fluxo de trabalho
+
+- Instale e execute o servidor (no computador que mostra os números
+  das senhas).
+
+- Configure o acesso ao computador para que possa ser alcançado
+  fora do localhost (configure os roteadores e tenha um ip público,
+  a porta padrão é 3000). Talvez usando túneis ssh com Ngrok ou
+  ferramentas similares.
+
+- Compartilhe o site usando um QR Code.
+
+- Agora as pessoas podem acessar o site e ver os números com uma
+  simples captura de tela.
+
+```github
+NinjasCL/screensharer | Comparte tu pantalla de forma simple, hecho en Elixir
+```

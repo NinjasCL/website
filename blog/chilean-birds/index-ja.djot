@@ -1,0 +1,48 @@
+---
+title: 🇨🇱 Chilean Birds 🐦
+slug: chilean-birds
+date: 2021-07-10 00:46:42 +00:00
+description: チリの鳥データセットを使った小さなAPIです。ProcessWire、React、Dockerを使って作られました。チリの鳥を検索して、役立つ情報を得ることができます。
+featured_image: /blog/chilean-birds/cover.png
+tags: docker, php, react, api, birds, chile, aves
+---
+
+![Chilean Birds](cover.png)
+
+これはチリの鳥データセットを使った小さなAPIです。ProcessWire、React、Dockerを使って作られました。チリの鳥を検索して、役立つ情報を得ることができます。
+
+```github
+NinjasCL/chileanbirds-dataset | Dataset con las aves de Chile
+```
+
+## バックエンド
+
+- Docker
+- ProcessWire
+- MariaDB
+- PHP 7.4
+
+![スクリーンショット](screenshot.png)
+
+## フロントエンド
+
+- React.js
+- Bulma.css
+
+## デモ
+
+デモサイトにはここからアクセスできます。
+
+<https://aves.ninjas.cl/>
+
+デモAPIはこちら:
+
+<https://aves.ninjas.cl/api/birds>
+
+```github
+joyofpw/chileanbirds-api | API para consultar las aves de Chile
+```
+
+```youtube
+K1rUXtmQZE8
+```

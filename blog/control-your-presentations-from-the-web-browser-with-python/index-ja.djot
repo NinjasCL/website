@@ -1,0 +1,70 @@
+---
+title: Pythonでウェブブラウザからプレゼンテーションを操作する
+slug: control-your-presentations-from-the-web-browser-with-python
+date: 2014-07-26 00:05:08 +00:00
+description: キーコマンドを送信してプレゼンテーションを操作するウェブサーバーを作成します。iPhone、Androidなどのブラウジング機能を持つデバイスで操作できます。プレゼンテーションサーバーとデバイスが同じネットワークにあり、プレゼンテーションがサーバーでアクティブなウィンドウである必要があります。
+featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover.jpg
+tags: python, web, script, mac, linux, windows
+---
+
+![Glenn Carstens-PetersによるUnsplashの写真](cover.jpg)
+
+ブラウジング機能を持つあらゆるデバイスでプレゼンテーションを操作するため、キーコマンドを送信するウェブサーバーを作成します。iPhone、Androidなどのデバイスでプレゼンテーションを操作するには、プレゼンテーションサーバーとデバイスが同じネットワークにある必要があります。また、プレゼンテーションがサーバーでアクティブなウィンドウである必要があります。
+
+## インストール
+
+このアプリケーションを正しく使用するには、python 2.7.x をインストールする必要があります。
+
+### Windows
+
+[Active Python](http://www.activestate.com/activepython) をインストールしてください。サーバーが必要とするすべてのコンポーネント(_win32api, win32com_)を含んでいます。
+
+### Linux
+
+Pythonはすでにインストールされていると思いますが、サーバーはコマンド送信のために [xdotool](http://www.semicomplete.com/projects/xdotool/) に依存しています。マシンにあるか確認してください。
+
+### Mac
+
+すべてのコンポーネントがすでにインストールされています。(Mac OSX Mavericksでテスト済み)
+
+## 使い方
+
+まず、少なくとも2つのファイルが必要です。_keys.html_ と _server-*_(OSによって異なります)。
+
+次に、ターミナル内で _python server-<os>.py_ としてサーバーファイルを開きます。例えば:
+
+```bash
+python server-mac.py
+```
+
+> おそらくファイルをダブルクリックしても動作しますが、私はコマンドラインの方法を好みます。
+
+サーバーが *"Serving at localhost:8080"* と表示されたら、プレゼンテーションをホストしているマシンのIPアドレスを確認する必要があります。
+
+LinuxとMacは _ifconfig_ を(ターミナルで)、Windowsは _ipconfig_ を(cmdで)使用します。
+
+次のようなものが表示されます
+
+```text
+192.168.0.114
+```
+
+最後に、Android、iPhoneなどのデバイスのブラウザで192.168.0.xxx:8080を開きます。
+
+サーバーがプレゼンテーションを操作できるよう、プレゼンテーションサーバーでプレゼンテーションがアクティブなウィンドウになっていることを確認してください。
+
+## 使用可能なキー
+
+サーバーは次のキーを送信できます
+
+- Up
+- Down
+- Left
+- Right
+- Space
+
+必要に応じて簡単に追加できます :)
+
+```github
+NinjasCL-archive/iCtrl | Controla tus presentaciones desde el navegador con Python
+```

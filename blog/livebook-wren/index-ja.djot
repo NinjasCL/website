@@ -1,0 +1,87 @@
+---
+title: Livebook Wren
+slug: livebook-wren
+date: 2022-10-07 15:03:16 +00:00
+description: Wrenスクリプトを実行するためのLivebook設定
+featured_image: /blog/livebook-wren/cover.png
+tags: wren, livebook, elixir
+---
+
+![Screenshot](cover.png)
+
+_Livebook_ で外部のプログラミング言語を実行する方法の小さな例です。
+
+_Kino_ ツールと _System.shell_ を使用します。
+
+```elixir
+defmodule KinoGuide.WrenCell do
+  use Kino.JS
+  use Kino.JS.Live
+  use Kino.SmartCell, name: "Wren script"
+
+  @impl true
+  def init(_attrs, ctx) do
+    {:ok, ctx, editor: [attribute: "source", language: "javascript"]}
+  end
+
+  @impl true
+  def handle_connect(ctx) do
+    {:ok, %{}, ctx}
+  end
+
+  @impl true
+  def to_attrs(_ctx) do
+    %{}
+  end
+
+  @impl true
+  def to_source(attrs) do
+    quote do
+      path = Temp.path!()
+      File.write!(path, unquote(attrs["source"]))
+
+      System.shell(
+        """
+        trap "rm -f #{path}" 0 2 3 15
+        #{Wren.path()} #{path}
+        """,
+        into: IO.stream(),
+        stderr_to_stdout: true
+      )
+      |> elem(1)
+    end
+    |> Kino.SmartCell.quoted_to_string()
+  end
+
+  asset "main.js" do
+    """
+    export function init(ctx, payload) {
+      ctx.importCSS("main.css");
+
+      root.innerHTML = `
+        <div class="app">
+          Wren script
+        </div>
+      `;
+    }
+    """
+  end
+
+  asset "main.css" do
+    """
+    .app {
+      padding: 8px 16px;
+      border: solid 1px #cad5e0;
+      border-radius: 0.5rem 0.5rem 0 0;
+      border-bottom: none;
+    }
+    """
+  end
+end
+
+Kino.SmartCell.register(KinoGuide.WrenCell)
+```
+
+```github
+ElixirCL/wren-livebook | Una celda de Livebook para ejecutar scripts de Wren
+```

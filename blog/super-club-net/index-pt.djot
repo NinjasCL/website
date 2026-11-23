@@ -1,0 +1,44 @@
+---
+title: Super Club Net
+slug: super-club-net
+date: 2024-06-25 16:36:16 +00:00
+description: Uma pequena e amena introdução às tecnologias para desenvolvimento web
+featured_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg
+tags: javascript, chile, html, css, libro
+---
+
+![Super Club Net](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg)
+
+Em homenagem à revista Club Nintendo e seu mini curso de HTML.
+
+```ninjas
+la-revista-club-nintendo | La Revista Club Nintendo | Mis recuerdos con la revista y como comencé en la informática | /blog/la-revista-club-nintendo/cover.png
+```
+
+Elaborei este pequeno livro atualizando e ampliando os conceitos
+vistos nessa revista.
+
+Um livro gratuito que pode ser lido nos seguintes sites:
+
+- <https://ninjas.cl/books/superclubnet/>
+- mirror: <https://ninjas.codeberg.page/superclubnet/@main/docs/>
+
+## Conteúdos
+
+- HTML e CSS básico.
+- JavaScript básico.
+- Manipulação de DOM.
+- Formulários e validação.
+- Dicas e recomendações.
+
+Uma escrita amena e com exemplos baseados em jogos de Nintendo 64.
+Inclui um projeto para exercitar com temática de Mario Kart 64.
+
+![Simulador de Mario Kart 64](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/p1cyc53e2lfzmhjiucq8.png)
+
+Pensado para pessoas que estão começando no mundo HTML e talvez
+para alguém que queira revisar conceitos.
+
+Feito com muito amor por [Ninjas.cl](https://ninjas.cl) para todos
+aqueles com curiosidade e paciência para aprender HTML, CSS e JS
+para desenvolvimento web :)

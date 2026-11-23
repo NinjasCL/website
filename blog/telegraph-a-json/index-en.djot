@@ -1,0 +1,36 @@
+---
+title: Telegra.ph to JSON
+slug: telegraph-a-json
+date: 2022-04-03 18:12:48 +00:00
+description: A simple script to export telegra.ph data to json
+featured_image: /blog/telegraph-a-json/cover.jpg
+tags: elixir, script, telegraph, json
+---
+
+![Creed model 7TR-B-2 reperforator](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Creed_model_7TR-B-2_reperforator.jpg)
+
+[Telegra.ph](https://telegra.ph) is a service for writing articles,
+similar to Medium. However it does not provide a simple api to export
+the contents.
+
+This is a small _Elixir_ script to fetch and transform the
+information from a Telegra.ph page so the content can be used
+elsewhere.
+
+```bash
+./telegraph https://telegra.ph/Sample-Page-12-15
+./telegraph --path Sample-Page-12-15 --json
+./telegraph --path Sample-Page-12-15 --html
+./telegraph --path Sample-Page-12-15 --markdown
+```
+
+```bash
+./telegraph --path Sample-Page-12-15 --json
+./telegraph --file sample-page-12-15.json
+```
+
+```github
+ElixirCL/telegraph | Convierte las historias de Telegraph a JSON
+```

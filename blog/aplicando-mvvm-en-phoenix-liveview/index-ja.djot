@@ -1,0 +1,539 @@
+---
+title: Phoenix LiveViewでMVVMを適用する
+slug: aplicando-mvvm-en-phoenix-liveview
+date: 2024-01-24 13:54:08 +00:00
+description: 次の記事では、Phoenix FrameworkとSurface UI（LiveView）を使って小さなHacker Newsクライアントを作成し、アーキテクチャの設計にMVVM（モデル・ビュー・ビューモデル）の概念を適用します。
+featured_image: /blog/aplicando-mvvm-en-phoenix-liveview/cover.png
+tags: elixir, chile, mvvm, liveview, spanish
+---
+
+![HackerNews](cover.png)
+
+次の記事では、Phoenix FrameworkとSurface UI（LiveView）を使って小さな_Hacker News_クライアントを作成し、アーキテクチャの設計に_MVVM_（モデル・ビュー・ビューモデル）の概念を適用します。
+
+これらの概念は、モバイル技術_SwiftUI_に焦点を当てている[Matteo Manferdini](https://matteomanferdini.com/mvvm-swiftui/)の記事に基づいています。SwiftUIは_LiveView_のような宣言的な技術と非常に似ています。
+
+_MVVM_パターンは、良いアイデアと、その解釈の多様さによるいくつかの困難を組み込んでいます。この記事ではその利点と、課題への向き合い方を見ていきます。
+
+## 前提条件
+
+この記事を進めるには、_Elixir_がインストールされ、_SurfaceUI_でプロジェクトが構成されていることをおすすめします。
+
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTips%5D-Instalar-Surface-UI>
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTips%5D-Ambiente-de-Desarrollo-Elixir-en-Windows>
+
+## Hacker Newsクライアント
+
+_LiveView_で_MVVM_の例を示すために、_devs_向けのニュースポータルである_Hacker News_の小さなアプリケーションを作成します。その_API_を使って、ベストストーリーのセクションから10件のニュースを取得します。
+
+結果はこちらで見ることができます
+
+```github
+ElixirCL/surface-hackernews | Un pequeño cliente de Hacker News construido con Phoenix Framework y Surface UI
+```
+
+- <https://github.com/HackerNews/API>
+- <https://news.ycombinator.com/best>
+
+## MVVMパターンとMVCパターンとは？
+
+現在の技術では比較的簡単に複雑なアプリケーションを作成できるため、ソフトウェアソリューションの保守性と堅牢性を損なう慣行を使う人もいます。
+
+時間とともに堅牢で保守しやすいソフトウェア製品を実現するには、まとまりのある順序もなく散らばったコードを繋ぎ合わせる以上のものが必要です。_Google_で検索して特定のタスクを解決し、コードをコピー＆ペーストしてなんとか動かすこともできます。しかし基礎を超えてプロフェッショナルな領域に入ると、必然的に困難に遭遇します。
+
+このような理由から、業界は_MVC_や_MVVM_などのパターンを発展させてきました。
+
+### MVCパターンとは？
+
+_モデル・ビュー・コントローラー_（_MVC_）パターンは、最初に学ぶべきパターンの一つです。非常に基本的なものであるため、業界で数十年生き延び、そのアイデアは多くのプラットフォームに広がりました。_MVVM_など、他の多くの派生パターンの親にあたります。
+
+![MVC](mvc.png)
+
+このパターンが不可欠なのは、最も一般的な質問の一つに答える助けになるからです：
+
+> このコードはどこに置くべきですか？
+
+_MVC_パターンはアーキテクチャのパターンです。アプリケーションの構造の地図を与えてくれ、その名前が示す通り、3つの層で構成されています。
+
+- `モデル`（model）の層：データとビジネスロジックを扱う層で、視覚的な表現から独立しています。
+
+- `ビュー`（view）の層：ユーザーに情報を表示し、対話を可能にする層で、データ層から独立しています。
+
+- `コントローラー`（controller）の層：モデルとビューの橋渡しをする層です。アプリケーションの状態を保存・操作し、ビューにデータを提供し、ビジネスルールに従ってユーザーのアクションを解釈します。
+
+次のAppleの図は、ビューとコントローラーの関係を少し示しています。
+
+![Apple MVC](apple.avif)
+
+- <https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html>
+
+_MVC_の主な問題、そして他の派生パターンが生まれた理由は、コントローラーが指数関数的に成長する傾向にあったことです。果たすべき責任の多さから、_Massive View Controllers_とまで呼ばれるようになりました。
+
+### MVVMパターンとは？
+
+_モデル・ビュー・ビューモデル_（_MVVM_）パターンは、アプリケーションを3つの役割に分割して構造化しやすくするアーキテクチャパターンです。
+
+![MVVM](mvvm.png)
+
+- `モデル`（model）：アプリケーションのデータとビジネスロジックを表します。
+
+- `ビュー`（view）：ユーザーに情報を表示し、対話を可能にします。
+
+- `ビューモデル`（view-model）：ビュー層とモデル層の橋渡しをします。ビューの状態を含み、対話のロジックを管理します。
+
+### MVCとMVVMの違いは？
+
+_MVC_と_MVVM_のパターンを比較すると、類似性が顕著で、ほとんど同一です。
+
+主な違いは、_MVC_が`コントローラー`を重視することです。複数のビューの対話を管理する役割を担います。一方_MVVM_では、`ビューモデル`は単一のビューの動作と状態を制御する単一のコンポーネントです。通常はコンポーネントとして表されます。
+
+もう一つの違いは、ビューとそのコントローラー間の通信方法です。_MVC_では、ビューとコントローラーには、アクションを報告したりビューの情報の更新を要求したりするために命令的に呼び出される定義済みの関数があります。一方_MVVM_では、ビューとビューモデルは、ビューで行われた対話やビューモデルで発生した変更を自動的に報告するバインディング（`binding`）機構で結び付けられています。これらのバインディング機構はプラットフォームによって異なりますが、_LiveView_の場合はすべて工場出荷時から設定されており、よりシンプルで直感的です。
+
+### MVVMの重要性
+
+_MVVM_のような、役割が明確に定義されたアーキテクチャパターンを使うことは、関心の分離などの設計原則を満たす助けになります。これは、コードを整理しやすく、理解しやすく、単体テストの実装が現実的であるための礎石です。
+
+_MVVM_のようなアーキテクチャパターンを使うことは非常に重要です。_LiveView_がアプリケーションを作るための革新的なツールを提供しているにもかかわらず、アーキテクチャパターンを使わなければ、コードは蓄積され、複雑さが増し、最終的に保守もテストも困難な巨大なモノリスを作り出します。
+
+_LiveView_がビューの更新を自動的に処理するからといって、複数のプラットフォームで数十年にわたって存在してきたソフトウェア開発の良い慣行を放棄する正当な理由にはなりません。
+
+- <https://en.wikipedia.org/wiki/Separation_of_concerns>
+- <https://en.wikipedia.org/wiki/Coupling_(computer_programming)>
+
+### MVVMはMVCか？
+
+_MVC_の層は、次のようないくつかの要因に応じて相互作用し、解釈されます：
+
+- 実装されるプラットフォーム。
+- プロフェッショナルの経験とそのパターンの解釈。
+- その日の流行（開発者も流行を追うことができます）。
+
+_モデル・ビュー・ビューモデル_（_MVVM_）パターンは、主に別の名前を持つ_MVC_の一種です。
+
+わずかな違いはありますが、_MVC_と_MVVM_の概念は統一的に問題なく使うことができます。簡単にするために、このパターンの有効な解釈の一つであるため、単に_MVVM_と呼びます。
+
+### なぜMVVMはLiveViewに理想的なのか？
+
+_LiveView_のさまざまなツールを見直し、それらを_MVVM_の概念にどう外挿できるかを見ていきます。
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Phoenix LiveView</th><th>MVVM</th><th>説明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>LiveView</td><td>Controller</td><td>一般的なイベントやサーバーに関連する状態を管理し、ビューとビューモデルのツリーを持つ主な担当者です</td></tr>
+    <tr><td>LiveComponent</td><td>View-Model</td><td>ビューに関連するイベントと状態を管理し、インターネット/データベースからのデータ取得を調整する担当者です</td></tr>
+    <tr><td>Component</td><td>View</td><td>ビューであり、ビューモデルが提供するデータを表示するためのプロパティのみを持ちます</td></tr>
+  </tbody>
+</table>
+```
+
+Phoenixは明示的なアーキテクチャパターンに従うことを強制しません。しかし_LiveView_は_MVVM_パターンに特に適しています。データから独立したコンポーネントを提供し、_MVVM_パターンの`ビュー`層に非常によく統合されます。さらに_LiveView_は、ビューをデータにバインドし、関連するデータに変更があったときにユーザーインターフェースを自動的に更新する機構を提供します。
+
+次の図は、_LiveView_で_MVVM_に従ったアーキテクチャの可能な構成を示しています。
+
+![LiveView MVVM](liveview.avif)
+
+### MVVMを超えて
+
+_MVC_や_MVVM_のようなアーキテクチャパターンは、主にユーザーとの対話（_UX_）があるアプリケーションに焦点を当てていますが、アプリケーションは外部サービスと通信しなければならないことが多く、コードのアーキテクチャを管理する他の形態を必要とする要素もあります。
+
+このためには、ドメイン駆動設計（_Domain Driven Design_）やヘキサゴナルアーキテクチャなどで定義されたパターンを使うことをおすすめします。
+
+```youtube
+JNWPsaO4PNM
+```
+
+```youtube
+fx3BmpzitUg
+```
+
+```youtube
+sdM1KkjtCe8
+```
+
+さらに、*Worker Bees*や*CRC*など、_BEAM_のために特別に作られた概念もあります。
+
+```youtube
+GiGs4QZK-J8
+```
+
+```youtube
+KTVQtATxivQ
+```
+
+しかし、_DDD_やその仲間たちの概念を深く見ることは、読者への自主学習の課題として残しておきます。
+
+## Hacker News APIプロジェクト
+
+プロジェクトは次のファイルで構成されます
+
+```txt
+├── lib
+│   ├── hackernews
+│   │   ├── infra
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── api.ex
+│   │   │           └── mock.ex
+│   │   ├── models
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── model.ex
+│   │   │           ├── queries.ex
+│   │   │           └── types.ex
+│   ├── hackernews_web
+│   │   ├── live
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── components
+│   │   │           │   └── entry.ex
+│   │   │           ├── controller.ex
+│   │   │           └── viewmodel.ex
+│   │   ├── router.ex
+├── test
+│   ├── hackernews_web
+│   │   └── live
+│   │       └── hackernews
+│   │           └── beststories
+│   │               └── beststories_test.exs
+└── └
+```
+
+### infra
+
+インフラストラクチャとは、アプリケーションの外部にあるすべてのサービスのことです。ここにはそれらと対話する要素が置かれます。これは「_Boundary_」の層と見なされます。
+
+#### api.exとmock.ex
+
+インフラストラクチャの一部で、_HackerNews_の_API_への呼び出しを含みます。パラメータの検証やデータの変換は一切行いません。それらは他の要素の責任だからです。単に外部サーバーを呼び出して結果を返すことに集中します。
+
+`base_url`は`test`環境で変更され、テストでの検証に使う_Mock API_を使用することに注意してください。
+
+これは、クライアントを結合させることなくテストを簡素化できる_mock_の技術の一部です。
+
+この技術についてはこちらで読むことができます。
+
+<https://github.com/ElixirCL/ElixirCL/wiki/%5BArticulo%5D-Crear-Mocks-de-Endpoints-en-Phoenix>
+
+```elixir
+defmodule HackerNews.Infra.HackerNews.BestStories.API do
+  @base_url if Mix.env() == :test,
+              do: "http://localhost:4002/mocks/hackernews",
+              else: "https://hacker-news.firebaseio.com/v0/"
+
+  def all() do
+    Req.new(
+      base_url: @base_url,
+      url: "beststories.json"
+    )
+    |> Req.get()
+  end
+
+  def get(story: id) do
+    Req.new(
+      base_url: @base_url,
+      url: "item/#{id}.json"
+    )
+    |> Req.get()
+  end
+end
+```
+
+### models
+
+このコンテキストのファイルは、インフラストラクチャコンポーネントへの呼び出しと応答を処理する担当です。
+
+#### types.ex
+
+呼び出しと応答に使われる構造体です。その唯一の責任は、データを標準化し、検証し、構造体に変換することです。
+
+このコンテキストでは_Item_構造体だけが考えられており、_HackerNews_の応答を処理し、後でビューで使われます。
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories.Types.Item do
+  defstruct ~w(id comment_count score author title date url footnote)a
+
+  defp get_footnote(json) do
+    url =
+      Access.get(json, "url", "")
+      |> URI.parse()
+
+    time =
+      Access.get(json, "time", System.os_time())
+      |> DateTime.from_unix!()
+
+    %{host: url.host, time: time, by: Access.get(json, "by", "unknown")}
+  end
+
+  def decode(json) do
+    %__MODULE__{
+      id: get_in(json, ["id"]),
+      comment_count: get_in(json, ["descendants"]),
+      score: get_in(json, ["score"]),
+      author: get_in(json, ["by"]),
+      title: get_in(json, ["title"]),
+      date: get_in(json, ["time"]),
+      url: get_in(json, ["url"]),
+      footnote: get_footnote(json)
+    }
+  end
+end
+```
+
+#### queries.ex
+
+_GET_のエンドポイントを使ってAPIへのさまざまな呼び出しを行う担当です。このファイルは_CQRS_（Command, Query, Responsibility, Segregation）の一部です。クエリを操作から分離することを推奨するパターンです。_HackerNews_の場合はクエリのみを行いますが、操作を行いたい場合は、_POST, PUT, PATCH, DELETE_タイプのAPI呼び出しのための`commands.ex`ファイルが必要でしょう。
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories.Queries do
+  alias HackerNews.Infra.HackerNews.BestStories.API
+
+  require Logger
+
+  def get_top_story_ids(amount \\ 10) do
+    with {:ok, ids} <- API.all() do
+      ids.body
+      |> Enum.take(amount)
+    else
+      err ->
+        Logger.error(err)
+        []
+    end
+  end
+
+  def get_story(id) do
+    API.get(story: id)
+  end
+
+  def get_stories(ids) do
+    ids
+    |> Enum.map(&get_story(&1))
+  end
+end
+```
+
+#### model.ex
+
+_Queries_と_Types_を調整する担当で、一種の_facade_です。_Queries_からの応答を_Types_で定義された構造体に変換します。
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories do
+  alias __MODULE__.Types
+  alias __MODULE__.Queries
+
+  require Logger
+
+  def top(amount \\ 10) do
+    Queries.get_top_story_ids(amount)
+    |> Queries.get_stories()
+    |> Enum.map(fn
+      {:error, error} ->
+        Logger.error(error)
+        nil
+
+      {:ok, response} ->
+        Types.Item.decode(response.body)
+    end)
+    |> Enum.filter(&(&1 != nil))
+  end
+end
+```
+
+### live
+
+ユーザーインターフェース（_UX_）のすべてのファイルを含むディレクトリです。ここでは_MVVM_パターンを使ってファイルを整理します。
+
+#### controller.ex
+
+_ViewModel_をインスタンス化し、一般的なイベントやサーバーのイベントを処理し、パラメータやセッションなどのプロパティを管理する担当です。
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories do
+  use HackerNewsWeb, :surface_live_view
+
+  alias __MODULE__.ViewModel
+
+  def mount(_params, _session, socket) do
+    {:ok, socket}
+  end
+
+  def render(assigns) do
+    ~F"""
+    <ViewModel id="beststories" />
+    """
+  end
+end
+```
+
+#### viewmodel.ex
+
+ビューのイベントを処理し、モデルを呼び出して情報を取得する担当です。
+
+さらに、ビューがデータを取得して表示する前に、関数を使ってデータをフォーマットする方法にも注目してください。
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories.ViewModel do
+  use Surface.LiveComponent
+
+  alias HackerNewsWeb.HackerNews.Live.BestStories.View.Components.Entry
+  alias HackerNews.Models.HackerNews.BestStories
+
+  data entries, :list, default: []
+
+  @impl true
+  def mount(socket) do
+    socket =
+      socket
+      |> assign(:entries, BestStories.top())
+
+    {:ok, socket}
+  end
+
+  # This function is a small helper to have relative time.
+  # To avoid using a library like Timex.
+  # Extracted from: https://stackoverflow.com/a/65915005
+  # And https://gist.github.com/h00s/b863579ec9c7b8c65311e6862298b7a0
+  defp from_now_ago_in_words(later, now \\ DateTime.utc_now()) do
+
+    seconds = DateTime.diff(now, later)
+    minutes = round(seconds/60)
+
+    case minutes do
+      minutes when minutes in 0..1 ->
+        case seconds do
+          seconds when seconds in 0..4 ->
+            "less than 5 seconds"
+          seconds when seconds in 5..9 ->
+            "less than 10 seconds"
+          seconds when seconds in 10..19 ->
+            "less than 20 seconds"
+          seconds when seconds in 20..39 ->
+            "half a minute"
+          seconds when seconds in 40..59 ->
+            "less than 1 minute"
+          _ ->
+            "1 minute"
+        end
+      minutes when minutes in 2..44 ->
+        "#{minutes} minutes"
+      minutes when minutes in 45..89 ->
+        "about 1 hour"
+      minutes when minutes in 90..1439 ->
+        "about #{round(minutes/60)} hours"
+      minutes when minutes in 1440..2519 ->
+        "1 day"
+      minutes when minutes in 2520..43199 ->
+        "#{round(minutes/1440)} days"
+      minutes when minutes in 43200..86399 ->
+        "about 1 month"
+      minutes when minutes in 86400..525599 ->
+        "#{round(minutes/43200)} months"
+      minutes when minutes in 525600..1051199 ->
+        "1 year"
+      _ ->
+        "#{round(minutes/525600)} years"
+    end
+  end
+
+  def render(assigns) do
+    ~F"""
+    <div id="beststories">
+      <h1 class="text-5xl font-extrabold dark:text-white mb-10">HackerNews Best Stories</h1>
+      {#for entry <- @entries}
+        <Entry
+          url={entry.url}
+          title={entry.title}
+          footnote={"#{entry.footnote.host} - #{from_now_ago_in_words(entry.footnote.time)} ago by #{entry.footnote.by}"}
+          score={entry.score}
+          comment_count={entry.comment_count}
+        />
+      {/for}
+    </div>
+    """
+  end
+end
+```
+
+#### components/entry.ex
+
+ビューは主にコンポーネントを使って作られています。この場合は、1つのニュースのデータを表示する単一のコンポーネントです。
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories.View.Components.Entry do
+  use Surface.Component
+
+  prop url, :string
+  prop title, :string
+  prop footnote, :string
+  prop score, :integer
+  prop comment_count, :integer
+
+  def render(assigns) do
+    ~F"""
+    <div class="entry mt-4">
+      <h2 class="entry-title text-xl font-bold dark:text-white"><a class="entry-url" href={@url}>{@title}</a></h2>
+      <h3 class="entry-footnote mt-2 text-lg dark:text-white">{@footnote}</h3> <div class="entry-stats flex mt-2">
+        <span class="mr-2">🔼</span> <p class="entry-score font-bold">{@score}</p> <span class="mr-2 ml-4">💬</span> <p class="entry-comment-count font-bold">{@comment_count}</p>
+      </div>
+    </div>
+    """
+  end
+end
+```
+
+#### test/beststories_test.exs
+
+_API_のモックの技術のおかげで、テストはレンダリングが正しく、必要な情報を含んでいるかどうかの評価に集中するだけですみます。
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStoriesTest do
+  @moduledoc false
+  use HackerNewsWeb.ConnCase, async: true
+  use Surface.LiveViewTest
+  import Phoenix.LiveViewTest
+
+  alias HackerNews.Infra.Mocks.HackerNews.BestStories.API, as: Mock
+
+  @route "/"
+
+  describe "Best Stories" do
+    test "that displays the 10 best stories", %{conn: conn} do
+      {:ok, liveview, html} = live(conn, @route)
+
+      # first check if we have the container element
+      assert liveview
+             |> element("#beststories")
+             |> has_element?() == true
+
+      # then we use Floki to parse the html
+      {:ok, document} = Floki.parse_document(html)
+
+      entries =
+        Floki.find(document, ".entry")
+
+      assert Enum.count(entries) == 10
+
+      titles = Floki.find(document, ".entry-title")
+      |> Enum.map(fn {_htag, _hattrs, [{_atag, _aattrs, [title]}]} -> title end)
+
+      assert titles == Enum.map(Mock.data, fn {_k, v} -> v["title"] end)
+    end
+  end
+end
+```
+
+## 結論
+
+_MVVM_のようなパターンを使うことで、コードの整理を簡素化し、テスト作成の体験を向上させ、プロジェクトに一定の標準化を持たせることができます。
+
+しかし、使えるパターンはこれだけではありません。_Phoenix_プロジェクトはユーザーインターフェースをはるかに超えるもので、フロントエンドとバックエンドの統一されたエコシステム全体を自由に使えます。
+
+私たちのアプリケーションは、*CRC*パターンに従って、次の質問に答えなければなりません：
+
+- *作成*：データはどのように作成/取得されますか？。
+- *削減*：どのような変換が必要で、どのように行うべきですか？。
+- *消費*：結果をどのように表示し、またはそのデータをどのように消費しますか？。
+
+これらの概念に従うことで、時間とともに堅牢で効率的、保守しやすいソフトウェアソリューションを整理し、改善することができるでしょう。

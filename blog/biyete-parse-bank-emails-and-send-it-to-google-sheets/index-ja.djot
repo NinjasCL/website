@@ -1,0 +1,38 @@
+---
+title: 💵 Biyete 🏦 - 銀行メールを解析してGoogle Sheetsへ送る
+slug: biyete-parse-bank-emails-and-send-it-to-google-sheets
+date: 2021-07-09 12:57:58 +00:00
+description: GmailとGoogle Sheetsを統合する方法を示すプロジェクトです。銀行のメールを解析し、その情報をGoogleスプレッドシートまたはRESTエンドポイントに送信して、家計を管理できるようにします。
+featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work.png
+tags: google, gmail, sheets, javascript, hooks, scripts, banks, money, email
+---
+
+```github
+NinjasCL/biyete | Parsea correos bancarios y los envía a Google Sheets
+```
+
+銀行の通知、支払い請求、入金などの関連分野のGmailメッセージを解析するシンプルなGoogle Apps Scriptです。そしてそのデータをGoogleスプレッドシートに保存し、家計の管理に活用できます。
+
+![freepikによる画像](cover.png)
+
+このプロジェクトは、[Bennedetto](https://github.com/arecker/bennedetto)と、チリの銀行システムにおける適切なアプリや技術の欠如にインスピレーションを受けています。また、金融記録の自動化と、人々の家計管理を支援するためでもあります。
+
+Bart Wronskiの助言に従い、よりシンプルな解決策を探し、最小限の技術的負荷で目標を達成しようとしています。通常なら、多くのエンドポイントや[ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load)を持つ巨大なアプリが解決策となるでしょう。
+
+利用可能なツールを使って最小化を試みました。
+
+- 銀行は通常、データを取得するためのオープンなエンドポイントを持ちません。しかし、何かを購入したり入金があったりするたびにメールを送ってきます。これらのメールは簡単な正規表現で解析して別の場所に送信できます。「Netflix」や「Spotify」など他の企業も、解析可能な請求メールを送ってきます。
+
+- Gmailには、メールの読み取り、プログラミング、制御や、各種サービスとの連携を可能にするGoogle Apps Scriptsがあります。
+
+- Google Spreadsheetsは、データを保存しカスタムダッシュボードを作る素晴らしい場所です。Google Apps Scriptsも備えています。
+
+- 金融は安全かつ透明である必要があります。GmailとSpreadsheetsを使うことで、このスクリプトを実行するための、使いやすく設定しやすく低コストで安全な環境が得られ、個人データを完全にコントロールできます(隠れた不正はありません)。
+
+## どう動くの?
+
+![動作の様子](work.png)
+
+このスクリプトは、特定のラベル内の未読メールをすべて取得します。特別なキーワードを検索してデータを処理します。そして、見つかった項目ごとにアクションを実行します。デフォルトのアクションは、結果を特定のスプレッドシートに保存することです。ただし、新しいアクション(データをREST APIなどに送信する)を設定することもできます。最後に、メールを既読としてマークします。
+
+通常、1回の実行で30スレッドのメッセージを処理します(Google Apps Scriptsの最大実行時間は6分です)。

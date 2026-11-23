@@ -1,0 +1,80 @@
+---
+title: The Kombucha Programming Language
+slug: el-lenguaje-de-programacion-kombucha
+date: 2023-07-28 14:17:15 +00:00
+description: An experimental programming language that mixes ideas from Elixir and Gleam
+featured_image: /blog/el-lenguaje-de-programacion-kombucha/cover.jpg
+tags: kombucha, code, programming, chile, compilers, interpreters
+---
+
+![Kombucha jar](cover.jpg)
+
+Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kombucha_jar.jpg)
+
+This is a small programming language inspired primarily by _Elixir_ and
+_Gleam_.
+
+```elixir
+module Brew {
+  pub strong() {
+    "This is a Kombucha Brewed in 30 days!"
+  }
+}
+Brew.strong()
+```
+
+```elixir
+heyho = ${ message ->
+  to_string(message)
+  |> String.upcase()
+}
+$heyho(:letsgo)
+```
+
+```elixir
+module Bar {
+  # Also private consts as in elixir
+  @count 500
+
+  /*
+  Consts can also be used with blocks
+  */
+
+  const drinks {
+    [:drink, @count, :kombucha]
+  }
+}
+
+Bar.drinks
+```
+
+```elixir
+struct Glass {
+  ~w[liquid]a
+
+  pub new() {
+    %Glass{liquid: :kombucha};
+  }
+}
+Glass.new()
+```
+
+```elixir
+module MyInteger {
+  pub guard is_even(term) when is_integer(term) and rem(term, 2) == 0
+
+  pub even?(number) when is_even(number) {
+    :is_even
+  }
+
+  pub even?(_number) {
+    :not_even
+  }
+}
+
+[MyInteger.even?(2), MyInteger.even?(1)]
+```
+
+```github
+ElixirCL/kombucha | Un lenguaje de programación experimental que mezcla ideas de Elixir y Gleam
+```

@@ -1,0 +1,127 @@
+---
+title: Prós e contras do ProcessWire
+slug: processwire-pros-and-cons
+date: 2022-03-14 13:12:48 +00:00
+description: O ProcessWire tem muitas virtudes que o tornam uma das melhores escolhas para um CMS/CMF em PHP. Quando outras ferramentas como Wordpress ou Drupal são inchadas demais e você precisa remendar com plugins de terceiros até ter uma grande bagunça na mesa, o ProcessWire pode brilhar com seu poderoso sistema modular.
+featured_image: /blog/processwire-pros-and-cons/cover.jpg
+tags: processwire, php, english, web, chile, freelance, cms
+---
+
+![Foto de Victor Aznabaev](cover.jpg)
+
+Imagem: [Victor Aznabaev](https://unsplash.com/photos/pjTU9Edzc1g)
+
+[ProcessWire](https://processwire.com/) é um sistema de gestão de conteúdo (CMS) e framework (CMF) gratuito, construído para economizar seu tempo e trabalhar do seu jeito. Com campos totalmente personalizáveis, uma base segura, escalabilidade e desempenho comprovados, o _ProcessWire_ conecta todo o seu conteúdo sem emendas, tornando seu trabalho rápido, fácil e divertido.
+
+### Prós
+
+O _ProcessWire_ tem muitas virtudes que o tornam uma das melhores escolhas para um _CMS/CMF em PHP_.
+
+*Leve e modular*
+
+Quando outras ferramentas como Wordpress ou _Drupal_ são inchadas demais e você precisa remendar com plugins de terceiros até ter uma grande bagunça na mesa, o _ProcessWire_ pode brilhar com seu [poderoso sistema modular](https://processwire.com/docs/modules/), onde você pode criar os seus próprios ou escolher entre a vasta biblioteca de módulos. Você pode escolher e fazer do _ProcessWire_ algo tão grande ou tão pequeno quanto precisar.
+
+*Controle granular*
+
+O _ProcessWire_ lhe dá controle granular sobre seus dados e todas as relações complexas entre campos. Apesar de usar um banco de dados _MySQL_ por baixo do capô, parece mais um esquema de árvore ou grafo, onde cada nó pode ter pais ou filhos e ponteiros entre si. Você não precisa saber _SQL_, já que o _ProcessWire_ tem um motor de consultas simples de aprender e usar, inspirado no _jQuery_.
+
+*É PHP*
+
+Ele não te obriga a uma forma complexa de organizar o código, nem te obriga a aprender um novo motor de templates. Seu código vai ficar dentro do diretório _site/templates_ e a partir daí depende de você como os arquivos são organizados: é o bom e velho _PHP_. Além disso, como é apenas _PHP_, você não precisa de um _VPS_ sofisticado nem de servidores em nuvem; uma hospedagem compartilhada comum com _Cpanel_ basta para a maioria dos projetos. Onde dá para rodar _Wordpress_, o ProcessWire _vai_ rodar.
+
+No entanto, se preferir seguir alguma estratégia, você pode conferir:
+
+- [Estratégias de saída](https://processwire.com/docs/front-end/output/).
+- [Framework Wireframe](https://wireframe-framework.com/)
+- [Alternativas](https://wireframe-framework.com/about/alternatives/)
+- [Adaptador de Inertia.js](https://github.com/joyofpw/inertia)
+
+*Papéis e permissões*
+
+O recurso de [papéis e permissões](https://processwire.com/docs/user-access/) é fácil de usar e você pode criar requisitos de segurança complexos em tempo recorde.
+
+*Multi-idioma é cidadão de primeira classe*
+
+Você pode criar [sites multi-idioma](https://processwire.com/docs/multi-language-support/) facilmente e em pouco tempo. Sem precisar de configurações esquisitas. Precisa suportar vários idiomas? Tudo o que você precisa fazer é traduzir o texto, e o ProcessWire cuida do resto.
+
+*Hooks*
+
+O ProcessWire está cheio de [Hooks](https://processwire.com/docs/modules/hooks/) que são usados e disparados em praticamente todas as partes do sistema. Isso significa que você pode alterar o comportamento de módulos do sistema e de terceiros, de páginas e de eventos do sistema, sobrescrevendo seu conteúdo ou disparando eventos antes, durante ou depois de sua chamada. É praticamente um sistema [IFTTT](https://en.wikipedia.org/wiki/IFTTT) dentro do _ProcessWire_.
+
+*Pronto para o Composer*
+
+Você pode usar o _ProcessWire_ como uma biblioteca normal do Composer e se beneficiar de sua enorme quantidade de funções e helpers, e importar outras bibliotecas externas para o seu site sem problemas.
+
+*Headless*
+
+Se você precisa apenas retornar JSON para uma experiência de _CMS Headless_, será moleza. Você pode escolher usar um módulo como o [AppAPI](https://github.com/Sebiworld/AppApi) ou retornar o JSON usando a função _json_encode()_ do PHP. Talvez também um módulo de [GraphQL](https://processwire.com/modules/process-graph-ql/).
+
+*Testado em batalha*
+
+[Mais de dez anos de desenvolvimento contínuo](https://en.wikipedia.org/wiki/ProcessWire). O _ProcessWire_ está em desenvolvimento desde 2003 (com outros nomes e núcleos).
+
+*Admin impressionante*
+
+Você tem um painel de administração impressionante, totalmente personalizável tanto em PHP quanto em Javascript (jQuery UI).
+
+*Comunidade acolhedora*
+
+Os [fóruns do _ProcessWire_](https://processwire.com/talk/) estão cheios de gente simpática e acolhedora. Participe e pergunte se precisar de ajuda.
+
+*Pronto para a linha de comando*
+
+O _ProcessWire_ pode trabalhar em apps de console (terminal). Você não precisa de um navegador e pode criar scripts de linha de comando que interagem com as APIs do _ProcessWire_. Você pode olhar o projeto [_Wireshell_](https://wireshell.github.io) como exemplo de um aplicativo de console que usa as APIs do _ProcessWire_.
+
+*Sempre verde*
+
+Atualizar o núcleo do seu _ProcessWire_ é fácil. Na maioria dos projetos você só precisa substituir o diretório _wire/_ pela nova versão e pronto. Em contraste com o _Wordpress_, onde não atualizar seu CMS é um enorme risco de segurança, sites com _ProcessWire_ podem ficar *anos* sem atualizar e ficam bem. Todas as atualizações do núcleo são em sua maioria novas funcionalidades e correções de bugs. A segurança é forte com o _ProcessWire_.
+
+### Contras
+
+*Apenas Apache e MySQL*
+
+O _ProcessWire_ é fortemente ligado a essas tecnologias. Você pode escolher outro servidor web como o _nginx_, mas os principais recursos de segurança são testados apenas no _Apache_.
+
+Se você gosta de outros sistemas de banco de dados como o _PostgreSQL_, azar. Pelo menos se quiser usar o motor inspirado no _jQuery_ do _ProcessWire_. Esse motor de consultas foi feito sob medida para o _MySQL_. Outros bancos de dados compatíveis com _MySQL_, como o _MariaDB_, funcionam bem.
+
+*Migrações e controle de versões*
+
+Trabalhar com várias pessoas no mesmo site pode ser um pouco difícil. Especialmente em como enviar as mudanças nas relações entre campos. Se um site está em produção, será difícil replicar as diferentes mudanças em campos e relações de páginas a partir de um ambiente de desenvolvimento. Há módulos para lidar com esse problema, como o [RockMigrations](https://processwire.com/talk/topic/21212-rockmigrations-easy-migrations-from-devstaging-to-live-server/) e o [Version Control](https://processwire.com/modules/version-control/). Certifique-se de que sua equipe concorde com uma estratégia antes de enviar um site para produção.
+
+Além disso, o _ProcessWire_ depende fortemente de seu motor de consultas. Se você precisa executar SQL customizado para obter os dados do _PW_, o melhor é criar uma tabela própria. O _ProcessWire_ armazena seus dados em estruturas de tabelas fortemente otimizadas que não são fáceis de entender.
+
+*Testes*
+
+Você terá que configurar sua própria suíte e motor de testes, já que o _ProcessWire_ é testado principalmente à mão em sites de desenvolvimento e produção. Ele ainda não tem uma suíte de testes automatizados nem ferramentas para esse caso de uso (até onde sei).
+
+*Analytics e telemetria*
+
+Na mesma situação que os testes. Você terá que configurar seu próprio motor de analytics e telemetria. (até onde sei).
+
+*É necessário ao menos conhecimento básico de PHP*
+
+Alguns usuários do _Wordpress_ podem esperar uma experiência de apontar e clicar. Mas com o _ProcessWire_ você precisa aprender um pouco de PHP. Outras pessoas que vêm de frameworks como _Laravel_ ou _CakePHP_ podem se confundir um pouco com a terminologia de _página, campo e template_. Ambas são fáceis de aprender e, com alguns experimentos e perguntas, você pega o jeito.
+
+### Casos de uso
+
+Os seguintes são casos de uso onde o _ProcessWire_ pode brilhar:
+
+- Sistemas com muitas leituras. Onde há mais operações de leitura do que de escrita, por exemplo um blog simples ou um catálogo de produtos, um site informativo ou uma landing page.
+
+- Um painel para outros sistemas. Você pode aproveitar o bonito painel do _ProcessWire_ e, via Hooks, enviar os dados para as APIs de outros sistemas, tendo o _ProcessWire_ como única fonte de verdade dos dados.
+
+- Relações de baixa complexidade. Embora você possa criar relações pai-filho complexas, o melhor é mantê-las leves e simples. Se uma estrutura de banco de dados mais complexa for necessária, talvez outro framework possa ser usado, com o _ProcessWire_ como cliente desse framework.
+
+- Projetos estáveis que não precisem de muitas mudanças (na estrutura do banco de dados) depois de irem para produção.
+
+Os seguintes são casos de uso onde o _ProcessWire_ não seria recomendado:
+
+- Sistemas em tempo real. Por exemplo aplicativos de chat ou operações de longa duração. Para esse tipo de sistema há ferramentas melhores como [Elixir com Phoenix](https://www.phoenixframework.org/).
+
+- E-commerce. Embora existam soluções maravilhosas para e-commerce como o [Padloper.pw](https://padloper.pw/), nessa área é melhor configurar um software de e-commerce dedicado e se comunicar via suas APIs, se você precisa de algo rápido para e-commerce. Dito isso, experimente o *Padloper*, ele poderia resolver muitos cenários comuns de e-commerce. Esta é apenas uma opinião pessoal, principalmente por causa do tempo necessário para criar um e-commerce sob medida.
+
+- Equipes com mais de 2 pessoas. Se a equipe de desenvolvimento é de uma ou duas pessoas por projeto, tudo bem. Com mais gente modificando campos e templates seria difícil se coordenar. Certifique-se de usar um módulo de migrações ou, pelo menos, documentar cada mudança para reproduzi-la no site principal de produção.
+
+## Conclusão
+
+O _ProcessWire_ é um sistema maravilhoso para construir seu próximo projeto se você o usar dentro de suas limitações. Com sua estrutura modular e requisitos simples você pode ter um site complexo pronto com menos esforço.

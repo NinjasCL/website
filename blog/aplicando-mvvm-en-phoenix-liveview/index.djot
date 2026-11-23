@@ -1,0 +1,539 @@
+---
+title: Aplicando MVVM en Phoenix LiveView
+slug: aplicando-mvvm-en-phoenix-liveview
+date: 2024-01-24 13:54:08 +00:00
+description: En el siguiente artículo vamos a crear un pequeño cliente de Hacker News utilizando Phoenix Framework y Surface UI (LiveView), aplicando los conceptos de MVVM (Modelo - Vista - Vista Modelo) para el diseño de la arquitectura.
+featured_image: /blog/aplicando-mvvm-en-phoenix-liveview/cover.png
+tags: elixir, chile, mvvm, liveview, spanish
+---
+
+![HackerNews](cover.png)
+
+En el siguiente artículo vamos a crear un pequeño cliente de _Hacker News_ utilizando Phoenix Framework y Surface UI (LiveView), aplicando los conceptos de _MVVM_ (Modelo - Vista - Vista Modelo) para el diseño de la arquitectura.
+
+Los conceptos están basados en los artículos de [Matteo Manferdini](https://matteomanferdini.com/mvvm-swiftui/) quien se enfoca en la tecnología móvil _SwiftUI_, la cual es muy similar a las tecnologías declarativas como _LiveView_.
+
+El patrón _MVVM_ incorpora buenas ideas y algunas dificultades debido a las distintas interpretaciones del mismo. En este artículo veremos sus ventajas y como navegar sus desafíos.
+
+## Requisitos
+
+Para poder seguir este artículo recomendamos tener instalado _Elixir_ y configurado un proyecto con _SurfaceUI_.
+
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTips%5D-Instalar-Surface-UI>
+- <https://github.com/ElixirCL/ElixirCL/wiki/%5BTips%5D-Ambiente-de-Desarrollo-Elixir-en-Windows>
+
+## Cliente Hacker News
+
+Para tener un ejemplo de _MVVM_ en _LiveView_, vamos a crear una pequeña aplicación para _Hacker News_, un portal de noticias para _devs_. Vamos a utilizar su _API_ para obtener diez noticias desde la sección de mejores historias.
+
+Pueden ver el resultado acá
+
+```github
+ElixirCL/surface-hackernews | Un pequeño cliente de Hacker News construido con Phoenix Framework y Surface UI
+```
+
+- <https://github.com/HackerNews/API>
+- <https://news.ycombinator.com/best>
+
+## ¿Patrones MVVM y MVC?
+
+La tecnología actual permite crear aplicaciones complejas con relativa sencillez, lo que ha facilitado algunas personas a utilizar prácticas que dificultan la mantenibilidad y robustez de las soluciones de software.
+
+Para lograr productos de software robustos y fáciles de mantener en el tiempo, se necesita más que juntar piezas de código esparcidas sin un orden cohesivo. Si bien uno puede buscar en _Google_ para resolver tareas específicas, copiando y pegando el código para que funcione de alguna forma. Al momento de salir de lo básico y entrar al terreno profesional, inevitablemente encontraremos dificultades.
+
+Por esta razón la industria ha desarrollado patrones como el _MVC_ y el _MVVM_.
+
+### ¿Qué es el patrón MVC?
+
+El patrón _Modelo-Vista-Controlador_ (_MVC_), es uno de los primeros que deberías aprender. Es tan fundamental que ha sobrevivido décadas en la industria y sus ideas se han esparcido por muchas plataformas. Es el padre de muchos otros patrones derivados como _MVVM_, entre otros.
+
+![MVC](mvc.png)
+
+Este patrón es esencial debido a que ayuda a responder una de las preguntas más comunes:
+
+> ¿Dónde debería poner esta pieza de código?
+
+El patrón _MVC_ es uno de arquitectura. Te entrega un mapa de la estructura de la aplicación y como su nombre dice, consiste en tres capas.
+
+- Capa `modelo` (_model_): Es la capa que maneja los datos y la lógica de negocios, independiente de su representación visual.
+
+- Capa `vista` (_view_): Es la capa que muestra la información al usuario y permite interacciones, independiente de la capa de datos.
+
+- Capa `controlador` (_controller_): Es la capa que actúa como puente entre modelo y vista. Almacena y manipula el estado de la aplicación y proporciona datos a las vista, interpreta las acciones del usuario según las reglas de negocio.
+
+El siguiente diagrama de Apple muestra un poco la relación de las vistas y controladores.
+
+![Apple MVC](apple.avif)
+
+- <https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html>
+
+El principal problema de _MVC_ y por qué razón nacieron otros patrones derivados es debido a la tendencia de que los controladores crecían de forma exponencial. Incluso llegando a ser llamado _Massive View Controllers_, por la cantidad de responsabilidades que tenían que cumplir.
+
+### ¿Qué es el patrón MVVM?
+
+El patrón _Modelo-Vista-VistaModelo_ (_MVVM_), es un patrón de arquitectura que facilita estructurar la aplicación dividiéndola en tres roles.
+
+![MVVM](mvvm.png)
+
+- El `modelo` (_model_): representa los datos y lógica de negocio de la aplicación.
+
+- La `vista` (_view_): Muestra la información al usuario y permite la interacción.
+
+- La `vista-modelo` (_view-model_): Actúa como puente entre las capas de vista y modelo. Contiene el estado de la vista y maneja  la lógica de interacciones.
+
+### ¿Diferencias entre MVC y MVVM?
+
+Al comparar los patrones de _MVC_ y _MVVM_ es notable la similitud y son casi idénticos.
+
+La principal diferencia radica en que _MVC_ hace énfasis en los `controladores`. Encargados de manejar las interacciones para varias vistas. En cambio en _MVVM_ la `vista-modelo` es un único componente que controla el comportamiento y estado de una única vista. Comúnmente representado como un componente.
+
+Otra diferencia es la forma de comunicación entre la vista y su controlador. En _MVC_ la vista y el controlador tienen funciones definidas que son llamadas de forma imperativa para informar sobre una acción o requerir actualizar la información en la vista. Por otra parte en _MVVM_ la vista y la vista-modelo están unidas por un mecanismo de enlazado (`binding`) que automáticamente informa sobre interacciones realizadas en la vista y cambios ocurridos en la vista-modelo. Estos mecanismos de enlazado varían según la plataforma, en el caso de _LiveView_ ya viene todo configurado de fábrica y es más simple e intuitivo.
+
+### La importancia de MVVM
+
+El utilizar un patrón de arquitectura como _MVVM_ con roles claramente definidos nos ayudan cumplir principios de diseño como la separación de conceptos. Lo que es una piedra angular para mantener código bien organizado, fácilmente entendible y que sus pruebas unitarias son viables de implementar.
+
+Utilizar patrones de arquitectura como _MVVM_ es sumamente importante. A pesar de que _LiveView_ nos da herramientas innovadoras para elaborar nuestras aplicaciones, si no utilizamos patrones de arquitectura el código se irá acumulando, aumentando de complejidad, para finalmente crear monolitos masivos que son difíciles de mantener y probar.
+
+El hecho de que _LiveView_ maneje automáticamente la actualización de las vistas no justifica abandonar las buenas prácticas en el desarrollo de software que han existido por décadas en múltiples plataformas.
+
+- <https://en.wikipedia.org/wiki/Separation_of_concerns>
+- <https://en.wikipedia.org/wiki/Coupling_(computer_programming)>
+
+### ¿MVVM es MVC?
+
+Las capas de _MVC_ interactúan y son interpretadas dependiendo de algunos factores como:
+
+- La plataforma donde se implementa.
+- La experiencia del profesional y su interpretación del patrón.
+- La moda del día (Los devs igual pueden seguir modas).
+
+El patrón _Modelo-Vista-VistaModelo_ (_MVVM_) es principalmente una versión de _MVC_ bajo un nombre diferente.
+
+Si bien hay ligeras diferencias, perfectamente se pueden utilizar los conceptos de _MVC_ y _MVVM_ de forma unificada sin problemas. Para poder simplificar, solamente nos referimos como _MVVM_, ya que es una de las formas válidas de interpretar este patrón.
+
+### ¿Por qué MVVM es ideal para LiveView?
+
+Vamos a repasar las distintas herramientas de _LiveView_ y de qué forma podemos extrapolarlas a los conceptos de _MVVM_.
+
+``` =html
+<table>
+  <thead>
+    <tr><th>Phoenix LiveView</th><th>MVVM</th><th>Descripción</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>LiveView</td><td>Controller</td><td>Es el encargado principal de gestionar eventos y estados generales o relativos al servidor y tener un árbol de vistas y vista-modelos</td></tr>
+    <tr><td>LiveComponent</td><td>View-Model</td><td>Es el encargado de gestionar eventos y estados relativos a la vista y coordinar la obtención de datos desde internet/base de datos</td></tr>
+    <tr><td>Component</td><td>View</td><td>Es la vista y solamente tiene propiedades para mostrar los datos entregados por la vista-modelo</td></tr>
+  </tbody>
+</table>
+```
+
+Phoenix no fuerza a seguir un patrón arquitectónico explícito. Sin embargo _LiveView_ es particularmente apropiado para el patrón _MVVM_. Ofrece componentes que son independiente de los datos que se integran muy bien a la capa `vista` del patrón _MVVM_. Además _LiveView_ proporciona mecanismos para enlazar las vistas a los datos y automáticamente actualizar las interfaces de usuario cuando los datos asociados tienen cambios.
+
+El siguiente diagrama muestra una posible organización de arquitectura siguiendo _MVVM_ con _LiveView_.
+
+![LiveView MVVM](liveview.avif)
+
+### Más allá de MVVM
+
+Los patrones de arquitectura como _MVC_ y _MVVM_ tienen su foco en aplicaciones donde principalmente tenemos interacciones de usuario (_UX_), pero muchas veces las aplicaciones tienen que comunicar con servicios externos y otros elementos que necesitan otras formas de gestionar nuestra arquitectura de código.
+
+Para esto recomendamos utilizar patrones como los definidos en el Diseño Orientado a Dominio (_Domain Driven Design_) y arquitectura Hexagonal.
+
+```youtube
+JNWPsaO4PNM
+```
+
+```youtube
+fx3BmpzitUg
+```
+
+```youtube
+sdM1KkjtCe8
+```
+
+Además de conceptos creados específicamente para la _BEAM_ como *Worker Bees* y *CRC*.
+
+```youtube
+GiGs4QZK-J8
+```
+
+```youtube
+KTVQtATxivQ
+```
+
+Pero ver en mayor profundidad los conceptos de _DDD_ y amigos quedará como tarea de auto estudio para el lector.
+
+## Proyecto Hacker News API
+
+El proyecto consistirá en los siguientes archivos
+
+```txt
+├── lib
+│   ├── hackernews
+│   │   ├── infra
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── api.ex
+│   │   │           └── mock.ex
+│   │   ├── models
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── model.ex
+│   │   │           ├── queries.ex
+│   │   │           └── types.ex
+│   ├── hackernews_web
+│   │   ├── live
+│   │   │   └── hackernews
+│   │   │       └── beststories
+│   │   │           ├── components
+│   │   │           │   └── entry.ex
+│   │   │           ├── controller.ex
+│   │   │           └── viewmodel.ex
+│   │   ├── router.ex
+├── test
+│   ├── hackernews_web
+│   │   └── live
+│   │       └── hackernews
+│   │           └── beststories
+│   │               └── beststories_test.exs
+└── └
+```
+
+### infra
+
+La infraestructura son todos aquellos servicios externos a nuestra aplicación. Acá se encontrarán los elementos que interactúan con ellos. Esto se consideraría una capa "_Boundary_".
+
+#### api.ex y mock.ex
+
+Parte de la infraestructura, contiene las llamadas a la _API_ de _HackerNews_. No realiza ningún tipo de validación de parámetros o transformación de datos, ya que eso es responsabilidad de otros elementos. Simplemente se enfoca en llamar al servidor externo y devolver el resultado.
+
+Notar que la `base_url` es modificada en el ambiente de `test` para utilizar una _API Mock_ que utilizamos para validar en las pruebas.
+
+Esto es parte de una técnica de _mock_ que nos permite simplificar las pruebas sin acoplar nuestro cliente.
+
+Pueden leer sobre esta técnica acá.
+
+<https://github.com/ElixirCL/ElixirCL/wiki/%5BArticulo%5D-Crear-Mocks-de-Endpoints-en-Phoenix>
+
+```elixir
+defmodule HackerNews.Infra.HackerNews.BestStories.API do
+  @base_url if Mix.env() == :test,
+              do: "http://localhost:4002/mocks/hackernews",
+              else: "https://hacker-news.firebaseio.com/v0/"
+
+  def all() do
+    Req.new(
+      base_url: @base_url,
+      url: "beststories.json"
+    )
+    |> Req.get()
+  end
+
+  def get(story: id) do
+    Req.new(
+      base_url: @base_url,
+      url: "item/#{id}.json"
+    )
+    |> Req.get()
+  end
+end
+```
+
+### models
+
+Los archivos en este contexto son los encargados de procesar las llamadas y respuestas a los componentes de infraestructura.
+
+#### types.ex
+
+Las estructuras que serán utilizadas para llamadas y respuestas. Su única responsabilidad es estandarizar los datos, validarlos y transformarlos en estructuras.
+
+En este contexto se pensó solamente en la estructura _Item_, la cual procesa la respuesta de _HackerNews_ y será usada posteriormente en la vista.
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories.Types.Item do
+  defstruct ~w(id comment_count score author title date url footnote)a
+
+  defp get_footnote(json) do
+    url =
+      Access.get(json, "url", "")
+      |> URI.parse()
+
+    time =
+      Access.get(json, "time", System.os_time())
+      |> DateTime.from_unix!()
+
+    %{host: url.host, time: time, by: Access.get(json, "by", "unknown")}
+  end
+
+  def decode(json) do
+    %__MODULE__{
+      id: get_in(json, ["id"]),
+      comment_count: get_in(json, ["descendants"]),
+      score: get_in(json, ["score"]),
+      author: get_in(json, ["by"]),
+      title: get_in(json, ["title"]),
+      date: get_in(json, ["time"]),
+      url: get_in(json, ["url"]),
+      footnote: get_footnote(json)
+    }
+  end
+end
+```
+
+#### queries.ex
+
+Es el encargado de realizar las distintas llamadas a la API utilizando los endpoints con _GET_. Este archivo es parte de _CQRS_ (Command, Query, Responsability, Segregation). Un patrón que nos recomienda separar las consultas de las operaciones. En el caso de _HackerNews_ solamente realizamos consultas, pero si quisieramos realizar operaciones tendríamos que tener un archivo `commands.ex` para las llamadas a la API del tipo _POST, PUT, PATCH y DELETE_.
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories.Queries do
+  alias HackerNews.Infra.HackerNews.BestStories.API
+
+  require Logger
+
+  def get_top_story_ids(amount \\ 10) do
+    with {:ok, ids} <- API.all() do
+      ids.body
+      |> Enum.take(amount)
+    else
+      err ->
+        Logger.error(err)
+        []
+    end
+  end
+
+  def get_story(id) do
+    API.get(story: id)
+  end
+
+  def get_stories(ids) do
+    ids
+    |> Enum.map(&get_story(&1))
+  end
+end
+```
+
+#### model.ex
+
+Es el encargado de coordinar _Queries_ y _Types_, una suerte de _facade_. Transformamos las respuestas de _Queries_ en estructuras definidas en _Types_.
+
+```elixir
+defmodule HackerNews.Models.HackerNews.BestStories do
+  alias __MODULE__.Types
+  alias __MODULE__.Queries
+
+  require Logger
+
+  def top(amount \\ 10) do
+    Queries.get_top_story_ids(amount)
+    |> Queries.get_stories()
+    |> Enum.map(fn
+      {:error, error} ->
+        Logger.error(error)
+        nil
+
+      {:ok, response} ->
+        Types.Item.decode(response.body)
+    end)
+    |> Enum.filter(&(&1 != nil))
+  end
+end
+```
+
+### live
+
+Directorio que contiene todos archivos de interfaz de usuario (_UX_). Acá utilizaremos el patrón _MVVM_ para organizar nuestros archivos.
+
+#### controller.ex
+
+El encargado de instanciar al _ViewModel_ y manejar eventos generales o de servidor y administrar propiedades como los parámetros y sesión.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories do
+  use HackerNewsWeb, :surface_live_view
+
+  alias __MODULE__.ViewModel
+
+  def mount(_params, _session, socket) do
+    {:ok, socket}
+  end
+
+  def render(assigns) do
+    ~F"""
+    <ViewModel id="beststories" />
+    """
+  end
+end
+```
+
+#### viewmodel.ex
+
+Es el encargado de manejar los eventos de la vista y llamar a nuestros modelos para obtener información.
+
+Notemos además como se utiliza una función para formatear los datos antes de que la vista los obtenga y muestre.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories.ViewModel do
+  use Surface.LiveComponent
+
+  alias HackerNewsWeb.HackerNews.Live.BestStories.View.Components.Entry
+  alias HackerNews.Models.HackerNews.BestStories
+
+  data entries, :list, default: []
+
+  @impl true
+  def mount(socket) do
+    socket =
+      socket
+      |> assign(:entries, BestStories.top())
+
+    {:ok, socket}
+  end
+
+  # This function is a small helper to have relative time.
+  # To avoid using a library like Timex.
+  # Extracted from: https://stackoverflow.com/a/65915005
+  # And https://gist.github.com/h00s/b863579ec9c7b8c65311e6862298b7a0
+  defp from_now_ago_in_words(later, now \\ DateTime.utc_now()) do
+
+    seconds = DateTime.diff(now, later)
+    minutes = round(seconds/60)
+
+    case minutes do
+      minutes when minutes in 0..1 ->
+        case seconds do
+          seconds when seconds in 0..4 ->
+            "less than 5 seconds"
+          seconds when seconds in 5..9 ->
+            "less than 10 seconds"
+          seconds when seconds in 10..19 ->
+            "less than 20 seconds"
+          seconds when seconds in 20..39 ->
+            "half a minute"
+          seconds when seconds in 40..59 ->
+            "less than 1 minute"
+          _ ->
+            "1 minute"
+        end
+      minutes when minutes in 2..44 ->
+        "#{minutes} minutes"
+      minutes when minutes in 45..89 ->
+        "about 1 hour"
+      minutes when minutes in 90..1439 ->
+        "about #{round(minutes/60)} hours"
+      minutes when minutes in 1440..2519 ->
+        "1 day"
+      minutes when minutes in 2520..43199 ->
+        "#{round(minutes/1440)} days"
+      minutes when minutes in 43200..86399 ->
+        "about 1 month"
+      minutes when minutes in 86400..525599 ->
+        "#{round(minutes/43200)} months"
+      minutes when minutes in 525600..1051199 ->
+        "1 year"
+      _ ->
+        "#{round(minutes/525600)} years"
+    end
+  end
+
+  def render(assigns) do
+    ~F"""
+    <div id="beststories">
+      <h1 class="text-5xl font-extrabold dark:text-white mb-10">HackerNews Best Stories</h1>
+      {#for entry <- @entries}
+        <Entry
+          url={entry.url}
+          title={entry.title}
+          footnote={"#{entry.footnote.host} - #{from_now_ago_in_words(entry.footnote.time)} ago by #{entry.footnote.by}"}
+          score={entry.score}
+          comment_count={entry.comment_count}
+        />
+      {/for}
+    </div>
+    """
+  end
+end
+```
+
+#### components/entry.ex
+
+La vista esta principalmente creada usando componentes. En este caso un único componente que muestra los datos de una noticia.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStories.View.Components.Entry do
+  use Surface.Component
+
+  prop url, :string
+  prop title, :string
+  prop footnote, :string
+  prop score, :integer
+  prop comment_count, :integer
+
+  def render(assigns) do
+    ~F"""
+    <div class="entry mt-4">
+      <h2 class="entry-title text-xl font-bold dark:text-white"><a class="entry-url" href={@url}>{@title}</a></h2>
+      <h3 class="entry-footnote mt-2 text-lg dark:text-white">{@footnote}</h3> <div class="entry-stats flex mt-2">
+        <span class="mr-2">🔼</span> <p class="entry-score font-bold">{@score}</p> <span class="mr-2 ml-4">💬</span> <p class="entry-comment-count font-bold">{@comment_count}</p>
+      </div>
+    </div>
+    """
+  end
+end
+```
+
+#### test/beststories_test.exs
+
+Gracias a la técnica de mocks para la _API_ nuestras pruebas solamente se concentran en evaluar si la renderización es correcta y contiene la información necesaria.
+
+```elixir
+defmodule HackerNewsWeb.HackerNews.Live.BestStoriesTest do
+  @moduledoc false
+  use HackerNewsWeb.ConnCase, async: true
+  use Surface.LiveViewTest
+  import Phoenix.LiveViewTest
+
+  alias HackerNews.Infra.Mocks.HackerNews.BestStories.API, as: Mock
+
+  @route "/"
+
+  describe "Best Stories" do
+    test "that displays the 10 best stories", %{conn: conn} do
+      {:ok, liveview, html} = live(conn, @route)
+
+      # first check if we have the container element
+      assert liveview
+             |> element("#beststories")
+             |> has_element?() == true
+
+      # then we use Floki to parse the html
+      {:ok, document} = Floki.parse_document(html)
+
+      entries =
+        Floki.find(document, ".entry")
+
+      assert Enum.count(entries) == 10
+
+      titles = Floki.find(document, ".entry-title")
+      |> Enum.map(fn {_htag, _hattrs, [{_atag, _aattrs, [title]}]} -> title end)
+
+      assert titles == Enum.map(Mock.data, fn {_k, v} -> v["title"] end)
+    end
+  end
+end
+```
+
+## Conclusión
+
+El utilizar patrones como _MVVM_ nos permite simplificar nuestra organización de código, mejorar la experiencia al crear pruebas y tener cierta estandarización en los proyectos.
+
+Sin embargo no son los únicos patrones que podemos utilizar, ya que los proyectos de _Phoenix_ van mucho más allá que las interfaces de usuario, tenemos a nuestra disposición todo un ecosistema unificado de frontend y backend.
+
+Nuestras aplicaciones tienen que responder las siguientes preguntas, según el patrón *CRC*:
+
+- *Crear*: ¿Cómo se crean/obtienen los datos?.
+- *Reducir*: ¿Qué transformaciones necesitan y cómo se deben hacer?.
+- *Consumir*: ¿Cómo muestro el resultado o consumo dicho dato?.
+
+Siguiendo estos conceptos podremos organizar y mejorar nuestras soluciones de software para que sean robustaz, eficientes y fáciles de mantener en el tiempo.

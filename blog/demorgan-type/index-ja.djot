@@ -1,0 +1,60 @@
+---
+title: Demorgan型
+slug: demorgan-type
+date: 2021-04-30 15:40:35 +00:00
+description: 一つのアイデアは、Boolの別名としてDemorgan値を使うことです。
+featured_image: /blog/demorgan-type/cover.jpg
+tags: wren, javascript, programming, disscussion, idea, english
+---
+
+![Scott RodgersonによるUnsplashの写真](cover.jpg)
+
+[Wrenのissueでのこの議論](https://github.com/wren-lang/wren/issues/991)がきっかけで、`0` を偽とみなすBoolの別名を探すようになりました。
+
+JavaScriptでは `0` は `false` です。
+
+```js
+(() => {
+  const zero = Boolean(0);
+  // false
+  console.log(zero);
+})();
+```
+
+_Wren_ のような他の言語では、`0` は `true` とみなされます。
+
+```js
+var zero = 0
+if (zero) {
+   System.print("zero is true")
+}
+```
+
+そこで標準化の一つの方法として、Boolの別名に[デモルガン](https://en.wikipedia.org/wiki/De_Morgan%27s_laws)値を使うというアイデアがあります。
+
+理想の世界では、すべての言語が:
+
+- `Bool` は `false`、`null`、`undefined` を偽とみなし、それ以外をすべて `true` とする。
+- `Demorgan` は `false`、`null`、`undefined`、`0` を偽とみなし、それ以外をすべて `true` とする。
+
+しかし、`0` が何を意味するかについては、実装や考え方が異なる言語がたくさんあるので、一つのアイデアとして:
+
+- `Bool` は、その言語がすでに偽とみなしているものを `false` とする。
+
+- `Demorgan` は、その言語がすでに偽とみなしているものすべてを `false` とし、ただし `0` だけはその真偽値を反転させる。
+
+つまりJavaScriptの例では:
+
+```js
+(() => {
+  const zero = Boolean(0);
+
+  // false
+  console.log(zero);
+
+  const negatedZero = Demorgan(0);
+
+   // true
+  console.log(negatedZero);
+})();
+```
