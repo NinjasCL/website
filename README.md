@@ -95,10 +95,6 @@ Posts live under `blog/<slug>/index.md` with blogatto frontmatter
 and other keys are optional). Static assets live in `static/` and are copied
 into the generated `dist/` output.
 
-:ext-relative:
-:toc: macro
-:toclevels: 4
-
 ## 🤩 Credits
 
 <p>
