@@ -3,11 +3,11 @@ title: Um simples compartilhador de tela
 slug: a-simple-screensharer
 date: 2020-05-31 01:36:23 +00:00
 description: Este é um script simples para resolver um problema simples de esperar a vez em serviços públicos.
-featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+featured_image: /blog/a-simple-screensharer/83366600-2890b380-a37e-11ea-9b82-841c71e3123a-1280x720.jpeg
 tags: javascript, node, chile, express, english
 ---
 
-![Capa](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+![Capa](83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
 
 É um problema comum nas instituições públicas chilenas (e em muitos
 outros lugares) você ter que estar no local para pegar sua senha e

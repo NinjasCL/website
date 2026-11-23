@@ -3,7 +3,7 @@ title: Telegra.phからJSONへ
 slug: telegraph-a-json
 date: 2022-04-03 18:12:48 +00:00
 description: telegra.phのデータをjsonにエクスポートするためのシンプルなスクリプト
-featured_image: /blog/telegraph-a-json/cover.jpg
+featured_image: /blog/telegraph-a-json/cover-1280x720.jpg
 tags: elixir, script, telegraph, json
 ---
 

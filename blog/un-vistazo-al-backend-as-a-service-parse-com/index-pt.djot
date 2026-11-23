@@ -3,7 +3,7 @@ title: Uma olhada no Backend as a Service Parse.com
 slug: un-vistazo-al-backend-as-a-service-parse-com
 date: 2014-04-18 13:06:30 +00:00
 description: Pequena apresentação do Parse.com para iOS criada para o evento CodeCamp 2014, BioBio Chile.
-featured_image: /blog/un-vistazo-al-backend-as-a-service-parse-com/cover.png
+featured_image: /blog/un-vistazo-al-backend-as-a-service-parse-com/cover-1280x720.png
 tags: ios, mobile, objective-c, parse.com, javascript
 ---
 
@@ -70,11 +70,11 @@ Oferecem: Segurança, Rapidez e Escalabilidade.
 
 A seguir, uma aplicação para iOS que usa o Parse.com para obter dados. Os dados foram importados para o Parse usando o código-fonte em javascript.
 
-![CodeCamp1](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img1.png)
+![CodeCamp1](img1.png)
 
-![CodeCamp2](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img2.png)
+![CodeCamp2](img2.png)
 
-![CodeCamp3](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img3.png)
+![CodeCamp3](img3.png)
 
 *CCExpositor*
 

@@ -3,7 +3,7 @@ title: Control your Presentations from the Web Browser with Python
 slug: control-your-presentations-from-the-web-browser-with-python
 date: 2014-07-26 00:05:08 +00:00
 description: Creates a Web Server that sends key commands for controlling presentations with any device capable of web browsing. In order to be able to control your presentations with you iPhone, Android or similar device, the presentation server and the device must be in the same network. And the presentation must be the current active window in the presentation server.
-featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover.jpg
+featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover-1280x720.jpg
 tags: python, web, script, mac, linux, windows
 ---
 

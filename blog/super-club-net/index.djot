@@ -3,11 +3,11 @@ title: Super Club Net
 slug: super-club-net
 date: 2024-06-25 16:36:16 +00:00
 description: Una pequeña y amena introducción a las tecnologías para desarrollo web
-featured_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg
+featured_image: /blog/super-club-net/docfxqv0c1t0zxbgqb0i-1280x720.jpg
 tags: javascript, chile, html, css, libro
 ---
 
-![Super Club Net](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg)
+![Super Club Net](docfxqv0c1t0zxbgqb0i.jpg)
 
 Con motivo de dar honor a la revista Club Nintendo y su mini curso de
 HTML.
@@ -35,7 +35,7 @@ Un libro gratuito que puede ser leído en los siguientes sitios web:
 Una escritura amena y con ejemplos basados en juegos de Nintendo 64.
 Incluye un proyecto para ejercitar con temática de Mario Kart 64.
 
-![Simulador de Mario Kart 64](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/p1cyc53e2lfzmhjiucq8.png)
+![Simulador de Mario Kart 64](p1cyc53e2lfzmhjiucq8.png)
 
 Pensado para personas que recién inician en el mundo HTML y quizás
 para alguien que quiera refrescar conceptos.

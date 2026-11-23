@@ -3,7 +3,7 @@ title: 🇨🇱 Chilean Birds 🐦
 slug: chilean-birds
 date: 2021-07-10 00:46:42 +00:00
 description: チリの鳥データセットを使った小さなAPIです。ProcessWire、React、Dockerを使って作られました。チリの鳥を検索して、役立つ情報を得ることができます。
-featured_image: /blog/chilean-birds/cover.png
+featured_image: /blog/chilean-birds/cover-1280x720.png
 tags: docker, php, react, api, birds, chile, aves
 ---
 

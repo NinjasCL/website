@@ -3,7 +3,7 @@ title: Applying MVVM in Phoenix LiveView
 slug: aplicando-mvvm-en-phoenix-liveview
 date: 2024-01-24 13:54:08 +00:00
 description: In the following article we will create a small Hacker News client using Phoenix Framework and Surface UI (LiveView), applying the MVVM (Model - View - View Model) concepts for the architecture design.
-featured_image: /blog/aplicando-mvvm-en-phoenix-liveview/cover.png
+featured_image: /blog/aplicando-mvvm-en-phoenix-liveview/cover-1280x720.png
 tags: elixir, chile, mvvm, liveview, spanish
 ---
 

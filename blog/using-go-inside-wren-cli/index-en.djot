@@ -3,7 +3,7 @@ title: Using Go inside Wren CLI
 slug: using-go-inside-wren-cli
 date: 2021-04-28 01:10:23 +00:00
 description: Wren CLI is the official project for a small command line application that embeds Wren. Serves as an example implementation. In this simple exercise we will export a go function and use it inside the CLI as a new class.
-featured_image: /blog/using-go-inside-wren-cli/cover.jpg
+featured_image: /blog/using-go-inside-wren-cli/cover-1280x720.jpg
 tags: wren, go, cli, english, tutorial
 ---
 
@@ -19,7 +19,7 @@ In this simple exercise we will export a go function and use it inside the _CLI_
 
 The function will be a simple _Http_ server that returns a message if we go to [localhost:8080](http://localhost:8080)
 
-![](https://user-images.githubusercontent.com/292738/116343900-5c08d780-a7b3-11eb-85d8-ec9f88597934.png)
+![](116343900-5c08d780-a7b3-11eb-85d8-ec9f88597934.png)
 
 ## Golang
 
@@ -68,7 +68,7 @@ If you need more examples [you can look here](https://github.com/vladimirvivien/
 
 Now lets create a new directory and files inside the _cli_ project:
 
-![](https://user-images.githubusercontent.com/292738/116344740-cb32fb80-a7b4-11eb-9b63-fff5d9f4bf3e.png)
+![](116344740-cb32fb80-a7b4-11eb-9b63-fff5d9f4bf3e.png)
 
 Create a new directory named `go` inside `src` and inside create two files `http.go` and `Makefile`.
 
@@ -82,7 +82,7 @@ b build:
 
 Now if we go to the `src/go` directory and run `make build` we will have two new files `libhttp.a` and `libhttp.h`.
 
-![](https://user-images.githubusercontent.com/292738/116345764-cbcc9180-a7b6-11eb-853c-5ea2fe715a58.png)
+![](116345764-cbcc9180-a7b6-11eb-853c-5ea2fe715a58.png)
 
 Explendid!
 
@@ -90,7 +90,7 @@ Now we have to configure our `C` code files and add a new _Wren_ class.
 
 Go to `src/module` and create `server.h`, `server.c`, `server.wren` and `server.wren.inc`
 
-![](https://user-images.githubusercontent.com/292738/116346053-6e851000-a7b7-11eb-8407-78b86f269bad.png)
+![](116346053-6e851000-a7b7-11eb-8407-78b86f269bad.png)
 
 *server.h*
 
@@ -192,7 +192,7 @@ Finally we have to include the new paths in the _Makefile_ so the libs and objec
 
 Go to `projects/make.mac/wren_cli.make`
 
-![](https://user-images.githubusercontent.com/292738/116347424-3206e380-a7ba-11eb-8694-01beae4b4f23.png)
+![](116347424-3206e380-a7ba-11eb-8694-01beae4b4f23.png)
 
 ```makefile
 # Near line 30 prepend -I../../src/go
@@ -230,7 +230,7 @@ $(OBJDIR)/server.o: ../../src/module/server.c
 
 Now we are almost ready. Just go to the `make.mac` directory and execute `make` command.
 
-![](https://user-images.githubusercontent.com/292738/116348291-d63d5a00-a7bb-11eb-968d-334f37c04c3f.png)
+![](116348291-d63d5a00-a7bb-11eb-968d-334f37c04c3f.png)
 
 If all went well you will have a shiny `wren_cli` binary inside `bin/`.
 And if you execute the _REPL_ you can use the new module and go to [localhost:8080](http://localhost:8080) for testing it

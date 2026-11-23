@@ -3,7 +3,7 @@ title: Controle suas Apresentações pelo Navegador com Python
 slug: control-your-presentations-from-the-web-browser-with-python
 date: 2014-07-26 00:05:08 +00:00
 description: Cria um servidor web que envia comandos de teclas para controlar apresentações com qualquer dispositivo capaz de navegar. Para poder controlar suas apresentações com seu iPhone, Android ou dispositivo similar, o servidor de apresentações e o dispositivo devem estar na mesma rede. E a apresentação deve ser a janela ativa no servidor.
-featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover.jpg
+featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover-1280x720.jpg
 tags: python, web, script, mac, linux, windows
 ---
 

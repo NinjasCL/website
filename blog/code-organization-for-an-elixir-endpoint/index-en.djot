@@ -3,7 +3,7 @@ title: Code Organization for an Elixir Endpoint
 slug: code-organization-for-an-elixir-endpoint
 date: 2023-02-15 18:39:58 +00:00
 description: This is just my thoughts on how I would organize code in an endpoint. Let's have an example addresses endpoint that will handle CRUD operations for customer addresses in a store.
-featured_image: /blog/code-organization-for-an-elixir-endpoint/cover.jpg
+featured_image: /blog/code-organization-for-an-elixir-endpoint/cover-1280x720.jpg
 tags: elixir, phoenix, crc, organization
 ---
 

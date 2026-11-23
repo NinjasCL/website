@@ -3,7 +3,7 @@ title: A Logging System
 slug: a-logging-system
 date: 2021-06-26 13:42:16 +00:00
 description: A small logging system based of Apple's Swift Log package
-featured_image: /blog/a-logging-system/uml.png
+featured_image: /blog/a-logging-system/uml-1280x720.png
 tags: architecture, logging, swift, uml
 ---
 

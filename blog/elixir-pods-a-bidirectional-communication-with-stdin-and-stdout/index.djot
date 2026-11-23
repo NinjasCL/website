@@ -3,7 +3,7 @@ title: Elixir Pods: Una comunicación bidireccional con stdin y stdout
 slug: elixir-pods-a-bidirectional-communication-with-stdin-and-stdout
 date: 2024-05-02 13:35:49 +00:00
 description: 🌉 Elixir Pods permite la comunicación con programas externos usando stdin y stdout
-featured_image: /blog/elixir-pods-a-bidirectional-communication-with-stdin-and-stdout/cover.jpg
+featured_image: /blog/elixir-pods-a-bidirectional-communication-with-stdin-and-stdout/cover-1280x720.jpg
 tags: elixir, pods, cli, stdin, stdout
 ---
 

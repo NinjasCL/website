@@ -3,7 +3,7 @@ title: Parse.com という Backend as a Service をのぞいてみる
 slug: un-vistazo-al-backend-as-a-service-parse-com
 date: 2014-04-18 13:06:30 +00:00
 description: CodeCamp 2014（チリ・ビオビオ）イベントのために作成した、iOS 向け Parse.com の簡単な紹介。
-featured_image: /blog/un-vistazo-al-backend-as-a-service-parse-com/cover.png
+featured_image: /blog/un-vistazo-al-backend-as-a-service-parse-com/cover-1280x720.png
 tags: ios, mobile, objective-c, parse.com, javascript
 ---
 
@@ -70,11 +70,11 @@ tags: ios, mobile, objective-c, parse.com, javascript
 
 以下は、Parse.com を使ってデータを取得する iOS アプリケーションです。データは JavaScript のソースコードを使って Parse にインポートされました。
 
-![CodeCamp1](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img1.png)
+![CodeCamp1](img1.png)
 
-![CodeCamp2](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img2.png)
+![CodeCamp2](img2.png)
 
-![CodeCamp3](https://github.com/NinjasCL-archive/guia-parse.com/raw/aplicacion-codecamp2014/img/img3.png)
+![CodeCamp3](img3.png)
 
 *CCExpositor*
 

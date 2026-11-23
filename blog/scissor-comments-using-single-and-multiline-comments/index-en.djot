@@ -3,7 +3,7 @@ title: Scissor Comments: Using Single and Multiline Comments
 slug: scissor-comments-using-single-and-multiline-comments
 date: 2019-12-31 13:40:31 +00:00
 description: This is just a quick trick I have used. Specially in long SQL scripts. The idea is mixing single and multiline comments for easier handling.This technique can be used in any programming language that supports single and multiline comments.
-featured_image: /blog/scissor-comments-using-single-and-multiline-comments/cover.jpg
+featured_image: /blog/scissor-comments-using-single-and-multiline-comments/cover-1280x720.jpg
 tags: sql, comments, scissor, coding, english
 ---
 

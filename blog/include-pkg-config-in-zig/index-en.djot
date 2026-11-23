@@ -3,7 +3,7 @@ title: Include pkg-config in Zig
 slug: include-pkg-config-in-zig
 date: 2024-04-16 14:52:18 +00:00
 description: We can create a shadow library for all our deps, simplifying compilation configuration in Zig.
-featured_image: /blog/include-pkg-config-in-zig/cover.svg
+featured_image: /blog/include-pkg-config-in-zig/cover-1280x720.png
 tags: zig, programming, english
 ---
 

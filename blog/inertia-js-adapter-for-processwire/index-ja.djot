@@ -3,7 +3,7 @@ title: ProcessWire用のInertia.jsアダプター
 slug: inertia-js-adapter-for-processwire
 date: 2021-07-09 21:56:58 +00:00
 description: Inertiaを使うと、モダンなSPAに付きものの複雑さの多くなしに、完全にクライアントサイドでレンダリングされるシングルページアプリを作成できます。ProcessWireプロジェクトのために、このシンプルなInertiaアダプターを作成しました。ProcessWire + Svelte + Laravel Mix + Inertiaのサンプルプロジェクトもあります。
-featured_image: /blog/inertia-js-adapter-for-processwire/cover.avif
+featured_image: /blog/inertia-js-adapter-for-processwire/cover-1280x720.avif
 tags: javascript, php, processwire, inertia
 ---
 

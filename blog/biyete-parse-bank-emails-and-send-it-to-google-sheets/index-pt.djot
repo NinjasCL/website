@@ -3,7 +3,7 @@ title: 💵 Biyete 🏦 - Parsear e-mails bancários e enviá-los ao Google Shee
 slug: biyete-parse-bank-emails-and-send-it-to-google-sheets
 date: 2021-07-09 12:57:58 +00:00
 description: Um projeto que mostra como integrar o Gmail com o Google Sheets. Ele analisa e-mails bancários e envia a informação para uma Planilha Google ou um endpoint REST, para que você possa acompanhar suas finanças.
-featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work.png
+featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work-1280x720.png
 tags: google, gmail, sheets, javascript, hooks, scripts, banks, money, email
 ---
 

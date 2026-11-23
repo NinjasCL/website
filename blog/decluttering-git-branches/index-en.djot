@@ -3,7 +3,7 @@ title: Decluttering Git Branches
 slug: decluttering-git-branches
 date: 2018-09-25 20:34:27 +00:00
 description: This is a quick way to archive a git branch. Maybe you do not use the code anymore and the branch is cluttering the repo but for backup or historical reasons you need to keep it somewhere.
-featured_image: /blog/decluttering-git-branches/cover.jpg
+featured_image: /blog/decluttering-git-branches/cover-1280x720.jpg
 tags: git, clutter, commands, english
 ---
 

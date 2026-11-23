@@ -3,7 +3,7 @@ title: Usando GIT como alternativa a sFTP
 slug: using-git-as-an-alternative-to-sftp
 date: 2016-11-17 00:09:45 +00:00
 description: Muchos desarrolladores web se enfrentan a la tarea de subir los últimos cambios vía ftp o sftp. El problema de este enfoque es que es más propenso a errores. Imagina que estás subiendo algunos archivos y la conexión se pierde. El servidor tendrá una mezcla de archivos con la última versión y los más antiguos.
-featured_image: /blog/using-git-as-an-alternative-to-sftp/cover.jpg
+featured_image: /blog/using-git-as-an-alternative-to-sftp/cover-1280x720.jpg
 tags: english, git, sftp, linux, cpanel
 ---
 

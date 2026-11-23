@@ -8,3 +8,5 @@ erl_crash.dump
 .ftp-upload-dist/
 old/
 .opengraph/
+/tools/optimize/.venv/
+/tools/optimize/**/__pycache__/

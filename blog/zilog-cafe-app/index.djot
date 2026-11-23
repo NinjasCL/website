@@ -3,11 +3,11 @@ title: Zilog Cafe App
 slug: zilog-cafe-app
 date: 2014-03-20 21:50:24 +00:00
 description: Hecho a fines de 2013 y comienzos de 2014. Es un prototipo de una aplicación para comprar comida usando el iPhone. Esto fue mucho antes de que existieran Uber Eats o Cornershop.
-featured_image: https://raw.githubusercontent.com/NinjasCL/zilogcafe/main/process.png
+featured_image: /blog/zilog-cafe-app/process-1280x720.png
 tags: ios, objective-c, app, zilog, cafe, prototype
 ---
 
-![Zilog Cafe](https://raw.githubusercontent.com/NinjasCL/zilogcafe/main/process.png)
+![Zilog Cafe](process.png)
 
 Hecho a fines de 2013 y comienzos de 2014. Es un prototipo de una
 aplicación para comprar comida usando el iPhone. Esto fue mucho

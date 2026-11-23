@@ -32,6 +32,12 @@ tasks:
       - rm -rf dist/
       - gleam run
 
+  optimize:
+    aliases: [o]
+    desc: Download, optimize, and normalize blog images
+    cmds:
+      - task -d tools/optimize
+
   dev:
     aliases: [d]
     desc: Start the dev server at http://127.0.0.1:3000
@@ -43,8 +49,9 @@ tasks:
     aliases: [u]
     desc: Upload only changed dist/ files to FTP_ROUTE over SFTP
     silent: true
-    deps: [build]
     cmds:
+      - task: optimize
+      - task: build
       - mkdir -p {{.SNAPSHOT_DIR}}
       - |
         set -eu

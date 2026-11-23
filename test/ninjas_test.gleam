@@ -213,7 +213,7 @@ pub fn advent_post_migration_test() {
       |> string.contains("date: 2024-12-04 15:14:22 +00:00")
     assert source
       |> string.contains(
-        "featured_image: /blog/advent-of-code-in-onyx-day-01/cover.jpg",
+        "featured_image: /blog/advent-of-code-in-onyx-day-01/cover-1280x720.jpg",
       )
     assert string.contains(source, "**") == False
     // The solution toggles ship as summary-carrying fences — the raw =html
@@ -1876,7 +1876,10 @@ pub fn featured_post_follows_about_row_test() {
   // The current post's frontmatter pins its featured image.
   let assert Ok(post_djot) =
     simplifile.read("./blog/bienvenidos-a-ninjas-cl/index.djot")
-  assert post_djot |> string.contains("featured_image: /img/Ninjas.png")
+  assert post_djot
+    |> string.contains(
+      "featured_image: /blog/bienvenidos-a-ninjas-cl/Ninjas-1280x720.png",
+    )
 }
 
 pub fn featured_post_title_leads_with_the_posts_icon_test() {

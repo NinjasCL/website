@@ -3,11 +3,11 @@ title: Super Club Net
 slug: super-club-net
 date: 2024-06-25 16:36:16 +00:00
 description: ウェブ開発技術への小さくて親しみやすい入門
-featured_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg
+featured_image: /blog/super-club-net/docfxqv0c1t0zxbgqb0i-1280x720.jpg
 tags: javascript, chile, html, css, libro
 ---
 
-![Super Club Net](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/docfxqv0c1t0zxbgqb0i.jpg)
+![Super Club Net](docfxqv0c1t0zxbgqb0i.jpg)
 
 Club Nintendo誌とそのHTMLミニ講座に敬意を表して。
 
@@ -32,7 +32,7 @@ la-revista-club-nintendo | La Revista Club Nintendo | Mis recuerdos con la revis
 
 Nintendo 64のゲームを題材にした例とともに、親しみやすい文体で書かれています。マリオカート64をテーマにした練習プロジェクトも含まれています。
 
-![マリオカート64シミュレーター](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/p1cyc53e2lfzmhjiucq8.png)
+![マリオカート64シミュレーター](p1cyc53e2lfzmhjiucq8.png)
 
 HTMLの世界に足を踏み入れたばかりの人、そして概念を復習したい人向けに書かれています。
 

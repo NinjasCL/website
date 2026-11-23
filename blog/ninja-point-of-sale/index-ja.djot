@@ -3,7 +3,7 @@ title: Ninja Point of Sale
 slug: ninja-point-of-sale
 date: 2016-07-09 00:53:45 +00:00
 description: Pascal（Lazarus）で作られたNinja Point of Sale（POS）。シンプルな方法で商品を販売できます。すべてLazarus Pascalを使って作られたプログラムで、Windows、Linux、MacOSの環境で動作します。
-featured_image: /blog/ninja-point-of-sale/cover.jpg
+featured_image: /blog/ninja-point-of-sale/cover-1280x720.jpg
 tags: pascal, lazarus, escpos, rpc, json
 ---
 

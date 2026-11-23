@@ -1,0 +1,38 @@
+version: '3.17'
+
+tasks:
+  default:
+    desc: Download, optimize, and normalize blog images
+    cmds:
+      - task: run
+
+  install:
+    aliases: [setup]
+    desc: Install the Python image tool dependencies with uv
+    silent: true
+    cmds:
+      - uv sync --project "{{.TASKFILE_DIR}}"
+
+  run:
+    desc: Download, optimize, and normalize blog images
+    deps: [install]
+    cmds:
+      - uv run --project "{{.TASKFILE_DIR}}" python "{{.TASKFILE_DIR}}/optimize.py"
+
+  test:
+    desc: Run the optimizer unit tests
+    deps: [install]
+    cmds:
+      - uv run --project "{{.TASKFILE_DIR}}" python -m unittest discover -s "{{.TASKFILE_DIR}}/tests" -v
+
+  check:
+    desc: Verify no image work is pending
+    deps: [install]
+    cmds:
+      - uv run --project "{{.TASKFILE_DIR}}" python "{{.TASKFILE_DIR}}/optimize.py" --check
+
+  dry-run:
+    desc: Report the work that would be done without changing files
+    deps: [install]
+    cmds:
+      - uv run --project "{{.TASKFILE_DIR}}" python "{{.TASKFILE_DIR}}/optimize.py" --dry-run

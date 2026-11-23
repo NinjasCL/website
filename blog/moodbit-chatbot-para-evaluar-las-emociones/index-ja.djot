@@ -3,7 +3,7 @@ title: Moodbit. 感情を評価するSlackチャットボット
 slug: moodbit-chatbot-para-evaluar-las-emociones
 date: 2019-09-21 14:26:26 +00:00
 description: Moodbit。感情を評価するSlackチャットボット。AWS LambdaとAWS Quicksightで作成。
-featured_image: /blog/moodbit-chatbot-para-evaluar-las-emociones/cover.png
+featured_image: /blog/moodbit-chatbot-para-evaluar-las-emociones/cover-1280x720.png
 tags: slack, javascript, aws, lambda, chatbot
 ---
 

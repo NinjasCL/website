@@ -3,11 +3,11 @@ title: シンプルな画面共有ツール
 slug: a-simple-screensharer
 date: 2020-05-31 01:36:23 +00:00
 description: 公共サービスで順番待ちをするというシンプルな問題を解決するシンプルなスクリプトです。
-featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+featured_image: /blog/a-simple-screensharer/83366600-2890b380-a37e-11ea-9b82-841c71e3123a-1280x720.jpeg
 tags: javascript, node, chile, express, english
 ---
 
-![カバー](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+![カバー](83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
 
 チリの公共機関(そして他の多くの場所)でよくある問題として、順番を受け取るために現地にいなければならず、自分の番号が来るまでそこで待つ必要があります(時間内に到着しないと順番を失うこともあります)。
 

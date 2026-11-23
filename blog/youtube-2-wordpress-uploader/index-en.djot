@@ -3,7 +3,7 @@ title: Youtube 2 Wordpress Uploader
 slug: youtube-2-wordpress-uploader
 date: 2020-05-27 15:40:15 +00:00
 description: This simple script can create a new post in your Wordpress using the data found in a Youtube url. Be sure to configure your Wordpress with Basic Auth Plugin (And .htaccess config) first before using the Rest API.
-featured_image: /blog/youtube-2-wordpress-uploader/cover.jpg
+featured_image: /blog/youtube-2-wordpress-uploader/cover-1280x720.jpg
 tags: youtube, wordpress, javascript, php, rest, api, script
 ---
 

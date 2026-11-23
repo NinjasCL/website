@@ -3,7 +3,7 @@ title: Incluindo o pkg-config no Zig
 slug: include-pkg-config-in-zig
 date: 2024-04-16 14:52:18 +00:00
 description: Podemos criar uma biblioteca "sombra" para todas as nossas dependências, simplificando a configuração de compilação no Zig.
-featured_image: /blog/include-pkg-config-in-zig/cover.svg
+featured_image: /blog/include-pkg-config-in-zig/cover-1280x720.png
 tags: zig, programming, english
 ---
 

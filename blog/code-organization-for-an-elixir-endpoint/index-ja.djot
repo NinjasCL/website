@@ -3,7 +3,7 @@ title: Elixirエンドポイントのコード整理
 slug: code-organization-for-an-elixir-endpoint
 date: 2023-02-15 18:39:58 +00:00
 description: これは、エンドポイント内でコードをどのように整理するかについての、ただの私の考えです。店舗の顧客の住所に対してCRUD操作を処理する、addressesエンドポイントの例を見てみましょう。
-featured_image: /blog/code-organization-for-an-elixir-endpoint/cover.jpg
+featured_image: /blog/code-organization-for-an-elixir-endpoint/cover-1280x720.jpg
 tags: elixir, phoenix, crc, organization
 ---
 

@@ -11,15 +11,16 @@ Gleam source for the [ninjas.cl](https://ninjas.cl/) site, built with
 Task shortcuts:
 
 ```sh
-task setup   # Verify Gleam/Erlang and install dependencies
-task build   # Generate the static site into ./dist
-task dev     # Start the dev server at http://127.0.0.1:3000
-task upload  # Upload changed dist/ files to the configured SFTP route
+task setup    # Verify Gleam/Erlang and install dependencies
+task build    # Generate the static site into ./dist
+task optimize # Localize, optimize, and normalize blog images
+task dev      # Start the dev server at http://127.0.0.1:3000
+task upload   # Optimize, build, and upload changed dist/ files over SFTP
 ```
 
 Running `task` with no arguments runs `build`. Short aliases are available:
-`task s` for `setup`, `task b` for `build`, `task d` for `dev`, and `task u`
-for `upload`.
+`task s` for `setup`, `task b` for `build`, `task o` for `optimize`, `task d`
+for `dev`, and `task u` for `upload`.
 
 ## Uploading
 
@@ -38,14 +39,38 @@ directory that receives the contents of `dist/`. `FTP_PASSWORD` may be left
 empty to use key-based authentication. `FTP_PORT` must be the SSH/SFTP port
 (usually `22`); using the plain-FTP port `21` makes the connection time out.
 
-`task upload` builds the site, compares the new `dist/` with a local snapshot
-of the last uploaded output using `git diff --no-index`, and passes only the
-added, modified, and deleted files to `tools/ftp-upload`. That Erlang escript
+`task upload` optimizes post images, builds the site, compares the new `dist/`
+with a local snapshot of the last uploaded output using `git diff --no-index`,
+and passes only the added, modified, and deleted files to `tools/ftp-upload`.
+That Erlang escript
 uses OTP's `ssh_sftp` client to create any missing remote directories, upload
 the changed files in chunks, and delete removed files. The git-ignored
 snapshot (`.ftp-upload-dist/`) is refreshed only after a successful upload, so
 a failed deploy is retried in full on the next run. Unchanged files are never
 re-uploaded.
+
+## Images
+
+Post images are local to each post. `task optimize` downloads any remote image
+referenced by a post into `blog/<slug>/`, optimizes every supported raster
+image under `blog/`, and writes a `<stem>-1280x720.<ext>` center-cropped
+derivative for every `featured_image`. The original stays for inline figures;
+frontmatter points at the derivative. SVG covers get a raster PNG derivative.
+Nothing under `static/` is changed.
+
+The tool lives in `tools/optimize/` and needs Python 3.14+ and `uv`. Its nested
+Taskfile installs pinned dependencies and exposes `test`, `check`, and
+`dry-run`:
+
+```sh
+task -d tools/optimize test
+task -d tools/optimize check
+task -d tools/optimize dry-run
+```
+
+`optimize-manifest.json` at the repository root records content hashes so an
+already optimized image is skipped on later runs. Keep it committed. See
+`tools/optimize/README.md` for the manifest schema.
 
 Underlying Gleam commands:
 

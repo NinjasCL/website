@@ -3,7 +3,7 @@ title: Liquor Tags - OpenGraphデータを取得して結果をレンダリン�
 slug: liquor-tags-fetch-opengraph-data-and-render-the-output
 date: 2024-03-25 19:45:24 +00:00
 description: Liquor Tags。dev.toの埋め込みタグ(liquid tags)にインスピレーションを受け、URLからOpen Graphデータを取得し、擬似EExテンプレートを使って結果を生成します。
-featured_image: /blog/liquor-tags-fetch-opengraph-data-and-render-the-output/cover.jpg
+featured_image: /blog/liquor-tags-fetch-opengraph-data-and-render-the-output/cover-1280x720.jpg
 tags: elixir, tags, liquor, embed
 ---
 

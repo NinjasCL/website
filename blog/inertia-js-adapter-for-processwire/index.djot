@@ -3,7 +3,7 @@ title: Adaptador de Inertia.js para ProcessWire
 slug: inertia-js-adapter-for-processwire
 date: 2021-07-09 21:56:58 +00:00
 description: Inertia te permite crear aplicaciones de página única completamente renderizadas del lado del cliente, sin gran parte de la complejidad que conllevan las SPA modernas. Para el proyecto ProcessWire creé este simple adaptador de Inertia. Y también un proyecto de ejemplo ProcessWire + Svelte + Laravel Mix + Inertia.
-featured_image: /blog/inertia-js-adapter-for-processwire/cover.avif
+featured_image: /blog/inertia-js-adapter-for-processwire/cover-1280x720.avif
 tags: javascript, php, processwire, inertia
 ---
 

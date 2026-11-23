@@ -3,7 +3,7 @@ title: Zigでpkg-configを組み込む
 slug: include-pkg-config-in-zig
 date: 2024-04-16 14:52:18 +00:00
 description: すべての依存関係に対して「シャドウ」ライブラリを作成することで、Zigのコンパイル設定を簡素化できます。
-featured_image: /blog/include-pkg-config-in-zig/cover.svg
+featured_image: /blog/include-pkg-config-in-zig/cover-1280x720.png
 tags: zig, programming, english
 ---
 

@@ -3,7 +3,7 @@ title: Usando Yaws con PHP
 slug: using-yaws-with-php
 date: 2023-09-05 12:41:52 +00:00
 description: Un proyecto simple que muestra cómo configurar YAWS con una aplicación PHP (ProcessWire). Mezclar Erlang y PHP es una combinación poderosa. PHP tiene un vasto ecosistema de desarrollo web y Erlang tiene más de 30 años de soluciones de concurrencia listas para producción que escalan bien.
-featured_image: /blog/using-yaws-with-php/cover.jpg
+featured_image: /blog/using-yaws-with-php/cover-1280x720.jpg
 tags: php, erlang, yaws, processwire, web
 ---
 

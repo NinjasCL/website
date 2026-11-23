@@ -3,7 +3,7 @@ title: Notarización de Commits con Chaucha y Github Actions
 slug: chaucha-commit-notarization-with-github-actions
 date: 2020-09-21 01:23:49 +00:00
 description: Usando la blockchain de Chaucha, los commits pueden ser certificados usando OP_RETURN. Ahora el historial de Github puede ser notarizado.
-featured_image: /blog/chaucha-commit-notarization-with-github-actions/cover.jpg
+featured_image: /blog/chaucha-commit-notarization-with-github-actions/cover-1280x720.jpg
 tags: github, blockchain, chile, chaucha, crypto, english, python
 ---
 
@@ -13,11 +13,11 @@ Usando la blockchain de [_Chaucha_](https://chaucha.cl), los commits
 pueden ser certificados usando _OP_RETURN_. Ahora el historial de
 _Github_ puede ser _notarizado_.
 
-![OP_RETURN](https://user-images.githubusercontent.com/292738/93739829-9546ec80-fbbf-11ea-9c66-a1b7c1dfca99.png)
+![OP_RETURN](93739829-9546ec80-fbbf-11ea-9c66-a1b7c1dfca99.png)
 
-![OP_RETURN en el Explorer](https://user-images.githubusercontent.com/292738/93740190-654c1900-fbc0-11ea-898c-bc7e0e20ab9f.png)
+![OP_RETURN en el Explorer](93740190-654c1900-fbc0-11ea-898c-bc7e0e20ab9f.png)
 
-![OP_RETURN Decoded](https://user-images.githubusercontent.com/292738/93740118-3c2b8880-fbc0-11ea-9356-f6d3a4904075.png)
+![OP_RETURN Decoded](93740118-3c2b8880-fbc0-11ea-9356-f6d3a4904075.png)
 
 ## Uso
 

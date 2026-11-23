@@ -3,7 +3,7 @@ title: Usando el sufijo Live en LiveView
 slug: using-live-suffix-in-liveview
 date: 2023-01-13 15:23:24 +00:00
 description: Al usar LiveView, si no incluyes Live dentro del nombre de tu módulo puede aparecer un error. Usando Live como un Context de Phoenix podemos mejorar la organización de nuestro código y evitar tener que escribir Live al final del nombre del módulo.
-featured_image: /blog/using-live-suffix-in-liveview/cover.jpg
+featured_image: /blog/using-live-suffix-in-liveview/cover-1280x720.jpg
 tags: elixir, phoenix, liveview, tip, webdev, english
 ---
 

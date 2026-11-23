@@ -3,7 +3,7 @@ title: Pythonでウェブブラウザからプレゼンテーションを操作�
 slug: control-your-presentations-from-the-web-browser-with-python
 date: 2014-07-26 00:05:08 +00:00
 description: キーコマンドを送信してプレゼンテーションを操作するウェブサーバーを作成します。iPhone、Androidなどのブラウジング機能を持つデバイスで操作できます。プレゼンテーションサーバーとデバイスが同じネットワークにあり、プレゼンテーションがサーバーでアクティブなウィンドウである必要があります。
-featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover.jpg
+featured_image: /blog/control-your-presentations-from-the-web-browser-with-python/cover-1280x720.jpg
 tags: python, web, script, mac, linux, windows
 ---
 

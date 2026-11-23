@@ -3,7 +3,7 @@ title: Usando Gleam en tus Hooks de Phoenix
 slug: using-gleam-in-your-phoenix-hooks
 date: 2023-01-31 19:47:23 +00:00
 description: Phoenix usa Elixir, pero al trabajar con LiveView Hooks requiere JavaScript. ¿Pero qué tal usar otro lenguaje funcional en esa área? Presentando Gleam.
-featured_image: /blog/using-gleam-in-your-phoenix-hooks/cover.png
+featured_image: /blog/using-gleam-in-your-phoenix-hooks/cover-1280x720.png
 tags: elixir, phoenix, gleam, javascript, hooks
 ---
 

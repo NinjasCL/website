@@ -3,11 +3,11 @@ title: A simple screensharer
 slug: a-simple-screensharer
 date: 2020-05-31 01:36:23 +00:00
 description: This is a simple script to solve a simple problem for taking turns in public services.
-featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+featured_image: /blog/a-simple-screensharer/83366600-2890b380-a37e-11ea-9b82-841c71e3123a-1280x720.jpeg
 tags: javascript, node, chile, express, english
 ---
 
-![Cover](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+![Cover](83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
 
 Is a common problem in chilean public institutions (and many other
 places) that you have to be on site to take your turn and wait there

@@ -3,7 +3,7 @@ title: Youtube 2 Wordpress Uploader
 slug: youtube-2-wordpress-uploader
 date: 2020-05-27 15:40:15 +00:00
 description: このシンプルなスクリプトは、YoutubeのURLから得たデータを使ってWordpressに新しい投稿を作成できます。Rest APIを使用する前に、WordpressをBasic Authプラグイン(.htaccess設定を含む)で構成してください。
-featured_image: /blog/youtube-2-wordpress-uploader/cover.jpg
+featured_image: /blog/youtube-2-wordpress-uploader/cover-1280x720.jpg
 tags: youtube, wordpress, javascript, php, rest, api, script
 ---
 

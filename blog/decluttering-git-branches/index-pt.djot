@@ -3,7 +3,7 @@ title: Organizando Ramos do Git
 slug: decluttering-git-branches
 date: 2018-09-25 20:34:27 +00:00
 description: Esta é uma forma rápida de arquivar um ramo do git. Talvez você não use mais o código e o ramo esteja desorganizando o repositório, mas por backup ou razões históricas você precisa mantê-lo em algum lugar.
-featured_image: /blog/decluttering-git-branches/cover.jpg
+featured_image: /blog/decluttering-git-branches/cover-1280x720.jpg
 tags: git, clutter, commands, english
 ---
 

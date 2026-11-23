@@ -3,7 +3,7 @@ title: Wren CLIの中でGoを使う
 slug: using-go-inside-wren-cli
 date: 2021-04-28 01:10:23 +00:00
 description: Wren CLIは、Wrenを組み込んだ小さなコマンドラインアプリケーションのための公式プロジェクトである。実装例として機能する。この簡単な演習では、Goの関数をエクスポートして、CLIの中で新しいクラスとして使う。
-featured_image: /blog/using-go-inside-wren-cli/cover.jpg
+featured_image: /blog/using-go-inside-wren-cli/cover-1280x720.jpg
 tags: wren, go, cli, english, tutorial
 ---
 
@@ -19,7 +19,7 @@ tags: wren, go, cli, english, tutorial
 
 この関数は、[localhost:8080](http://localhost:8080)にアクセスするとメッセージを返す、シンプルな_Http_サーバーにする。
 
-![](https://user-images.githubusercontent.com/292738/116343900-5c08d780-a7b3-11eb-85d8-ec9f88597934.png)
+![](116343900-5c08d780-a7b3-11eb-85d8-ec9f88597934.png)
 
 ## Golang
 
@@ -68,7 +68,7 @@ func main() {}
 
 それでは、_cli_プロジェクトの中に新しいディレクトリとファイルを作成しよう：
 
-![](https://user-images.githubusercontent.com/292738/116344740-cb32fb80-a7b4-11eb-9b63-fff5d9f4bf3e.png)
+![](116344740-cb32fb80-a7b4-11eb-9b63-fff5d9f4bf3e.png)
 
 `src`の中に `go` という名前の新しいディレクトリを作成し、その中に `http.go` と `Makefile` の2つのファイルを作成する。
 
@@ -82,7 +82,7 @@ b build:
 
 `src/go` ディレクトリに移動して `make build` を実行すると、`libhttp.a` と `libhttp.h` の2つの新しいファイルができる。
 
-![](https://user-images.githubusercontent.com/292738/116345764-cbcc9180-a7b6-11eb-853c-5ea2fe715a58.png)
+![](116345764-cbcc9180-a7b6-11eb-853c-5ea2fe715a58.png)
 
 素晴らしい！
 
@@ -90,7 +90,7 @@ b build:
 
 `src/module` に移動して、`server.h`、`server.c`、`server.wren`、`server.wren.inc` を作成する。
 
-![](https://user-images.githubusercontent.com/292738/116346053-6e851000-a7b7-11eb-8407-78b86f269bad.png)
+![](116346053-6e851000-a7b7-11eb-8407-78b86f269bad.png)
 
 *server.h*
 
@@ -192,7 +192,7 @@ extern void httpServer(WrenVM* vm);
 
 `projects/make.mac/wren_cli.make` に移動する。
 
-![](https://user-images.githubusercontent.com/292738/116347424-3206e380-a7ba-11eb-8694-01beae4b4f23.png)
+![](116347424-3206e380-a7ba-11eb-8694-01beae4b4f23.png)
 
 ```makefile
 # Near line 30 prepend -I../../src/go
@@ -230,7 +230,7 @@ $(OBJDIR)/server.o: ../../src/module/server.c
 
 これでほぼ準備完了。`make.mac` ディレクトリに移動して `make` コマンドを実行するだけだ。
 
-![](https://user-images.githubusercontent.com/292738/116348291-d63d5a00-a7bb-11eb-968d-334f37c04c3f.png)
+![](116348291-d63d5a00-a7bb-11eb-968d-334f37c04c3f.png)
 
 すべて順調なら、`bin/` の中に輝く `wren_cli` バイナリができているはずだ。_REPL_を実行すれば新しいモジュールを使うことができ、テストのために [localhost:8080](http://localhost:8080) にアクセスできる。
 

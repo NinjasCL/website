@@ -3,7 +3,7 @@ title: LiveViewでLiveサフィックスを使う
 slug: using-live-suffix-in-liveview
 date: 2023-01-13 15:23:24 +00:00
 description: LiveViewを使うとき、モジュール名にLiveを含めないとエラーが発生することがあります。LiveをPhoenixのContextとして使うことで、コードの構成を改善し、モジュール名の末尾にLiveと書く必要がなくなります。
-featured_image: /blog/using-live-suffix-in-liveview/cover.jpg
+featured_image: /blog/using-live-suffix-in-liveview/cover-1280x720.jpg
 tags: elixir, phoenix, liveview, tip, webdev, english
 ---
 

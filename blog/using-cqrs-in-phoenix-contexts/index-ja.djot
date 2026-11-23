@@ -3,7 +3,7 @@ title: PhoenixのContextsでCQRSを使う
 slug: using-cqrs-in-phoenix-contexts
 date: 2023-01-12 18:08:10 +00:00
 description: 最近、Phoenixのcontext関数の命名に関する記事を読みました。命名規則を使うのも良いと思いますが、もう一歩進んで、そのようなモジュールの中にCQRSを適用できるかもしれません。
-featured_image: /blog/using-cqrs-in-phoenix-contexts/cover.jpg
+featured_image: /blog/using-cqrs-in-phoenix-contexts/cover-1280x720.jpg
 tags: elixir, ecto, phoenix, ddd, cqrs
 ---
 

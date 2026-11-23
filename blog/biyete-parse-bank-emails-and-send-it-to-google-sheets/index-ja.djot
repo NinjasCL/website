@@ -3,7 +3,7 @@ title: 💵 Biyete 🏦 - 銀行メールを解析してGoogle Sheetsへ送る
 slug: biyete-parse-bank-emails-and-send-it-to-google-sheets
 date: 2021-07-09 12:57:58 +00:00
 description: GmailとGoogle Sheetsを統合する方法を示すプロジェクトです。銀行のメールを解析し、その情報をGoogleスプレッドシートまたはRESTエンドポイントに送信して、家計を管理できるようにします。
-featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work.png
+featured_image: /blog/biyete-parse-bank-emails-and-send-it-to-google-sheets/work-1280x720.png
 tags: google, gmail, sheets, javascript, hooks, scripts, banks, money, email
 ---
 

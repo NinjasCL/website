@@ -3,7 +3,7 @@ title: Advent of Code - Day 01 Solution
 slug: advent-of-code-in-onyx-day-01
 date: 2024-12-04 15:14:22 +00:00
 description: A solution of Day 01 from Advent of Code 2024 in Onyx.
-featured_image: /blog/advent-of-code-in-onyx-day-01/cover.jpg
+featured_image: /blog/advent-of-code-in-onyx-day-01/cover-1280x720.jpg
 tags: advent of code, 2024, str, conv, iterator, slice, onyx, elixir
 ---
 

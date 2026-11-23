@@ -3,7 +3,7 @@ title: Lua 8: ファンタジーコンソールのためのLua
 slug: lua-8-lua-para-fantasy-consoles
 date: 2020-03-14 23:06:34 +00:00
 description: これはlua v5.3.5のフォークで、TIC-80のようなファンタジーコンソール/コンピューターでトークンを節約するためのパワーパッチをいくつか含んでいます。Luaの構文はすべて有効です。糖衣構文を追加するパッチがいくつか含まれているだけです。
-featured_image: /blog/lua-8-lua-para-fantasy-consoles/cover.jpg
+featured_image: /blog/lua-8-lua-para-fantasy-consoles/cover-1280x720.jpg
 tags: lua, fantasy, console, pico8, tic80, custom, c
 ---
 

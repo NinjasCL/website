@@ -3,7 +3,7 @@ title: Wireshell ProcessWire command-line companion
 slug: wireshell-processwire-command-line-companion
 date: 2015-10-14 23:19:54 +00:00
 description: Symfony ConsoleコンポーネントをベースにしたCMS/CMF ProcessWire用のコマンドラインインターフェース。ProcessWireを他のアプリケーションに組み込める能力、優れたAPI、そしてSymfony Consoleのモジュール型コマンドアプローチによって簡単に拡張できます。
-featured_image: /blog/wireshell-processwire-command-line-companion/cover.jpg
+featured_image: /blog/wireshell-processwire-command-line-companion/cover-1280x720.jpg
 tags: processwire, php, symphony, cli
 ---
 

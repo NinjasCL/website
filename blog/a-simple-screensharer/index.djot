@@ -3,11 +3,11 @@ title: Un simple compartidor de pantalla
 slug: a-simple-screensharer
 date: 2020-05-31 01:36:23 +00:00
 description: Este es un script simple para resolver un problema simple al tomar turnos en servicios públicos.
-featured_image: https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg
+featured_image: /blog/a-simple-screensharer/83366600-2890b380-a37e-11ea-9b82-841c71e3123a-1280x720.jpeg
 tags: javascript, node, chile, express, english
 ---
 
-![Portada](https://user-images.githubusercontent.com/292738/83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
+![Portada](83366600-2890b380-a37e-11ea-9b82-841c71e3123a.jpeg)
 
 Es un problema común en las instituciones públicas chilenas (y en
 muchos otros lugares) que debes estar en el lugar para tomar tu turno

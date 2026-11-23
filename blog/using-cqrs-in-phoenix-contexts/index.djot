@@ -3,7 +3,7 @@ title: Usando CQRS en los Contexts de Phoenix
 slug: using-cqrs-in-phoenix-contexts
 date: 2023-01-12 18:08:10 +00:00
 description: Recientemente leí un artículo sobre cómo nombrar las funciones de los contexts de Phoenix. Y creo que usar convenciones de nombres está bien, pero quizás podríamos dar un paso más y aplicar CQRS dentro de dichos módulos.
-featured_image: /blog/using-cqrs-in-phoenix-contexts/cover.jpg
+featured_image: /blog/using-cqrs-in-phoenix-contexts/cover-1280x720.jpg
 tags: elixir, ecto, phoenix, ddd, cqrs
 ---
 

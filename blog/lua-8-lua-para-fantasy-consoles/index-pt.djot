@@ -3,7 +3,7 @@ title: Lua 8: Lua para Fantasy Consoles
 slug: lua-8-lua-para-fantasy-consoles
 date: 2020-03-14 23:06:34 +00:00
 description: Este é um fork do lua v5.3.5 com alguns power patches para economizar tokens em fantasy consoles/computadores. Como o TIC-80. Toda a sintaxe do Lua continua válida. Apenas alguns patches foram incluídos para adicionar açúcar.
-featured_image: /blog/lua-8-lua-para-fantasy-consoles/cover.jpg
+featured_image: /blog/lua-8-lua-para-fantasy-consoles/cover-1280x720.jpg
 tags: lua, fantasy, console, pico8, tic80, custom, c
 ---
 

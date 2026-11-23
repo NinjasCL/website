@@ -3,7 +3,7 @@ title: Gitブランチの整理
 slug: decluttering-git-branches
 date: 2018-09-25 20:34:27 +00:00
 description: gitブランチをアーカイブする簡単な方法です。もうコードを使っていなくてブランチがリポジトリを散らかしているけれど、バックアップや歴史的な理由でどこかに残しておく必要があるかもしれません。
-featured_image: /blog/decluttering-git-branches/cover.jpg
+featured_image: /blog/decluttering-git-branches/cover-1280x720.jpg
 tags: git, clutter, commands, english
 ---
 

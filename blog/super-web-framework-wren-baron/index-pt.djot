@@ -3,7 +3,7 @@ title: Super Web Framework Wren Baron
 slug: super-web-framework-wren-baron
 date: 2024-05-18 21:01:43 +00:00
 description: Um pequeno exercício para executar linguagens de programação em cgi-bin. Este pequeno framework permite executar Wren em ambientes com PHP e cgi-bin.
-featured_image: /blog/super-web-framework-wren-baron/cover.webp
+featured_image: /blog/super-web-framework-wren-baron/cover-1280x720.webp
 tags: wren, php, red, baron, cgi
 ---
 
@@ -71,7 +71,7 @@ System.print("<p>Hello <strong>%(name)</strong></p>")
 
 O resultado é uma página HTML comum
 
-![Screenshot](https://raw.githubusercontent.com/NinjasCL/wren-baron/main/screenshot.png)
+![Screenshot](screenshot.png)
 
 ```github
 NinjasCL/wren-baron | Un pequeño web framework para ejecutar Wren en cgi-bin con PHP
