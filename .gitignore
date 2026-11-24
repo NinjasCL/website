@@ -9,5 +9,3 @@ old/
 .opengraph/
 /tools/optimize/.venv/
 /tools/optimize/**/__pycache__/
-/tools/__pycache__/
-/tools/tests/__pycache__/

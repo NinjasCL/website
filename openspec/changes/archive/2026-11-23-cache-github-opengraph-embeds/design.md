@@ -21,7 +21,7 @@ blogatto renders posts during `blogatto.build`, after it copies `static/` into `
 - Caching `youtube`, `ninjas`, or external `embed` fences.
 - Committing cache artifacts or adding cache expiry/invalidation controls.
 - Changing post frontmatter, routes, or the card's HTML structure.
-- Replacing `tools/ftp-upload`; cached images are ordinary `dist/` files and upload incrementally like any other asset.
+- Replacing `tools/ftp/ftp-upload`; cached images are ordinary `dist/` files and upload incrementally like any other asset.
 
 ## Decisions
 

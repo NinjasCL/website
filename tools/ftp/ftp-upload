@@ -1,0 +1,35 @@
+#!/usr/bin/env escript
+%%! -noshell
+%%
+%% ftp-upload - upload only the changed files from dist/ over SFTP.
+%%
+%% Reads one change per line on stdin, as produced by
+%% `tools/ftp/ftp-sync plan`:
+%%
+%%   A<TAB>relative/path   added file
+%%   M<TAB>relative/path   modified file
+%%   T<TAB>relative/path   type-changed file
+%%   D<TAB>relative/path   deleted file
+%%
+%% Environment (loaded from .env by the Taskfile):
+%%   FTP_HOST, FTP_PORT, FTP_USER, FTP_ROUTE (absolute remote directory)
+%%   FTP_PASSWORD (optional; empty means key-based authentication)
+
+-mode(compile).
+
+main(Args) ->
+    Directory = filename:dirname(filename:absname(escript:script_name())),
+    load_module(filename:join([Directory, "ftp_upload_sftp.erl"])),
+    load_module(filename:join([Directory, "ftp_upload.erl"])),
+    ftp_upload:main(Args).
+
+load_module(Source) ->
+    Module = list_to_atom(filename:basename(Source, ".erl")),
+    case compile:file(Source, [binary, return_errors]) of
+        {ok, Module, Binary} ->
+            code:load_binary(Module, Source, Binary);
+        {error, Errors, _Warnings} ->
+            io:format(standard_error, "ftp-upload: cannot compile ~s:~n~p~n",
+                      [Source, Errors]),
+            halt(2)
+    end.

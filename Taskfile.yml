@@ -60,14 +60,14 @@ tasks:
         # The planner compares MD5 content hashes from website-manifest.json
         # with the freshly built dist/, so rebuilt files with identical bytes
         # are skipped and only real additions, changes, and deletions ship.
-        python3 tools/ftp_sync.py --dist "{{.DIST_DIR}}" plan > "$changes"
+        tools/ftp/ftp-sync --dist "{{.DIST_DIR}}" plan > "$changes"
         if [ ! -s "$changes" ]; then
           echo "ftp-sync: no changes to upload"
           exit 0
         fi
 
-        tools/ftp-upload < "$changes"
+        tools/ftp/ftp-upload < "$changes"
 
         # Advance the hash cache only after a successful upload so failures
         # are retried on the next run.
-        python3 tools/ftp_sync.py --dist "{{.DIST_DIR}}" commit
+        tools/ftp/ftp-sync --dist "{{.DIST_DIR}}" commit

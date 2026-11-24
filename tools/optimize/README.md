@@ -70,7 +70,7 @@ All three image maps are keyed by repository-relative paths, except
 paths relative to `dist/` and holds MD5 hashes of the last successful upload;
 generated post pages are hashed per language without their random
 recommendations section, home pages without their random posts section, and
-feeds without their build timestamp. It is maintained by `tools/ftp_sync.py`,
-not by the optimizer. The manifest is
+feeds without their build timestamp. It is maintained by `tools/ftp/ftp-sync`
+and `tools/ftp/ftp_sync.erl`, not by the optimizer. The manifest is
 committed so a fresh clone skips work that has already been done. `check` and
 `dry-run` verify it without writing or downloading anything.

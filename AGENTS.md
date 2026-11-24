@@ -21,8 +21,11 @@ implemented:
 - `src/ninjas/local.gleam` — live-reload dev server at `http://127.0.0.1:3000`.
 - `src/ninjas/extra_pages.gleam` — writes the root-level `404.html` that
   blogatto's route system cannot express.
-- `tools/ftp-upload` — executable Erlang escript that uploads only changed
-  `dist/` files to the configured SFTP route via OTP's `ssh_sftp` client.
+- `tools/ftp/ftp-sync` — executable Erlang escript that plans uploads with MD5
+  hashes from `website-manifest.json`; `ftp_sync.erl` holds the shared logic.
+- `tools/ftp/ftp-upload` — executable Erlang escript that uploads only changed
+  `dist/` files to the configured SFTP route via OTP's `ssh_sftp` client;
+  `ftp_upload.erl` holds the logic and `ftp_upload_sftp.erl` is the backend.
 - `tools/optimize/` — Python 3.14+ / Pillow tool that localizes, optimizes, and
   standardizes blog images; has its own Taskfile and unit tests.
 
@@ -41,7 +44,7 @@ implemented:
 | Standard library | gleam_stdlib | Declared `>= 1.0.0 and < 2.0.0`; locked at 1.0.5 |
 | Tests | gleeunit | Declared `>= 1.0.0 and < 2.0.0`; locked at 1.11.0 |
 | CI | GitHub Actions | `.github/workflows/test.yml` on pushes to `main`/`master` and all PRs |
-| Deployment | `tools/ftp-upload` (Erlang escript) | OTP `ssh_sftp` client; credentials from `.env` loaded by the Taskfile; uploads only files changed since the last successful deploy |
+| Deployment | `tools/ftp/ftp-sync` and `tools/ftp/ftp-upload` (Erlang escripts) | OTP `ssh_sftp` client; credentials from `.env` loaded by the Taskfile; hashes decide which files changed since the last successful deploy |
 | Image pipeline | Python 3.14+ / Pillow in `tools/optimize/` | Localizes remote post images, optimizes `blog/` images once per content hash, and writes 1280x720 center-cropped cover derivatives; `static/` stays verbatim |
 | Spec workflow | OpenSpec 2.0.0 | `spec-driven` schema; workflow skills in `.agents/skills/` |
 
@@ -69,9 +72,12 @@ test/ninjas_test.gleam       gleeunit entrypoint; test functions end with `_test
 blog/                        Djot post sources: one directory per post
 static/                      Static assets copied into dist/ (icons, patterns, banners, cursors, style.css)
 dist/                        Generated site output (git-ignored; rebuilt by `task build`)
-tools/ftp-upload             Erlang escript: uploads only changed dist/ files over SFTP
-tools/ftp_sync.py            Python planner: MD5 diff against the manifest's ftp cache, plus seed/commit
-tools/tests/                 Unit tests for the FTP upload planner
+tools/ftp/ftp-sync           Erlang escript: MD5 planner against the manifest's ftp cache
+tools/ftp/ftp-upload         Erlang escript: uploads only changed dist/ files over SFTP
+tools/ftp/ftp_sync.erl       Shared planner module used by ftp-sync and EUnit tests
+tools/ftp/ftp_upload.erl     Shared uploader module used by ftp-upload and EUnit tests
+tools/ftp/ftp_upload_sftp.erl Production SFTP backend for ftp_upload
+tools/ftp/tests/             EUnit tests for the FTP planner and uploader
 tools/optimize/              Python image optimizer with its own Taskfile and tests
 website-manifest.json        Committed content-hash manifest for images and the FTP upload cache
 .env                         Local FTP credentials (git-ignored; copy of env.txt)
@@ -137,20 +143,22 @@ Aliases: `task s` (setup), `task b` (build), `task o` (optimize), `task d` (dev)
   empty to use key-based authentication.
 - `Taskfile.yml` loads `.env` via its root `dotenv` setting. `task upload`
   (alias `u`) runs `optimize` and then `build` in order. The planner
-  (`tools/ftp_sync.py plan`) compares the fresh `dist/` with the MD5 hashes
+  (`tools/ftp/ftp-sync plan`) compares the fresh `dist/` with the MD5 hashes
   in the manifest's `ftp.files` cache and passes only added/modified/deleted
-  paths to `tools/ftp-upload`. Post pages hash per language with the random
+  paths to `tools/ftp/ftp-upload`. Post pages hash per language with the random
   `post-others` section removed; home pages drop their random posts section
   and feeds drop the build timestamp, so a rebuild's new random sample is not
-  an upload. The cache is advanced with `ftp_sync.py commit` only after a
-  successful upload, so failures are retried. `ftp_sync.py seed` imports a
+  an upload. The cache is advanced with `ftp-sync commit` only after a
+  successful upload, so failures are retried. `ftp-sync seed` imports a
   legacy `.ftp-upload-dist/` snapshot once; the snapshot is no longer used.
-- `tools/ftp-upload` is an executable Erlang escript using OTP's `ssh_sftp`
-  client. Keep it executable and keep its stdin contract
-  (`A|M|T|D<TAB>relative/path`) in sync with the planner's output. It creates
-  missing remote directories, streams files in chunks, overwrites existing
-  files, and deletes removed files. Do not replace it with shell-based
-  `sftp`/`curl` calls.
+  Run `tools/ftp/tests/run_tests.escript` for the FTP EUnit suite.
+- `tools/ftp/ftp-upload` is an executable Erlang escript using OTP's `ssh_sftp`
+  client. Its logic lives in `ftp_upload.erl`, with `ftp_upload_sftp.erl` as
+  the production backend and a fake backend in `tools/ftp/tests/`. Keep it
+  executable and keep its stdin contract (`A|M|T|D<TAB>relative/path`) in sync
+  with the planner's output. It creates missing remote directories, streams
+  files in chunks, overwrites existing files, and deletes removed files. Do not
+  replace it with shell-based `sftp`/`curl` calls.
 
 ### Image optimization
 

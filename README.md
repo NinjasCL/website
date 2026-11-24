@@ -40,17 +40,19 @@ empty to use key-based authentication. `FTP_PORT` must be the SSH/SFTP port
 (usually `22`); using the plain-FTP port `21` makes the connection time out.
 
 `task upload` optimizes post images, builds the site, and asks
-`tools/ftp_sync.py` to compare the new `dist/` with the MD5 content hashes of
+`tools/ftp/ftp-sync` to compare the new `dist/` with the MD5 content hashes of
 the last uploaded files in `website-manifest.json`. Each generated post page
 is hashed per language with its random "Otras entradas" section removed; home
 pages drop their random posts section and Atom feeds drop their build
 timestamp. Real content or template edits still upload, but a fresh random
 sample or build clock does not, so deleting `dist/` and rebuilding uploads
 nothing while the site is unchanged. Only added, modified, and deleted paths
-go to `tools/ftp-upload`. That Erlang escript uses OTP's `ssh_sftp` client to
+go to `tools/ftp/ftp-upload`. That Erlang escript uses OTP's `ssh_sftp` client to
 create any missing remote directories, upload the changed files in chunks, and
 delete removed files. The manifest's `ftp.files` cache is advanced only after
-a successful upload, so a failed deploy is retried on the next run.
+a successful upload, so a failed deploy is retried on the next run. The planner,
+uploader, and their EUnit tests live in `tools/ftp/`; run the tests with
+`tools/ftp/tests/run_tests.escript`.
 
 ## Images
 
@@ -74,8 +76,8 @@ task -d tools/optimize dry-run
 `website-manifest.json` at the repository root records content hashes so an
 already optimized image is skipped on later runs, plus the MD5 hashes of the
 last uploaded files used by `task upload`. Keep it committed. See
-`tools/optimize/README.md` for the image sections and `tools/ftp_sync.py` for
-the upload cache.
+`tools/optimize/README.md` for the image sections and `tools/ftp/ftp_sync.erl`
+for the upload cache.
 
 Underlying Gleam commands:
 

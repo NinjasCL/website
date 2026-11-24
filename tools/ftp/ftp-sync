@@ -1,0 +1,38 @@
+#!/usr/bin/env escript
+%%! -noshell
+%%
+%% ftp-sync - plan and commit SFTP uploads using website-manifest.json.
+%%
+%% Commands:
+%%   plan     print A/M/D changes for ftp-upload
+%%   commit   replace the cached hashes after a successful upload
+%%   seed     import hashes from a legacy .ftp-upload-dist/ snapshot once
+%%
+%% Options:
+%%   --root PATH       repository root (default: parent of tools/ftp)
+%%   --dist PATH       generated site directory (default: <root>/dist)
+%%   --snapshot PATH   legacy snapshot (default: <root>/.ftp-upload-dist)
+
+-mode(compile).
+
+main(Args) ->
+    Directory = filename:dirname(filename:absname(escript:script_name())),
+    Root = filename:absname(filename:join([Directory, "..", ".."])),
+    Source = filename:join([Directory, "ftp_sync.erl"]),
+    load_ftp_sync(Source),
+    ftp_sync:main(Args, Root).
+
+load_ftp_sync(Source) ->
+    case code:which(ftp_sync) of
+        non_existing ->
+            case compile:file(Source, [binary, return_errors]) of
+                {ok, ftp_sync, Binary} ->
+                    code:load_binary(ftp_sync, Source, Binary);
+                {error, Errors, _Warnings} ->
+                    io:format(standard_error, "ftp-sync: cannot compile ~s:~n~p~n",
+                              [Source, Errors]),
+                    halt(2)
+            end;
+        _Loaded ->
+            ok
+    end.
