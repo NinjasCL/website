@@ -161,3 +161,22 @@ manifest_keeps_image_sections_when_ftp_cache_changes_test() ->
              ?assertEqual(#{}, maps:get(<<"downloads">>, Saved)),
              ?assertEqual(#{}, maps:get(<<"covers">>, Saved))
      end}.
+
+manifest_keeps_post_dates_when_ftp_cache_changes_test() ->
+    {setup, fun setup/0, fun cleanup/1,
+     fun(Root) ->
+             Posts = #{<<"newest">> => <<"2026-11-16T03:00:00Z">>,
+                       <<"older">> => <<"2026-01-01T00:00:00Z">>},
+             Latest = #{<<"slug">> => <<"newest">>,
+                        <<"date">> => <<"2026-11-16T03:00:00Z">>},
+             Manifest = ftp_sync:load_manifest(manifest_path(Root)),
+             ftp_sync:save_manifest(
+               manifest_path(Root),
+               Manifest#{<<"posts">> => Posts, <<"latest_post">> => Latest}),
+             write_dist(Root, "index.html", <<"page">>),
+             ok = ftp_sync:commit(Root, dist(Root)),
+             {ok, Data} = file:read_file(manifest_path(Root)),
+             Saved = json:decode(Data),
+             ?assertEqual(Posts, maps:get(<<"posts">>, Saved)),
+             ?assertEqual(Latest, maps:get(<<"latest_post">>, Saved))
+      end}.

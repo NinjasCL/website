@@ -76,9 +76,10 @@ task -d tools/optimize dry-run
 
 `website-manifest.json` at the repository root records content hashes so an
 already optimized image is skipped on later runs, plus the MD5 hashes of the
-last uploaded files used by `task upload`. Keep it committed. See
-`tools/optimize/README.md` for the image sections and `tools/ftp/ftp_sync.erl`
-for the upload cache.
+last uploaded files used by `task upload`. Keep it committed. The build also
+records each post's last-update date under `posts` (keyed by slug, newest first)
+and names the most recent one in `latest_post`. See `tools/optimize/README.md`
+for the image sections and `tools/ftp/ftp_sync.erl` for the upload cache.
 
 Underlying Gleam commands:
 

@@ -37,6 +37,18 @@ tasks:
     cmds:
       - task -d tools/optimize
 
+  qiita:
+    aliases: [q]
+    desc: Generate qiita.toml for a post (defaults to the latest Japanese post)
+    cmds:
+      - gleam run -m qiita -- {{.CLI_ARGS}}
+
+  qiita.publish:
+    aliases: [qp]
+    desc: Publish a generated qiita.toml (defaults to the latest Japanese post)
+    cmds:
+      - gleam run -m qiita -- --publish {{.CLI_ARGS}}
+
   dev:
     aliases: [d]
     desc: Start the dev server at http://127.0.0.1:3000

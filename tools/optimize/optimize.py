@@ -83,6 +83,8 @@ def new_manifest() -> dict:
         "images": {},
         "downloads": {},
         "covers": {},
+        "posts": {},
+        "latest_post": {},
         "ftp": {"files": {}},
     }
 
@@ -93,7 +95,7 @@ def load_manifest(path: Path) -> dict:
     manifest = json.loads(path.read_text(encoding="utf-8"))
     if manifest.get("version") != 1:
         raise ValueError(f"unsupported manifest version in {path}")
-    for key in ("images", "downloads", "covers"):
+    for key in ("images", "downloads", "covers", "posts", "latest_post"):
         manifest.setdefault(key, {})
     ftp = manifest.setdefault("ftp", {})
     ftp.setdefault("files", {})
@@ -106,6 +108,9 @@ def save_manifest(path: Path, manifest: dict) -> None:
         "images": dict(sorted(manifest["images"].items())),
         "downloads": dict(sorted(manifest["downloads"].items())),
         "covers": dict(sorted(manifest["covers"].items())),
+        # The build writes post dates newest first; keep that order intact.
+        "posts": dict(manifest["posts"].items()),
+        "latest_post": dict(manifest["latest_post"].items()),
         "ftp": {"files": dict(sorted(manifest["ftp"]["files"].items()))},
     }
     atomic_write_text(path, json.dumps(ordered, indent=2, ensure_ascii=False) + "\n")

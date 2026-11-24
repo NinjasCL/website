@@ -235,6 +235,8 @@ new_manifest() ->
       <<"images">> => #{},
       <<"downloads">> => #{},
       <<"covers">> => #{},
+      <<"posts">> => #{},
+      <<"latest_post">> => #{},
       <<"ftp">> => #{<<"files">> => #{}}}.
 
 load_manifest(Path) ->
@@ -258,11 +260,15 @@ ensure_sections(Manifest) ->
     Images = ensure_map(<<"images">>, Manifest),
     Downloads = ensure_map(<<"downloads">>, Manifest),
     Covers = ensure_map(<<"covers">>, Manifest),
+    Posts = ensure_map(<<"posts">>, Manifest),
+    LatestPost = ensure_map(<<"latest_post">>, Manifest),
     Ftp = ensure_map(<<"ftp">>, Manifest),
     Files = ensure_map(<<"files">>, Ftp),
     Manifest#{<<"images">> => Images,
               <<"downloads">> => Downloads,
               <<"covers">> => Covers,
+              <<"posts">> => Posts,
+              <<"latest_post">> => LatestPost,
               <<"ftp">> => Ftp#{<<"files">> => Files}}.
 
 ensure_map(Key, Map) ->
@@ -281,6 +287,8 @@ pretty_manifest(Manifest) ->
              {<<"images">>, maps:get(<<"images">>, Manifest, #{})},
              {<<"downloads">>, maps:get(<<"downloads">>, Manifest, #{})},
              {<<"covers">>, maps:get(<<"covers">>, Manifest, #{})},
+             {<<"posts">>, maps:get(<<"posts">>, Manifest, #{})},
+             {<<"latest_post">>, maps:get(<<"latest_post">>, Manifest, #{})},
              {<<"ftp">>, #{<<"files">> => maps:get(<<"files">>, Ftp, #{})}}],
     iolist_to_binary([pretty_value({json_object, Pairs}, 0), $\n]).
 

@@ -108,6 +108,26 @@ class OptimizerTestCase(unittest.TestCase):
             optimize.load_manifest(self.root / "website-manifest.json"), manifest
         )
 
+    def test_post_dates_survive_manifest_rewrite(self) -> None:
+        manifest_path = self.root / "website-manifest.json"
+        manifest = optimize.load_manifest(manifest_path)
+        posts = {"newest": "2026-11-16T03:00:00Z", "older": "2026-01-01T00:00:00Z"}
+        manifest["posts"] = posts
+        manifest["latest_post"] = {"slug": "newest", "date": posts["newest"]}
+        optimize.save_manifest(manifest_path, manifest)
+
+        image = self.root / "blog" / "slug" / "cover.png"
+        image.parent.mkdir(parents=True)
+        image.write_bytes(encoded_image("PNG"))
+        optimize.run(self.root)
+
+        saved = optimize.load_manifest(manifest_path)
+        self.assertEqual(saved["posts"], posts)
+        self.assertEqual(
+            saved["latest_post"], {"slug": "newest", "date": posts["newest"]}
+        )
+        self.assertEqual(list(saved["posts"]), ["newest", "older"])
+
     def test_cover_derivative_is_1280x720_and_center_focused(self) -> None:
         image = Image.new("RGB", (200, 100), (255, 255, 255))
         ImageDraw.Draw(image).rectangle((95, 45, 105, 55), fill=(0, 0, 0))
