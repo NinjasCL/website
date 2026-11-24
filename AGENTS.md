@@ -25,6 +25,13 @@ implemented:
   generates one `qiita.toml` for the most recent Japanese post; a positional
   selector chooses one post and `--all` opts into the whole catalog. `--publish`
   sends an already-generated file using `QIITA_TOKEN` read from `.env`.
+- `src/drafts.gleam` — draft creation command; derives a slug from the title
+  unless an explicit slug is supplied.
+- `src/ninjas/drafts.gleam` — slug validation, draft paths, frontmatter creation,
+  and shared CLI argument parsing for the draft workflow.
+- `src/drafts_ffi.erl` — Erlang shim exposing plain CLI arguments to draft commands.
+- `src/preview.gleam` — one-shot draft preview build into `.preview/`.
+- `src/preview_local.gleam` — live-reloading draft preview server on port 4000.
 - `src/qiita_ffi.erl` — Erlang shim exposing plain CLI arguments and environment
   variables to the Qiita command.
 - `tools/ftp/ftp-sync` — executable Erlang escript that plans uploads with MD5
@@ -78,9 +85,11 @@ src/qiita.gleam              Qiita publisher: generate/publish Japanese variants
 src/qiita_ffi.erl            Erlang shim for CLI arguments and environment variables
 test/ninjas_test.gleam       gleeunit entrypoint; test functions end with `_test`
 test/qiita_test.gleam        Qiita conversion, selection, and request tests
-blog/                        Djot post sources: one directory per post
+drafts/                      Unpublished djot drafts: one directory per post; never read by publishers
+blog/                        Djot post sources: one directory per published post
 static/                      Static assets copied into dist/ (icons, patterns, banners, cursors, style.css)
 dist/                        Generated site output (git-ignored; rebuilt by `task build`)
+.preview/                    Single-draft preview output (git-ignored; rebuilt by the preview commands)
 tools/ftp/ftp-sync           Erlang escript: MD5 planner against the manifest's ftp cache
 tools/ftp/ftp-upload         Erlang escript: uploads only changed dist/ files over SFTP
 tools/ftp/ftp_sync.erl       Shared planner module used by ftp-sync and EUnit tests
@@ -117,6 +126,9 @@ gleam run -m qiita <slug>              # Generate qiita.toml for one post
 gleam run -m qiita -- --all            # Generate qiita.toml for every Japanese post
 gleam run -m qiita -- --publish        # Publish the generated file(s) with QIITA_TOKEN
 gleam run -m ninjas/local   # Start the live-reload dev server at http://127.0.0.1:3000
+gleam run -m drafts -- "Title" [slug]  # Create a draft with a generated or explicit slug
+gleam run -m preview -- <slug>         # Build one draft into ./.preview
+gleam run -m preview_local -- <slug>   # Preview one draft with live reload on port 4000
 gleam test                  # Run tests
 gleam format src test       # Format all source and test files
 gleam format --check src test  # Verify formatting (used by CI)
@@ -128,12 +140,16 @@ task optimize                # Localize, optimize, and normalize blog images
 task qiita [POST]            # Generate qiita.toml for a post (latest by default)
 task qiita.publish [POST]    # Publish a generated qiita.toml (latest by default)
 task translate [POST]        # Translate the latest post, or one post, to en/ja/pt with OpenCode
+task draft -- "Title" [slug] # Create a draft from a title and optional explicit slug
+task draft.preview -- <slug> # Preview one draft with live reload at http://127.0.0.1:4000
+task draft.publish -- <slug> # Translate and promote a draft into blog/<slug>
 task dev                     # Clean dist/ and start the live server
 task upload                  # Optimize, build, and upload changed dist/ files over SFTP
 ```
 
 Aliases: `task s` (setup), `task b` (build), `task o` (optimize), `task q` (qiita),
-`task qp` (qiita.publish), `task d` (dev), `task u` (upload).
+`task qp` (qiita.publish), `task n` (draft), `task dp` (draft.preview),
+`task promote` (draft.publish), `task t` (translate), `task d` (dev), `task u` (upload).
 
 ## Conventions
 
@@ -144,6 +160,10 @@ Aliases: `task s` (setup), `task b` (build), `task o` (optimize), `task q` (qiit
 - Keep `gleam test` and `gleam format --check src test` passing; these are the exact
   checks CI runs on every push and pull request.
 - Prefer small, focused changes over broad refactors mixed with feature work.
+- Unpublished posts belong in `drafts/<slug>/`. They are outside every
+  production consumer and are promoted with `task draft.publish`, which
+  generates en/ja/pt variants before moving the directory into `blog/<slug>/`.
+  `.preview/` is generated output and is never committed.
 - Do not commit `.env` (real credentials); keep `env.txt` as an empty template.
   Never run `task dev` or `task upload` as part of verification; they start a
   long-lived server or deploy to a remote host.

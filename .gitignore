@@ -2,6 +2,7 @@
 *.ez
 /build
 /dist
+/.preview/
 erl_crash.dump
 .DS_Store
 .env

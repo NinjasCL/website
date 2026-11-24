@@ -61,4 +61,5 @@ gleam_time = { version = ">= 1.11.0 and < 2.0.0" }
 gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
 lustre = { version = ">= 5.7.1 and < 6.0.0" }
 simplifile = { version = ">= 2.7.0 and < 3.0.0" }
+str = { version = ">= 2.1.1 and < 3.0.0" }
 tom = { version = ">= 2.1.0 and < 3.0.0" }

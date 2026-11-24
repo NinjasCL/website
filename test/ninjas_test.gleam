@@ -111,6 +111,23 @@ pub fn production_blog_config_test() {
   )
 }
 
+pub fn draft_preview_blog_config_test() {
+  let config = blog.preview(site.dev_url, "./drafts/mi-post")
+
+  assert config.site_url == site.dev_url
+  assert config.output_dir == "./.preview"
+  assert config.static_dir == option.Some("./static")
+  assert config.atom_feeds == []
+  assert config.rss_feeds == []
+  assert config.sitemap == option.None
+  assert config.robots == option.None
+  assert dict.keys(config.routes) == []
+
+  let assert option.Some(post_config) = config.post_config
+  assert post_config.paths == ["./drafts/mi-post"]
+  assert post_config.route_prefix == option.Some("blog")
+}
+
 pub fn atom_feeds_identify_their_languages_test() {
   // Each feed's id and self link point at the URL it is served from, and
   // its hreflang names the language whose variants it carries.

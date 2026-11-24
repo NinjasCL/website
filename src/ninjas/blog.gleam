@@ -55,7 +55,10 @@ fn language_atom_feed(
   ))
 }
 
-pub fn new(site_url: String) -> config.Config(Nil) {
+// The shared post wiring: one source path, the site's page template, and the
+// djot component overrides. Production and draft previews use the same
+// pipeline so a preview matches the published page.
+fn post_config(path: String) -> post.PostConfig(Nil) {
   // Djot code blocks are routed through the site's content-block
   // component (src/ninjas/highlight.gleam), which owns each block's full
   // structure — code panels, summary toggles, and the github/youtube/
@@ -64,17 +67,18 @@ pub fn new(site_url: String) -> config.Config(Nil) {
   // inside a code panel.
   let syntax = highlight.syntax_config()
 
-  let post_config =
-    post.default()
-    |> post.path("./blog")
-    |> post.route_prefix("blog")
-    |> post.template(site.post_template)
-    |> post.code(highlight.code_component_with_github_images(
-      syntax,
-      github_opengraph.image_source,
-    ))
-    |> post.pre(highlight.pre_component)
+  post.default()
+  |> post.path(path)
+  |> post.route_prefix("blog")
+  |> post.template(site.post_template)
+  |> post.code(highlight.code_component_with_github_images(
+    syntax,
+    github_opengraph.image_source,
+  ))
+  |> post.pre(highlight.pre_component)
+}
 
+pub fn new(site_url: String) -> config.Config(Nil) {
   let updated = timestamp.system_time()
 
   // The syndication and crawler outputs. The site URLs end in a slash,
@@ -109,7 +113,7 @@ pub fn new(site_url: String) -> config.Config(Nil) {
   config.new(site_url)
   |> config.output_dir("./dist")
   |> config.static_dir("./static")
-  |> config.post(post_config)
+  |> config.post(post_config("./blog"))
   // The home page in the site's four languages: the Spanish default at
   // the root, the machine-translated homes at their language routes.
   // Each route writes `<route>/index.html`, so the pages serve at `/`,
@@ -150,4 +154,15 @@ pub fn new(site_url: String) -> config.Config(Nil) {
   |> config.rss_feed(rss_feed)
   |> config.sitemap(sitemap_config)
   |> config.robots(robots_config)
+}
+
+/// Build a draft preview outside the published catalog. The selected draft
+/// directory is the only post source, so blogatto renders its djot variants
+/// with the site's own templates and components. No routes, feeds, sitemap,
+/// or robots are registered: this build exists only to preview one draft.
+pub fn preview(site_url: String, draft_path: String) -> config.Config(Nil) {
+  config.new(site_url)
+  |> config.output_dir("./.preview")
+  |> config.static_dir("./static")
+  |> config.post(post_config(draft_path))
 }

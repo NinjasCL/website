@@ -117,6 +117,63 @@ tasks:
         Use single asterisks for strong emphasis. Natural, idiomatic translations; no explanations in the files.
         After writing the files, print the three paths you wrote."
 
+  draft:
+    aliases: [n]
+    desc: Create a draft from a title and an optional explicit slug
+    cmds:
+      - gleam run -m drafts -- {{.CLI_ARGS}}
+
+  draft.preview:
+    aliases: [dp]
+    desc: Preview one draft with live reload at http://127.0.0.1:4000
+    cmds:
+      - gleam run -m preview_local -- {{.CLI_ARGS}}
+
+  draft.publish:
+    aliases: [promote]
+    desc: Generate translations and promote a draft into the published blog
+    silent: true
+    cmds:
+      - |
+        set -eu
+
+        slug='{{.CLI_ARGS}}'
+        case "$slug" in
+          ''|*/*|*[!a-z0-9-]*|-*|*-)
+            echo "draft.publish: expected a lowercase slug (a-z, 0-9, hyphens)" >&2
+            echo "usage: task draft.publish -- <slug>" >&2
+            exit 1
+            ;;
+        esac
+
+        src="drafts/$slug"
+        dest="blog/$slug"
+
+        if [ ! -d "$src" ]; then
+          echo "draft.publish: no draft found at $src" >&2
+          exit 1
+        fi
+        if [ -e "$dest" ]; then
+          echo "draft.publish: $dest already exists" >&2
+          exit 1
+        fi
+        if [ ! -f "$src/index.djot" ]; then
+          echo "draft.publish: $src/index.djot is missing" >&2
+          exit 1
+        fi
+
+        task translate -- "$src"
+
+        for variant in index-en.djot index-ja.djot index-pt.djot; do
+          if [ ! -f "$src/$variant" ]; then
+            echo "draft.publish: translation did not write $src/$variant" >&2
+            exit 1
+          fi
+        done
+
+        mv "$src" "$dest"
+        echo "Published $dest with all four language variants."
+
   dev:
     aliases: [d]
     desc: Start the dev server at http://127.0.0.1:3000
