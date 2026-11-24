@@ -65,7 +65,7 @@ pub fn production_blog_config_test() {
   assert robot.allowed_routes == ["/"]
 
   // The blog index routes regenerate from the catalog on every build: one
-  // list page per 25-post page plus the /blog redirect.
+  // list page per 25-post page plus one landing redirect per language.
   let assert Ok(entries) = simplifile.read_directory("./blog")
   let post_directories =
     list.filter(entries, fn(entry) {
@@ -87,6 +87,9 @@ pub fn production_blog_config_test() {
     Nil
   })
   let assert True = list.contains(routes, "/blog")
+  list.each(["/blog/en", "/blog/ja", "/blog/pt"], fn(route) {
+    let assert True = list.contains(routes, route)
+  })
 
   // The home page ships in the site's four languages: the Spanish
   // default at the root, the translated homes at their language routes.
@@ -94,11 +97,18 @@ pub fn production_blog_config_test() {
     let assert True = list.contains(routes, route)
   })
 
-  // The sitemap excludes the /blog redirect route (its absolute URL form)
+  // The sitemap excludes every landing redirect (in absolute URL form)
   // and keeps the index page routes.
   let assert option.Some(filter) = sitemap_config.filter
-  let assert False = filter(site.production_url <> "blog")
-  let assert True = filter(site.production_url <> "blog/page/1")
+  list.each(["blog", "blog/en", "blog/ja", "blog/pt"], fn(path) {
+    assert filter(site.production_url <> path) == False
+  })
+  list.each(
+    ["blog/page/1", "blog/en/page/1", "blog/ja/page/1", "blog/pt/page/1"],
+    fn(path) {
+      assert filter(site.production_url <> path) == True
+    },
+  )
 }
 
 pub fn atom_feeds_identify_their_languages_test() {
@@ -1054,13 +1064,71 @@ pub fn blog_index_pagination_nav_test() {
 }
 
 pub fn blog_redirect_view_test() {
-  // The /blog URL is the old site's redirect: a meta-refresh straight to
-  // the first index page, with a plain link for clients that skip it.
-  let html = site.blog_redirect_view() |> element.to_string
+  // Every landing URL keeps the old site's redirect in its own language:
+  // a meta-refresh to the first index page and a plain link for clients
+  // that skip it.
+  let cases = [
+    #(
+      "es",
+      "es-CL",
+      "Blog",
+      "Todas las entradas del blog de Ninjas.cl, las más recientes primero.",
+      "/blog/page/1/",
+    ),
+    #(
+      "en",
+      "en",
+      "Blog",
+      "All the Ninjas.cl blog posts, the most recent first.",
+      "/blog/en/page/1/",
+    ),
+    #("ja", "ja", "ブログ", "Ninjas.clのブログ記事をすべて、新しいものから順に。", "/blog/ja/page/1/"),
+    #(
+      "pt",
+      "pt",
+      "Blog",
+      "Todas as postagens do blog do Ninjas.cl, as mais recentes primeiro.",
+      "/blog/pt/page/1/",
+    ),
+  ]
 
-  assert string.contains(html, "http-equiv=\"Refresh\"")
-  assert string.contains(html, "0; url=/blog/page/1/")
-  assert string.contains(html, "href=\"/blog/page/1/\"")
+  list.each(cases, fn(entry) {
+    let #(code, lang, heading, description, target) = entry
+    let html = site.blog_redirect_view(code) |> element.to_string
+
+    assert string.contains(html, "lang=\"" <> lang <> "\"")
+    assert string.contains(html, "<title>" <> heading <> " — Ninjas.cl</title>")
+    assert string.contains(html, "http-equiv=\"Refresh\"")
+    assert string.contains(html, "0; url=" <> target)
+    assert string.contains(html, "name=\"description\"")
+    assert string.contains(html, "content=\"" <> description <> "\"")
+    assert string.contains(html, "href=\"" <> target <> "\"")
+    assert string.contains(html, ">" <> heading <> "</a>")
+  })
+}
+
+pub fn static_htaccess_blog_redirect_rules_test() {
+  // Apache rules are the primary redirect; the generated fallback pages
+  // remain for hosts that ignore .htaccess.
+  let assert Ok(htaccess) = simplifile.read("./static/.htaccess")
+
+  assert string.contains(htaccess, "Options -Indexes")
+  assert string.contains(htaccess, "ErrorDocument 404 /404.html")
+  assert string.contains(htaccess, "<IfModule mod_rewrite.c>")
+  assert string.contains(htaccess, "RewriteEngine On")
+  assert string.contains(
+    htaccess,
+    "RewriteRule ^blog/?$ /blog/page/1/ [R=301,L]",
+  )
+  assert string.contains(
+    htaccess,
+    "RewriteRule ^blog/(en|ja|pt)/?$ /blog/$1/page/1/ [R=301,L]",
+  )
+  assert string.contains(htaccess, "</IfModule>")
+
+  // Every rewrite directive stays inside the mod_rewrite guard.
+  assert string.contains(htaccess, "\nRewriteEngine") == False
+  assert string.contains(htaccess, "\nRewriteRule") == False
 }
 
 pub fn blog_index_chrome_and_feed_test() {

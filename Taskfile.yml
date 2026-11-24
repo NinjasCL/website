@@ -4,7 +4,6 @@ dotenv: ['.env']
 
 vars:
   DIST_DIR: dist
-  SNAPSHOT_DIR: .ftp-upload-dist
 
 tasks:
   default:
@@ -52,43 +51,23 @@ tasks:
     cmds:
       - task: optimize
       - task: build
-      - mkdir -p {{.SNAPSHOT_DIR}}
       - |
         set -eu
 
-        changes=$(mktemp "${TMPDIR:-/tmp}/ftp-upload-changes.XXXXXX")
+        changes=$(mktemp "${TMPDIR:-/tmp}/ftp-sync-changes.XXXXXX")
         trap 'rm -f "$changes"' EXIT
 
-        # git diff --no-index compares the last uploaded snapshot with the
-        # freshly built dist/ (which is git-ignored). Exit 1 just means
-        # "differences found".
-        git diff --no-index --name-status --no-renames \
-          -- "{{.SNAPSHOT_DIR}}" "{{.DIST_DIR}}" > "$changes" || test $? -eq 1
-
-        # Both sides of the diff carry their directory prefix; strip it so the
-        # tool receives plain paths relative to dist/.
-        awk -v snapshot="{{.SNAPSHOT_DIR}}" -v dist="{{.DIST_DIR}}" '
-          BEGIN { FS = "\t" }
-          {
-            status = $1
-            path = $2
-
-            if (index(path, snapshot "/") == 1)
-              path = substr(path, length(snapshot) + 2)
-            else if (index(path, dist "/") == 1)
-              path = substr(path, length(dist) + 2)
-
-            if (path ~ /(^|\/)\.DS_Store$/) next
-
-            print status "\t" path
-          }
-        ' "$changes" | tools/ftp-upload
-
-        # Only advance the snapshot after a successful upload so failures are
-        # retried on the next run.
-        if command -v rsync >/dev/null 2>&1; then
-          rsync -a --delete "{{.DIST_DIR}}/" "{{.SNAPSHOT_DIR}}/"
-        else
-          rm -rf "{{.SNAPSHOT_DIR}}"
-          cp -R "{{.DIST_DIR}}" "{{.SNAPSHOT_DIR}}"
+        # The planner compares MD5 content hashes from website-manifest.json
+        # with the freshly built dist/, so rebuilt files with identical bytes
+        # are skipped and only real additions, changes, and deletions ship.
+        python3 tools/ftp_sync.py --dist "{{.DIST_DIR}}" plan > "$changes"
+        if [ ! -s "$changes" ]; then
+          echo "ftp-sync: no changes to upload"
+          exit 0
         fi
+
+        tools/ftp-upload < "$changes"
+
+        # Advance the hash cache only after a successful upload so failures
+        # are retried on the next run.
+        python3 tools/ftp_sync.py --dist "{{.DIST_DIR}}" commit

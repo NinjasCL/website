@@ -48,7 +48,7 @@ class OptimizerTestCase(unittest.TestCase):
         logo = self.root / "static" / "img" / "Ninjas.png"
         logo.parent.mkdir(parents=True)
         logo.write_bytes(encoded_image("PNG"))
-        (self.root / "optimize-manifest.json").write_text(
+        (self.root / "website-manifest.json").write_text(
             json.dumps(optimize.new_manifest()), encoding="utf-8"
         )
 
@@ -97,7 +97,7 @@ class OptimizerTestCase(unittest.TestCase):
         optimized = image.read_bytes()
         self.assertNotEqual(optimized, original)
 
-        manifest = optimize.load_manifest(self.root / "optimize-manifest.json")
+        manifest = optimize.load_manifest(self.root / "website-manifest.json")
         self.assertEqual(manifest["images"]["blog/slug/cover.png"], optimize.sha256_bytes(optimized))
 
         second = optimize.run(self.root)
@@ -105,7 +105,7 @@ class OptimizerTestCase(unittest.TestCase):
         self.assertGreaterEqual(second.skipped, 1)
         self.assertEqual(image.read_bytes(), optimized)
         self.assertEqual(
-            optimize.load_manifest(self.root / "optimize-manifest.json"), manifest
+            optimize.load_manifest(self.root / "website-manifest.json"), manifest
         )
 
     def test_cover_derivative_is_1280x720_and_center_focused(self) -> None:
@@ -188,7 +188,7 @@ class OptimizerTestCase(unittest.TestCase):
         image.parent.mkdir(parents=True)
         original = encoded_image("PNG")
         image.write_bytes(original)
-        manifest_path = self.root / "optimize-manifest.json"
+        manifest_path = self.root / "website-manifest.json"
         before = manifest_path.read_text(encoding="utf-8")
 
         stats = optimize.run(self.root, check_only=True)
@@ -222,11 +222,25 @@ class OptimizerTestCase(unittest.TestCase):
         derivative = self.root / "blog" / "story" / "cover-1280x720.png"
         with Image.open(derivative) as image:
             self.assertEqual(image.size, (1280, 720))
-        manifest = optimize.load_manifest(self.root / "optimize-manifest.json")
+        manifest = optimize.load_manifest(self.root / "website-manifest.json")
         self.assertEqual(
             manifest["covers"]["blog/story/cover.png"],
             "blog/story/cover-1280x720.png",
         )
+
+    def test_ftp_cache_survives_an_optimization_run(self) -> None:
+        manifest = optimize.new_manifest()
+        manifest["ftp"]["files"]["index.html"] = "md5-of-last-upload"
+        (self.root / "website-manifest.json").write_text(
+            json.dumps(manifest, ensure_ascii=False), encoding="utf-8"
+        )
+        (self.root / "blog" / "slug").mkdir()
+        (self.root / "blog" / "slug" / "cover.png").write_bytes(encoded_image("PNG"))
+
+        optimize.run(self.root)
+
+        saved = optimize.load_manifest(self.root / "website-manifest.json")
+        self.assertEqual(saved["ftp"]["files"], {"index.html": "md5-of-last-upload"})
 
 
 if __name__ == "__main__":

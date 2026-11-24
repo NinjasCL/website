@@ -9,6 +9,7 @@ import blogatto/config/feed/rss
 import blogatto/config/post
 import blogatto/config/robots
 import blogatto/config/sitemap
+import gleam/list
 import gleam/option
 import gleam/string
 import gleam/time/timestamp
@@ -82,12 +83,18 @@ pub fn new(site_url: String) -> config.Config(Nil) {
     rss.new(site.site_title, site_url, site.site_description)
     |> rss.language(site.site_language)
 
-  // The sitemap excludes the /blog redirect route: it points at the first
-  // index page, so it is not content of its own. The index page routes
-  // are ordinary config routes and the sitemap builder lists them.
+  // The sitemap excludes every blog landing redirect: each points at the
+  // first index page in its language, so it is not content of its own. The
+  // index page routes are ordinary config routes and the sitemap lists them.
+  let landing_urls = [
+    site_url <> "blog",
+    site_url <> "blog/en",
+    site_url <> "blog/ja",
+    site_url <> "blog/pt",
+  ]
   let sitemap_config =
     sitemap.new("/sitemap.xml")
-    |> sitemap.filter(fn(url) { url != site_url <> "blog" })
+    |> sitemap.filter(fn(url) { !list.contains(landing_urls, url) })
 
   let robots_config =
     robots.new(site_url <> "sitemap.xml")

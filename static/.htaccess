@@ -1,2 +1,9 @@
 Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^blog/?$ /blog/page/1/ [R=301,L]
+  RewriteRule ^blog/(en|ja|pt)/?$ /blog/$1/page/1/ [R=301,L]
+</IfModule>
+
 ErrorDocument 404 /404.html

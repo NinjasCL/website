@@ -290,6 +290,18 @@ const portuguese_index_text = BlogIndexText(
   ),
 )
 
+/// The index copy for a language code: the Spanish reference for the default
+/// and unknown codes, a translated record for each language variant. Shared by
+/// the index pages and their landing fallbacks so both speak the same language.
+fn blog_index_text(code: String) -> BlogIndexText {
+  case code {
+    "en" -> english_index_text
+    "ja" -> japanese_index_text
+    "pt" -> portuguese_index_text
+    _ -> spanish_index_text
+  }
+}
+
 /// The route path of an index page in a language: the default pages at
 /// `blog/page/{n}/`, a language version at `blog/{lang}/page/{n}/`.
 fn blog_index_path(code: String, page_number: Int) -> String {
@@ -307,7 +319,7 @@ fn blog_index_path(code: String, page_number: Int) -> String {
 pub fn blog_index_view(
   page_number: Int,
 ) -> fn(List(Post(Nil))) -> Element(Nil) {
-  fn(posts) { blog_index_page(spanish_index_text, page_number, posts) }
+  fn(posts) { blog_index_page(blog_index_text("es"), page_number, posts) }
 }
 
 /// The blog index page n in a translated language — the route view for
@@ -318,13 +330,7 @@ pub fn language_blog_index_view(
   code: String,
   page_number: Int,
 ) -> fn(List(Post(Nil))) -> Element(Nil) {
-  let text = case code {
-    "en" -> english_index_text
-    "ja" -> japanese_index_text
-    "pt" -> portuguese_index_text
-    _ -> spanish_index_text
-  }
-  fn(posts) { blog_index_page(text, page_number, posts) }
+  fn(posts) { blog_index_page(blog_index_text(code), page_number, posts) }
 }
 
 /// The blog index page n in the page text's language: that language's
@@ -581,28 +587,31 @@ fn pagination_nav(
   )
 }
 
-/// The `/blog` redirect page: the old site's URL contract — a
-/// meta-refresh straight to the first index page, so the canonical blog
-/// URL resolves without a duplicate copy of the list.
-pub fn blog_redirect_view() -> Element(Nil) {
-  html.html([attribute.lang(site_language)], [
+/// A blog landing fallback: the old site's URL contract in each language —
+/// a meta-refresh straight to that language's first index page, with a plain
+/// link for clients that skip it, so the canonical URL resolves without a
+/// duplicate copy of the list. Apache serves the real redirect first; this
+/// page covers hosts that ignore the shipped `.htaccess`.
+pub fn blog_redirect_view(code: String) -> Element(Nil) {
+  let text = blog_index_text(code)
+  let target = "/" <> blog_index_path(text.code, 1)
+
+  html.html([attribute.lang(text.lang)], [
     html.head([], [
       html.meta([attribute.charset("utf-8")]),
-      html.title([], "Blog — " <> site_title),
+      html.title([], text.heading <> " — " <> site_title),
       html.meta([
         attribute.attribute("http-equiv", "Refresh"),
-        attribute.content("0; url=/blog/page/1/"),
+        attribute.content("0; url=" <> target),
       ]),
       html.meta([
         attribute.name("description"),
-        attribute.content(
-          "Todas las entradas del blog de Ninjas.cl, las más recientes primero.",
-        ),
+        attribute.content(text.description),
       ]),
     ]),
     html.body([], [
       element.text("🐸 "),
-      html.a([attribute.href("/blog/page/1/")], [element.text("Blog")]),
+      html.a([attribute.href(target)], [element.text(text.heading)]),
     ]),
   ])
 }

@@ -37,13 +37,13 @@ The nested Taskfile also supports `task -d tools/optimize install`,
 4. Writes `<stem>-1280x720.<ext>` center-cropped cover derivatives beside each
    `featured_image` original and repoints frontmatter at them. SVG covers get
    a PNG derivative rendered with `resvg-py`.
-5. Records content hashes in `optimize-manifest.json` at the repository root.
+5. Records content hashes in `website-manifest.json` at the repository root.
    A recorded image is skipped on later runs; changed bytes are processed
-   again.
+   again. The manifest's `ftp` section is preserved untouched.
 
 ## Manifest
 
-`optimize-manifest.json` lives beside the project's `manifest.toml`:
+`website-manifest.json` lives beside the project's `manifest.toml`:
 
 ```json
 {
@@ -56,11 +56,21 @@ The nested Taskfile also supports `task -d tools/optimize install`,
   },
   "covers": {
     "blog/example/cover.jpg": "blog/example/cover-1280x720.jpg"
+  },
+  "ftp": {
+    "files": {
+      "index.html": "md5-of-the-last-uploaded-bytes"
+    }
   }
 }
 ```
 
-All three maps are keyed by repository-relative paths, except `downloads`,
-whose keys are the original remote URLs. The manifest is committed so a fresh
-clone skips work that has already been done. `check` and `dry-run` verify it
-without writing or downloading anything.
+All three image maps are keyed by repository-relative paths, except
+`downloads`, whose keys are the original remote URLs. `ftp.files` is keyed by
+paths relative to `dist/` and holds MD5 hashes of the last successful upload;
+generated post pages are hashed per language without their random
+recommendations section, home pages without their random posts section, and
+feeds without their build timestamp. It is maintained by `tools/ftp_sync.py`,
+not by the optimizer. The manifest is
+committed so a fresh clone skips work that has already been done. `check` and
+`dry-run` verify it without writing or downloading anything.

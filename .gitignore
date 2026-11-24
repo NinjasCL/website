@@ -5,8 +5,9 @@
 erl_crash.dump
 .DS_Store
 .env
-.ftp-upload-dist/
 old/
 .opengraph/
 /tools/optimize/.venv/
 /tools/optimize/**/__pycache__/
+/tools/__pycache__/
+/tools/tests/__pycache__/

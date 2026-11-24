@@ -41,10 +41,10 @@ pub fn page_count(directory: String) -> Int {
 
 /// Register the blog index routes: one list page per page count in the
 /// site's default language plus one in each translated language (en,
-/// ja, pt — Spanish stays the default at `/blog/page/{n}/`), and the
-/// `/blog` redirect at the canonical blog URL. The language routes are
-/// ordinary config routes, so they join the sitemap like the default
-/// pages.
+/// ja, pt — Spanish stays the default at `/blog/page/{n}/`), and a landing
+/// redirect at each language's canonical blog URL. The index routes are
+/// ordinary config routes, so they join the sitemap like the default pages;
+/// the landing routes are excluded by the sitemap filter.
 pub fn register(cfg: config.Config(Nil)) -> config.Config(Nil) {
   let pages = page_count("./blog")
 
@@ -64,5 +64,12 @@ pub fn register(cfg: config.Config(Nil)) -> config.Config(Nil) {
       })
     })
 
-  cfg |> config.route("/blog", fn(_posts) { site.blog_redirect_view() })
+  cfg
+  |> config.route("/blog", fn(_posts) { site.blog_redirect_view("es") })
+  |> list.fold(["en", "ja", "pt"], _, fn(cfg, language) {
+    cfg
+    |> config.route("/blog/" <> language, fn(_posts) {
+      site.blog_redirect_view(language)
+    })
+  })
 }

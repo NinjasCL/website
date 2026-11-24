@@ -3,7 +3,8 @@
 
 Run from the repository root through ``task optimize`` or the nested
 ``tools/optimize/Taskfile.yml``. The tool only ever reads from ``static/``;
-every write goes to ``blog/`` or the root image manifest.
+every write goes to ``blog/`` or the root website manifest. The manifest's
+SFTP cache is left intact for the upload planner.
 """
 
 from __future__ import annotations
@@ -28,7 +29,7 @@ from PIL import Image, ImageOps
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 BLOG_DIRECTORY = REPOSITORY_ROOT / "blog"
 STATIC_DIRECTORY = REPOSITORY_ROOT / "static"
-MANIFEST_PATH = REPOSITORY_ROOT / "optimize-manifest.json"
+MANIFEST_PATH = REPOSITORY_ROOT / "website-manifest.json"
 
 COVER_SIZE = (1280, 720)
 COVER_MARKER = "-1280x720"
@@ -77,7 +78,13 @@ class Context:
 
 
 def new_manifest() -> dict:
-    return {"version": 1, "images": {}, "downloads": {}, "covers": {}}
+    return {
+        "version": 1,
+        "images": {},
+        "downloads": {},
+        "covers": {},
+        "ftp": {"files": {}},
+    }
 
 
 def load_manifest(path: Path) -> dict:
@@ -88,6 +95,8 @@ def load_manifest(path: Path) -> dict:
         raise ValueError(f"unsupported manifest version in {path}")
     for key in ("images", "downloads", "covers"):
         manifest.setdefault(key, {})
+    ftp = manifest.setdefault("ftp", {})
+    ftp.setdefault("files", {})
     return manifest
 
 
@@ -97,6 +106,7 @@ def save_manifest(path: Path, manifest: dict) -> None:
         "images": dict(sorted(manifest["images"].items())),
         "downloads": dict(sorted(manifest["downloads"].items())),
         "covers": dict(sorted(manifest["covers"].items())),
+        "ftp": {"files": dict(sorted(manifest["ftp"]["files"].items()))},
     }
     atomic_write_text(path, json.dumps(ordered, indent=2, ensure_ascii=False) + "\n")
 

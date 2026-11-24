@@ -350,7 +350,7 @@ All images referenced by a post SHALL be stored under that post's directory in t
 
 ### Requirement: Post images are optimized once
 
-The optimization task SHALL optimize each image under the content directory at most once per content hash and SHALL record optimized content hashes in the root-level `optimize-manifest.json`. An image whose current hash is already recorded SHALL be left unchanged.
+The optimization task SHALL optimize each image under the content directory at most once per content hash and SHALL record optimized content hashes in the root-level `website-manifest.json`. An image whose current hash is already recorded SHALL be left unchanged.
 
 #### Scenario: First run optimizes an image
 - **WHEN** an unrecorded image is found under the content directory
