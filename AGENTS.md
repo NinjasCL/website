@@ -78,6 +78,7 @@ tools/ftp/ftp_sync.erl       Shared planner module used by ftp-sync and EUnit te
 tools/ftp/ftp_upload.erl     Shared uploader module used by ftp-upload and EUnit tests
 tools/ftp/ftp_upload_sftp.erl Production SFTP backend for ftp_upload
 tools/ftp/tests/             EUnit tests for the FTP planner and uploader
+tools/ftp/README.md          Usage guide for ftp-sync and ftp-upload
 tools/optimize/              Python image optimizer with its own Taskfile and tests
 website-manifest.json        Committed content-hash manifest for images and the FTP upload cache
 .env                         Local FTP credentials (git-ignored; copy of env.txt)
@@ -141,6 +142,8 @@ Aliases: `task s` (setup), `task b` (build), `task o` (optimize), `task d` (dev)
   `FTP_PORT`, and `FTP_ROUTE`. `FTP_ROUTE` is an absolute remote directory.
   `.env` is git-ignored; never commit real credentials. Leave `FTP_PASSWORD`
   empty to use key-based authentication.
+- `tools/ftp/README.md` documents both escripts, their manifest cache, their
+  stdin contract, and manual usage beyond `task upload`.
 - `Taskfile.yml` loads `.env` via its root `dotenv` setting. `task upload`
   (alias `u`) runs `optimize` and then `build` in order. The planner
   (`tools/ftp/ftp-sync plan`) compares the fresh `dist/` with the MD5 hashes

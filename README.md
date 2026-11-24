@@ -50,8 +50,9 @@ nothing while the site is unchanged. Only added, modified, and deleted paths
 go to `tools/ftp/ftp-upload`. That Erlang escript uses OTP's `ssh_sftp` client to
 create any missing remote directories, upload the changed files in chunks, and
 delete removed files. The manifest's `ftp.files` cache is advanced only after
-a successful upload, so a failed deploy is retried on the next run. The planner,
-uploader, and their EUnit tests live in `tools/ftp/`; run the tests with
+a successful upload, so a failed deploy is retried on the next run. See
+`tools/ftp/README.md` for the full usage guide. The planner, uploader, and their
+EUnit tests live in `tools/ftp/`; run the tests with
 `tools/ftp/tests/run_tests.escript`.
 
 ## Images
