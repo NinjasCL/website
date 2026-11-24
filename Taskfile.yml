@@ -49,6 +49,74 @@ tasks:
     cmds:
       - gleam run -m qiita -- --publish {{.CLI_ARGS}}
 
+  translate:
+    aliases: [t]
+    desc: Translate the latest post (or one post) to en/ja/pt with OpenCode
+    silent: true
+    preconditions:
+      - sh: command -v opencode
+        msg: "opencode is not installed or not on PATH"
+    cmds:
+      - |
+        set -eu
+
+        requested='{{.CLI_ARGS}}'
+
+        if [ -n "$requested" ]; then
+          if [ -d "$requested" ]; then
+            dir="$requested"
+          elif [ -d "blog/$requested" ]; then
+            dir="blog/$requested"
+          elif [ -f "$requested" ] && [ "$(basename "$requested")" = "index.djot" ]; then
+            dir=$(dirname "$requested")
+          elif [ -f "blog/$requested/index.djot" ]; then
+            dir="blog/$requested"
+          else
+            echo "translate: no post found for '$requested'" >&2
+            echo "usage: task translate -- [slug|blog/slug|path/to/index.djot]" >&2
+            exit 1
+          fi
+          source="$dir/index.djot"
+        else
+          source=$(
+            for file in blog/*/index.djot; do
+              [ -f "$file" ] || continue
+              date=$(
+                awk 'NR == 1 && $0 == "---" { frontmatter = 1; next }
+                     frontmatter && /^---[[:space:]]*$/ { exit }
+                     frontmatter && /^date:/ { sub(/^date:[[:space:]]*/, ""); print; exit }' "$file"
+              )
+              printf '%s\t%s\n' "${date:-0000-00-00}" "$file"
+            done | sort -r | head -n 1 | cut -f 2-
+          )
+        fi
+
+        if [ -z "$source" ] || [ ! -f "$source" ]; then
+          echo "translate: could not find a source index.djot" >&2
+          exit 1
+        fi
+
+        dir=$(dirname "$source")
+        echo "translate: translating $source"
+
+        opencode run --auto --title "Translate $source" --file AGENTS.md --file "$source" \
+          "Translate the blog post at $source from Spanish into English, Japanese, and Brazilian Portuguese.
+
+        Write exactly these files in the same directory:
+        - $dir/index-en.djot (English)
+        - $dir/index-ja.djot (Japanese)
+        - $dir/index-pt.djot (Brazilian Portuguese)
+
+        Use $source as the canonical source. Do not modify it. Do not translate across existing variants.
+        Preserve every frontmatter field and value except title and description, which must be translated.
+        Keep slug, date, featured_image, and tags byte-for-byte. Do not add a language field.
+        Keep the djot structure, headings, emphasis, links, URLs, lists, and code blocks.
+        Translate prose, headings, link text, image alt text, and summary attributes on code fences.
+        Never translate code, commands, variables, paths, embed fence payloads, or code fence language tags.
+        Keep github, ninjas, youtube, and embed fences byte-for-byte.
+        Use single asterisks for strong emphasis. Natural, idiomatic translations; no explanations in the files.
+        After writing the files, print the three paths you wrote."
+
   dev:
     aliases: [d]
     desc: Start the dev server at http://127.0.0.1:3000

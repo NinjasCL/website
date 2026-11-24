@@ -127,6 +127,7 @@ task build                   # Clean dist/ and build the production site
 task optimize                # Localize, optimize, and normalize blog images
 task qiita [POST]            # Generate qiita.toml for a post (latest by default)
 task qiita.publish [POST]    # Publish a generated qiita.toml (latest by default)
+task translate [POST]        # Translate the latest post, or one post, to en/ja/pt with OpenCode
 task dev                     # Clean dist/ and start the live server
 task upload                  # Optimize, build, and upload changed dist/ files over SFTP
 ```
